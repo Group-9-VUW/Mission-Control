@@ -34,6 +34,17 @@ One paragraph describing the scope of the system (9.5.2)
 ### 1.3 Product overview 
 #### 1.3.1 Product perspective
 
+Mention avionics and monte carlo.
+
+Larger system is abstractly the process of launching the rocket, include identifying launch sites and actually managing the rocket after it's launched.
+
+Mission control <--> avionics is over USB serial
+Mission control <--> "Simulation listeners"
+
+Mention the on-site wind reading
+
+Include details about the user interface, such as where the data from the rocket is shown.
+
 One page defining the system's relationship to other related products
 (9.5.3. but not the subsections in the standard.)
 
@@ -60,11 +71,32 @@ h) Site adaptation requirements.
 
 One page summary of the main functions of the product (9.5.4), briefly characterising the minimum viable product.
 
+Determine probable landing locations (..integration with monte carlo?)  <-- very important
+Go no go function 
+Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)
+Arm ejection charge 
+Read weather conditions locally and over the internet <-- very important. 
+Suggesting launch angle
+Record/playback functionality
+
 #### 1.3.3 User characteristics   
+
+Hobby rocket people?
+Customer needs to be mentioned here
 
 One page identifying the main classes of users and their characteristics (9.5.5) 
 
 #### 1.3.4 Limitations
+
+Regulatory: Hobby rocket regulations
+Hardware: Lack of internet at launch site, max range and delay on the usb serial
+Interfaces to other applications: max range and delay on the usb serial?
+Find out what parallel operation means
+Find out whatever a limitation on an audit function is
+Control functions: inability to direct rocket in flight?
+Higher-order language requirements: Limitations due to swing
+Find out about the handshake protocols
+Quality requirements: 
 
 One page on the limitations on the product (9.5.6)
 
@@ -78,13 +110,56 @@ References to other documents or standards. Follow the IEEE Citation  Reference 
 
 ### 3.1 External interfaces
 
+Monte carlo: weather data format. NOAA. 
+
+Confer with the other teams for the data formats, command formats, and endmessages
+range accuracy and tolerance just a function of the sensors on the rocket.
+
+Does user interface count?
+
 See 9.5.10. for most systems this will be around one page. 
 
 ### 3.2 Functions
 
+Determine probable landing locations (..integration with monte carlo?)  <-- very important
+   Sending weather data to monte carlo (make simulation file?)
+   Getting the result
+   Visualization?
+   
+Go no go function 
+   Define acceptable areas
+   Define tolerance... maximum acceptable probability that it'll land in a bad zone
+   Turning acceptable areas + tolerance + probabilties into yes/no
+   Prelaunch check
+   Launch check
+
+Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)
+   Showing GPS location on a map
+   Showing diagram of rocket with rotation and velocity
+   What to do when you can't contact the rocket
+   Recording it to a file
+   Playing back that file virtually
+
+Suggesting launch angle
+
+Read weather conditions locally and over the internet <-- very important. 
+   Enter local weather data
+   Get remote weather data from internet
+
+Arm ejection charge
+
 This is typically the longest subsection in the document. List up to fifty use cases (in order of priority for development), and for at least top ten focal use cases, write a short goal statement and use case body (up to seven pages).  Identify the use cases that comprise a minimum viable product.
 
 ### 3.3 Usability Requirements
+
+User needs to have a clear idea where the rocket is
+Units shouldn't be really niche/hard to understand
+Correctly interpreting probability information from monte carlo
+Entering local weather data needs to be easy
+Works around the world
+Needs to work without internet on site
+Suggested launch angle can't have huge horizontal velocity
+Contact loss to the rocket should be clearly shown to the user
 
 See 9.5.12. for most systems this will be around one page.
 
@@ -92,6 +167,8 @@ See 9.5.12. for most systems this will be around one page.
 > Define usability (quality in use) requirements. Usability requirements and objectives for the software system include measurable effectiveness, efficiency, and satisfaction criteria in specific contexts of use.
 
 ### 3.4 Performance requirements
+
+How often the position of the rocket is updated on the map
 
 See 9.5.13. for most systems this will be around one page. Hardware projects also see section 9.4.6.
 
