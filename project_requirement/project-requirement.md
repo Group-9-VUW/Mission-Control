@@ -38,7 +38,7 @@ Mention avionics and monte carlo.
 
 Larger system is abstractly the process of launching the rocket, include identifying launch sites and actually managing the rocket after it's launched.
 
-Mission control <--> avionics is over USB serial
+Mission control <--> avionics is over USB serial<br>
 Mission control <--> "Simulation listeners"
 
 Mention the on-site wind reading
@@ -71,32 +71,34 @@ h) Site adaptation requirements.
 
 One page summary of the main functions of the product (9.5.4), briefly characterising the minimum viable product.
 
-Determine probable landing locations (..integration with monte carlo?)  <-- very important
-Go no go function 
-Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)
-Arm ejection charge 
-Read weather conditions locally and over the internet <-- very important. 
-Suggesting launch angle
-Record/playback functionality
+Determine probable landing locations (..integration with monte carlo?)  <-- very important<br>
+Go no go function <br>
+Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)<br>
+Arm ejection charge <br>
+Read weather conditions locally and over the internet <-- very important. <br>
+Suggesting launch angle<br>
+Record/playback functionality<br>
 
 #### 1.3.3 User characteristics   
 
-Hobby rocket people?
+Hobby rocket people
+
 Customer needs to be mentioned here
 
 One page identifying the main classes of users and their characteristics (9.5.5) 
 
 #### 1.3.4 Limitations
 
-Regulatory: Hobby rocket regulations
-Hardware: Lack of internet at launch site, max range and delay on the usb serial
-Interfaces to other applications: max range and delay on the usb serial?
-Find out what parallel operation means
-Find out whatever a limitation on an audit function is
-Control functions: inability to direct rocket in flight?
-Higher-order language requirements: Limitations due to swing
-Find out about the handshake protocols
-Quality requirements: 
+Regulatory: Hobby rocket regulations<br>
+Hardware: Lack of internet at launch site, max range and delay on the usb serial<br>
+Interfaces to other applications: max range and delay on the usb serial?<br>
+Find out what parallel operation means<br>
+Find out whatever a limitation on an audit function is<br>
+Control functions: inability to direct rocket in flight?<br>
+Higher-order language requirements: Limitations due to swing<br>
+Find out about the handshake protocols<br>
+How many simultaneous connections via radio<br>
+Quality requirements: <br>
 
 One page on the limitations on the product (9.5.6)
 
@@ -121,30 +123,30 @@ See 9.5.10. for most systems this will be around one page.
 
 ### 3.2 Functions
 
-Determine probable landing locations (..integration with monte carlo?)  <-- very important
-   Sending weather data to monte carlo (make simulation file?)
-   Getting the result
-   Visualization?
+Determine probable landing locations (..integration with monte carlo?)  <-- very important<br>
+   Sending weather data to monte carlo (make simulation file?)<br>
+   Getting the result<br>
+   Visualization?<br>
    
-Go no go function 
-   Define acceptable areas
-   Define tolerance... maximum acceptable probability that it'll land in a bad zone
-   Turning acceptable areas + tolerance + probabilties into yes/no
-   Prelaunch check
-   Launch check
+Go no go function <br>
+   Define acceptable areas<br>
+   Define tolerance... maximum acceptable probability that it'll land in a bad zone<br>
+   Turning acceptable areas + tolerance + probabilties into yes/no<br>
+   Prelaunch check<br>
+   Launch check<br>
 
-Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)
-   Showing GPS location on a map
-   Showing diagram of rocket with rotation and velocity
-   What to do when you can't contact the rocket
-   Recording it to a file
-   Playing back that file virtually
+Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)<br>
+   Showing GPS location on a map<br>
+   Showing diagram of rocket with rotation and velocity<br>
+   What to do when you can't contact the rocket<br>
+   Recording it to a file<br>
+   Playing back that file virtually<br>
 
 Suggesting launch angle
 
-Read weather conditions locally and over the internet <-- very important. 
-   Enter local weather data
-   Get remote weather data from internet
+Read weather conditions locally and over the internet <-- very important. <br>
+   Enter local weather data<br>
+   Get remote weather data from internet<br>
 
 Arm ejection charge
 
@@ -152,14 +154,14 @@ This is typically the longest subsection in the document. List up to fifty use c
 
 ### 3.3 Usability Requirements
 
-User needs to have a clear idea where the rocket is
-Units shouldn't be really niche/hard to understand
-Correctly interpreting probability information from monte carlo
-Entering local weather data needs to be easy
-Works around the world
-Needs to work without internet on site
-Suggested launch angle can't have huge horizontal velocity
-Contact loss to the rocket should be clearly shown to the user
+User needs to have a clear idea where the rocket is<br>
+Units shouldn't be really niche/hard to understand<br>
+Correctly interpreting probability information from monte carlo<br>
+Entering local weather data needs to be easy<br>
+Works around the world<br>
+Needs to work without internet on site<br>
+Suggested launch angle can't have huge horizontal velocity<br>
+Contact loss to the rocket should be clearly shown to the user<br>
 
 See 9.5.12. for most systems this will be around one page.
 
@@ -168,7 +170,8 @@ See 9.5.12. for most systems this will be around one page.
 
 ### 3.4 Performance requirements
 
-How often the position of the rocket is updated on the map
+How often the position of the rocket is updated on the map<br>
+No 'go' given on failure probabilities of greater than X%
 
 See 9.5.13. for most systems this will be around one page. Hardware projects also see section 9.4.6.
 
@@ -192,11 +195,19 @@ See 9.5.13. for most systems this will be around one page. Hardware projects als
 
 ### 3.5 Logical database requirements
 
+Data from the rocket. Position, rotation, possibily speed?
+
+Data from NOAA. Windspeed, barometric pressure, temp, ...
+
+To be decided at a meeting at a later time.
+
 See 9.5.14. for most systems, a focus on d) and e) is appropriate, such as an object-oriented domain analysis. You should provide an overview domain model (e.g.  a UML class diagram of approximately ten classes) and write a brief description of the responsibilities of each class in the model (3 pages).
 
-You should use right tools, preferabley PlantUML, to draw your URL diagrams which can be easily embedded into a Mardown file (PlantUML is also supported by GitLab and Foswiki).
+You should use right tools, preferabley PlantUML, to draw your UML diagrams which can be easily embedded into a Mardown file (PlantUML is also supported by GitLab and Foswiki).
 
 ### 3.6 Design constraints
+
+Ask customer what standards and regulations we need to conform to.
 
 see 9.5.15 and 9.5.16. for most systems, this will be around one page.
 
@@ -215,12 +226,16 @@ see 9.5.15 and 9.5.16. for most systems, this will be around one page.
 
 ### 3.7 Nonfunctional system attributes
 
+We need to acquire the standard to do this
+
 Present the systemic (aka nonfunctional) requirements of the product (see ISO/IEC 25010).
 List up to twenty systemic requirements / attributes.
 Write a short natural language description of the top nonfunctional requirements (approx. five pages).
 
 
 ### 3.8 Physical and Environmental Requirements 
+
+Circumstances in which launch is not a good idea.
 
 For systems with hardware components, identify the physical characteristics of that hardware (9.4.10) and environment conditions in which it must operate (9.4.11).  Depending on the project, this section may be from one page up to 5 pages.
 
@@ -230,11 +245,17 @@ see 9.5.19.
 
 ## 4. Verification
 
+Code style enforcement via plugins, IDE settings
+Stuff that we can unit/regression tests<br>
+Stuff that we need to live test, such as with Monte Carlo<br>
+
 3 pages outlining how you will verify that the product meets the most important specific requirements. The format of this section should parallel section 3 of your document (see 9.5.18). Wherever possible (especially systemic requirements) you should indicate testable acceptance criteria.
 
 ## 5. Development schedule.
 
 ### 5.1 Schedule
+
+Meeting to discuss this
 
 Identify dates for key project deliverables: 
 
@@ -246,15 +267,23 @@ Identify dates for key project deliverables:
 
 ### 5.2 Budget
 
-Present a budget for the project (table), and justify each budget item (one paragraph per item, one page overall). 
+No purchases required. It's a software project.
 
 ### 5.3 Risks 
+
+Sudden absence of team member. Risk low, effect high.
+Loss of work due to surges, equipment failues. Risk medium, effect low
+Failure to agree on protocol with the Monte Carlo teams. Risk high, effect high
+Failure to agree on protocol with the avionics teams. Risk high, effect high
+
 
 Identify the ten most important project risks to achieving project goals: their type, likelihood, impact, and mitigation strategies (3 pages).
 
 If the project will involve any work outside the ECS laboratories, i.e. off-campus activities, these should be included in the following section.
 
 ### 5.4 Health and Safety
+
+Eye strain, carpal tunnel, electrocution
 
 Document here project requirements for Health and Safety. All teams must state in this section:
 
@@ -268,6 +297,8 @@ Also document in this section any additional discussions with the School Safety 
 
 
 #### 5.4.1 Safety Plans
+
+Ask someone about this
 
 Safety Plans may be required for some projects, depending on project requirements. Safety Plan templates are available on the course Health & Safety page. Two questions all teams must answer are:
 
@@ -289,9 +320,16 @@ _If the project is purely software and requires no contact risks involving physi
 ## 6. Appendices
 ### 6.1 Assumptions and dependencies 
 
+Communication with rocket will be over serial
+Public weather data from NOAA exists and is accurate
+The java VM continues to be supported
+
 One page on assumptions and dependencies (9.5.7).
 
 ### 6.2 Acronyms and abbreviations
+
+NOAA = National Oceanic and Atmospheric Administration
+
 
 One page glossary _as required_.
 
