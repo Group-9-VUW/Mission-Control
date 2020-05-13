@@ -65,6 +65,15 @@ This means that you should refer to information (e.g. risks, requirements, model
 
 See ISO/IEC/IEEE 42010 clause 5.3 and ISO/IEC/IEEE 12207 clause 6.4.4.3(2).
 
+List stakeholders
+
+- Users: Hobby rocket community<br>
+- Developers: Us
+- Owners: Andre
+- Maintainers: Us and Community
+
+
+
 For most systems this will be about 2 pages, including a table mapping concerns to stakeholder.
 
 ### 3.2 Architectural Viewpoints
