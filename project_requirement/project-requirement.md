@@ -123,32 +123,31 @@ See 9.5.10. for most systems this will be around one page.
 
 ### 3.2 Functions
 
-Determine probable landing locations (..integration with monte carlo?)  <-- very important<br>
-   Sending weather data to monte carlo (make simulation file?)<br>
-   Getting the result<br>
-   Visualization?<br>
-   
-Go no go function <br>
-   Define acceptable areas<br>
-   Define tolerance... maximum acceptable probability that it'll land in a bad zone<br>
-   Turning acceptable areas + tolerance + probabilties into yes/no<br>
-   Prelaunch check<br>
-   Launch check<br>
-
-Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)<br>
-   Showing GPS location on a map<br>
-   Showing diagram of rocket with rotation and velocity<br>
-   What to do when you can't contact the rocket<br>
-   Recording it to a file<br>
-   Playing back that file virtually<br>
-
-Suggesting launch angle
-
 Read weather conditions locally and over the internet <-- very important. <br>
-   Enter local weather data<br>
-   Get remote weather data from internet<br>
+1   Enter local weather data<br>
+2   Get remote weather data from internet<br>
+   
+3 Determine probable landing locations (..integration with monte carlo?)  <-- very important<br>
+3A   Sending weather data to monte carlo (make simulation file?)<br>
+3B   Getting the result<br>
+3C   Visualization<br>
+   
+4Go no go function <br>
+4A   Define acceptable areas<br>
+4B   Turning acceptable areas + tolerance + probabilties into yes/no<br>
+4C   Prelaunch check - NI<br>
+4D   Launch check - NI<br>
 
-Arm ejection charge
+5Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)<br>
+5A   Showing GPS location on a map<br>
+5B   Showing diagram of rocket with rotation and velocity - NI<br>
+5C   What to do when you can't contact the rocket<br>
+5D   Recording it to a file<br>
+5E   Playing back that file virtually - NI<br>
+
+6 Suggesting launch angle 
+
+7 Arm ejection charge
 
 This is typically the longest subsection in the document. List up to fifty use cases (in order of priority for development), and for at least top ten focal use cases, write a short goal statement and use case body (up to seven pages).  Identify the use cases that comprise a minimum viable product.
 
@@ -226,8 +225,6 @@ see 9.5.15 and 9.5.16. for most systems, this will be around one page.
 
 ### 3.7 Nonfunctional system attributes
 
-We need to acquire the standard to do this
-
 Present the systemic (aka nonfunctional) requirements of the product (see ISO/IEC 25010).
 List up to twenty systemic requirements / attributes.
 Write a short natural language description of the top nonfunctional requirements (approx. five pages).
@@ -259,8 +256,9 @@ Meeting to discuss this
 
 Identify dates for key project deliverables: 
 
-1. architectural prototype
-1. minimum viable product
+1. architectural prototype T1 Week 11/19th June
+1. minimum viable product T2 Week 5/14th Aug
+2. project termination T2 Week 12/16th Oct
 1. further releases
 
 (1 page).
@@ -271,10 +269,21 @@ No purchases required. It's a software project.
 
 ### 5.3 Risks 
 
-Sudden absence of team member. Risk low, effect high.
-Loss of work due to surges, equipment failues. Risk medium, effect low
-Failure to agree on protocol with the Monte Carlo teams. Risk high, effect high
-Failure to agree on protocol with the avionics teams. Risk high, effect high
+1 Sudden prolonged absence of team member. Likelihood low, effect high.
+2 Sudden temporary absence of team member. Likelihood medium-high, effect low
+3 Loss of work due to surges, equipment failues. Likelihood medium, effect low
+
+4 Failure to agree on protocol with the Monte Carlo teams. Likelihood high, effect high
+5 Failure to agree on protocol with the avionics teams. Likelihood high, effect high
+6 Other teams fail to meet deadline. Likelihood low, effect very high
+
+7 Failure to meet deadlines. Likelihood ?, effect depends
+8 Major scope creep. Likelihood medium-low, effect high
+9 Bad docs. Likelihood medium high, effect medium-low
+
+10 Physical and Mental Health consequences due to overwork. Likelihood medium, effect medium
+11 Computer use related injuries. Likelihood low, effect high
+
 
 
 Identify the ten most important project risks to achieving project goals: their type, likelihood, impact, and mitigation strategies (3 pages).
@@ -291,8 +300,6 @@ Document here project requirements for Health and Safety. All teams must state i
 
 2. Whether project work requires work or testing at any external (off-campus) workplaces/sites. If so, state the team's plans for receiving a Health and Safety induction for the external workplaces/sites. If the team has already received such an induction, state the date it was received. 
 
-3. Whether project work requires the team test with human or animal subjects? If so, explain why there is no option but for the team to perform this testing, and state the team's plans for receiving Ethics Approval _prior_ to testing.
-
 Also document in this section any additional discussions with the School Safety Officer regarding Health and Safety risks. Give any further information on relevant health and safety regulations, risks, and mitigations, etc.
 
 
@@ -302,10 +309,6 @@ Ask someone about this
 
 Safety Plans may be required for some projects, depending on project requirements. Safety Plan templates are available on the course Health & Safety page. Two questions all teams must answer are:
 
-**Do project requirements involve anything that can cause serious harm or death?**  
-Examples: building/modifying devices using voltages > 60 V, chemicals, large moving machinery, flying devices, bodies of water.
-
-If so, you will have to write a separate Safety Plan as part of project requirements, and the Safety Plan must be referenced in this section. For health and safety risks involving serious harm or death, you must first contact the School Safety Officer and Course Coordinator first to discuss the Safety Plan and project requirements.
 
 **Do project requirements involve anything that can cause harm or injury?**  
 Examples: building/modifying things with voltages <= 60V, small moving machinery, wearable devices.
