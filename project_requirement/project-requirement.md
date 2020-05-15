@@ -293,7 +293,7 @@ To avoid a team member becoming overworked, the team will strive to:
 
 Injuries caused by using a computer are a physical risk often overlooked as age. Most are from using a bad posture, or sitting constantly for a prelonged time. However, most will take a while to start effecting the person, but the effects could stop the person from being able to use their computer. 
 To avoid a team member becoming injured from computer use, the team will strive to:
-- take breaks during work to allowing the body to stretch
+- take breaks during work to allowing the body to stretch (step away from the computer)
 - stop working if something starts hurting (like a wrist) and allow time for it to return to normal
 
 
