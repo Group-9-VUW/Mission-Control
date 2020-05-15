@@ -292,6 +292,13 @@ If the project will involve any work outside the ECS laboratories, i.e. off-camp
 
 ### 5.4 Health and Safety
 
+1. How the team will manage computer-related risks?
+   - As stated above, the team will endevour to take precautionary steps to avoid injuries caused by computer-use risks
+     - This includes occasional breaks (stepping away from the screen) and stop working if something started hurting
+   - For other risks, like cable management, the team will strive to reduce these risks by:
+     - tidying cables so they can't be tripped over or ripped out of sockets
+     - 
+
 Eye strain, carpal tunnel, electrocution
 
 Document here project requirements for Health and Safety. All teams must state in this section:
