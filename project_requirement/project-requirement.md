@@ -282,8 +282,19 @@ No purchases required. It's a software project.
 9 Bad docs. Likelihood medium high, effect medium-low
 
 10 Physical and Mental Health consequences due to overwork. Likelihood medium, effect medium
+
+Overwork is a physical risk that can be quite common in students, particularly when assignment due dates are coming up. While a team member might not appear to be doing an excessive amount of work, they will have assignments or tests to work on for other courses. Overwork can lead to sleeping disorders, anxiety, and easy targets for illnesses. These effects make the person unable to work properly or potentially lead to them dropping the course.
+To avoid a team member becoming overworked, the team will strive to:
+- only take on the amount of work they physically can 
+- be willing to help others when they are struggling with a task
+- be honest about other work they are doing on the side
+
 11 Computer use related injuries. Likelihood low, effect high
 
+Injuries caused by using a computer are a physical risk often overlooked as age. Most are from using a bad posture, or sitting constantly for a prelonged time. However, most will take a while to start effecting the person, but the effects could stop the person from being able to use their computer. 
+To avoid a team member becoming injured from computer use, the team will strive to:
+- take breaks during work to allowing the body to stretch
+- stop working if something starts hurting (like a wrist) and allow time for it to return to normal
 
 
 Identify the ten most important project risks to achieving project goals: their type, likelihood, impact, and mitigation strategies (3 pages).
