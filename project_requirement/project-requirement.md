@@ -342,7 +342,7 @@ One page on assumptions and dependencies (9.5.7).
 ### 6.2 Acronyms and abbreviations
 
 NOAA = National Oceanic and Atmospheric Administration
-
+API = Application Program Interface
 
 One page glossary _as required_.
 
