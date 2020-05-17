@@ -317,7 +317,6 @@ To avoid bad documentation, each team member will strive to:
 - Make sure that documentation can be understood by outsiders. 
 
 10 Physical and Mental Health consequences due to overwork. Likelihood medium, effect medium
-##### Likelihood: Medium     Effect: Medium
 11 Computer use related injuries. Likelihood low, effect high
 
 
