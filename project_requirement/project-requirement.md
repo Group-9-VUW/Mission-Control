@@ -293,22 +293,20 @@ If the project will involve any work outside the ECS laboratories, i.e. off-camp
 ### 5.4 Health and Safety
 
 1. How the team will manage computer-related risks?
-   - As stated above, the team will endevour to take precautionary steps to avoid injuries caused by computer-use risks
-     - This includes occasional breaks (stepping away from the screen) and stop working if something started hurting
-   - For other risks, like cable management, the team will strive to reduce these risks by:
-     - tidying cables so they can't be tripped over or ripped out of sockets
-     - 
+    - Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
+    - Cable Management
+        - Each team member will strive to keep their work station free of loose wires.
+    - Security
+        - The work isn't of great importance.
+        - GitLab.ecs prevents people outside the university from accessing the online work.
+    - Other risks
+        - Up to team members to identify and mitigate depending on their unique situation.
+        - Team members can ask for advice or help from other team members or the School Safety Officer.
+        - Team members should share risks they've found with the team.
 
-Eye strain, carpal tunnel, electrocution
-
-Document here project requirements for Health and Safety. All teams must state in this section:
-
-1. How teams will manage computer-related risks such as Occupational Over Use, Cable management, etc.  
-
-2. Whether project work requires work or testing at any external (off-campus) workplaces/sites. If so, state the team's plans for receiving a Health and Safety induction for the external workplaces/sites. If the team has already received such an induction, state the date it was received. 
-
-Also document in this section any additional discussions with the School Safety Officer regarding Health and Safety risks. Give any further information on relevant health and safety regulations, risks, and mitigations, etc.
-
+2. Whether project work requires work or testing at any external (off-campus) workplaces/sites.
+   - The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
+   - Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
 
 #### 5.4.1 Safety Plans
 
