@@ -281,7 +281,7 @@ No purchases required. It's a software project.
 8 Major scope creep. Likelihood medium-low, effect high
 9 Bad docs. Likelihood medium high, effect medium-low
 
-#### Physical and Mental Health consequences due to overwork. <br>
+#### Injuries due to overwork. <br>
 ##### Likelihood: Medium     Effect: Medium
 
 Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test. 
