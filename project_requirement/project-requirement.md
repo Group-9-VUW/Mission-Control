@@ -151,6 +151,9 @@ The application can determine the correct launch angle for the rocket to follow 
 This data may be calculated from the mission control software itself, or passed on from the Monte Carlo simulation.
 
 7 Arm ejection charge
+Ejection charges are controlled by the avionics team, with their detonation time determined by the the rocket's flight stage through barometric pressure or time. Upon detonation of a charge, this information should be displayed in the mission control software.
+
+There are a number of ways that mission control can determine whether charges have been detonated. Firing the charges results in a large voltage drop, which when corroberated with a predetermined expected detonation time, changes in pressure and expected change in flight path provides an indication that the ejection charge has been deployed successfully. 
 
 This is typically the longest subsection in the document. List up to fifty use cases (in order of priority for development), and for at least top ten focal use cases, write a short goal statement and use case body (up to seven pages).  Identify the use cases that comprise a minimum viable product.
 
