@@ -112,8 +112,6 @@ References to other documents or standards. Follow the IEEE Citation  Reference 
 
 ### 3.1 External interfaces
 
-Monte carlo: weather data format. NOAA. 
-
 The rocket itself will communicate with mission control through LoRa (Long Range WAN) over USB serial. The data pipeline from the rocket can be described as follows:
 
 Rocket Avionics <-> LoRa module <-> LoRa module <-> ground station electronics <-> USB serial <-> Laptop
@@ -133,7 +131,6 @@ The mission control software is not responsible for issuing the launch command; 
 Confer with the other teams for the data formats, command formats, and endmessages
 range accuracy and tolerance just a function of the sensors on the rocket.
 
-Does user interface count?
 
 See 9.5.10. for most systems this will be around one page. 
 
