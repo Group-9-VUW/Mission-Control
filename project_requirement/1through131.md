@@ -17,17 +17,6 @@ This software will facilitate the goal of making hobby rocket launches safer for
 ### 1.3 Product overview 
 #### 1.3.1 Product perspective
 
-Mention avionics and monte carlo.
-
-Larger system is abstractly the process of launching the rocket, include identifying launch sites and actually managing the rocket after it's launched.
-
-Mission control <--> avionics is over USB serial<br>
-Mission control <--> "Simulation listeners"
-
-Mention the on-site wind reading
-
-Include details about the user interface, such as where the data from the rocket is shown.
-
 The Mission Control Software is part of a larger software system to facilitate the launch and control of a hobby rocket.
 The Mission Control Software will interface with both the user and two other software packages, namely the Monte Carlo Simulation Package and the Rocket Avionics Package.
 The role of the Mission Control Software is to find potential launching sites, facilitate pre-launch procedures such as arming the rocket and finding an optimal
@@ -45,12 +34,21 @@ Listeners with OpenRocket, respectively.
 
 ![Semantic description of image](system_diagram.png)
 
+To interface with the Monte Carlo Simulation Package, the following software packages will be required:
+
+| Name | Mnemonic | Version | Source | Purpose |
+| ------ | ------ | ------ | ------ | ------ |
+| Java Runtime Environment | JRE | 1.8 or later | Oracle | Creating environment for MCS, dependency for OpenRocket |
+| OpenRocket | OR | Version 15 | OpenRocket | Creating environment for Monte Carlo Simulation Package |
+
+The interface with OpenRocket/Monte Carlo Simulation Package will be through simulation listeners and the automatic creation of simulation files, which are in XML.
+
 The Mission Control Software will operate on a PC with the Java VM running any major operating system, most likely a laptop. It'll require enough free memory and 
 processor capacity to run both the Mission Control Software and the Monte Carlo Simuation Package, which would likely amount to 2GB (not accounting for memory used
 by the operating system) and a dual core x86 processor (additional capacity may be required on an ARM platform).
 
 The PC must also have one free USB port to operate the serial over radio interface. The PC must also have a standard keyboard/pointing device combo to operate the
-Mission Control Software.
+Mission Control Software. The Mission Control Software will be a standard desktop application which can operate at full or half-screen.
 
 Communication with the internet is required for the pre-launch site determination, as the Mission Control Software needs to download weather data from NOAA to facilitate
 creating simulations for the Monte Carlo Simulation Package.
