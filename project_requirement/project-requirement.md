@@ -146,6 +146,9 @@ Read weather conditions locally and over the internet <-- very important. <br>
 5E   Playing back that file virtually - NI<br>
 
 6 Suggesting launch angle 
+The application can determine the correct launch angle for the rocket to follow the desired trajectory. This will take into account environmental factors such as wind speed. This is important to reduce the amount of in flight adjustment required, immproving rocket stability.
+
+This data may be calculated from the mission control software itself, or passed on from the Monte Carlo simulation.
 
 7 Arm ejection charge
 
