@@ -120,6 +120,8 @@ NOAA has a [Global Forecast System](https://www.ncdc.noaa.gov/data-access/model-
 
 The Cambridge University Spaceflight Wiki has produced a [balloon flight predictor](http://predict.habhub.org/) using this dataset. This open source implementation may provide some insight into handling this data.
 
+Map data is available from [OpenStreetMap](https://www.openstreetmap.org/). This low level data can be accessed through their API. This is important for providing relevant contextual information regarding the rocket's flight path.
+
 Confer with the other teams for the data formats, command formats, and endmessages
 range accuracy and tolerance just a function of the sensors on the rocket.
 
