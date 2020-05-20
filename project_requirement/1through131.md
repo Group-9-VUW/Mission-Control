@@ -4,7 +4,7 @@ Our client is Andre Geldenhuis, and he can be contacted via the ecs mattermost, 
 
 ### 1.1 Purpose
 
-Andre has contracted us to create mission control software for a hobbby rocket launch, control, and recovery system. 
+Andre has contracted us to create mission control software for a hobby rocket launch, control, and recovery system. 
 
 ### 1.2 Scope
 
