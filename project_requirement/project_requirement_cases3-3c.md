@@ -4,7 +4,7 @@
 
 3. Determine probable landing locations<br>
 
-The program must use the local weather conditions, and an external Monte Carlo simulation in order to determine, and display to the user, the probable landing locations of the rocket if it were launched in the current conditions. The minimum viable product is comprised of this use case, among others.
+The system must use the local weather conditions, and an external Monte Carlo simulation in order to determine, and display to the user, the probable landing locations of the rocket if it were launched in the current conditions. The minimum viable product is comprised of this use case, among others.
 
 | Name | Determine Probable Landing Location |
 | ------ | ------ |
