@@ -43,7 +43,7 @@ Specifically:
 The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation
 Listeners with OpenRocket, respectively.
 
-&lt;diagram&gt;
+![Semantic description of image](system_diagram.png)
 
 The Mission Control Software will operate on a PC with the Java VM running any major operating system, most likely a laptop. It'll require enough free memory and 
 processor capacity to run both the Mission Control Software and the Monte Carlo Simuation Package, which would likely amount to 2GB (not accounting for memory used
