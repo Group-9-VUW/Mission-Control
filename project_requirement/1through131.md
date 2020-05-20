@@ -1,7 +1,3 @@
-## 1. Introduction
-
-One page overall introduction including sections 1.1 and 1.2.
-
 ### Client
 
 Our client is Andre Geldenhuis, and he can be contacted via the ecs mattermost, or via email at andre.geldenhuis@vuw.ac.nz.
@@ -32,24 +28,32 @@ Mention the on-site wind reading
 
 Include details about the user interface, such as where the data from the rocket is shown.
 
-One page defining the system's relationship to other related products
-(9.5.3. but not the subsections in the standard.)
+The Mission Control Software is part of a larger software system to facilitate the launch and control of a hobby rocket.
+The Mission Control Software will interface with both the user and two other software packages, namely the Monte Carlo Simulation Package and the Rocket Avionics Package.
+The role of the Mission Control Software is to find potential launching sites, facilitate pre-launch procedures such as arming the rocket and finding an optimal
+launch profile. The control of the rocket mid flight is handled by the Rocket Avionics Package and the simulation of rocket flights is handled by the Monte Carlo
+Simulation package, respectively. The Mission Control Software will have to interface with those software packages to fulfill its functions.
 
-> **9.5.3 Product perspective** <br>
-> Define the system's relationship to other related products. 
-> 
-> If the product is an element of a larger system, then relate the requirements of that larger system to the functionality of the product covered by the software requirements specification.
-> 
-> If the product is an element of a larger system, then identify the interfaces between the product covered by the software requirements specification and the larger system of which the product is an element. 
->
-> A block diagram showing the major elements of the larger system, interconnections, and external interfaces can be helpful.
-> 
-> Describe how the software operates within the following constraints:  
-a) System interfaces;  
-b) User interfaces;  
-c) Hardware interfaces;  
-d) Software interfaces;  
-e) Communications interfaces;  
-f) Memory;  
-g) Operations;  
-h) Site adaptation requirements.
+Specifically:
+
+* The MCS will have to interface with the Rocket Avionics Package to get the real-time position of the rocket to facilitate tracking and recovery
+* The MCS will have to interface with the Rocket Avionics Package to arm the ejection charge and set the desired rocket orientation
+* The MCS will have to interface with the Monte Carlo Simulation Package to identify probable landing sites to facilitate screening possible launch sites.
+
+The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation
+Listeners with OpenRocket, respectively.
+
+&lt;diagram&gt;
+
+The Mission Control Software will operate on a PC with the Java VM running any major operating system, most likely a laptop. It'll require enough free memory and 
+processor capacity to run both the Mission Control Software and the Monte Carlo Simuation Package, which would likely amount to 2GB (not accounting for memory used
+by the operating system) and a dual core x86 processor (additional capacity may be required on an ARM platform).
+
+The PC must also have one free USB port to operate the serial over radio interface. The PC must also have a standard keyboard/pointing device combo to operate the
+Mission Control Software.
+
+Communication with the internet is required for the pre-launch site determination, as the Mission Control Software needs to download weather data from NOAA to facilitate
+creating simulations for the Monte Carlo Simulation Package.
+
+The Mission Control Software will also be indirectly be interfacing with a device that gathers local weather conditions, which the users of the software will use
+and manually transcribe the data into the software via the user interface.
