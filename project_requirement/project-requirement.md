@@ -114,6 +114,8 @@ References to other documents or standards. Follow the IEEE Citation  Reference 
 
 Monte carlo: weather data format. NOAA. 
 
+Weather data is available from [OpenWeatherMap](https://openweathermap.org/api). Current wind speed, direction and gust speed is available through their web API. Temperature, humidity, visibility and rain data is also available. The data is provided in JSON format.
+
 Confer with the other teams for the data formats, command formats, and endmessages
 range accuracy and tolerance just a function of the sensors on the rocket.
 
