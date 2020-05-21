@@ -288,7 +288,6 @@ No purchases required. It's a software project.
 
 Identify the ten most important project risks to achieving project goals: their type, likelihood, impact, and mitigation strategies (3 pages).
 
-
 If the project will involve any work outside the ECS laboratories, i.e. off-campus activities, these should be included in the following section.
 
 ### 5.4 Health and Safety
