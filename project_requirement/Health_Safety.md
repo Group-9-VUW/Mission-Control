@@ -3,7 +3,7 @@
     - Cable Management
         - Each team member will strive to keep their work station free of loose wires.
     - Security
-        - The work isn't of great importance.
+        - The work isn't of great importance (it isn't worth stealing or copying).
         - GitLab.ecs prevents people outside the university from accessing the online work.
     - Other risks
         - Up to team members to identify and mitigate depending on their unique situation.
