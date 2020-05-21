@@ -1,7 +1,7 @@
 #### Failure to meet deadlines. <br>
 ##### Likelihood: ?     Effect: low
 
-Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when an individual fails to take responsibility for their work and isn't able to complete what they had agreed to do or is affected by outside events that prevents them from completing the work. An example is when a team member agrees to take on some work that they didn't have the time to finish. 
+Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when some factor prevented the individual from completing their work. This could be due to having too much work on at a certain time, or a sudden external event like a blackout or injury. An example is when a team member has to fit in the project work while also studying for a test.
 
 The impact of a deadline being missed is that the other parts of the project will be behind schedule. These effects could make the project be completed later than expected or cause extra pressure on the the rest of the team to fix the individual's mistake.
 
@@ -14,6 +14,7 @@ To avoid failing to meet deadlines, each team member will strive to:
 
 To avoid a team member failing to meet deadlines, the team will strive to:
 - Plan work around other obligations or deadlines. 
+- Have slack in the schedule so delays don't throw the project off track.
 
 #### Major scope creep.<br>
 ##### Likelihood: Medium/Low    Effect: High
