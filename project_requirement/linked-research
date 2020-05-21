@@ -17,8 +17,7 @@ numerous check such as "sky is clear, ranges are clear" before initaiting the co
 
 Considering the characteristics of our users, our Mission Control Software should have a simple user interface. 
 Primary school students and the elderly are a part of our userbase, so having a simple user interface will allow the software to be usable by a larger audience. <br>
-The software should also try to minimise the use of jargon. 
-Not everyone will understand the technical terms that define aspects of software systems. 
+The software should also try to minimise the use of jargon. Not everyone will understand the technical terms that define aspects of software systems. 
 As in, if there is invalid input from the user, instead of saying “That input has caused a NumberFormatException”, a helpful error message such as “The rocket length field only accepts numbers as input” is more informative and readable, especially to a non-technical audience. 
 
 https://www.nzrocketry.org.nz/
