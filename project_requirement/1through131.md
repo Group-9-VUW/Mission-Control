@@ -1,4 +1,4 @@
-### Client
+a### Client
 
 Our client is Andre Geldenhuis, and he can be contacted via the ecs mattermost, or via email at andre.geldenhuis@vuw.ac.nz.
 
@@ -10,7 +10,7 @@ Andre has contracted us to create mission control software for a hobby rocket la
 
 The Mission Control Software is a multirole software package that facilitates pre-launch, mid-launch, and post-launch activities.
 It will identify favorable launch conditions, set the starting conditions for a rocket launch. 
-During a launch it will monitor the rocket, reporting its status and position.
+During the launch it will monitor the rocket, reporting its status and position.
 After the launch it will report the rockets position for manual recovery. 
 This software will facilitate the goal of making hobby rocket launches safer for both the users and the community, as well as aiding in convenience tasks like recovery.
 
