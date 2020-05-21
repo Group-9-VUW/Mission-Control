@@ -20,5 +20,10 @@ Primary school students and the elderly are a part of our userbase, so having a 
 The software should also try to minimise the use of jargon. Not everyone will understand the technical terms that define aspects of software systems. 
 As in, if there is invalid input from the user, instead of saying “That input has caused a NumberFormatException”, a helpful error message such as “The rocket length field only accepts numbers as input” is more informative and readable, especially to a non-technical audience. 
 
+Our program should also support large and complex rockets as well. The NZRA is also known for building large scale rockets, which have 
+a much bigger landing zone and will pose a greater safety risk. So, making sure our program is extendable to these types of rockets will 
+also allow those users to use our software.
+
+
 https://www.nzrocketry.org.nz/
 https://www.facebook.com/groups/nzrocketry/
