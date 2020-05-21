@@ -1,5 +1,5 @@
 #### Failure to meet deadlines. <br>
-##### Likelihood: ?     Effect: low
+##### Likelihood: Medium     Effect: Low
 
 Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when some factor prevented the individual from completing their work. This could be due to having too much work on at a certain time, or a sudden external event like a blackout or injury. An example is when a team member has to fit in the project work while also studying for a test.
 
