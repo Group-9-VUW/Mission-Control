@@ -9,6 +9,6 @@
 *  The suggested launch angle calculated must be a realistic and safe launch angle (e.g. suggested launch angle can't have a huge horizontal velocity)
 *  The rockets' software should comply with regulations for any rocket. This is so that other people can use our software for their rockets.
 *  Playing back the recorded file that holds the rockets details should be easy and quick to do since displaying the information quickly is critical.
-*  Calculating the upwind trajectory should be reliable and accurate so that our software is consistent.
-*  Calculating the probable landing locations should be reliable and accurate so that our software is consistent.
-*  The software should let the rocket know when launch is imminent as soon as possible so the rocket can prepare for launch
+*  Calculating the upwind trajectory should be reliable and accurate
+*  Calculating the probable landing locations should be reliable and accurate.
+*  The software should let the rocket know when launch is imminent as soon as possible
