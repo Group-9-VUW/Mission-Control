@@ -40,7 +40,7 @@ The impact of losing work due to technological problems is that work will have t
 To avoid losing work due to technological problems, each team member will strive to:
 - Save their work regularly to keep an almost up-to-date version of their work.
 - Work on all their work seriously, even if they are repeating it.
-- Commit regularly to GitHub to protect against their device dying.
+- Commit regularly to GitLab to protect against their device dying.
 
 To avoid losing work due to technological problems, the team will strive to:
 - Split tasks into smaller units so work done each 'task' is less.
