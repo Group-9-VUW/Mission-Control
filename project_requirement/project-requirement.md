@@ -110,7 +110,6 @@ References to other documents or standards. Follow the IEEE Citation  Reference 
 
 20 pages outlining the requirements of the system. You should apportion these pages across the following subsections to focus on the most important parts of your product.
 
-### 3.1 External interfaces
 
 ### 3.1 External interfaces
 
