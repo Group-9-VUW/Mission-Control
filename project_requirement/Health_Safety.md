@@ -10,6 +10,6 @@
         - Team members can ask for advice or help from other team members or the School Safety Officer.
         - Team members should share risks they've found with the team.
 
-2. Whether project work requires work or testing at any external (off-campus) workplaces/sites.
+2. Whether the project requires any work or testing at an external (off-campus) site.
    - The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
    - Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
