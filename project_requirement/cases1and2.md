@@ -9,10 +9,18 @@
     are in JSON. 
     
 #### 2   Enter local weather data<br>
-	Weather data is available in JSON, XML or HTML formats, so parsing libraries will be required to extract the required information. Public libraries to parse those 3 formats are available.  
-    In the case that there is no network connectivity at the launch site, weather forecast data can also be retrieved prior to travel to the launch site (although this requires a paid subscription
-    to the api website).
+    An internet connection is not guaranteed at our launch site, so it is appropriate to consider methods to
+    manually gather local weather data and input it into our software. Our software should have a form with specified inputs
+    that will need to be gathered (i.e. temperature, wind speed). Specific units (preferably metric) should be used to avoid any confusion
+    and invalid calculations. 
     
+    Specialised tools are available for people to gather their own weather data. To calculate the wind speed, 
+    an anemometer can be used. An anemometer has multiple arms attached to a vertical rod. As the wind blows, the cups on the edge 
+    of the arms rotate and the anemometer counts the number of revolutions per second to calculate the wind speed.
+    Thermometers can be utilised to measure the temperature, and barometers can be used to measure air pressure.
+    There are multiple methods and tools to measure the weather manually and if needed, will be decided in future meetings.
+
     
     https://openweathermap.org/api 
     https://www.ncdc.noaa.gov/cdo-web/webservices/v2
+    https://www.nationalgeographic.org/encyclopedia/anemometer/
