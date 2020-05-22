@@ -38,8 +38,9 @@ Loss of work due to technological problems is a scheduling risk that could lead 
 The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project. 
 
 To avoid losing work due to technological problems, each team member will strive to:
-- Save their work regularly.
+- Save their work regularly to keep an almost up-to-date version of their work.
 - Work on all their work seriously, even if they are repeating it.
+- Commit regularly to GitHub to protect against their device dying.
 
 To avoid losing work due to technological problems, the team will strive to:
 - Split tasks into smaller units so work done each 'task' is less.
