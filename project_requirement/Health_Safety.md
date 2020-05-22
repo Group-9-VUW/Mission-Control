@@ -1,4 +1,4 @@
-1. How the team will manage computer-related risks?
+1. How the team will manage computer-related risks
     - Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
     - Cable Management
         - Each team member will strive to keep their work station free of loose wires.
