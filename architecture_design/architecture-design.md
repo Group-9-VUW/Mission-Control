@@ -148,7 +148,7 @@ Present a table of goods or services that will be required to deliver project go
 
 ### 5.3 Risks 
 
-Identify the ten most important project risks: their type, likelihood, impact, and mitigation strategies (3 pages).
+*Identify the ten most important project risks: their type, likelihood, impact, and mitigation strategies (3 pages).*
 
 #### Sudden prolonged absence of a team member.
 ##### Likelihood: Low Effect: High.
@@ -309,7 +309,24 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 ### 5.4 Health and Safety
 
-Document here project requirements for Health and Safety.
+*Document here project requirements for Health and Safety.*
+
+1. How the team will manage computer-related risks
+    - Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
+    - Cable Management
+        - Each team member will strive to keep their work station free of loose wires.
+    - Security
+        - No sensitive or personal data is stored or used by the program.
+        - GitLab.ecs prevents people outside the university from accessing the online work.
+    - Other risks
+        - Up to team members to identify and mitigate depending on their unique situation.
+        - Team members can ask for advice or help from other team members or the School Safety Officer.
+        - Team members should share risks they've found with the team.
+
+2. Whether the project requires any work or testing at an external (off-campus) site.
+   - The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
+   - Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
+
 
 #### 5.4.1 Safety Plans
 
