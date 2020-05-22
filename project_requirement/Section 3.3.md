@@ -8,7 +8,7 @@
 *  The user should have a clear idea of where the rocket is (e.g. visualising the rocket's location to the user).
 *  The suggested launch angle calculated must be a realistic and safe launch angle (e.g. suggested launch angle can't have a huge horizontal velocity).
 *  The rocket software should comply with regulations for any rocket. This is so that other people can use our software for their rockets.
-*  Playing back the recorded file that holds the rockets details should be easy and quick to do since displaying the information quickly is critical.
+*  Playing back the recorded file that holds the rocket's details should be easy and quick to do since displaying the information quickly is critical.
 *  Calculating the upwind trajectory should be reliable and accurate.
 *  Calculating the probable landing locations should be reliable and accurate.
 *  The Mission Control Software should let the rocket know when launch is imminent as soon as possible.
