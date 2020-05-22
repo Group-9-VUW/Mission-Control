@@ -21,7 +21,7 @@ To avoid a team member becoming overworked, the team will strive to:
 
 Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor. 
 
-The impacts often noticed of poor computer-use are back/neck pain, headaches, and arm pain. These effects could make the individual uncomfortable using the computer, thus reducing their speed or quantity of work, or making it too painful to use the computer at all.
+The impacts often noticed of poor computer-use are back/neck pain, headaches, and arm pain. These effects could make the individual uncomfortable using the computer, thus reducing their speed or output, or making it too painful to use the computer at all.
 
 To avoid a computer-use injury, each team member will strive to:
 - Take regular breaks away from the computer during work to allow the body to stretch and relax.
