@@ -150,6 +150,163 @@ Present a table of goods or services that will be required to deliver project go
 
 Identify the ten most important project risks: their type, likelihood, impact, and mitigation strategies (3 pages).
 
+#### Sudden prolonged absence of a team member.
+##### Likelihood: Low Effect: High.
+
+The sudden prolonged absense of a team member is a schedule risk that can cause the project to run overtime. It is caused when a team member disappears for a long period without explanation. An example is if a team member is in a crash and is in a coma.
+
+The impact of a sudden prolonged absense of a team member is that there is one less person working on the project. This means that that member's work would have to be split between the other team members and the project will take more time and effort to complete. 
+
+To avoid the risks of a sudden prolonged absence, each team member will strive to:
+- Offer an explanation if they are going to be absent.
+- Add comments and notes into their work so it is easier for others to pick up.
+
+To avoid the risks of a sudden prolonged absence of a team member, the team will strive to:
+- Make sure each member knows about every different part of the project so they can start working on it.
+- Have regular meetings with compulsory attendance to quickly notice a team member's absence.
+
+#### Sudden temporary absence of a team member.
+##### Likelihood: Medium/High Effect: Low
+
+The sudden temporary absence of a team member is a schedule risk that could cause decisions to be delayed. It is caused when a team member fails to remember a meeting, and is contactable during the meeting. An example is when a team member schedules their work during the meeting, thus is busy and away from their device.
+
+The impact of a sudden temporary absence of a team member is that a decision isn't able to be made. This will halt progress on the project, potentially pushing it back past the deadline. 
+
+To avoid the risks of a sudden temporary absence, each team member will strive to:
+- Check the communication channel at least once a day.
+- Avoid booking commitments during the lab times.
+- Be available on the communcation channel during lab times.
+
+To avoid the risks of a sudden temporary absence of a team member, the team will strive to:
+- Have regular meetings at the same time every week.
+- Notify team members about meetings outside of normal scheduled meetings at least a day before the meeting.
+- Keep important decisions to the normal scheduled meetings.
+
+#### Loss of work due to technological problems.
+##### Likelihood: Medium Effect: Low
+
+Loss of work due to technological problems is a scheduling risk that could lead to the project not being finished on time. It is caused when a technological problem causes the file that was being worked on to be closed without saving the work. An example is when a blackout causes the desktop to shutdown before the file was saved. 
+
+The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project. 
+
+To avoid losing work due to technological problems, each team member will strive to:
+- Save their work regularly to keep an almost up-to-date version of their work.
+- Work on all their work seriously, even if they are repeating it.
+- Commit regularly to GitLab to protect against their device dying.
+
+To avoid losing work due to technological problems, the team will strive to:
+- Split tasks into smaller units so work done each 'task' is less.
+
+#### Failure to agree on protocol with the Monte Carlo teams. 
+##### Likelihood: High      Effect: High
+
+Failure to agree on protocol with the Monte Carlo teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the Monte Carlo teams over how the two projects will communicate. An example is this project not wanting to send a piece of information the Monte Carlo team were expecting.
+
+The impact of failing to agree on protocol with the Monte Carlo teams is being unable to simulate the rocket's launch. This would lead to the system being unable to determine if a launch is safe.
+
+To avoid failing to agree on protocol with the Monte Carlo teams, the team will strive to:
+- Be willing to make compromises on agreements. 
+- Outline what the system can actually do.
+- Don't accept impossible terms. 
+
+#### Failure to agree on protocol with the avionics teams. 
+##### Likelihood: High      Effect: High
+
+Failure to agree on protocol with the avionics teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the avionics teams over how the two projects will communicate. An example is the avionics team wanting to send information that this project doesn't want to deal with.
+
+The impact of failing to agree on protocol with the avionics teams is being unable to connect to the rocket. This would lead to the user not being able to control the rocket, or see information about the rocket's position. 
+
+To avoid failing to agree on protocol with the avionics teams, the team will strive to:
+- Be willing to make compromises on agreements.
+- Outline what the system can actually do.
+- Don't accept impossible terms.
+
+#### Other teams fail to meet deadline. 
+##### Likelihood: Low       Effect: High
+
+The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule. 
+
+The impact of the other teams failing to meet deadlines is that the project deadlines will have to be pushed back to accomondate them. This will cause the project to be completed later than expected, and the team will be waiting around for it to be completed. 
+
+To avoid the other teams failing to meet deadlines, the team will strive to:
+- Clearly express when a component from another team is needed.
+- Check up regularly on the progress of the component.
+
+#### Failure to meet deadlines. <br>
+##### Likelihood: Medium     Effect: Low
+
+Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when some factor prevented the individual from completing their work. This could be due to having too much work on at a certain time, or a sudden external event like a blackout or injury. An example is when a team member has to fit in the project work while also studying for a test.
+
+The impact of a deadline being missed is that the other parts of the project will be behind schedule. These effects could make the project be completed later than expected or cause extra pressure on the the rest of the team to fix the individual's mistake.
+
+To avoid failing to meet deadlines, each team member will strive to:
+- Only take on the amount of work they can physically complete within the time limit.
+- Be willing to help others when they are struggling with a task.
+- Be willing to ask others for help when they are struggling with a task.
+- Be honest about the amount of other work they have to complete.
+- Share if they have other circumstances preventing them from working early.
+
+To avoid a team member failing to meet deadlines, the team will strive to:
+- Plan work around other obligations or deadlines. 
+- Have slack in the schedule so delays don't throw the project off track.
+
+#### Major scope creep.<br>
+##### Likelihood: Medium/Low    Effect: High
+
+Major scope creep is a cost risk that can cause the project to run overtime. It is caused when extra tasks are added to the project scope during the project lifetime, or when nominally simple functions are continually over-created. An example is when another requirement is added to the project specification.
+
+The impacts of major scope creep are extensions to the project lifetime or extra work to the team to fit into the same lifetime.
+
+To avoid major scope creep, the team will strive to:
+- Carefully define the project specifications so there is no room for confusion. 
+- Focus on finishing the project requirements before adding extra functions.
+- Review the code regularly to spot wasted code early.
+- Communicate about tasks.
+
+#### Bad documentation.<br>
+##### Likelihood: Medium/High   Effect: Medium/Low
+
+Bad Docmentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
+
+The impact of bad documentation is that the method is incorrectly used or that the code is confusing to developers who are editing it. These effects could lead to bugs in the program which will increase the work for developers and testers and increase the time/cost of maintaining the program or adding new features.
+
+To avoid bad documentation, each team member will strive to:
+- Write a JavaDoc comment for every method.
+- Add important comments to their code so that it can be understood by other team mates.
+- Make sure that documentation can be understood by outsiders. 
+
+#### Injuries due to overwork. <br>
+##### Likelihood: Medium     Effect: Medium
+
+Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test. 
+
+The more likely impacts of overwork, other than death, are sleeping disorders, anxiety, and a weakened immune system. These effects will reduce the work quality of the individual and potentially stop them from working on the project.
+
+To avoid becoming overworked, each team member will strive to:
+- Only take on the amount of work they can physically complete within the time limit.
+- Be willing to help others when they are struggling with a task.
+- Be willing to ask others for help when they are struggling with a task.
+- Be honest about the other work they have to complete.
+
+To avoid a team member becoming overworked, the team will strive to:
+- Share the work between the team so no one's doing all the work.
+- Be flexible with deadlines.
+- Work around deadlines for other courses.
+
+#### Computer-use related injuries.<br>
+##### Likelihood: Low        Effect: High
+
+Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor. 
+
+The impacts often noticed of poor computer-use are back/neck pain, headaches, and arm pain. These effects could make the individual uncomfortable using the computer, thus reducing their speed or output, or making it too painful to use the computer at all.
+
+To avoid a computer-use injury, each team member will strive to:
+- Take regular breaks away from the computer during work to allow the body to stretch and relax.
+- Stop working if something starts hurting and allow time for it to return to normal. If it doesn't, they should see a doctor.
+
+To avoid a team member getting a computer-use injury, the team will strive to:
+- Reduce length of online meetings.
+
 ### 5.4 Health and Safety
 
 Document here project requirements for Health and Safety.
