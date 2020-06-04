@@ -12,21 +12,21 @@ Should have a JRE 1.8 runtime available.
 
 By default all variables and fields should be non null, unless explicitly defined as nullable.
 ```
-//This ArrayList is @NonNull, meaning intArrayList != null will always be true.
+//This ArrayList is @NonNull, meaning nonNullArrayList != null will always be true.
 //Its elements are also @NonNull meaning null cannot be added to the ArrayList.
-ArrayList<Integer> intArrayList = new ArrayList<>();
+ArrayList<Integer> nonNullArrayList = new ArrayList<>();
 
-//This ArrayList is @NonNull, meaning intArrayList != null will always be true.
-//Its elements are @Nullable however, meaning otherIntArrayList.add(null) is valid.
-ArrayList<@Nullable Integer> otherIntArrayList = new ArrayList<>();
+//This ArrayList is @NonNull, meaning otherNonNullArrayList != null will always be true.
+//Its elements are @Nullable however, meaning otherNonNullArrayList.add(null) is valid.
+ArrayList<@Nullable Integer> otherNonNullArrayList = new ArrayList<>();
 
-//This ArrayList is @Nullable, meaning intArrayList == null may be true.
+//This ArrayList is @Nullable, meaning nullableArrayList == null may be true.
 //Its elements are @NonNull however, meaning null cannot be added to the ArrayList.
-@Nullable ArrayList<Integer> otherIntArrayList = new ArrayList<>();
+@Nullable ArrayList<Integer> nullableArrayList = new ArrayList<>();
 
-//This ArrayList is @Nullable, meaning intArrayList == null may be true.
-//Its elements are also @Nullable, meaning otherIntArrayList.add(null) is valid.
-@Nullable ArrayList<Integer> otherIntArrayList = new ArrayList<>();
+//This ArrayList is @Nullable, meaning otherNullableArrayList == null may be true.
+//Its elements are also @Nullable, meaning otherNullableArrayList.add(null) is valid.
+@Nullable ArrayList<@Nullable Integer> otherNullableArrayList = new ArrayList<>();
 ```
 
 Assuming that an interface is named: InterfaceName, the main implementation should be called InterfaceNameImpl and the factory should be called InterfaceNameFactory.
@@ -115,6 +115,5 @@ class A {
      * Javadoc explaining what variable5's purpose is.
      */
     protected variable5;
-
 }
 ```
