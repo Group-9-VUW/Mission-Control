@@ -1,64 +1,120 @@
-#Software
+# Software
 
-Dependencies should be managed in the Maven POM
+Dependencies should be managed in the Maven POM.
 
-Use Eclipse with the mandated checkstyle settings
+The program should be written using Eclipse with Google Checks activated.<br>
+This will enforce a consistent checkstyle across all program code for all team members.<br>
+All warnings should be enabled, and the program should be warning-free, or as near to warning free as possible while remaining functional.
 
-Should have a JRE 1.8 runtime available
+Should have a JRE 1.8 runtime available.
 
-#Style
+# Style
 
-By default all variables and fields should be non null, unless explicitly defined as nullable
+By default all variables and fields should be non null, unless explicitly defined as nullable.
+```
+//This ArrayList is @NonNull, meaning intArrayList != null will always be true.
+//Its elements are also @NonNull meaning null cannot be added to the ArrayList.
+ArrayList<Integer> intArrayList = new ArrayList<>();
 
-This is how blocks are formatted
+//This ArrayList is @NonNull, meaning intArrayList != null will always be true.
+//Its elements are @Nullable however, meaning otherIntArrayList.add(null) is valid.
+ArrayList<@Nullable Integer> otherIntArrayList = new ArrayList<>();
 
+//This ArrayList is @Nullable, meaning intArrayList == null may be true.
+//Its elements are @NonNull however, meaning null cannot be added to the ArrayList.
+@Nullable ArrayList<Integer> otherIntArrayList = new ArrayList<>();
+
+//This ArrayList is @Nullable, meaning intArrayList == null may be true.
+//Its elements are also @Nullable, meaning otherIntArrayList.add(null) is valid.
+@Nullable ArrayList<Integer> otherIntArrayList = new ArrayList<>();
+```
+
+Assuming that an interface is named: InterfaceName, the main implementation should be called InterfaceNameImpl and the factory should be called InterfaceNameFactory.
+This pattern should hold true for all interfaces, main implementations and factories that we write.
+
+```
+class InterfaceNameImpl implements InterfaceName {
+    ...
+}
+```
+
+If-else blocks should be written as:
+```
 if (condition) { 
-    dpadjiowaj; 
+    statement;
 } else if (condition) {
-    dadwa;
+    statement; 
 } else {
-    //very long comment with lottttttttttttttttttttttttttttts of text
-    dawdwa; //short comment
+    //a very long comment that is too long to fit on the same line, or describes what several lines do
+    statement; //short comment
 }
+```
 
-Variable names for mutable variables should be in camelCase
-static final variables in WHATEVER_THIS_CASE_IS
-
+A method should be written as:
+```
 /***
- * Javadoc
+ * Javadoc describing what the function does.
+ * @param param1 parameter description
+ * @param param2 parameter description
+ * @return what is returned
  */
-public void myfunction(type param1, type param2) {
-    stuff;
+public int myfunction(type param1, type param2) {
+    int var;
+    method;
+    return var;
 }
+```
 
-Interface: InterfaceName
-Main Implementation: InterfaceNameImpl
-Factory: InterfaceNameFactory
-
+Switch-case blocks should be written as:
+```
 switch (variable) {
-    case whatever:
-        djawoidjwaoij;
+    case a:
+        statement;
         break;
-    case thaefdwad:
-        fsdwa; 
+    case b:
+        statement; 
+        break;
+    case c:
+    case d:
+        statement;
         break;
     default:
-        oawjdoawij;
+        statement;
         break;
 }
+```
 
-There should be no (non-static) public fields.
+Variable names for mutable variables should be in camelCase.<br>
+Static final variables should be in ALL_CAPS_WITH_UNDERSCORES.
 
+There should be no (non-static) public fields. Fields should instead use getters and setters and should be protected or private.<br>
+All classes and class level variables should have Javadocs explaining what its purpose.
+
+```
+/**
+ * Javadoc explaining what class A's purpose is.
+ */
 class A {
-
+    /**
+     * Javadoc explaining what VARIABLE's purpose is.
+     */
     public static final VARIABLE;
-
+    /**
+     * Javadoc explaining what variable2's purpose is.
+     */
     protected final variable2;
-    
-    private final variable;
-    
-    protected variable;
-    
+    /**
+     * Javadoc explaining what variable3's purpose is.
+     */
+    private final variable3;
+    /**
+     * Javadoc explaining what variable4's purpose is.
+     */
     protected variable4;
+    /**
+     * Javadoc explaining what variable5's purpose is.
+     */
+    protected variable5;
 
 }
+```
