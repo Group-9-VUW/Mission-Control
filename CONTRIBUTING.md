@@ -38,6 +38,19 @@ class InterfaceNameImpl implements InterfaceName {
 }
 ```
 
+Abstract classes should begin with "Abstract" and should be implemented with a concrete class.
+
+```
+abstract class AbstractClassName {
+    
+}
+```
+```
+class ConcreteClassName extends AbstractClassName {
+    ...
+}
+```
+
 If-else blocks should be written as:
 ```
 if (condition) { 
