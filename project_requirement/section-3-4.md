@@ -1,8 +1,8 @@
 ### 3.4 Performance requirements
 
 #### How often the position of the rocket is updated on the map<br>
-This can be a tick-based update where each tick can be a specified 
-number of milliseconds say 500ms for example. Every 500ms, the positional data
+This will be a tick-based update where each tick can be a specified 
+number of milliseconds, say 500ms for example. Every 500ms, the positional data
 of the rocket can be retrieved and then be processed at mission control to
 be then displayed on the map. At a tick rate of 500ms, the rockets position will be
 updated 120 times over the course of 1 minute. 
@@ -18,11 +18,11 @@ We will set a probability threshold at a value that will be decided in the futur
 to our predefined threshold, then the rocket will be given the "no go", signifying that the chance of failure is too high.  
 
 #### Number of Simultaneous users
-Each program will support one user. However our system will support multiple instances running simultaneously. 
+Each program will support one user. However, our system will support multiple instances running simultaneously. 
 
 #### Amount and Type of Information to be handled 
 The system should be able to handle as much information as the USB serial can send at its optimal performance. 
-If the serial can transmit a high amount of daa that we cannot cater to due to our technical
+If the serial can transmit a high amount of data that we cannot cater to due to our technical
 limitations, then we will aim to get as close as possible.
 
 As for the type of information to be handled, our system will be data agnostic meaning that it can
@@ -39,7 +39,17 @@ cache map information of a 2k radius of the launch site. That way, map data at l
 the need for an internet connection. 
 
 #### Minimum Map Precision 
-Our software should have a minimum precision of 3 metres on map features. 
+Our software should have a minimum precision of 3 meteres on map features. 
+That is, features must be no more than 3 metres away from their true position (i.e. the rocket location should always be within 3 meteres of it.)
+
+#### Maximum GUI response time
+The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement. 
+
+#### Rocket Data Incorporation
+Once data is recieved from the rocket (whether it is pre, during or post launch), it must be incorporated (parsed and interpreted) within our system under 100 milliseconds. 
+
+#### Maximum System Memory Consumption
+At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time. 
 
 See 9.5.13. for most systems this will be around one page. Hardware projects also see section 9.4.6.
 
