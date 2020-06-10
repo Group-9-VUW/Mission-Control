@@ -34,19 +34,18 @@ parse and output any of the three major data file formats which are:
 The format of the incoming data will be dependent on what format the Avionics team decide on. 
 
 #### Map Data Caching 
-An internet connection at the launch site is not guaranteed. So prior to launch, our software should be able to 
+An internet connection at the launch site is not guaranteed. So, prior to launch, our software should be able to 
 cache map information of a 2k radius of the launch site. That way, map data at launch can be accessed without 
 the need for an internet connection. 
 
 #### Minimum Map Precision 
-Our software should have a minimum precision of 3 meteres on map features. 
-That is, features must be no more than 3 metres away from their true position (i.e. the rocket location should always be within 3 meteres of it.)
+Our software should have a minimum precision of 3 meters on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 meters of it.)
 
 #### Maximum GUI response time
 The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement. 
 
 #### Rocket Data Incorporation
-Once data is recieved from the rocket (whether it is pre, during or post launch), it must be incorporated (parsed and interpreted) within our system under 100 milliseconds. 
+Once data is received from the rocket (whether it is pre, during or post launch), it must be incorporated (parsed and interpreted) into our system in under 100 milliseconds. 
 
 #### Maximum System Memory Consumption
 At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time. 
