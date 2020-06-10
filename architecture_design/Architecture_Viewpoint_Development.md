@@ -16,6 +16,8 @@
 
 *Identify its governing model kind*
 
+![](architecture_design/First_Draft.png "")
+
 ##### 4.2.4 Known Issues within a View
 
 *With Respect to its governing viewpoint*
