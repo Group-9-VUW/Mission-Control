@@ -25,4 +25,6 @@ The external entities in the system are the Monte Carlo system that will be crea
 
 #### 4.2.4 Known Issues within a View
 
+The Controller package depends on a lot of other packages, meaning it might have problems when its dependencies change.
+
 *With Respect to its governing viewpoint*
