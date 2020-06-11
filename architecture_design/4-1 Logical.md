@@ -14,6 +14,34 @@ Each package has only one responsibility:
 | Avionics | Interfacing with the Rocket Avionics Package, to facilitate the Rocket Status Display and the arming process |
 | Commons | Common data classes|
 
+The logical architecture also uses the MVC (Model-View-Controller) paradigm to increase flexibility and maintainability.
+
+### Avionics
+
+```plantuml
+CommandFormatter "1" *-- "1" SerialDriver
+RocketListenerManager "1" *-- "1" SerialDriver
+RocketListenerManager "1" *-- "1" DataInterpreter 
+
+SerialDriver : bytes getDataBuffer()
+SerialDriver : void sendBytes(bytes)
+
+DataInterpreter : bytes buffer
+DataInterpreter : void feedBytes(bytes)
+DataInterpreter : RocketData nextEvent()
+
+RocketListenerManager : List<RocketListener>
+RocketListenerManager : void register(RocketListener)
+RocketListenerManager : void unregister(RocketListener)
+
+```
+
+The Avionics Software Package contains the necessary classes to read and write data to the rocket. The public facing classes of this package are **RocketListenerManager** and **CommandFormatter**. The other classes could be made package-private as their functionality is internal, no other packages should be using the Serial Driver or the Data Interpreter to push or pull raw bytes. 
+
+The instantiation of the public-facing classes is handled by a factory pattern that hides the construction of the underlying classes. 
+
+This architecture could be extended to allow for different rocket types by subtyping DataInterpreter and CommandFormatter.
+
 ### External Data
 
 ```plantuml
@@ -38,25 +66,9 @@ NOAAGetter : WeatherData getWeatherData()
 NOAAGetter : static bool available()
 ```
 
-### Avionics
 
-```plantuml
-CommandFormatter "1" *-- "1" SerialDriver
-RocketListenerManager "1" *-- "1" SerialDriver
-RocketListenerManager "1" *-- "1" DataInterpreter 
 
-SerialDriver : bytes getDataBuffer()
-SerialDriver : void sendBytes(bytes)
 
-DataInterpreter : bytes buffer
-DataInterpreter : void feedBytes(bytes)
-DataInterpreter : RocketData nextEvent()
-
-RocketListenerManager : List<RocketListener>
-RocketListenerManager : void register(RocketListener)
-RocketListenerManager : void unregister(RocketListener)
-
-```
 
 ### Program State
 
