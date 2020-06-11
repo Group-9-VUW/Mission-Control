@@ -120,3 +120,14 @@ state Launched {
 @enduml
 ```
 
+The state of the program can be described as three separate states. 
+
+| State | Description |
+| ----- | ----------- |
+| Planning | The initial launch site selection, which involves evaluating potential launch sites and their weather conditions for safety, with an internet connection |
+| Prelaunch | The final checks done at the launch site, where an additional safety check is performed before the rocket is armed and launched |
+| Postlauch | Tracking the rocket in flight, and recovery |
+
+The `Planning` and `Prelaunch` stages aren't directly navigable, as they are performed at different locations. Howeber the `Prelaunch` and `Launched` stages are, as both stages occur at the launch site under the condition of no internet access.
+
+Notably, the transition from `Planning` to `Prelaunch` involves significant caching of the weather data and the satellite imagery data for use in the field.
