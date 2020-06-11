@@ -22,7 +22,7 @@ If the Rocket Avionics Package reports rotation and velocity, the Rocket Status 
 
 In the event that the connection between the MCS and the Rocket Avionics Package is severed unexpectedly, the Rocket Status display must report this in a timely manner to the user to avoid confusion with 'stuck' values. This warning must take up 25% of the screen area so that it is noticable.
 
-5b.
+5d.
 
 The user shall have the option to record oncoming status data to a file in a format of their choice. This option shall be available from a menu bar. At least one of these formats should be in a ASCII/text format that is readable via text editor, complete with newlines for each new section of data.
 
