@@ -1,8 +1,7 @@
 ### 4.3 Process
-<br>
-
-
-The processes of the mission control software can perhaps best be described by the following activity diagram
+The mission control program will be single-threaded and will only allow for one instance to be running on a computer at a time. As a result of this, concurrency is not an issue when it comes to the processes of the mission control program, but it does mean that only one rocket can be launched at a time using a single computer. However, there is no connection with different instances of the program on different computers, so multiple rockets can be launched at once using the program, as long as each rocket has a different computer. This also means that there is no synchronisation between instances of the program on different computers. The single-threaded, single-instance-per-computer nature of the mission control program allows for higher performance as no more than one instance of the program will run on a single computer. The program is also largely scalable as the processes the program undergoes are the same regardless of the hobby rocket.
+<br><br>
+The processes of the mission control software can perhaps best be described by the following activity diagram:
 <br><br>
 ![Activity Diagram](activity_diagram.png)
 <br><br>
