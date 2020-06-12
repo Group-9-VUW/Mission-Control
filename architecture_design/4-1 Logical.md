@@ -70,6 +70,37 @@ The external data package is fairly straightforward, the main complication being
 
 Both network-faing classes have an `available()` function to signal unavailability to the controller.
 
+### External Data
+
+```plantuml
+class JPanel {
+   Provided
+}
+
+class JDialog {
+   Provided
+}
+
+abstract class AbstractMapView
+class SelectMapView
+class DisplayMapView
+class ForceDiagramView
+class ConsoleView
+class RocketDataView
+
+JPanel <|-- AbstractMapView
+JPanel <|-- ForceDiagramView
+JPanel <|-- ConsoleView
+JPanel <|-- RocketDataView
+
+AbstractMapView <|-- DisplayMapView
+AbstractMapView <|-- SelectMapView
+
+JDialog <|-- WeatherDataDialog
+```
+
+All view classes extend provided swing components, most often `JPanel` and `JDialog`. Notably, there's the abstract `AbstractMapView` which provides a base for both the select map views (used in the planning stage), and the display map views (used in the launching stage).
+
 ### Program State
 
 ```plantuml
