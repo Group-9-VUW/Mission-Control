@@ -112,6 +112,16 @@ Each architectural view should include at least one architectural model. If arch
 ...
 
 ### 4.4 Physical 
+The mission control software does not require a complex physical system. The application can run on a standalone machine, requiring no communication with other physical servers for basic operation.
+
+#### Local Machine
+The local machine is a standard multi-core laptop capable of running the mission control software. It can run on battery power in the field and has a display capable of accomodating the user interface of the application comfortably. 
+
+#### Internet Connection
+Internet access is required in the planning state but is not required for the pre-launch and launched states.
+
+#### USB Serial Connection
+Data is recieved from the rocket over a USB serial connection during the pre-launch and launched states. This is not required in the planning state. 
 ...
 
 ### 4.5 Scenarios
