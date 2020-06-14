@@ -624,19 +624,7 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 #### 5.4.1 Safety Plans
 
-Ask someone about this
-
-Safety Plans may be required for some projects, depending on project requirements. Safety Plan templates are available on the course Health & Safety page. Two questions all teams must answer are:
-
-
-**Do project requirements involve anything that can cause harm or injury?**  
-Examples: building/modifying things with voltages <= 60V, small moving machinery, wearable devices.
-
-If so, you will have to write a separate Safety Plan as part of project requirements, and the Safety Plan must be referenced in this section. For health and safety risks involving harm or injury, you should write a draft of the Safety Plan before contacting the School Safety Officer and Course Coordinator to discuss the Safety Plan and project requirements.
-
-If a safety plan is required, list in this section the date the School Safety officer accepted your Health and Safety plan (if accepted by submission date).
-
-_If the project is purely software and requires no contact risks involving physical harm, then state "Project requirements do not involve risk of death, serious harm, harm or injury." in this section._
+As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
 
 
 ## 6. Appendices
