@@ -49,22 +49,3 @@ Once data is received from the rocket (whether it is pre, during or post launch)
 
 #### Maximum System Memory Consumption
 At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time. 
-
-See 9.5.13. for most systems this will be around one page. Hardware projects also see section 9.4.6.
-
-> **9.5.13 Performance requirements** <br>
-> Specify both the static and the dynamic numerical requirements placed on the software or on human interaction with the software as a whole. 
-> 
-> Static numerical requirements may include the following:
-> 
-> a) The number of terminals to be supported;  
-> b) The number of simultaneous users to be supported;  
-> c) Amount and type of information to be handled.
-> 
-> Static numerical requirements are sometimes identified under a separate section entitled Capacity.
-> 
-> Dynamic numerical requirements may include, for example, the numbers of transactions and tasks and the amount of data to be processed within certain time periods for both normal and peak workload conditions. The performance requirements should be stated in measurable terms.
-> 
->  For example, "_95 % of the transactions shall be processed in less than 1 second._" rather than, "An operator shall not have to wait for the transaction to complete."
-> 
-> NOTE Numerical limits applied to one specific function are normally specified as part of the processing subparagraph description of that function.
