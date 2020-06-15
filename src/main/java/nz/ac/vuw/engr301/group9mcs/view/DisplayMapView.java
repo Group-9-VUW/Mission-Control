@@ -28,11 +28,13 @@ import org.eclipse.jdt.annotation.Nullable;
 public class DisplayMapView extends JPanel {
   
   /**
-   * The Longitude of where the launch site is.
+   * The Longitude of where the launch site is. 
+   * Longitude changes value along the horizontal axis, the X axis.
    */
   private double longLaunchSite;
   /**
    * The Latitude of where the launch site is.
+   * Latitude values increase or decrease along the vertical axis, the Y axis.
    */
   private double latLaunchSite;
   /**
@@ -81,9 +83,30 @@ public class DisplayMapView extends JPanel {
     if (g == null) {
       return;
     }
-    g.fillRect(0, 0, (int)this.longLaunchSite, (int)this.latLaunchSite);
+    
+    int xlaunch = 100;
+    int ylaunch = 100;
+    
+    int xrocket;
+    int yrocket;
+    
+    if (this.longLaunchSite > this.longRocket) {
+      xrocket = 100;
+      xlaunch = 100 + (int)(this.longLaunchSite - this.longRocket);
+    } else {
+      xrocket = 100 + (int)(this.longRocket - this.longLaunchSite);
+    }
+    
+    if (this.latLaunchSite > this.latRocket) {
+      yrocket = 100;
+      ylaunch = 100 + (int)(this.latLaunchSite - this.latRocket);
+    } else {
+      yrocket = 100 + (int)(this.latRocket - this.latLaunchSite);
+    }
+    
+    g.fillRect(0, 0, xlaunch, ylaunch);
     g.setColor(Color.white);
-    g.drawRect(0, 0, (int)this.longRocket, (int)this.latRocket);
+    g.drawRect(0, 0, xrocket, yrocket);
   }
   
   /**
