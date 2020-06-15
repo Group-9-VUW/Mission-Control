@@ -26,6 +26,9 @@ import org.eclipse.jdt.annotation.Nullable;
 
 public class DisplayMapView extends JPanel {
 
+  /**
+   * UID.
+   */
   private static final long serialVersionUID = 3810711176953194652L;
 
   /**
@@ -33,8 +36,8 @@ public class DisplayMapView extends JPanel {
    */
   public DisplayMapView() {
     JMenuBar menu = new JMenuBar();
-    JMenu group9 = new JMenu("Group9");
-    JMenuItem exit = new JMenuItem("Quit Group9");
+    JMenu group9 = new JMenu("Group9"); //$NON-NLS-1$
+    JMenuItem exit = new JMenuItem("Quit Group9"); //$NON-NLS-1$
     exit.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(@Nullable ActionEvent e) {
@@ -46,8 +49,12 @@ public class DisplayMapView extends JPanel {
     this.add(menu);
   }
   
+  @Override
   public void paintComponent(@Nullable Graphics g) {
-    
+    if (g == null) {
+      return;
+    }
+    g.drawRect(0, 0, 100, 100);
   }
   
 }
