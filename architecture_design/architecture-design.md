@@ -198,7 +198,20 @@ The processes of the mission control software can perhaps best be described by t
 As discussed in 4.1 Logical, the program can be broken down into three primary superstates: planning, pre-launch and post-launch. The activity diagram can be broken down in a similar fashion. All activities that happen after the program confirms that the user is not at the launch site can be considered as planning activities. That is, activities that occur when the user is deciding on a launch site before the user is at the launch site. Likewise, all activities that occur after the user is at the launch site can be considered pre-launch activities with activities that occur after the launch signal is sent to the rocket considered as launch or post-launch activities. As can be seen from the activity diagram, the planning processes are completely separate from the pre-launch and post-launch processes. This is quite significant as it will alter the team's strategy when it comes to implementing the design of the mission control software as Java code.
 
 ### 4.4 Physical 
-...
+
+![Deployment diagram](PhysicalViews.png)
+
+The mission control software does not require a complex physical system. The application can run on a standalone machine, requiring no communication with other physical servers for basic operation.
+
+#### Local Machine
+The local machine is a standard laptop equipped with a keyboard and trackpad, capable of running the mission control software. It can run on battery power in the field and has a display capable of accomodating the user interface of the application comfortably. 
+
+#### Internet Connection
+Internet access is required in the planning state but is not required for the pre-launch and launched states.
+
+#### USB Serial Connection
+Data is recieved from the rocket over a USB serial connection during the pre-launch and launched states. This is not required in the planning state. 
+
 
 ### 4.5 Scenarios
 ...
