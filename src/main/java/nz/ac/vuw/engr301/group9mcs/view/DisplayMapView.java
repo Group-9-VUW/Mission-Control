@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,24 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 
 public class DisplayMapView extends JPanel {
-
+  
+  /**
+   * The Longitude of where the launch site is.
+   */
+  private double longLaunchSite;
+  /**
+   * The Latitude of where the launch site is.
+   */
+  private double latLaunchSite;
+  /**
+   * The longitude of where the rocket is.
+   */
+  private double longRocket;
+  /**
+   * The Latitude of where the rocket is.
+   */
+  private double latRocket;
+  
   /**
    * UID.
    */
@@ -33,8 +51,17 @@ public class DisplayMapView extends JPanel {
 
   /**
    * Set up JPanel for Displaying Map of Rocket's Progress.
+   * @param latLaunchSite The Latitude of where the launch site is
+   * @param longLaunchSite The Longitude of where the launch site is
    */
-  public DisplayMapView() {
+  public DisplayMapView(double latLaunchSite, double longLaunchSite) {
+    this.longLaunchSite = longLaunchSite;
+    this.longRocket = longLaunchSite;
+    this.latLaunchSite = latLaunchSite;
+    this.latRocket = latLaunchSite;
+  }
+  
+  private void addMenu() {
     JMenuBar menu = new JMenuBar();
     JMenu group9 = new JMenu("Group9"); //$NON-NLS-1$
     JMenuItem exit = new JMenuItem("Quit Group9"); //$NON-NLS-1$
@@ -54,7 +81,20 @@ public class DisplayMapView extends JPanel {
     if (g == null) {
       return;
     }
-    g.drawRect(0, 0, 100, 100);
+    g.fillRect(0, 0, (int)this.longLaunchSite, (int)this.latLaunchSite);
+    g.setColor(Color.white);
+    g.drawRect(0, 0, (int)this.longRocket, (int)this.latRocket);
+  }
+  
+  /**
+   * Update the location of the rocket.
+   * 
+   * @param longR Longitude of the rocket's location
+   * @param latR Latitude of the rocket's location
+   */
+  public void updateRocketPosition(double longR, double latR) {
+    this.longRocket = longR;
+    this.latRocket = latR;
   }
   
 }
