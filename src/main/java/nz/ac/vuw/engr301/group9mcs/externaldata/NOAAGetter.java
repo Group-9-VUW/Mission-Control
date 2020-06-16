@@ -3,6 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
@@ -45,7 +46,7 @@ public class NOAAGetter {
 	 * @param longitude - longitude of the location
 	 * @return a JSONObject with the current weather 
 	 */
-	public JSONObject getCurrentWeather(double latitude, double longitude) {
+	public JSONObject getWeatherData(double latitude, double longitude) {
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -104,11 +105,32 @@ public class NOAAGetter {
 	public void setAppId(String token) {
 		this.appid = token;
 	}
+	
+	/**
+	 * Checks if the user can succesfully connect to the OpenWeatherMap API. 
+	 * @return true if the user can connect to the API, false otherwise.  
+	 */
+	public static boolean isAvailable() {
+		try {
+	         URL url = new URL("http://openweathermap.org/");
+	         URLConnection connection = url.openConnection();
+	         connection.connect();
+	      } catch (MalformedURLException e) {
+	         return false; 
+	      } catch (IOException e) {
+	         return false; 
+	      }
+		return true;	
+	}
 
 
 	public static void main(String[] args) {
+		System.out.println("Connection to OWM: " + (NOAAGetter.isAvailable() == true ? "Successful" : "Failed"));
+		System.out.println();
+		
 		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		getter.getCurrentWeather(-41.289224, 174.768352);
+		getter.getWeatherData(-41.289224, 174.768352);
+		
 	}
 	
 }
