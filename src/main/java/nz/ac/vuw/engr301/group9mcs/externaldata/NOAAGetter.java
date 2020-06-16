@@ -52,8 +52,9 @@ public class NOAAGetter {
 	 */
 	public JSONObject getCurrentWeather() {
 		try {
+			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
-					+ "lat=" + latitude + "&lon=" + longitude + "&units=metric&exclude=daily,hourly,minutely&appid=" + appid;
+					+ "lat=" + latitude + "&lon=" + longitude + "&units=" + units + "&exclude=daily,hourly,minutely&appid=" + appid;
 			
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
@@ -61,21 +62,27 @@ public class NOAAGetter {
 			
 			JSONObject weatherJSON = new JSONObject(reader.readLine());
 			
-			// The units for the wind speed returned by the API is in meters per second. 
-			// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind 
-			// in New Zealand. 
 			JSONObject currentData =  (JSONObject) weatherJSON.get("current");
+			JSONObject rainData = (JSONObject) currentData.get("rain");
 			
+			double temperature = currentData.getDouble("temp");
 			
-			double windSpeed = (((double) currentData.get("wind_speed") * 60) * 60) / 1000;
+			// The units for the wind speed returned by the API is in meters per second. 
+			// So we need to convert it to kilometers per hour as that is the standard 
+			// unit of measurement for wind in New Zealand. 
+			double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
 			
+			double pressure = currentData.getDouble("pressure");
+			
+			// Amount of Rainfall in the last hour
+			double precipitation = rainData.getDouble("1h");
 			
 			System.out.println(weatherJSON.toString());
+			System.out.println("Temperature: " + temperature + "°C");
 			System.out.println("Wind Speed: " + windSpeed + "km/h");
+			System.out.println("Atmospheric Pressure (at sea level): " + pressure + "hPa");
+			System.out.println("Precipitation (last hour): " + precipitation + "mm");
 			reader.close();
-			
-
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
