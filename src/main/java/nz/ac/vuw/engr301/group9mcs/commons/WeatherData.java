@@ -4,9 +4,21 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  * Holds one instance of Weather Data. 
  */
 public class WeatherData {
+	/**
+	 * The temperature reading in celsius. 
+	 */
 	private final double temperature; 
+	/**
+	 * The wind speed reading in km/h
+	 */
 	private final double windSpeed; 
+	/**
+	 * The atmospheric pressure in hPA
+	 */
 	private final double pressure; 
+	/**
+	 * The precipitation in mm
+	 */
 	private final double precipitation; 
 	
 	public WeatherData(double temperature, double windSpeed, double pressure, double precipitation) {
