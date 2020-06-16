@@ -13,8 +13,6 @@ import org.json.JSONObject;
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it. 
  * The weather data is returned in the JSON format. 
  * The JSON will be parsed and the info will be pushed to all other packages that need it. 
- * @author Sai
- * 
  */
 public class NOAAGetter {
 	/*
@@ -34,9 +32,17 @@ public class NOAAGetter {
 	}
 	
 	/**
+	 * Constructor for when the user supplies their API token
+	 * @param token the token the user has supplied. 
+	 */
+	public NOAAGetter(String appid) {
+		this.appid = appid;
+	}
+	
+	/**
 	 * Gets the current weather at the supplied latitude and longitude
-	 * @param latitude of the launch site
-	 * @param longitude of the launch site
+	 * @param latitude - latitude of the location
+	 * @param longitude - longitude of the location
 	 * @return a JSONObject with the current weather 
 	 */
 	public JSONObject getCurrentWeather(double latitude, double longitude) {
@@ -51,8 +57,6 @@ public class NOAAGetter {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			
 			JSONObject weatherJSON = new JSONObject(reader.readLine());
-			
-			System.out.println(weatherJSON);
 			
 			JSONObject currentData = weatherJSON.getJSONObject("current");
 			
@@ -85,14 +89,7 @@ public class NOAAGetter {
 		}
 		return null;
 	}
-	
-	/**
-	 * Constructor for when the user supplies their API token
-	 * @param token the token the user has supplied. 
-	 */
-	public NOAAGetter(String appid) {
-		this.appid = appid;
-	}
+
 	
 	/**
 	 * @return the appid
@@ -100,13 +97,13 @@ public class NOAAGetter {
 	public String getAppId() {
 		return appid;
 	}
+	
 	/**
 	 * @param appid the appid to set
 	 */
 	public void setAppId(String token) {
 		this.appid = token;
 	}
-
 
 
 	public static void main(String[] args) {
