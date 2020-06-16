@@ -43,4 +43,10 @@ public class WeatherData {
 	public double getPrecipitation() {
 		return precipitation;
 	}
+	
+	@Override
+	public String toString() {
+		return "Temperature: " + temperature + "°C \n" + "Wind Speed: " + windSpeed + "km/h \n" 
+		+ "Atmospheric Pressure (at sea level): " + pressure + "hPa \n" + "Precipitation (last hour): " + precipitation + "mm";			
+	}
 }

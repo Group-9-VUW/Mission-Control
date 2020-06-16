@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import org.json.JSONObject;
 
+import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
+
 /**
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it. 
  * The weather data is returned in the JSON format. 
@@ -44,9 +46,9 @@ public class NOAAGetter {
 	 * Gets the current weather at the supplied latitude and longitude
 	 * @param latitude - latitude of the location
 	 * @param longitude - longitude of the location
-	 * @return a JSONObject with the current weather 
+	 * @return WeatherData with the data returned by the API call
 	 */
-	public JSONObject getWeatherData(double latitude, double longitude) {
+	public WeatherData getWeatherData(double latitude, double longitude) {
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -76,14 +78,9 @@ public class NOAAGetter {
 			// Amount of Rainfall in the last hour
 			double precipitation = rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
 			
-			System.out.println(weatherJSON.toString());
-			System.out.println("Temperature: " + temperature + "°C");
-			System.out.println("Wind Speed: " + windSpeed + "km/h");
-			System.out.println("Atmospheric Pressure (at sea level): " + pressure + "hPa");
-			System.out.println("Precipitation (last hour): " + precipitation + "mm");
 			reader.close();
 			
-			return weatherJSON;
+			return new WeatherData(temperature, windSpeed, pressure, precipitation);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,7 +126,7 @@ public class NOAAGetter {
 		System.out.println();
 		
 		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		getter.getWeatherData(-41.289224, 174.768352);
+		System.out.println(getter.getWeatherData(-41.289224, 174.768352));
 		
 	}
 	
