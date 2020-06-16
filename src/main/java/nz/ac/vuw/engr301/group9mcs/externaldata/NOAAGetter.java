@@ -2,18 +2,11 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;import java.math.RoundingMode;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 /**
@@ -25,17 +18,14 @@ import org.json.JSONObject;
  */
 public class NOAAGetter {
 	/*
-	 * The token for the NOAA API. The user will supply their own token that will be used. 
-	 */
-	//private String token = "RmODwrZcMuHzlQlnhhzwVeQplsefwlVD";
-	//private String cityID = "CITY:NZ000007"; // "CITY:NZ000007" is the cityID for wellington (NOAA API)
-	
-	/*
-	 * The token for the OpenWeatherMap API. The user will supply their own token that will be used. 
+	 * The appid for the OpenWeatherMap API. The user will supply their own token that will be used. 
 	 */
 	private String appid = "ead647e24776f26ed6f63af5f1bbf68c";
 	
-	
+	/**
+	 * Latitude and longitude of the launch site
+	 * (Set to default to Kelburn Campus for now)
+	 */
 	private double latitude = -41.289224; 
 	private double longitude = 174.768352;
 
@@ -47,6 +37,7 @@ public class NOAAGetter {
 		System.out.println("Enter your appid for OpenWeatherMap:");
 		Scanner scan = new Scanner(System.in);
 		this.appid = scan.next();
+		scan.close();
 	}
 	
 	/**
@@ -88,6 +79,8 @@ public class NOAAGetter {
 			System.out.println("Atmospheric Pressure (at sea level): " + pressure + "hPa");
 			System.out.println("Precipitation (last hour): " + precipitation + "mm");
 			reader.close();
+			
+			return weatherJSON;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
