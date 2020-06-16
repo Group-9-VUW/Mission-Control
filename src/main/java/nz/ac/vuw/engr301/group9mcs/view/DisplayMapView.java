@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -84,9 +85,11 @@ public class DisplayMapView extends JPanel {
       return;
     }
     
+    // Launch coordinates in an x,y format
     int xlaunch = 100;
     int ylaunch = 100;
     
+    // Rocket coordinates in an x,y format
     int xrocket;
     int yrocket;
     
@@ -118,6 +121,38 @@ public class DisplayMapView extends JPanel {
   public void updateRocketPosition(double longR, double latR) {
     this.longRocket = longR;
     this.latRocket = latR;
+  }
+  
+  /**
+   * Convert the coordinates from Longitude and Latitude to x, y coordinates.
+   * NOTE: this method gives you X and Y positions related to the globe
+   * 
+   * @param lon Longitude of Object
+   * @param lat Latitude of Object
+   * @param alt Altitude of Object
+   * @return An object holding the x and y coordinates of the Object
+   */
+  private static Point2D coordinateToXY(double lon, double lat, double alt) {
+    double radiusMajor = 6378137;
+    double radiusMinor = 6356752.31424518;
+
+    double latrad = lat / 180.0 * Math.PI;
+    double lonrad = lon / 180.0 * Math.PI;
+
+    double coslat = Math.cos(latrad);
+    double sinlat = Math.sin(latrad);
+    double coslon = Math.cos(lonrad);
+    double sinlon = Math.sin(lonrad);
+
+    double term1 = (radiusMajor * radiusMajor * coslat) / Math.sqrt(radiusMajor 
+        * radiusMajor * coslat * coslat + radiusMinor * radiusMinor * sinlat * sinlat);
+
+    double term2 = alt * coslat + term1;
+
+    double x = coslon * term2;
+    double y = sinlon * term2;
+    
+    return new Point2D.Double(x, y);
   }
   
 }
