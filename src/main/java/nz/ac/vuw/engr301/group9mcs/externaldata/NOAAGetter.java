@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,7 +17,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 /**
- * This class connects to the NOAA (National Oceanic and Atmospheric Administration) API and retrieves weather data from it. 
+ * This class connects to the OpenWeatherMap one call API and retrieves weather data from it. 
  * The weather data is returned in the JSON format. 
  * The JSON will be parsed and the info will be pushed to all other packages that need it. 
  * @author Sai
@@ -43,7 +44,9 @@ public class NOAAGetter {
 	 * Default constuctor for testing.
 	 */
 	public NOAAGetter() {
-		getCurrentWeather();
+		System.out.println("Enter your appid for OpenWeatherMap:");
+		Scanner scan = new Scanner(System.in);
+		this.appid = scan.next();
 	}
 	
 	/**
@@ -62,8 +65,10 @@ public class NOAAGetter {
 			
 			JSONObject weatherJSON = new JSONObject(reader.readLine());
 			
-			JSONObject currentData =  (JSONObject) weatherJSON.get("current");
-			JSONObject rainData = (JSONObject) currentData.get("rain");
+			JSONObject currentData = weatherJSON.getJSONObject("current");
+			
+			JSONObject rainData =  currentData.getJSONObject("rain");
+			
 			
 			double temperature = currentData.getDouble("temp");
 			
@@ -99,15 +104,15 @@ public class NOAAGetter {
 	}
 	
 	/**
-	 * @return the token
+	 * @return the appid
 	 */
-	public String getToken() {
+	public String getAppId() {
 		return appid;
 	}
 	/**
-	 * @param token the token to set
+	 * @param appid the appid to set
 	 */
-	public void setToken(String token) {
+	public void setAppId(String token) {
 		this.appid = token;
 	}
 
@@ -144,7 +149,9 @@ public class NOAAGetter {
 	}
 	
 	public static void main(String[] args) {
-		new NOAAGetter();
+		NOAAGetter getter = new NOAAGetter();
+		getter.setAppId("ead647e24776f26ed6f63af5f1bbf68c");
+		getter.getCurrentWeather();
 	}
 	
 }
