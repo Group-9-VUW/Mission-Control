@@ -52,6 +52,7 @@ public class NOAAGetter {
 			
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
+			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			
 			JSONObject weatherJSON = new JSONObject(reader.readLine());
@@ -143,7 +144,6 @@ public class NOAAGetter {
 	
 	public static void main(String[] args) {
 		NOAAGetter getter = new NOAAGetter();
-		getter.setAppId("ead647e24776f26ed6f63af5f1bbf68c");
 		getter.getCurrentWeather();
 	}
 	
