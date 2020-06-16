@@ -22,13 +22,6 @@ public class NOAAGetter {
 	 */
 	private String appid = "ead647e24776f26ed6f63af5f1bbf68c";
 	
-	/**
-	 * Latitude and longitude of the launch site
-	 * (Set to default to Kelburn Campus for now)
-	 */
-	private double latitude = -41.289224; 
-	private double longitude = 174.768352;
-
 	
 	/**
 	 * Default constuctor for testing.
@@ -41,10 +34,12 @@ public class NOAAGetter {
 	}
 	
 	/**
-	 * Gets the current weather data. 
-	 * @return a JSONObject containing the current weather data. 
+	 * Gets the current weather at the supplied latitude and longitude
+	 * @param latitude of the launch site
+	 * @param longitude of the launch site
+	 * @return a JSONObject with the current weather 
 	 */
-	public JSONObject getCurrentWeather() {
+	public JSONObject getCurrentWeather(double latitude, double longitude) {
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -56,6 +51,8 @@ public class NOAAGetter {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			
 			JSONObject weatherJSON = new JSONObject(reader.readLine());
+			
+			System.out.println(weatherJSON);
 			
 			JSONObject currentData = weatherJSON.getJSONObject("current");
 			
@@ -72,7 +69,7 @@ public class NOAAGetter {
 			double pressure = currentData.getDouble("pressure");
 			
 			// Amount of Rainfall in the last hour
-			double precipitation = rainData.getDouble("1h");
+			double precipitation = rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
 			
 			System.out.println(weatherJSON.toString());
 			System.out.println("Temperature: " + temperature + "°C");
@@ -93,8 +90,8 @@ public class NOAAGetter {
 	 * Constructor for when the user supplies their API token
 	 * @param token the token the user has supplied. 
 	 */
-	public NOAAGetter(String token) {
-		this.appid = token;
+	public NOAAGetter(String appid) {
+		this.appid = appid;
 	}
 	
 	/**
@@ -111,40 +108,10 @@ public class NOAAGetter {
 	}
 
 
-	/**
-	 * @return the latitude
-	 */
-	public double getLatitude() {
-		return latitude;
-	}
 
-
-	/**
-	 * @param latitude the latitude to set
-	 */
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-
-	/**
-	 * @return the longitude
-	 */
-	public double getLongitude() {
-		return longitude;
-	}
-
-
-	/**
-	 * @param longitude the longitude to set
-	 */
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-	
 	public static void main(String[] args) {
-		NOAAGetter getter = new NOAAGetter();
-		getter.getCurrentWeather();
+		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
+		getter.getCurrentWeather(-41.289224, 174.768352);
 	}
 	
 }
