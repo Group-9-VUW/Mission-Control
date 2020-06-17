@@ -25,7 +25,7 @@ public class CachedMapData /*TODO implements MapData*/ {
    */
   private Image img = new BufferedImage(0, 0, 0); 
 
-  //public CachedMapData() {} TODO maybe implement this
+  //public CachedMapData() {} TODO maybe implement this to automatically load a file
 
   /**
    * Creates a new CachedMapData given an InternetMapData instance and relevant image parameters.
@@ -105,15 +105,51 @@ public class CachedMapData /*TODO implements MapData*/ {
     return this.file;
   }
 
-  //TODO maybe add a default constructor that loads a "default" file name, 
-  //if a file with that name exists at the expected location
-
-
+  @Override
+  public int hashCode() {
+    //TODO override the hashCode method
+    return super.hashCode();
+  }
+  
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    //check if obj is an instance of CachedMapData
+    if (obj == null) {
+      return false;
+    } else if (!(obj instanceof CachedMapData)) {
+      return false;
+    }
+    
+    CachedMapData cmd = (CachedMapData) obj;
+    //compare this and cmd's files
+    if (!cmd.file.getName().equals(this.file.getName())) {
+      return false;
+    } 
+    //compare this and cmd's images
+    if (cmd.img.getHeight(null) != this.img.getHeight(null)) {
+      return false;
+    } else if (cmd.img.getWidth(null) != this.img.getWidth(null)) {
+      return false;
+    }
+    //TODO compare every pixel?
+    //this.img and cmd.img must be BufferedImages to do this
+    /*for (int y = 0; y < this.img.getHeight(null); y++) {
+      for (int x = 0; x < this.img.getWidth(null); x++) {
+        if (this image rgb != other image rgb) {
+          return false;
+        }
+      }
+    }*/
+    
+    //TODO use hashcode?
+    return true;
+  }
+  
   //TODO create a hashCode method and an equals method. It is VITAL that:
 
   // CachedMapData data1 = new CachedMapData(data, long, lat, radius);
   // CachedMapData data2 = new CachedMapData(data1.getFile());
-  // assert data1.hashCode().equals(data2.hashCode());
+  // assert data1.hashCode() == data2.hashCode();
   // assert data1.equals(data2);
 
   //or similar for whatever constructors are used is valid
