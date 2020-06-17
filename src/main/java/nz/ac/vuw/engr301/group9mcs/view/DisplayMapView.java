@@ -50,6 +50,11 @@ public class DisplayMapView extends JPanel {
    */
   private double altRocket;
   
+
+  /**
+   * The space between a point and the edge (any point).
+   */
+  private int zoom = 100;
   /**
    * UID.
    */
@@ -78,29 +83,19 @@ public class DisplayMapView extends JPanel {
     Point2D rocketCoordinates = coordinateToXY(this.longRocket, 
         this.latRocket, this.altRocket);
     
-    // Launch coordinates in an x,y format
-    int xlaunch;
-    int ylaunch;
+    double max = Math.max(launchCoordinates.getX(), rocketCoordinates.getX());
+    double min = Math.min(launchCoordinates.getX(), rocketCoordinates.getX());
+    int xlaunch = (int)(translateScale(launchCoordinates.getX(), max, min, 
+        this.getMinimumSize().getWidth() - this.zoom)) + this.zoom / 2;
+    int xrocket = (int)(translateScale(rocketCoordinates.getX(), max, min, 
+        this.getMinimumSize().getWidth() - this.zoom)) + this.zoom / 2;
     
-    // Rocket coordinates in an x,y format
-    int xrocket;
-    int yrocket;
-    
-    if (launchCoordinates.getX() > rocketCoordinates.getX()) {
-      xrocket = 100;
-      xlaunch = 100 + (int)(launchCoordinates.getX() - rocketCoordinates.getX());
-    } else {
-      xlaunch = 100;
-      xrocket = 100 + (int)(rocketCoordinates.getX() - launchCoordinates.getX());
-    }
-    
-    if (launchCoordinates.getY() > rocketCoordinates.getY()) {
-      yrocket = 100;
-      ylaunch = 100 + (int)(launchCoordinates.getY() - rocketCoordinates.getY());
-    } else {
-      ylaunch = 100;
-      yrocket = 100 + (int)(rocketCoordinates.getY() - launchCoordinates.getY());
-    }
+    max = Math.max(launchCoordinates.getY(), rocketCoordinates.getY());
+    min = Math.min(launchCoordinates.getY(), rocketCoordinates.getY());
+    int ylaunch = (int)(translateScale(launchCoordinates.getY(), max, min, 
+        this.getMinimumSize().getHeight() - this.zoom)) + this.zoom / 2;
+    int yrocket = (int)(translateScale(rocketCoordinates.getY(), max, min, 
+        this.getMinimumSize().getHeight() - this.zoom)) + this.zoom / 2;
     
     g.fillRect(0, 0, xlaunch, ylaunch);
     g.setColor(Color.white);
