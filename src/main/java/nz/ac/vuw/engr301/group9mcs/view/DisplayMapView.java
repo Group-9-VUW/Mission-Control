@@ -2,12 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -39,6 +34,10 @@ public class DisplayMapView extends JPanel {
    */
   private double latLaunchSite;
   /**
+   * The Altitude of where the launch site is.
+   */
+  private double altLaunchSite;
+  /**
    * The longitude of where the rocket is.
    */
   private double longRocket;
@@ -46,6 +45,10 @@ public class DisplayMapView extends JPanel {
    * The Latitude of where the rocket is.
    */
   private double latRocket;
+  /**
+   * The Altitude of where the rocket is.
+   */
+  private double altRocket;
   
   /**
    * UID.
@@ -64,47 +67,39 @@ public class DisplayMapView extends JPanel {
     this.latRocket = latLaunchSite;
   }
   
-  private void addMenu() {
-    JMenuBar menu = new JMenuBar();
-    JMenu group9 = new JMenu("Group9"); //$NON-NLS-1$
-    JMenuItem exit = new JMenuItem("Quit Group9"); //$NON-NLS-1$
-    exit.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(@Nullable ActionEvent e) {
-        System.exit(0);
-      }
-    });
-    group9.add(exit);
-    menu.add(group9);
-    this.add(menu);
-  }
-  
   @Override
   public void paintComponent(@Nullable Graphics g) {
     if (g == null) {
       return;
     }
     
+    Point2D launchCoordinates = coordinateToXY(this.longLaunchSite, 
+        this.latLaunchSite, this.altLaunchSite);
+    Point2D rocketCoordinates = coordinateToXY(this.longRocket, 
+        this.latRocket, this.altRocket);
+    
     // Launch coordinates in an x,y format
-    int xlaunch = 100;
-    int ylaunch = 100;
+    int xlaunch;
+    int ylaunch;
     
     // Rocket coordinates in an x,y format
     int xrocket;
     int yrocket;
     
-    if (this.longLaunchSite > this.longRocket) {
+    if (launchCoordinates.getX() > rocketCoordinates.getX()) {
       xrocket = 100;
-      xlaunch = 100 + (int)(this.longLaunchSite - this.longRocket);
+      xlaunch = 100 + (int)(launchCoordinates.getX() - rocketCoordinates.getX());
     } else {
-      xrocket = 100 + (int)(this.longRocket - this.longLaunchSite);
+      xlaunch = 100;
+      xrocket = 100 + (int)(rocketCoordinates.getX() - launchCoordinates.getX());
     }
     
-    if (this.latLaunchSite > this.latRocket) {
+    if (launchCoordinates.getY() > rocketCoordinates.getY()) {
       yrocket = 100;
-      ylaunch = 100 + (int)(this.latLaunchSite - this.latRocket);
+      ylaunch = 100 + (int)(launchCoordinates.getY() - rocketCoordinates.getY());
     } else {
-      yrocket = 100 + (int)(this.latRocket - this.latLaunchSite);
+      ylaunch = 100;
+      yrocket = 100 + (int)(rocketCoordinates.getY() - launchCoordinates.getY());
     }
     
     g.fillRect(0, 0, xlaunch, ylaunch);
