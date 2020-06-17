@@ -20,8 +20,8 @@ public class CachedMapData /*TODO implements MapData*/ {
    */
   private final File file;
   /**
-   * Holds this CachedMapData's image. Initialises as a zero-width, 
-   * zero-height black BufferedImage to avoid null errors.
+   * Holds this CachedMapData's image. Initialises as a one-width, 
+   * one-height black BufferedImage to avoid null errors.
    */
   private BufferedImage img = new BufferedImage(1, 1, 1); 
 
