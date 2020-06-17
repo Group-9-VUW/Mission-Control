@@ -18,12 +18,12 @@ We will set a probability threshold at a value that will be decided in the futur
 to our predefined threshold, then the rocket will be given the "no go", signifying that the chance of failure is too high.  
 
 #### Number of Simultaneous users
-Each program will support one user. However, our system will support multiple instances running simultaneously. 
+Our program can have infinitely many users. However, each computer can only support one instance at a time and that instance can only support one rocket at a time. 
 
 #### Amount and Type of Information to be handled 
 The system should be able to handle as much information as the USB serial can send at its optimal performance. 
 If the serial can transmit a high amount of data that we cannot cater to due to our technical
-limitations, then we will aim to get as close as possible.
+limitations, then we will aim to get as close to this as possible.
 
 As for the type of information to be handled, our system will be data agnostic meaning that it can
 parse and output any of the three major data file formats which are:
