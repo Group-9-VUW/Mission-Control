@@ -49,9 +49,9 @@ public class NOAAGetter {
 	
 	/**
 	 * Gets the current weather at the supplied latitude and longitude.
-	 * @param latitude - latitude of the location
-	 * @param longitude - longitude of the location
-	 * @return WeatherData with the data returned by the API call
+	 * @param latitude - latitude of the location.
+	 * @param longitude - longitude of the location.
+	 * @return WeatherData with the data returned by the API call.
 	 */
 	public WeatherData getWeatherData(double latitude, double longitude) {
 		try {
