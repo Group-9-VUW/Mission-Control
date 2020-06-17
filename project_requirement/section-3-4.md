@@ -39,7 +39,7 @@ cache map information of a 2km radius of the launch site. That way, map data at 
 the need for an internet connection. 
 
 #### Minimum Map Precision 
-Our software should have a minimum precision of 3 metres on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 meters of it.)
+Our software should have a minimum precision of 3 metres on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 metres of it.)
 
 #### Maximum GUI response time
 The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement. 
