@@ -32,33 +32,33 @@ public class WeatherData {
 	 * @return the temperature
 	 */
 	public double getTemperature() {
-		return temperature;
+		return this.temperature;
 	}
 
 	/**
 	 * @return the windSpeed
 	 */
 	public double getWindSpeed() {
-		return windSpeed;
+		return this.windSpeed;
 	}
 
 	/**
 	 * @return the pressure
 	 */
 	public double getPressure() {
-		return pressure;
+		return this.pressure;
 	}
 
 	/**
 	 * @return the precipitation
 	 */
 	public double getPrecipitation() {
-		return precipitation;
+		return this.precipitation;
 	}
 	
 	@Override
 	public String toString() {
-		return "Temperature: " + temperature + "°C \n" + "Wind Speed: " + windSpeed + "km/h \n" 
-		+ "Atmospheric Pressure (at sea level): " + pressure + "hPa \n" + "Precipitation (last hour): " + precipitation + "mm";			
+		return "Temperature: " + this.temperature + "°C \n" + "Wind Speed: " + this.windSpeed + "km/h \n" 
+		+ "Atmospheric Pressure (at sea level): " + this.pressure + "hPa \n" + "Precipitation (last hour): " + this.precipitation + "mm";			
 	}
 }

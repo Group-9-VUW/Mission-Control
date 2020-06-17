@@ -29,9 +29,11 @@ public class NOAAGetter {
 	 */
 	public NOAAGetter() {
 		System.out.println("Enter your appid for OpenWeatherMap:");
-		Scanner scan = new Scanner(System.in);
-		this.appid = scan.next();
-		scan.close();
+		// Eclipse shows warning saying try-with-resource should be used
+		try (Scanner scan = new Scanner(System.in);) {
+			this.appid = scan.next();
+			scan.close();
+		}
 	}
 	
 	/**
@@ -52,7 +54,7 @@ public class NOAAGetter {
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
-					+ "lat=" + latitude + "&lon=" + longitude + "&units=" + units + "&exclude=daily,hourly,minutely&appid=" + appid;
+					+ "lat=" + latitude + "&lon=" + longitude + "&units=" + units + "&exclude=daily,hourly,minutely&appid=" + this.appid;
 			
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
@@ -93,7 +95,7 @@ public class NOAAGetter {
 	 * @return the appid
 	 */
 	public String getAppId() {
-		return appid;
+		return this.appid;
 	}
 	
 	/**
