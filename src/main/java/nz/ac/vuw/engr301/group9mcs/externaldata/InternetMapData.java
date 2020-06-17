@@ -20,9 +20,6 @@ public class InternetMapData {
    * @return
    */
   public Image get(double latitude, double longitude, double zoom) {
-    if (latitude > 0 && longitude > 0 && zoom > 0) {
-      return new BufferedImage(0, 0, 0);
-    }
-    return new BufferedImage(0, 0, 0);
+    return new BufferedImage(1, 1, 1);
   }
 }
