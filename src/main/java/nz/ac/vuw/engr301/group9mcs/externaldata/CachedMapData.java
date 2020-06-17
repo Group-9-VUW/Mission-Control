@@ -23,7 +23,7 @@ public class CachedMapData /*TODO implements MapData*/ {
    * Holds this CachedMapData's image. Initialises as a zero-width, 
    * zero-height black BufferedImage to avoid null errors.
    */
-  private BufferedImage img = new BufferedImage(0, 0, 0); 
+  private BufferedImage img = new BufferedImage(1, 1, 1); 
 
   //public CachedMapData() {} TODO maybe implement this to automatically load a file
 
@@ -39,7 +39,7 @@ public class CachedMapData /*TODO implements MapData*/ {
     this.img = (BufferedImage) data.get(lat, lon, radius);
 
     //TODO change this pathname
-    this.file = new File("maps/" + lat + "-" + lon + "-" + radius + ".png"); 
+    this.file = new File(lat + "-" + lon + "-" + radius + ".png"); 
     saveMapToFile();
   }
 
@@ -63,9 +63,11 @@ public class CachedMapData /*TODO implements MapData*/ {
       //TODO deal with errors
       System.err.println("The map image obtained cannot be cast to a RenderedImage.");
       e.printStackTrace();
+      System.exit(-1);
     } catch (IOException e) {
       System.err.println("The map image could not be saved to " + this.file.getName());
       e.printStackTrace();
+      System.exit(-1);
     }
   }
 
@@ -83,9 +85,11 @@ public class CachedMapData /*TODO implements MapData*/ {
       //TODO deal with errors
       System.err.println("The file: " + this.file.getName() + " could not be found or loaded.");
       e.printStackTrace();
+      System.exit(-1);
     } catch (NullPointerException e) {
       System.err.println("The image in the file: " + this.file.getName() + " could not be read.");
       e.printStackTrace();
+      System.exit(-1);
     }
   }
 
@@ -107,49 +111,36 @@ public class CachedMapData /*TODO implements MapData*/ {
 
   @Override
   public int hashCode() {
-    //TODO override the hashCode method
-    return super.hashCode();
+    int x = this.img.getWidth() / 2;
+    int y = this.img.getHeight() / 2;
+    return this.img.getRGB(x, y);
   }
   
   @Override
   public boolean equals(@Nullable Object obj) {
     //check if obj is an instance of CachedMapData
-    if (obj == null) {
-      return false;
-    } else if (!(obj instanceof CachedMapData)) {
+    if (obj == null || !(obj instanceof CachedMapData)) {
       return false;
     }
-    
     CachedMapData cmd = (CachedMapData) obj;
     //compare this and cmd's files
     if (!cmd.file.getName().equals(this.file.getName())) {
       return false;
     } 
     //compare this and cmd's images
-    if (cmd.img.getHeight(null) != this.img.getHeight(null)) {
+    if (cmd.img.getHeight() != this.img.getHeight()) {
       return false;
-    } else if (cmd.img.getWidth(null) != this.img.getWidth(null)) {
+    } else if (cmd.img.getWidth() != this.img.getWidth()) {
       return false;
     }
     //compare every pixel
-    for (int y = 0; y < this.img.getHeight(null); y++) {
-      for (int x = 0; x < this.img.getWidth(null); x++) {
+    for (int y = 0; y < this.img.getHeight(); y++) {
+      for (int x = 0; x < this.img.getWidth(); x++) {
         if (this.img.getRGB(x, y) != cmd.img.getRGB(x, y)) {
           return false;
         }
       }
     }
-    
-    //TODO use hashcode?
     return true;
   }
-  
-  //TODO create a hashCode method and an equals method. It is VITAL that:
-
-  // CachedMapData data1 = new CachedMapData(data, long, lat, radius);
-  // CachedMapData data2 = new CachedMapData(data1.getFile());
-  // assert data1.hashCode() == data2.hashCode();
-  // assert data1.equals(data2);
-
-  //or similar for whatever constructors are used is valid
 }
