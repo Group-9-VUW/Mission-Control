@@ -30,14 +30,20 @@ public class CachedMapData /*TODO implements MapData*/ {
   /**
    * Creates a new CachedMapData given an InternetMapData instance and relevant image parameters.
    * @param data The instance of InternetMapData to get the image from.
-   * @param lat The latitude of the centre of the image to get.
-   * @param lon The longitude of the centre of the image to get.
-   * @param radius The radius of the image to get.
+   * @param topLeftLat The latitude of the top left of the image to get.
+   * @param topLeftLong The longitude of the top left of the image to get.
+   * @param bottomRightLat The latitude of the bottom right of the image to get.
+   * @param bottomRightLong The longitude of the bottom right of the image to get.
    */
-  public CachedMapData(InternetMapData data, double lat, double lon, double radius) {
+  public CachedMapData(InternetMapData data, double topLeftLat, double topLeftLong, 
+      double bottomRightLat, double bottomRightLong) {
+    double centreLat = (topLeftLat + bottomRightLat) / 2;
+    double centreLong = (topLeftLong + bottomRightLong) / 2;
+    //TODO calculate zoom level
+    double zoom = 15;
     //TODO ensure this returns a BufferedImage no matter what
-    this.img = (BufferedImage) data.get(lat, lon, radius);
-    this.file = new File("src/main/resources/" + lat + "-" + lon + "-" + radius + ".png"); 
+    this.img = (BufferedImage) data.get(centreLat, centreLong, zoom); 
+    this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
   }
 
@@ -61,11 +67,9 @@ public class CachedMapData /*TODO implements MapData*/ {
       //TODO deal with errors
       System.err.println("The map image obtained cannot be cast to a RenderedImage.");
       e.printStackTrace();
-      System.exit(-1);
     } catch (IOException e) {
       System.err.println("The map image could not be saved to " + this.file.getName());
       e.printStackTrace();
-      System.exit(-1);
     }
   }
 
@@ -83,11 +87,9 @@ public class CachedMapData /*TODO implements MapData*/ {
       //TODO deal with errors
       System.err.println("The file: " + this.file.getName() + " could not be found or loaded.");
       e.printStackTrace();
-      System.exit(-1);
     } catch (NullPointerException e) {
       System.err.println("The image in the file: " + this.file.getName() + " could not be read.");
       e.printStackTrace();
-      System.exit(-1);
     }
   }
 
@@ -113,7 +115,7 @@ public class CachedMapData /*TODO implements MapData*/ {
     int y = this.img.getHeight() / 2;
     return this.img.getRGB(x, y);
   }
-  
+
   @Override
   public boolean equals(@Nullable Object obj) {
     //check if obj is an instance of CachedMapData
@@ -140,10 +142,5 @@ public class CachedMapData /*TODO implements MapData*/ {
       }
     }
     return true;
-  }
-  
-  @SuppressWarnings("unused")
-  public static void main(String[] args) {
-    new CachedMapData(new InternetMapData(), 0, 0, 0);
   }
 }
