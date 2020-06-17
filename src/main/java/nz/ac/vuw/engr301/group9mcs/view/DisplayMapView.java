@@ -119,6 +119,21 @@ public class DisplayMapView extends JPanel {
   }
   
   /**
+   * Translate and Scale a coordinate to fit on the Screen.
+   * Everything is translated so that the min value is at 0.
+   * Everything is scaled so that the max value is at the screen value.
+   * 
+   * @param coordinate X or Y position of an object
+   * @param max Largest value of range
+   * @param min Smallest value of range
+   * @param screen Size of screen to fit range to
+   * @return X or Y position inside new range
+   */
+  private double translateScale(double coordinate, double max, double min, double screen) {
+    return (coordinate - min) / ((max - min) / screen);
+  }
+  
+  /**
    * Convert the coordinates from Longitude and Latitude to x, y coordinates.
    * NOTE: this method gives you X and Y positions related to the globe
    * 
