@@ -3,6 +3,8 @@ package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -78,6 +80,8 @@ public class DisplayMapView extends JPanel {
       return;
     }
     
+    Point2D[] corners = getCorners();
+    
     Point2D launchCoordinates = coordinateToXY(this.longLaunchSite, 
         this.latLaunchSite, this.altLaunchSite);
     Point2D rocketCoordinates = coordinateToXY(this.longRocket, 
@@ -100,6 +104,61 @@ public class DisplayMapView extends JPanel {
     g.fillRect(0, 0, xlaunch, ylaunch);
     g.setColor(Color.white);
     g.drawRect(0, 0, xrocket, yrocket);
+  }
+  
+  /**
+   * Create four corners around the launch site and rocket location.
+   * NOTE: Latitude works opposite to x.
+   * 
+   * @return An array containing objects holding the coordinates for each corner
+   */
+  private Point2D[] getCorners() {
+    // Find max/min x/y of rocket and launch site
+    double maxX = Math.max(this.longLaunchSite, this.longRocket);
+    double minX = Math.min(this.longLaunchSite, this.longRocket);
+    double maxY = Math.max(this.latLaunchSite, this.latRocket);
+    double minY = Math.min(this.latLaunchSite, this.latRocket);
+    
+    // Convert to a square of points
+    Point2D bottomLeft = new Point2D.Double(minX, minY);
+    Point2D bottomRight = new Point2D.Double(maxX, minY);
+    Point2D topLeft = new Point2D.Double(minX, maxY);
+    Point2D topRight = new Point2D.Double(maxX, maxY);
+    
+    // Find the width and height of square
+    double distX = distance(bottomRight.getY(), bottomRight.getX(), 
+        bottomLeft.getY(), bottomLeft.getX());
+    double distY = distance(bottomRight.getY(), bottomRight.getX(), 
+        topRight.getY(), topRight.getX());
+    
+    // Make both lengths equal
+    if (distX > distY) {
+      // Get a point in the middle of the left side
+      Point2D midXLeft = getNewLocation(bottomLeft.getY(), bottomLeft.getX(), distY / 2, 0);
+      // Move the left points to make a side the same length as the top
+      topLeft = getNewLocation(midXLeft.getY(), midXLeft.getX(), distX / 2, 0);
+      bottomLeft = getNewLocation(midXLeft.getY(), midXLeft.getX(), distX / 2, 180);
+      // Get a point in the middle of the right side
+      Point2D midXRight = getNewLocation(bottomRight.getY(), bottomRight.getX(), distY / 2, 0);
+      // Move the right points to make a side the same length as the top
+      topRight = getNewLocation(midXRight.getY(), midXRight.getX(), distX / 2, 0);
+      bottomRight = getNewLocation(midXRight.getY(), midXRight.getX(), distX / 2, 180);
+    } else if (distY > distX) {
+      // Get a point in the middle of the bottom
+      Point2D midYBottom = getNewLocation(bottomLeft.getY(), bottomLeft.getX(), distX / 2, 90);
+      // Move the bottom points to make the bottom the same length as the side
+      bottomRight = getNewLocation(midYBottom.getY(), midYBottom.getX(), distX / 2, 90);
+      bottomLeft = getNewLocation(midYBottom.getY(), midYBottom.getX(), distX / 2, 270);
+      // Get a point in the middle of the top
+      Point2D midYTop = getNewLocation(bottomRight.getY(), bottomRight.getX(), distX / 2, 90);
+      // Move the top points to make the top the same length as the side
+      topRight = getNewLocation(midYTop.getY(), midYTop.getX(), distX / 2, 90);
+      topLeft = getNewLocation(midYTop.getY(), midYTop.getX(), distX / 2, 270);
+    }
+    
+    // Return all corners
+    Point2D[] corners = {topLeft, topRight, bottomLeft, bottomRight};
+    return corners;
   }
   
   /**
