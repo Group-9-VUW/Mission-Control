@@ -9,18 +9,24 @@ public class WeatherData {
 	 */
 	private final double temperature; 
 	/**
-	 * The wind speed reading in km/h
+	 * The wind speed reading in km/h.
 	 */
 	private final double windSpeed; 
 	/**
-	 * The atmospheric pressure in hPA
+	 * The atmospheric pressure in hPA.
 	 */
 	private final double pressure; 
 	/**
-	 * The precipitation in mm
+	 * The precipitation in mm.
 	 */
 	private final double precipitation; 
 	
+	/**
+	 * @param temperature - temperature reading in celsius. 
+	 * @param windSpeed - wind speed reading in km/h.
+	 * @param pressure - atmospheric pressure in hPA.
+	 * @param precipitation - precipitation in mm.
+	 */
 	public WeatherData(double temperature, double windSpeed, double pressure, double precipitation) {
 		this.temperature = temperature; 
 		this.windSpeed = windSpeed;
@@ -29,28 +35,28 @@ public class WeatherData {
 	}
 
 	/**
-	 * @return the temperature
+	 * @return the temperature.
 	 */
 	public double getTemperature() {
 		return this.temperature;
 	}
 
 	/**
-	 * @return the windSpeed
+	 * @return the windSpeed.
 	 */
 	public double getWindSpeed() {
 		return this.windSpeed;
 	}
 
 	/**
-	 * @return the pressure
+	 * @return the pressure.
 	 */
 	public double getPressure() {
 		return this.pressure;
 	}
 
 	/**
-	 * @return the precipitation
+	 * @return the precipitation.
 	 */
 	public double getPrecipitation() {
 		return this.precipitation;

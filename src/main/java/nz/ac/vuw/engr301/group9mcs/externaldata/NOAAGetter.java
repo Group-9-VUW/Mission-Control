@@ -40,7 +40,7 @@ public class NOAAGetter {
 	}
 	
 	/**
-	 * Constructor for when the user supplies their API token
+	 * Constructor for when the user supplies their API token.
 	 * @param token the token the user has supplied. 
 	 */
 	public NOAAGetter(String appid) {
@@ -48,7 +48,7 @@ public class NOAAGetter {
 	}
 	
 	/**
-	 * Gets the current weather at the supplied latitude and longitude
+	 * Gets the current weather at the supplied latitude and longitude.
 	 * @param latitude - latitude of the location
 	 * @param longitude - longitude of the location
 	 * @return WeatherData with the data returned by the API call
@@ -62,32 +62,31 @@ public class NOAAGetter {
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
 			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			try(BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));){
 			
-			JSONObject weatherJSON = new JSONObject(reader.readLine());
-			
-			JSONObject currentData = weatherJSON.getJSONObject("current");
-			
-			JSONObject rainData =  currentData.getJSONObject("rain");
-			
-			
-			double temperature = currentData.getDouble("temp");
-			
-			// The units for the wind speed returned by the API is in meters per second. 
-			// So we need to convert it to kilometers per hour as that is the standard 
-			// unit of measurement for wind in New Zealand. 
-			double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
-			
-			double pressure = currentData.getDouble("pressure");
-			
-			// Amount of Rainfall in the last hour
-			double precipitation = rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
-			
-			reader.close();
-			
-			return new WeatherData(temperature, windSpeed, pressure, precipitation);
+				JSONObject weatherJSON = new JSONObject(reader.readLine());
+				
+				JSONObject currentData = weatherJSON.getJSONObject("current");
+				
+				JSONObject rainData =  currentData.getJSONObject("rain");
+				
+				
+				double temperature = currentData.getDouble("temp");
+				
+				// The units for the wind speed returned by the API is in meters per second. 
+				// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand. 
+				double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
+				
+				double pressure = currentData.getDouble("pressure");
+				
+				// Amount of Rainfall in the last hour.
+				double precipitation = rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
+				
+				reader.close();
+				return new WeatherData(temperature, windSpeed, pressure, precipitation);
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block.
 			e.printStackTrace();
 		}
 		return null;
@@ -95,14 +94,14 @@ public class NOAAGetter {
 
 	
 	/**
-	 * @return the appid
+	 * @return the appid.
 	 */
 	public String getAppId() {
 		return this.appid;
 	}
 	
 	/**
-	 * @param appid the appid to set
+	 * @param appid the appid to set.
 	 */
 	public void setAppId(String token) {
 		this.appid = token;
@@ -126,6 +125,10 @@ public class NOAAGetter {
 	}
 
 
+	/**
+	 * Test main method. 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println("Connection to OWM: " + (NOAAGetter.isAvailable() == true ? "Successful" : "Failed"));
 		System.out.println();
