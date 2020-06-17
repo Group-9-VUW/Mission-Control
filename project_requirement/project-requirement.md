@@ -382,24 +382,37 @@ See 9.5.14. for most systems, a focus on d) and e) is appropriate, such as an ob
 
 You should use right tools, preferabley PlantUML, to draw your UML diagrams which can be easily embedded into a Mardown file (PlantUML is also supported by GitLab and Foswiki).
 
-### 3.6 Design constraints
+### 3.6 Design constraints  
+  
+**Design Constraints**  
+The system’s design is constrained by the New Zealand Rocketry Associations (NZRA) regulations [1] (their safety code) for model rockets. Though the safety code is focused on the rocket’s hardware rather than the software some of these regulations also affect the software of the rocket. For example, one of the regulations is that a countdown must be used before launch to ensure everyone is 10m away from the rocket before it launches. This means our software must account for this (i.e. only give clearance for the rocket launch after the countdown). 
 
-Ask customer what standards and regulations we need to conform to.
+Other regulations that constrain our software designs include:
+*   Launcher - “A launching device shall not be used to launch a high power rocket at an angle more than twenty degrees (20″) from vertical.” – The horizontal angle calculated by our software must be no more than 20 degrees from vertical
+*   Flight Safety - “I will not launch my rocket at targets, into clouds, or near airplanes, and will not put any flammable or explosive payload in my rocket” – Our Go-NoGo function should only respond a Go signal (rocket can launch) if there are no clouds, objects (like airplanes) or people in the rocket’s simulated path
+*   Wind speed – “A person shall not launch a high power rocket if the surface wind at the launcher is more than 32km/hr” – Our Go-NoGo function should only respond with a Go signal (rocket can launch) if wind is 32km/hr or less.
+*   Launch site – “In no case shall the minimum launch site dimension be less than 450m” – Our software must operate correctly with the rocket in a launch site that has a maximum dimension of 450m. 
 
-see 9.5.15 and 9.5.16. for most systems, this will be around one page.
+The Civil Aviation Authority of New Zealand (CAA) also outlines regulations that rockets must follow in Part 101 [2]. Like, NZRA their regulations are social and physical regulations rather than software regulations. However, some of these regulations also are applicable to software. For example, in the rocket section of Part 101 [3] CAA states that the horizontal visibility must be 8km or greater and that the rocket can’t be flown into clouds. Our software (in particular our No-Go function) will need to have checks to ensure the rocket follows these regulations. 
+Our project also has limitations which can constrain our design. The limitations and how they constrain are design is shown in the table below.
 
-> 9.5.15 Design constraints<br>
-> Specify constraints on the system design imposed by external standards, regulatory requirements, or project limitations.
-> 
-> 9.5.16 Standards compliance<br>
-> Specify the requirements derived from existing standards or regulations, including:
-> 
-> a) Report format;<br>
-> b) Data naming;<br>
-> c) Accounting procedures;<br>
-> d) Audit tracing.
-> 
-> For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
+| Limitation | How it constrains our design |
+| ------------- |-------------|
+| Low budget due to our team being consisted of students | We will be limited to using cheap/free Integrated Development Environments (IDE’s) |
+| Auditing (Audit functions) | Our software will need to pass all test cases (auditing) we create. |
+| Programming Language (Java) | We plan to use Java as it is all the language we are most comfortable with. However, Java constrains what we can do in our code (e.g. can’t manually dynamically allocate memory) |
+| Physical/mental considerations | Our design is limited by our lack of experience completing full-scale projects |
+ 
+**Standards Compliance**  
+Report format:  
+Any reports we create should follow IEEE format in the sense that they should have IEEE references and should reference IEEE documents if applicable.  
+  
+Data naming:  
+Variables, fields, constants and any other container that holds data in our software must follow the naming convention specified in the [code style standard](https://gitlab.ecs.vuw.ac.nz/course-work/engr300/2020/group9/group-9/-/blob/master/CONTRIBUTING.md) we created.
+
+Audit Tracing:  
+Sensitive and important data should be logged correctly and safely (e.g. using a logging library (e.g. log4j)) and any changes to this data should also be logged. This is so that if a something goes wrong (e.g. error occurs, exception is thrown) then we can trace it back to the source and identify the issue.
+
 
 ### 3.7 Nonfunctional system attributes
 
