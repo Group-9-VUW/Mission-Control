@@ -37,9 +37,7 @@ public class CachedMapData /*TODO implements MapData*/ {
   public CachedMapData(InternetMapData data, double lat, double lon, double radius) {
     //TODO ensure this returns a BufferedImage no matter what
     this.img = (BufferedImage) data.get(lat, lon, radius);
-
-    //TODO change this pathname
-    this.file = new File(lat + "-" + lon + "-" + radius + ".png"); 
+    this.file = new File("src/main/resources/" + lat + "-" + lon + "-" + radius + ".png"); 
     saveMapToFile();
   }
 
@@ -142,5 +140,10 @@ public class CachedMapData /*TODO implements MapData*/ {
       }
     }
     return true;
+  }
+  
+  @SuppressWarnings("unused")
+  public static void main(String[] args) {
+    new CachedMapData(new InternetMapData(), 0, 0, 0);
   }
 }
