@@ -3,8 +3,6 @@ package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -24,7 +22,7 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 
 public class DisplayMapView extends JPanel {
-  
+
   /**
    * The Longitude of where the launch site is. 
    * Longitude changes value along the horizontal axis, the X axis.
@@ -36,10 +34,6 @@ public class DisplayMapView extends JPanel {
    */
   private double latLaunchSite;
   /**
-   * The Altitude of where the launch site is.
-   */
-  private double altLaunchSite;
-  /**
    * The longitude of where the rocket is.
    */
   private double longRocket;
@@ -47,11 +41,6 @@ public class DisplayMapView extends JPanel {
    * The Latitude of where the rocket is.
    */
   private double latRocket;
-  /**
-   * The Altitude of where the rocket is.
-   */
-  private double altRocket;
-  
 
   /**
    * The space between a point and the edge (any point).
@@ -73,39 +62,70 @@ public class DisplayMapView extends JPanel {
     this.latLaunchSite = latLaunchSite;
     this.latRocket = latLaunchSite;
   }
-  
+
   @Override
   public void paintComponent(@Nullable Graphics g) {
     if (g == null) {
       return;
     }
-    
+
     Point2D[] corners = getCorners();
+
+    Point2D launchCoordinates = new Point2D.Double(this.longLaunchSite, this.latLaunchSite);
+    Point2D rocketCoordinates = new Point2D.Double(this.longRocket, this.latRocket);
+
+    // calculate the x coordinates for rocket and launch site
+    int xlaunch;
+    int xrocket;
+    if (launchCoordinates.getY() > rocketCoordinates.getY()) {
+      // the launch site is closer to the top of the screen
+      xlaunch = (int)(translateScale(launchCoordinates.getX(),
+          corners[2].getX(), corners[3].getX(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+      // the rocket is closer to the bottom of the screen
+      xrocket = (int)(translateScale(rocketCoordinates.getX(),
+          corners[0].getX(), corners[1].getX(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+    } else {
+      // the rocket is closer to the top of the screen
+      xrocket = (int)(translateScale(rocketCoordinates.getX(),
+          corners[2].getX(), corners[3].getX(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+      // the launch is closer to the bottom of the screen
+      xlaunch = (int)(translateScale(launchCoordinates.getX(),
+          corners[0].getX(), corners[1].getX(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+    }
+
+    // calculate the y coordinates for rocket and launch site
+    int ylaunch;
+    int yrocket;
+    if (launchCoordinates.getX() > rocketCoordinates.getX()) {
+      // the launch is closer to the 
+      ylaunch = (int)(translateScale(launchCoordinates.getY(),
+          corners[1].getY(), corners[3].getY(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+      yrocket = (int)(translateScale(rocketCoordinates.getY(),
+          corners[0].getY(), corners[2].getY(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+    } else {
+      yrocket = (int)(translateScale(rocketCoordinates.getY(),
+          corners[1].getY(), corners[3].getY(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+      ylaunch = (int)(translateScale(launchCoordinates.getY(),
+          corners[0].getY(), corners[2].getY(), this.getSize().getWidth() 
+          - this.zoom)) + this.zoom / 2;
+    }
+
+    int width = this.getSize().width;
+    int height = this.getSize().height;
     
-    Point2D launchCoordinates = coordinateToXY(this.longLaunchSite, 
-        this.latLaunchSite, this.altLaunchSite);
-    Point2D rocketCoordinates = coordinateToXY(this.longRocket, 
-        this.latRocket, this.altRocket);
-    
-    double max = Math.max(launchCoordinates.getX(), rocketCoordinates.getX());
-    double min = Math.min(launchCoordinates.getX(), rocketCoordinates.getX());
-    int xlaunch = (int)(translateScale(launchCoordinates.getX(), max, min, 
-        this.getMinimumSize().getWidth() - this.zoom)) + this.zoom / 2;
-    int xrocket = (int)(translateScale(rocketCoordinates.getX(), max, min, 
-        this.getMinimumSize().getWidth() - this.zoom)) + this.zoom / 2;
-    
-    max = Math.max(launchCoordinates.getY(), rocketCoordinates.getY());
-    min = Math.min(launchCoordinates.getY(), rocketCoordinates.getY());
-    int ylaunch = (int)(translateScale(launchCoordinates.getY(), max, min, 
-        this.getMinimumSize().getHeight() - this.zoom)) + this.zoom / 2;
-    int yrocket = (int)(translateScale(rocketCoordinates.getY(), max, min, 
-        this.getMinimumSize().getHeight() - this.zoom)) + this.zoom / 2;
-    
-    g.fillRect(0, 0, xlaunch, ylaunch);
+    // Show a representation of the locations using rectangles
+    g.fillRect(0, 0, width - xlaunch, height - ylaunch);
     g.setColor(Color.white);
-    g.drawRect(0, 0, xrocket, yrocket);
+    g.drawRect(0, 0, width - xrocket, height - yrocket);
   }
-  
+
   /**
    * Create four corners around the launch site and rocket location.
    * NOTE: Latitude works opposite to x.
@@ -118,19 +138,19 @@ public class DisplayMapView extends JPanel {
     double minX = Math.min(this.longLaunchSite, this.longRocket);
     double maxY = Math.max(this.latLaunchSite, this.latRocket);
     double minY = Math.min(this.latLaunchSite, this.latRocket);
-    
+
     // Convert to a square of points
     Point2D bottomLeft = new Point2D.Double(minX, minY);
     Point2D bottomRight = new Point2D.Double(maxX, minY);
     Point2D topLeft = new Point2D.Double(minX, maxY);
     Point2D topRight = new Point2D.Double(maxX, maxY);
-    
+
     // Find the width and height of square
     double distX = distance(bottomRight.getY(), bottomRight.getX(), 
         bottomLeft.getY(), bottomLeft.getX());
     double distY = distance(bottomRight.getY(), bottomRight.getX(), 
         topRight.getY(), topRight.getX());
-    
+
     // Make both lengths equal
     if (distX > distY) {
       // Get a point in the middle of the left side
@@ -155,12 +175,12 @@ public class DisplayMapView extends JPanel {
       topRight = getNewLocation(midYTop.getY(), midYTop.getX(), distX / 2, 90);
       topLeft = getNewLocation(midYTop.getY(), midYTop.getX(), distX / 2, 270);
     }
-    
+
     // Return all corners
     Point2D[] corners = {topLeft, topRight, bottomLeft, bottomRight};
     return corners;
   }
-  
+
   /**
    * Update the location of the rocket.
    * 
@@ -171,7 +191,7 @@ public class DisplayMapView extends JPanel {
     this.longRocket = longR;
     this.latRocket = latR;
   }
-  
+
   /**
    * Translate and Scale a coordinate to fit on the Screen.
    * Everything is translated so that the min value is at 0.
@@ -183,42 +203,10 @@ public class DisplayMapView extends JPanel {
    * @param screen Size of screen to fit range to
    * @return X or Y position inside new range
    */
-  private double translateScale(double coordinate, double max, double min, double screen) {
+  private static double translateScale(double coordinate, double max, double min, double screen) {
     return (coordinate - min) / ((max - min) / screen);
   }
-  
-  /**
-   * Convert the coordinates from Longitude and Latitude to x, y coordinates.
-   * NOTE: this method gives you X and Y positions related to the globe
-   * 
-   * @param lon Longitude of Object
-   * @param lat Latitude of Object
-   * @param alt Altitude of Object
-   * @return An object holding the x and y coordinates of the Object
-   */
-  private static Point2D coordinateToXY(double lon, double lat, double alt) {
-    double radiusMajor = 6378137;
-    double radiusMinor = 6356752.31424518;
 
-    double latrad = lat / 180.0 * Math.PI;
-    double lonrad = lon / 180.0 * Math.PI;
-
-    double coslat = Math.cos(latrad);
-    double sinlat = Math.sin(latrad);
-    double coslon = Math.cos(lonrad);
-    double sinlon = Math.sin(lonrad);
-
-    double term1 = (radiusMajor * radiusMajor * coslat) / Math.sqrt(radiusMajor 
-        * radiusMajor * coslat * coslat + radiusMinor * radiusMinor * sinlat * sinlat);
-
-    double term2 = alt * coslat + term1;
-
-    double x = coslon * term2;
-    double y = sinlon * term2;
-    
-    return new Point2D.Double(x, y);
-  }
-  
   /**
    * Find a point. This point is X distance from the original point at y angle.
    * 
@@ -246,7 +234,7 @@ public class DisplayMapView extends JPanel {
     // back to degrees
     latitude2 = latitude2 * (180 / Math.PI);
     longitude2 = longitude2 * (180 / Math.PI);
-    
+
     return new Point2D.Double(longitude2, latitude2);
   }
 
@@ -274,5 +262,5 @@ public class DisplayMapView extends JPanel {
     dist = dist * 1.609344;
     return (dist);
   }
-  
+
 }
