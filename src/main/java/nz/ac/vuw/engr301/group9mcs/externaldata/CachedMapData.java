@@ -1,11 +1,12 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * A class to save and load map data to files (i.e. cache the map data).
@@ -13,8 +14,16 @@ import javax.imageio.ImageIO;
  * @author Joshua Hindley, hindlejosh, 300438963
  */
 public class CachedMapData /*TODO implements MapData*/ {
-  private File file;
-  private Image img;
+  /**
+   * Holds this CachedMapData's file. That is, the file where 
+   * this class will save an image to, or load an image from.
+   */
+  private final File file;
+  /**
+   * Holds this CachedMapData's image. Initialises as a zero-width, 
+   * zero-height black BufferedImage to avoid null errors.
+   */
+  private Image img = new BufferedImage(0, 0, 0); 
 
   //public CachedMapData() {} TODO maybe implement this
 
@@ -26,10 +35,21 @@ public class CachedMapData /*TODO implements MapData*/ {
    * @param radius The radius of the image to get.
    */
   public CachedMapData(InternetMapData data, double lat, double lon, double radius) {
+    //TODO ensure this returns correctly if an error occurs while retrieving data
     this.img = data.get(lat, lon, radius);
+
     //TODO change this pathname
     this.file = new File("maps/" + lat + "-" + lon + "-" + radius + ".png"); 
     saveMapToFile();
+  }
+
+  /**
+   * Creates a new CachedMapData given a file to load a map image from.
+   * @param file The file to load the map image from.
+   */
+  public CachedMapData(File file) {
+    this.file = file;
+    loadMapFromFile();
   }
 
   /**
@@ -47,19 +67,31 @@ public class CachedMapData /*TODO implements MapData*/ {
       System.err.println("The map image could not be saved to " + this.file.getName());
       e.printStackTrace();
     }
-    
   }
-  
+
   /**
    * Loads the current map image from a file.
    */
   private void loadMapFromFile() {
-    
+    try {
+      @Nullable Image image = ImageIO.read(this.file);
+      if (image == null) {
+        throw new NullPointerException();
+      }
+      this.img = image;
+    } catch (IOException e) {
+      //TODO deal with errors
+      System.err.println("The file: " + this.file.getName() + " could not be found or loaded.");
+      e.printStackTrace();
+    } catch (NullPointerException e) {
+      System.err.println("The image in the file: " + this.file.getName() + " could not be read.");
+      e.printStackTrace();
+    }
   }
 
   /**
    * Gets the image stored in this CachedMapData's file.
-   * @return
+   * @return the image.
    */
   public Image getImage() {
     return this.img;
@@ -73,14 +105,11 @@ public class CachedMapData /*TODO implements MapData*/ {
     return this.file;
   }
 
-  //TODO add constructor from String/File -> loads from file and analyses 
-  //the file contents to ensure it is valid
-
   //TODO maybe add a default constructor that loads a "default" file name, 
   //if a file with that name exists at the expected location
 
-  //TODO the MapData interface (or both InternetMapData and CachedMapData) 
-  //should contain a hashCode method and an equals method. It is VITAL that:
+
+  //TODO create a hashCode method and an equals method. It is VITAL that:
 
   // CachedMapData data1 = new CachedMapData(data, long, lat, radius);
   // CachedMapData data2 = new CachedMapData(data1.getFile());
