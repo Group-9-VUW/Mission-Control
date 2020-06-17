@@ -4,7 +4,7 @@
 This will be a tick-based update where each tick can be a specified 
 number of milliseconds, say 500ms for example. Every 500ms, the positional data
 of the rocket can be retrieved and then be processed at mission control to
-be then displayed on the map. At a tick rate of 500ms, the rockets position will be
+then be displayed on the map. At a tick rate of 500ms, the rockets position will be
 updated 120 times over the course of 1 minute. 
 The latency between the rocket and mission control will need to be considered. As the rocket
 travels further away, the connection is likely to get weaker, so a variable tick-rate may be considered. 
@@ -35,11 +35,11 @@ The format of the incoming data will be dependent on what format the Avionics te
 
 #### Map Data Caching 
 An internet connection at the launch site is not guaranteed. So, prior to launch, our software should be able to 
-cache map information of a 2k radius of the launch site. That way, map data at launch can be accessed without 
+cache map information of a 2km radius of the launch site. That way, map data at launch can be accessed without 
 the need for an internet connection. 
 
 #### Minimum Map Precision 
-Our software should have a minimum precision of 3 meters on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 meters of it.)
+Our software should have a minimum precision of 3 metres on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 meters of it.)
 
 #### Maximum GUI response time
 The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement. 
