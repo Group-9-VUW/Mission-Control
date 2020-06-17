@@ -160,4 +160,60 @@ public class DisplayMapView extends JPanel {
     return new Point2D.Double(x, y);
   }
   
+  /**
+   * Find a point. This point is X distance from the original point at y angle.
+   * 
+   * @param lat The Latitude of original point
+   * @param lon The Longitude of original point
+   * @param dist The distance between points
+   * @param angle The angle between original point and new point
+   * @return The coordinates of the new point
+   */
+  private static Point2D getNewLocation(double lat, double lon, double dist, double angle) {
+    // Earth Radious in KM
+    double radiusEarth = 6378.14;
+
+    // Degree to Radian
+    double latRadian = lat * (Math.PI / 180);
+    double lonRadian = lon * (Math.PI / 180);
+    double direction = angle * (Math.PI / 180);
+
+    double latitude2 = Math.asin(Math.sin(latRadian) * Math.cos(dist / radiusEarth) 
+        + Math.cos(latRadian) * Math.sin(dist / radiusEarth) * Math.cos(direction));
+    double longitude2 = lonRadian + Math.atan2(Math.sin(direction) * Math.sin(dist / radiusEarth)
+        * Math.cos(latRadian), Math.cos(dist / radiusEarth) - Math.sin(latRadian) 
+        * Math.sin(latitude2));
+
+    // back to degrees
+    latitude2 = latitude2 * (180 / Math.PI);
+    longitude2 = longitude2 * (180 / Math.PI);
+    
+    return new Point2D.Double(longitude2, latitude2);
+  }
+
+  /**
+   * Calculate distance between two points.
+   * 
+   * @param lat1 Latitude of First point
+   * @param lon1 Longitude of First point
+   * @param lat2 Latitude of Second point
+   * @param lon2 Longitude of Second point
+   * @return The distance
+   */
+  private static double distance(double lat1, double lon1, double lat2, double lon2) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+      return 0;
+    }
+    double theta = lon1 - lon2;
+    double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) 
+        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) 
+        * Math.cos(Math.toRadians(theta));
+    dist = Math.acos(dist);
+    dist = Math.toDegrees(dist);
+    dist = dist * 60 * 1.1515;
+    // convert to kilometers
+    dist = dist * 1.609344;
+    return (dist);
+  }
+  
 }
