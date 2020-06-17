@@ -2,7 +2,13 @@ package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -119,13 +125,116 @@ public class DisplayMapView extends JPanel {
 
     int width = this.getSize().width;
     int height = this.getSize().height;
-    
+
     // Show a representation of the locations using rectangles
     g.fillRect(0, 0, width - xlaunch, height - ylaunch);
     g.setColor(Color.white);
     g.drawRect(0, 0, width - xrocket, height - yrocket);
+    drawRocket(width - xrocket, height - yrocket, g, launchCoordinates, rocketCoordinates);
   }
 
+  /**
+   * Draw a rocket in the direction given at a point on the screen.
+   * The direction could be 1 (NorthEast), 2 (NorthWest), 3 (SouthEast), 4 (SouthWest)
+   * 
+   * @param xlocation X coordinate of the rocket Location
+   * @param ylocation Y coordinate of the rocket Location
+   * @param g The graphic drawer
+   * @param launch The Launch Coordinates (lon & lat)
+   * @param rocket The Rocket Coordinates (lon & lat)
+   */
+  private void drawRocket(int xlocation, int ylocation, Graphics g, 
+      Point2D launch, Point2D rocket) {
+    BufferedImage image = null;
+    try {
+      image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
+      image = scaleDimensions(image);
+      double angle = angleOf(launch, rocket);
+      image = rotateImage(image, angle);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (image == null) {
+      return;
+    }
+    int x = xlocation - image.getWidth(null) / 2;
+    int y = ylocation - image.getHeight(null) / 2;
+    g.drawImage(image, x, y, null);
+  }
+
+  /**
+   * Scale the image to 1/4 of the screen.
+   * Scales to the shortest length (height/width).
+   * 
+   * @param image The image to be scaled
+   * @return The scaled image
+   */
+  private @Nullable BufferedImage scaleDimensions(@Nullable BufferedImage image) {
+    if (image == null) {
+      return image;
+    }
+    double ratio = 0.0;
+    if (this.getSize().height > this.getSize().width) {
+      ratio = (this.getSize().width / 4.0) / image.getWidth();
+    } else {
+      ratio = (this.getSize().height / 4.0) / image.getHeight();
+    }
+    int w = (int)(image.getWidth() * ratio);
+    int h = (int)(image.getHeight() * ratio);
+    BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    AffineTransform at = new AffineTransform();
+    at.scale(ratio, ratio);
+    AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+    return scaleOp.filter(image, after);
+  }
+
+  /**
+   * Rotate the image to the given angle.
+   * 
+   * @param image The image to be rotated
+   * @param angle The angle to rotate to
+   * @return The rotated image
+   */
+  private static @Nullable BufferedImage rotateImage(@Nullable BufferedImage image, double angle) {
+    if (image == null) {
+      return image;
+    }
+    final double rads = Math.toRadians(angle);
+    final double sin = Math.abs(Math.sin(rads));
+    final double cos = Math.abs(Math.cos(rads));
+    final int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+    final int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+    final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+    final AffineTransform at = new AffineTransform();
+    at.translate(w / 2, h / 2);
+    at.rotate(rads,0, 0);
+    at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+    final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+    return rotateOp.filter(image,rotatedImage);
+  }
+
+  /**
+   * Get the angle between two points.
+   * Converts angle to against the vertical line.
+   * 
+   * @param p1 Point where the angle starts
+   * @param p2 Point where the angle goes
+   * @return The angle between p1 and p2
+   */
+  private static double angleOf(Point2D p1, Point2D p2) {
+    // NOTE: Remember that most math has the Y axis as positive above the X.
+    // However, for screens we have Y as positive below. For this reason, 
+    // the Y values are inverted to get the expected results.
+    int result = (int)(Math.atan2(p2.getY() - p1.getY(), p2.getX() - p1.getX()) * 180 / Math.PI);
+    result -= 90;
+    result = result * -1;
+    /*final double deltaY = (p1.getY() - p2.getY());
+    final double deltaX = (p2.getX() - p1.getX());
+    final double result = Math.toDegrees(Math.atan2(deltaY, deltaX)); 
+    return (result < 0) ? (360d + result) : result;*/
+    return result;
+  }
+  
   /**
    * Create four corners around the launch site and rocket location.
    * NOTE: Latitude works opposite to x.
