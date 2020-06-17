@@ -23,7 +23,7 @@ public class CachedMapData /*TODO implements MapData*/ {
    * Holds this CachedMapData's image. Initialises as a zero-width, 
    * zero-height black BufferedImage to avoid null errors.
    */
-  private Image img = new BufferedImage(0, 0, 0); 
+  private BufferedImage img = new BufferedImage(0, 0, 0); 
 
   //public CachedMapData() {} TODO maybe implement this to automatically load a file
 
@@ -35,8 +35,8 @@ public class CachedMapData /*TODO implements MapData*/ {
    * @param radius The radius of the image to get.
    */
   public CachedMapData(InternetMapData data, double lat, double lon, double radius) {
-    //TODO ensure this returns correctly if an error occurs while retrieving data
-    this.img = data.get(lat, lon, radius);
+    //TODO ensure this returns a BufferedImage no matter what
+    this.img = (BufferedImage) data.get(lat, lon, radius);
 
     //TODO change this pathname
     this.file = new File("maps/" + lat + "-" + lon + "-" + radius + ".png"); 
@@ -57,7 +57,7 @@ public class CachedMapData /*TODO implements MapData*/ {
    */
   private void saveMapToFile() {
     try {
-      RenderedImage renderedImg = (RenderedImage) this.img;
+      RenderedImage renderedImg = this.img;
       ImageIO.write(renderedImg, "png", this.file);
     } catch (ClassCastException e) {
       //TODO deal with errors
@@ -74,7 +74,7 @@ public class CachedMapData /*TODO implements MapData*/ {
    */
   private void loadMapFromFile() {
     try {
-      @Nullable Image image = ImageIO.read(this.file);
+      @Nullable BufferedImage image = ImageIO.read(this.file);
       if (image == null) {
         throw new NullPointerException();
       }
@@ -131,15 +131,14 @@ public class CachedMapData /*TODO implements MapData*/ {
     } else if (cmd.img.getWidth(null) != this.img.getWidth(null)) {
       return false;
     }
-    //TODO compare every pixel?
-    //this.img and cmd.img must be BufferedImages to do this
-    /*for (int y = 0; y < this.img.getHeight(null); y++) {
+    //compare every pixel
+    for (int y = 0; y < this.img.getHeight(null); y++) {
       for (int x = 0; x < this.img.getWidth(null); x++) {
-        if (this image rgb != other image rgb) {
+        if (this.img.getRGB(x, y) != cmd.img.getRGB(x, y)) {
           return false;
         }
       }
-    }*/
+    }
     
     //TODO use hashcode?
     return true;
