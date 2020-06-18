@@ -8,6 +8,9 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
+import nz.ac.vuw.engr301.group9mcs.view.DisplayMapView;
+
 /**
  * View demo panel. For demonstrating the rocket display and cached map data.
  * 
@@ -22,9 +25,11 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	private final JButton stoplaunch = new JButton("Stop Launch");
 	
 	private final JPanel top = new JPanel();
-	private final JPanel bottom = null; //SelectView required here
+	private DisplayMapView bottom = null; 
 	
 	private Launch launch;
+	private double launchLat;
+	private double launchLon;
 	
 	private File saveFile = null;
 	private boolean simrunning = false;
@@ -39,7 +44,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		
 		this.setLayout(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
-		//this.add(bottom, BorderLayout.CENTER);
+		this.add(new JPanel(), BorderLayout.CENTER);
 		
 		load.addActionListener(this);
 		launchsim.addActionListener(this);
@@ -49,6 +54,10 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == load) {
 			//TODO: Implement saving
+			CachedMapData data = new CachedMapData(this.saveFile);
+			this.launchLat = data.centerLat();
+			this.launchLon = data.centerLon();
+			this.bottom = new DisplayMapView(data.centerLat(), data.centerLon());
 		} else if(e.getSource() == launchsim) {
 			//TODO: implement sim behavior
 			this.launch = this.new Launch();
@@ -89,7 +98,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 			while(dist <= 1.0 && running) {
 				double posX = dist * SCALE_FACTOR;
 				dist += 0.01;
-				
+				bottom.updateRocketPosition(launchLat + posX, launchLon);
 				synchronized(this) {
 					try {
 						this.wait(250);
