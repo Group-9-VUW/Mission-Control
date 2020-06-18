@@ -25,7 +25,8 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	private final JButton stoplaunch = new JButton("Stop Launch");
 	
 	private final JPanel top = new JPanel();
-	private DisplayMapView bottom = null; 
+	private JPanel bottom = new JPanel();
+	private DisplayMapView dmv = null; 
 	
 	private Launch launch;
 	private double launchLat;
@@ -44,7 +45,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		
 		this.setLayout(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
-		this.add(new JPanel(), BorderLayout.CENTER);
+		this.add(this.bottom, BorderLayout.CENTER);
 		
 		load.addActionListener(this);
 		launchsim.addActionListener(this);
@@ -53,13 +54,14 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == load) {
-			//TODO: Implement saving
 			CachedMapData data = new CachedMapData(this.saveFile);
 			this.launchLat = data.centerLat();
 			this.launchLon = data.centerLon();
-			this.bottom = new DisplayMapView(data.centerLat(), data.centerLon());
+			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon());
+			this.remove(this.bottom);
+			this.bottom = this.dmv;
+			this.add(this.bottom, BorderLayout.CENTER);
 		} else if(e.getSource() == launchsim) {
-			//TODO: implement sim behavior
 			this.launch = this.new Launch();
 			this.launch.start();
 			this.simrunning = true;
@@ -98,7 +100,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 			while(dist <= 1.0 && running) {
 				double posX = dist * SCALE_FACTOR;
 				dist += 0.01;
-				bottom.updateRocketPosition(launchLat + posX, launchLon);
+				dmv.updateRocketPosition(launchLat + posX, launchLon);
 				synchronized(this) {
 					try {
 						this.wait(250);
