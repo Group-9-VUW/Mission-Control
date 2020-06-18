@@ -9,6 +9,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
+
 /**
  * A runner class for the map demo. Executable.
  * <br><br>
@@ -19,6 +21,9 @@ import javax.swing.JFrame;
 public class MapSpike extends JFrame implements WindowListener {
 
 	private static final long serialVersionUID = 8869451586408924734L;
+	
+	protected static final int WINDOW_WIDTH = 900;
+	protected static final int WINDOW_HEIGHT = 600;
 
 	/**
 	 * @throws HeadlessException
@@ -26,6 +31,8 @@ public class MapSpike extends JFrame implements WindowListener {
 	public MapSpike() throws HeadlessException {
 		super("Map Demo");
 		this.addWindowListener(this);
+		this.setSize(900, 600);
+		DisplayHelper.center(this);
 	}
 	
 	@Override
@@ -47,7 +54,6 @@ public class MapSpike extends JFrame implements WindowListener {
 	public void windowActivated(WindowEvent e) {}
 	@Override
 	public void windowDeactivated(WindowEvent e) {}
-
 	
 	public static final void main(String[] args) {
 		new MapSpike().setVisible(true);
