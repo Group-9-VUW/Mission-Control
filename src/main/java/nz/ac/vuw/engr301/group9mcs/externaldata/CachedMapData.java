@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
@@ -169,9 +171,20 @@ public class CachedMapData implements MapData {
    * Saves the current map image to a file.
    */
   private void saveMapToFile() {
-    try {
+    //TODO test this
+    String fileName = this.file.getName();
+    File dat = new File(fileName.substring(0, fileName.length() - 4) + ".dat");
+    try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
       RenderedImage renderedImg = this.img;
       ImageIO.write(renderedImg, "png", this.file);
+      out.write("" + this.topLeftLat);
+      out.newLine();
+      out.write("" + this.topLeftLong);
+      out.newLine();
+      out.write("" + this.bottomRightLat);
+      out.newLine();
+      out.write("" + this.bottomRightLong);
+      out.close();
     } catch (ClassCastException e) {
       //TODO deal with errors
       System.err.println("The map image obtained cannot be cast to a RenderedImage.");
