@@ -1,7 +1,10 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStreamImpl;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -13,12 +16,51 @@ import java.net.URLConnection;
  */
 public class InternetMapData /*TODO: implements MapData*/ {
 
+
+
     /**
      * This is the basic format for the OSM tile URI.
      *
      * <br>The endpoint "a" is specified here, but two others ("b" and "c") are also provided.
      */
     private static String osmTileUriFormat = "http://a.tile.openstreetmap.org/%d/%d/%d.png";
+
+
+    public Image get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
+        // FIXME: Zoom fixed at 16 for demo
+        int zoom = 16;
+
+
+        int[] topLeftXY = convertCoordsToXY(topLeftLat, topLeftLong, zoom);
+        int[] bottomRightXY = convertCoordsToXY(bottomRightLat, bottomRightLong, zoom);
+        int numXToDraw = bottomRightXY[0] - topLeftXY[0];
+        int numYToDraw = bottomRightXY[1] - topLeftXY[1];
+
+        //TODO check that x and y are correct at these locations
+        BufferedImage[][] images = new BufferedImage[numXToDraw][numYToDraw];
+
+        for (int i = 0; i < numXToDraw; ++i) {
+            for (int j = 0; j < numYToDraw; ++j) {
+                images[j][i] = get(topLeftXY[0] + i, topLeftXY[1] + j, zoom);
+            }
+        }
+
+        int tileWidth = images[0][0].getWidth();
+        int tileHeight = images[0][0].getHeight();
+
+        BufferedImage fullImage = new BufferedImage(tileWidth * numXToDraw,
+                tileHeight * numYToDraw, images[0][0].getType());
+
+        Graphics g = fullImage.getGraphics();
+        for (int i = 0; i < numXToDraw; ++i) {
+            for (int j = 0; j < numYToDraw; ++j) {
+                g.drawImage(images[j][i], tileWidth * i, tileWidth * j, null);
+            }
+        }
+
+        g.dispose();
+        return fullImage;
+    }
 
     /**
      * Gets an image from the OpenStreetMap API.
@@ -36,6 +78,33 @@ public class InternetMapData /*TODO: implements MapData*/ {
             // parameters.
             // URLConnection courtesy of @hindlejosh
             URL url = new URL(String.format(osmTileUriFormat, zoom, location[0], location[1]));
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
+            connection.connect();
+            return ImageIO.read(connection.getInputStream());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // TODO: Determine error handling.
+            return null;
+        }
+    }
+
+    /**
+     * Gets an image from the OpenStreetMap API by X, Y.
+     *
+     * @param x X tile value.
+     * @param y Y tile value.
+     * @param zoom Zoom level. Follows the formula 2^2n to determine the number of 256px tiles returned around
+     *             the centre point.
+     * @return Returns an Image object of the specified location.
+     */
+    public BufferedImage get(int x, int y, int zoom) {
+        try {
+            // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
+            // parameters.
+            // URLConnection courtesy of @hindlejosh
+            URL url = new URL(String.format(osmTileUriFormat, zoom, x, y));
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
             connection.connect();
