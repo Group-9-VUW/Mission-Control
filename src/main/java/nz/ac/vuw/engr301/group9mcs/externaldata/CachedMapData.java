@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -37,12 +38,27 @@ public class CachedMapData /*TODO implements MapData*/ {
    */
   public CachedMapData(InternetMapData data, double topLeftLat, double topLeftLong, 
       double bottomRightLat, double bottomRightLong) {
+    //TODO calculate zoom level
+    int zoom = 16;
+    //TODO actually determine number of images that must be gotten might need 
+    //convertCoordsToXY method from InternetMapData class. Could move this to MapData interface.
+    BufferedImage topLeft = (BufferedImage) data.get(topLeftLat, topLeftLong, zoom);
+    BufferedImage topRight = (BufferedImage) data.get(topLeftLat, bottomRightLong, zoom);
+    BufferedImage bottomLeft = (BufferedImage) data.get(bottomRightLat, topLeftLong, zoom);
+    BufferedImage bottomRight = (BufferedImage) data.get(bottomRightLat, bottomRightLong, zoom);
+    
+    this.img = new BufferedImage(topLeft.getWidth() + topRight.getWidth(), 
+        topLeft.getHeight() + bottomLeft.getHeight(), bottomRight.getType());
+    Graphics2D g = this.img.createGraphics();
+    g.drawImage(topLeft, null, 0, 0);
+    g.drawImage(topRight, null, topLeft.getWidth(), 0);
+    g.drawImage(bottomLeft, null, 0, topLeft.getHeight());
+    g.drawImage(bottomRight, null, topLeft.getWidth(), topLeft.getHeight());
+    g.dispose();
+    
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
-    //TODO calculate zoom level
-    double zoom = 15;
-    //TODO ensure this returns a BufferedImage no matter what
-    this.img = (BufferedImage) data.get(centreLat, centreLong, zoom); 
+    
     this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
   }
