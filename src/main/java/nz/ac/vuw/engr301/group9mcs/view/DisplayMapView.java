@@ -1,7 +1,10 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
@@ -127,8 +130,27 @@ public class DisplayMapView extends JPanel {
     int height = this.getSize().height;
 
     // draw the rocket and launch site on the map
+    drawRocketPath(width - xlaunch, height - ylaunch, width - xrocket, height - yrocket, g);
     drawRocket(width - xrocket, height - yrocket, g, launchCoordinates, rocketCoordinates);
     drawLaunchSite(width - xlaunch, height - ylaunch, g);
+  }
+  
+  /**
+   * Draw a dashed line between the launch site and the rocket.
+   * 
+   * @param x1 X Coordinate of object 1
+   * @param y1 Y Coordinate of object 1
+   * @param x2 X Coordinate of object 2
+   * @param y2 Y Coordinate of object 2
+   * @param g The Graphics drawer
+   */
+  private static void drawRocketPath(int x1, int y1, int x2, int y2, Graphics g) {
+    Graphics2D g2d = (Graphics2D) g;
+    //float dash[] = {10.0f};
+    Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, 
+        BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+    g2d.setStroke(dashed);
+    g.drawLine(x1, y1, x2, y2);
   }
 
   /**
