@@ -24,6 +24,8 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	private final JPanel top = new JPanel();
 	private final JPanel bottom = null; //SelectView required here
 	
+	private Launch launch;
+	
 	private File saveFile = null;
 	private boolean simrunning = false;
 	private boolean saveAvailable = false;
@@ -49,6 +51,13 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 			//TODO: Implement saving
 		} else if(e.getSource() == launchsim) {
 			//TODO: implement sim behavior
+			this.launch = this.new Launch();
+			this.launch.start();
+			this.simrunning = true;
+			this.setSave(this.saveFile);
+		} else if(e.getSource() == stoplaunch) {
+			this.launch.stopLaunch();
+			this.launch = null;
 		}
 	}
 	
@@ -64,6 +73,38 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		load.setEnabled(saveAvailable && !simrunning);
 		launchsim.setEnabled(saveAvailable && !simrunning);
 		stoplaunch.setEnabled(simrunning);
+	}
+	
+	private class Launch extends Thread {
+		
+		private static final double SCALE_FACTOR = 1.0;
+		
+		private double dist = 0.0;
+		
+		private boolean running = true;
+		
+		@Override
+		public void run()
+		{
+			while(dist <= 1.0 && running) {
+				double posX = dist * SCALE_FACTOR;
+				dist += 0.01;
+				
+				synchronized(this) {
+					try {
+						this.wait(250);
+					} catch (InterruptedException e) {}
+				}
+			}
+			ViewDemoPanel.this.simrunning = false;
+			ViewDemoPanel.this.setSave(ViewDemoPanel.this.saveFile);
+		}
+		
+		public void stopLaunch()
+		{
+			this.running = false;
+		}
+		
 	}
 
 }
