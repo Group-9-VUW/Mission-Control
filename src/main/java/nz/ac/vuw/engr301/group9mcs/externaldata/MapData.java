@@ -1,16 +1,25 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.awt.Image;
+
 /**
- * An interface to represent a MapData class.
- * In the code, the concrete classes CachedMapData and 
- * InternetMapData should always be used in place of this interface.
- * This interface provides implementations of useful methods that
- * are required for both the CachedMapData and InternetMapData classes.
+ * Empty Interface for MapData.
  * 
- * @author Joshua Hindley, hindlejosh, 300438963
+ * @author Bryony
  *
  */
 public interface MapData {
-  //No methods required at the moment.
 
+  // Gets image 
+  /**
+   * Returns a map of specified coordinates.
+   * 
+   * @param longUL Upper Left Longitude
+   * @param latUL Upper Left Latitude
+   * @param longBR Bottom Right Longitude
+   * @param latBR Bottom Right Latitude
+   * @return Image
+   */
+  public Image get(double longUL, double latUL, double longBR, double latBR);
+  
 }
