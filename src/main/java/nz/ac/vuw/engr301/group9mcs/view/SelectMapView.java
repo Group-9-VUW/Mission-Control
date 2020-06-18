@@ -76,7 +76,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			return;
 		}
 		image = mapData.get(longUL, latUL, longBR, latBR); //Gets the image
-		g.drawImage(image, size, size, this); //Draws it
+		g.drawImage(image, sizeX, sizeY, this); //Draws it
 		if (locationSelected) { //If location has been selected then still draw it
 			this.getGraphics().fillOval(locationX-(locSize/2), locationY-(locSize/2), locSize, locSize);
 		}
@@ -123,7 +123,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			else {
 				locationSelected = true;
 			}
-			launchListener.onLaunchSelected((longUL + (locationX/pixelToLong)), (latUL + (locationY/pixelToLat));
+			launchListener.onLaunchSelected((longUL + (locationX/pixelToLong)), (latUL + (locationY/pixelToLat)));
 		}
 	}
 
