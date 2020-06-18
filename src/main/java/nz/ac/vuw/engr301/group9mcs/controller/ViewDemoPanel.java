@@ -33,6 +33,9 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
 		//this.add(bottom, BorderLayout.CENTER);
+		
+		load.addActionListener(this);
+		launchsim.addActionListener(this);
 	}
 
 	@Override

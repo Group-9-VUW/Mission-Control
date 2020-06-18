@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
+
 /**
  * @author Claire
  */
@@ -26,8 +28,12 @@ public class SelectDemoPanel extends JPanel implements ActionListener {
 	private final JPanel top = new JPanel();
 	private final JPanel bottom = null; //SelectView required here
 	
-	public SelectDemoPanel()
+	private final SimpleEventListener saveListener;
+	
+	public SelectDemoPanel(SimpleEventListener saveListener)
 	{
+		this.saveListener = saveListener;
+		
 		top.add(new JLabel("Latitude: "));
 		top.add(lat);
 		top.add(new JLabel("Longditude: "));
@@ -37,12 +43,15 @@ public class SelectDemoPanel extends JPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
 		//this.add(bottom, BorderLayout.CENTER);
+		
+		save.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == save) {
 			//TODO: Implement saving
+			saveListener.event("save");
 		}
 	}
 
