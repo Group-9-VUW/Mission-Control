@@ -43,24 +43,48 @@ public class CachedMapData implements MapData {
 
     int[] topLeftXY = MapData.convertCoordsToXY(topLeftLat, topLeftLong, zoom);
     int[] bottomRightXY = MapData.convertCoordsToXY(bottomRightLat, bottomRightLong, zoom);
-    int xToDraw = bottomRightXY[0] - topLeftXY[0];
-    int yToDraw = bottomRightXY[1] - topLeftXY[1];
-    
-    
-    
-    
-    BufferedImage[][] images = new BufferedImage[xToDraw][yToDraw];
-    for (int x = 0; x < images.length; x++) {
-      
+    int numXToDraw = bottomRightXY[0] - topLeftXY[0];
+    int numYToDraw = bottomRightXY[1] - topLeftXY[1];
+
+    //TODO check that x and y are correct at these locations
+    BufferedImage[][] images = new BufferedImage[numXToDraw][numYToDraw];
+    double[] latitudesToDo;
+    double[] longitudesToDo;
+    //TODO this is hardcoded for now
+    //It should be changed in the future to be a general solution
+    switch (images.length) {
+      case 1:
+        latitudesToDo = new double[] {topLeftLat};
+        break;
+      case 2:
+        latitudesToDo = new double[] {topLeftLat, bottomRightLat};
+        break;
+      case 3:
+        latitudesToDo = new double[] {topLeftLat, 
+            (topLeftLat + bottomRightLat) / 2, bottomRightLat};
+        break;
+      case 4:
+        latitudesToDo = new double[] {topLeftLat, topLeftLat * 2 / 3 + bottomRightLat * 1 / 3, 
+            topLeftLat * 1 / 3 + bottomRightLat * 2 / 3, bottomRightLat};
+        break;
+      case 5:
+        latitudesToDo = new double[] {topLeftLat, topLeftLat * 3 / 4 + bottomRightLat * 1 / 4, 
+            (topLeftLat + bottomRightLat) / 2, topLeftLat * 1 / 4 + bottomRightLat * 3 / 4, 
+            bottomRightLat};
+        break;
+      default:
+        System.out.println("This case has not been implemented.");
+        latitudesToDo = new double[] {topLeftLat};
+        break;
     }
-    double currentLat = ;
-    double currentLong;
-    
+    //TODO do longitudes to do
+
+
     BufferedImage topLeft = (BufferedImage) data.get(topLeftLat, topLeftLong, zoom);
     BufferedImage topRight = (BufferedImage) data.get(topLeftLat, bottomRightLong, zoom);
     BufferedImage bottomLeft = (BufferedImage) data.get(bottomRightLat, topLeftLong, zoom);
     BufferedImage bottomRight = (BufferedImage) data.get(bottomRightLat, bottomRightLong, zoom);
-    
+
     this.img = new BufferedImage(topLeft.getWidth() + topRight.getWidth(), 
         topLeft.getHeight() + bottomLeft.getHeight(), bottomRight.getType());
     Graphics2D g = this.img.createGraphics();
@@ -69,10 +93,10 @@ public class CachedMapData implements MapData {
     g.drawImage(bottomLeft, null, 0, topLeft.getHeight());
     g.drawImage(bottomRight, null, topLeft.getWidth(), topLeft.getHeight());
     g.dispose();
-    
+
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
-    
+
     this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
   }
