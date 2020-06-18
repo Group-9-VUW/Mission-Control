@@ -42,6 +42,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private int locSize; //Size of highlighted location
 	private boolean locationSelected; //Has the user selected a location (launch site)
 	private MapData mapData; //Used to get the map images
+	private LaunchSelectedListener launchListener;
 	
 	/** This sets up fields, draws the initial map and determines longitude/latitude to pixel ratios */
 	public SelectMapView(MapData data) {
@@ -120,6 +121,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			else {
 				locationSelected = true;
 			}
+			launchListener.onLaunchSelected(locationX/pixelToLong, locationY/pixelToLat);
 		}
 	}
 
@@ -174,6 +176,10 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		latUL = latBRPixels/pixelToLat;
 		
 		locSize = locSize + (int)(locSize*zoomChange); //If the map is zoomed in then the mark should enlarge
+	}
+	
+	public void addListener(LaunchSelectedListener listener) {
+		launchListener = listener;
 	}
 }
 
