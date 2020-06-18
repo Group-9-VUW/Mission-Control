@@ -27,6 +27,8 @@ public class MapSpike extends JFrame implements WindowListener {
 	
 	protected static final int WINDOW_WIDTH = 900;
 	protected static final int WINDOW_HEIGHT = 600;
+	
+	protected final SelectDemoPanel selectdemo = new SelectDemoPanel();
 
 	/**
 	 * @throws HeadlessException
@@ -35,7 +37,7 @@ public class MapSpike extends JFrame implements WindowListener {
 		super("Map Demo");
 		this.setLayout(new BorderLayout());
 		JTabbedPane tabs = new JTabbedPane();
-		tabs.addTab("Test1", new JLabel("content1"));
+		tabs.addTab("Select Demo", selectdemo);
 		tabs.addTab("Test2", new JLabel("content2"));
 		this.add(tabs, BorderLayout.CENTER);
 		this.addWindowListener(this);
