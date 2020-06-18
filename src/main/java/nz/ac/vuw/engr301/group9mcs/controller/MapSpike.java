@@ -50,7 +50,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	public void event(String type) {
 		switch(type) {
 			case "save":
-				viewdemo.setSaveAvailable(true);
+				viewdemo.setSave(null); //TODO: Get file
 				break;
 		}
 	}
