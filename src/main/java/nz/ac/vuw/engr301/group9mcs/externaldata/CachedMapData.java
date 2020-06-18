@@ -8,6 +8,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
+
 import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -175,8 +177,10 @@ public class CachedMapData implements MapData {
     String fileName = this.file.getName();
     File dat = new File(fileName.substring(0, fileName.length() - 4) + ".dat");
     try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
+      //save image
       RenderedImage renderedImg = this.img;
       ImageIO.write(renderedImg, "png", this.file);
+      //save data
       out.write("" + this.topLeftLat);
       out.newLine();
       out.write("" + this.topLeftLong);
@@ -199,12 +203,22 @@ public class CachedMapData implements MapData {
    * Loads the current map image from a file.
    */
   private void loadMapFromFile() {
-    try {
+    //get data file
+    String fileName = this.file.getName();
+    File dat = new File(fileName.substring(0, fileName.length() - 4) + ".dat");
+    try (Scanner sc = new Scanner(dat);) {
+      //get image
       @Nullable BufferedImage image = ImageIO.read(this.file);
       if (image == null) {
         throw new NullPointerException();
       }
       this.img = image;
+      //get the data
+      this.topLeftLat = sc.nextDouble();
+      this.topLeftLong = sc.nextDouble();
+      this.bottomRightLat = sc.nextDouble();
+      this.bottomRightLong = sc.nextDouble();
+      sc.close();
     } catch (IOException e) {
       //TODO deal with errors
       System.err.println("The file: " + this.file.getName() + " could not be found or loaded.");
