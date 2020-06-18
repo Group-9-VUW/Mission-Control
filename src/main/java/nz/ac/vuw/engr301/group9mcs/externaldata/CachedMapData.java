@@ -26,6 +26,13 @@ public class CachedMapData implements MapData {
    */
   private BufferedImage img = new BufferedImage(1, 1, 1); 
 
+  private double topLeftLat;
+  private double topLeftLong;
+  private double bottomRightLat;
+  private double bottomRightLong;
+
+
+
   //public CachedMapData() {} TODO maybe implement this to automatically load a file
 
   /**
@@ -38,6 +45,18 @@ public class CachedMapData implements MapData {
    */
   public CachedMapData(InternetMapData data, double topLeftLat, double topLeftLong, 
       double bottomRightLat, double bottomRightLong) {
+    //TODO maybe remove the data parameter and create new instance here.
+
+    this.topLeftLat = topLeftLat;
+    this.topLeftLong = topLeftLong;
+    this.bottomRightLat = bottomRightLat;
+    this.bottomRightLong = bottomRightLong;
+
+
+    //** TODO this should be moved to the InternetDataClass
+
+
+    //FIXME this is almost certainly FULL of bugs (e.g. lang/lat, x/y confusion)
     //TODO calculate zoom level
     int zoom = 16;
 
@@ -111,7 +130,7 @@ public class CachedMapData implements MapData {
         images[x][y] = (BufferedImage) data.get(latitudesToDo[x], longitudesToDo[y], zoom);
       }
     }
-    
+
     this.img = new BufferedImage(images.length * images[0][0].getWidth(),  
         images[0].length * images[0][0].getHeight(), images[0][0].getType());
     Graphics2D g = this.img.createGraphics();
@@ -127,10 +146,13 @@ public class CachedMapData implements MapData {
     }
     g.dispose();
 
+    //** END OF SHOULD BE MOVED
+
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
 
     this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
+    //TODO save metadata
     saveMapToFile();
   }
 
@@ -186,6 +208,38 @@ public class CachedMapData implements MapData {
    */
   public Image getImage() {
     return this.img;
+  }
+
+  /**
+   * Gets a subset of the image stored by this CachedMapData instance.
+   * @param latUL the top left latitude of the image to return.
+   * @param lonUL the top left longitude of the image to return.
+   * @param latBR the bottom right latitude of the image to return.
+   * @param lonBR the bottom right longitude of the image to return.
+   * @return the subimage.
+   */
+  public Image get(double latUL, double lonUL, 
+      double latBR, double lonBR) {
+    //TODO check that this works
+
+    double pixelsPerDegreeX = (this.bottomRightLong - this.topLeftLong) / this.img.getWidth();
+    double pixelsPerDegreeY = (this.bottomRightLat - this.topLeftLat) / this.img.getWidth();
+
+    double topLeftX = pixelsPerDegreeX * lonUL;
+    double topLeftY = pixelsPerDegreeY * latUL;
+    double width = pixelsPerDegreeX * lonBR - topLeftX;
+    double height = pixelsPerDegreeY * latBR - topLeftY;
+
+    //parameters were invalid
+    if (topLeftX < 0 || topLeftY < 0 || width > this.img.getWidth() 
+        || height > this.img.getHeight()) {
+      return this.img;
+    }
+
+    BufferedImage subImage = this.img.getSubimage((int) topLeftX, 
+        (int) topLeftY, (int) width, (int) height);
+    assert subImage != null;
+    return subImage;
   }
 
   /**
