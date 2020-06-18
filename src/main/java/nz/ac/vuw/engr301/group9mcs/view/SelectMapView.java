@@ -31,7 +31,8 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private double longBR; //Longitude of bottom right corner of the map
 	private double latBR; //Latitude of bottom right corner of the map
 	private double zoom; //Zoom level
-	private int size; //Total size (in pixels) of the map
+	private int sizeX; //Total size (in x pixels) of the map
+	private int sizeY; //Total size (in y pixels) of the map
 	private Image image; //Current image (current map) being displayed
 	private double pixelToLat; //How many latitudes in a pixel
 	private double pixelToLong; //How many longitudes in a pixel
@@ -55,7 +56,8 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		locationSelected = false;
 		locSize = 20;
 		zoom = 1;
-		size = 600; //Could be better to have this as non-static (i.e. changes based on device's screen resolution)
+		sizeX = this.getHeight();
+		sizeY = this.getHeight();
 		pixelToLongLat();
 		repaint();
 	}
@@ -64,8 +66,8 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private void pixelToLongLat() {
 		double longDiff = Math.abs(longUL - longBR);
 		double latDiff = Math.abs(latUL - latBR);
-		pixelToLong = longDiff/size;
-		pixelToLat = latDiff/size;
+		pixelToLong = longDiff/sizeX;
+		pixelToLat = latDiff/sizeY;
 	}
 	
 	@Override
@@ -121,7 +123,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			else {
 				locationSelected = true;
 			}
-			launchListener.onLaunchSelected(locationX/pixelToLong, locationY/pixelToLat);
+			launchListener.onLaunchSelected((longUL + (locationX/pixelToLong)), (latUL + (locationY/pixelToLat));
 		}
 	}
 
