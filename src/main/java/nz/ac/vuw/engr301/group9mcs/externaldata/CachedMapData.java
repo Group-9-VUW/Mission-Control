@@ -1,6 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -64,7 +63,7 @@ public class CachedMapData implements MapData {
     //TODO calculate zoom level
     int zoom = 16;
 
-    int[] topLeftXY = MapData.convertCoordsToXY(topLeftLat, topLeftLong, zoom);
+    /* int[] topLeftXY = MapData.convertCoordsToXY(topLeftLat, topLeftLong, zoom);
     int[] bottomRightXY = MapData.convertCoordsToXY(bottomRightLat, bottomRightLong, zoom);
     int numXToDraw = bottomRightXY[0] - topLeftXY[0];
     int numYToDraw = bottomRightXY[1] - topLeftXY[1];
@@ -148,15 +147,18 @@ public class CachedMapData implements MapData {
       currX += images[x][0].getWidth();
       currY = 0;
     }
-    g.dispose();
+    g.dispose();*/
 
     //** END OF SHOULD BE MOVED
 
+
+
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
+    //TODO change this method call
+    this.img = (BufferedImage) data.get(centreLat, centreLong, zoom);
 
     this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
-    //TODO save metadata
     saveMapToFile();
   }
 
@@ -173,9 +175,9 @@ public class CachedMapData implements MapData {
    * Saves the current map image to a file.
    */
   private void saveMapToFile() {
-    //TODO test this
     String fileName = this.file.getName();
-    File dat = new File(fileName.substring(0, fileName.length() - 4) + ".dat");
+    File dat = new File("src/main/resources/" 
+        + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
       //save image
       RenderedImage renderedImg = this.img;
@@ -205,7 +207,8 @@ public class CachedMapData implements MapData {
   private void loadMapFromFile() {
     //get data file
     String fileName = this.file.getName();
-    File dat = new File(fileName.substring(0, fileName.length() - 4) + ".dat");
+    File dat = new File("src/main/resources/" 
+        + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (Scanner sc = new Scanner(dat);) {
       //get image
       @Nullable BufferedImage image = ImageIO.read(this.file);
@@ -247,15 +250,16 @@ public class CachedMapData implements MapData {
    */
   public Image get(double latUL, double lonUL, 
       double latBR, double lonBR) {
-    //TODO check that this works
 
     double pixelsPerDegreeX = (this.bottomRightLong - this.topLeftLong) / this.img.getWidth();
-    double pixelsPerDegreeY = (this.bottomRightLat - this.topLeftLat) / this.img.getWidth();
+    double pixelsPerDegreeY = (this.bottomRightLat - this.topLeftLat) / this.img.getHeight();
 
-    double topLeftX = pixelsPerDegreeX * lonUL;
-    double topLeftY = pixelsPerDegreeY * latUL;
-    double width = pixelsPerDegreeX * lonBR - topLeftX;
-    double height = pixelsPerDegreeY * latBR - topLeftY;
+    double topLeftX = (lonUL - this.topLeftLong) / pixelsPerDegreeX;
+    double topLeftY = (latUL - this.topLeftLat) / pixelsPerDegreeY;
+    double bottomRightX = (lonBR - this.topLeftLong) / pixelsPerDegreeX;
+    double bottomRightY = (latBR - this.topLeftLat) / pixelsPerDegreeY;
+    double width = bottomRightX - topLeftX;
+    double height = bottomRightY - topLeftY;
 
     //parameters were invalid
     if (topLeftX < 0 || topLeftY < 0 || width > this.img.getWidth() 
