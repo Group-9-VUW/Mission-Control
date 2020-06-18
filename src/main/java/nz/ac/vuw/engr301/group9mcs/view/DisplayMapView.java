@@ -159,7 +159,41 @@ public class DisplayMapView extends JPanel {
     }
     int x = xlocation - image.getWidth(null) / 2;
     int y = ylocation - image.getHeight(null) / 2;
+    setColour(image);
     g.drawImage(image, x, y, null);
+  }
+
+  /**
+   * Assuming that the image is black with a transparent background.
+   * Sets the image color to red (has a black outline).
+   * 
+   * @param image Image to be colored
+   * @return Colored image
+   */
+  private @Nullable static BufferedImage setColour(@Nullable BufferedImage image) {
+    if (image == null) {
+      return image;
+    }
+    // get width and height 
+    int width = image.getWidth(); 
+    int height = image.getHeight(); 
+
+    int set = new Color(255,0,0).getRGB();
+
+    int[] result = new int[height * width];
+    image.getRGB(0, 0, width, height, result, 0, width);
+
+    for (int y = 0; y < height; y++) { 
+      for (int x = 0; x < width; x++) { 
+        Color c = new Color(image.getRGB(x, y), true);
+        int p = c.getAlpha();
+
+        if (p > 20 && c.equals(Color.black)) {
+          image.setRGB(x, y, set); 
+        }
+      } 
+    }
+    return image;
   }
 
   /**
@@ -234,7 +268,7 @@ public class DisplayMapView extends JPanel {
     return (result < 0) ? (360d + result) : result;*/
     return result;
   }
-  
+
   /**
    * Create four corners around the launch site and rocket location.
    * NOTE: Latitude works opposite to x.
