@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
+
 /**
  * Display map view is for showing the position of the rocket. 
  * Its viewing zoom and position should be automatically decided 
@@ -100,17 +102,24 @@ public class DisplayMapView extends JPanel {
    * UID.
    */
   private static final long serialVersionUID = 3810711176953194652L;
+  
+  /**
+   * Provides the map image.
+   */
+  private MapData mapData;
 
   /**
    * Set up JPanel for Displaying Map of Rocket's Progress.
    * @param latLaunchSite The Latitude of where the launch site is
    * @param longLaunchSite The Longitude of where the launch site is
+   * @param mapData The MapData class, provides the map image
    */
-  public DisplayMapView(double latLaunchSite, double longLaunchSite) {
+  public DisplayMapView(double latLaunchSite, double longLaunchSite, MapData mapData) {
     this.longLaunchSite = longLaunchSite;
     this.longRocket = longLaunchSite;
     this.latLaunchSite = latLaunchSite;
     this.latRocket = latLaunchSite;
+    this.mapData = mapData;
 
     this.setPreferredSize(new Dimension(300, 300));
 
@@ -234,8 +243,8 @@ public class DisplayMapView extends JPanel {
         - corners[3].getY()) / yscreen)) - (int)(this.panel.getSize().height * this.zoom / 2);
 
     // Get and Draw map
-    //BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
-    //g.drawImage(image, 0, 0, this.panel.getSize().width, this.panel.getSize().height, null);
+    BufferedImage image = (BufferedImage)this.mapData.get(upperLY, upperLX, lowerRY, lowerRX);
+    g.drawImage(image, 0, 0, this.panel.getSize().width, this.panel.getSize().height, null);
 
     int width = this.panel.getSize().width;
     int height = this.panel.getSize().height;
