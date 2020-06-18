@@ -57,7 +57,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 			CachedMapData data = new CachedMapData(this.saveFile);
 			this.launchLat = data.centerLat();
 			this.launchLon = data.centerLon();
-			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon());
+			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon(), data);
 			this.remove(this.bottom);
 			this.bottom = this.dmv;
 			this.add(this.bottom, BorderLayout.CENTER);
