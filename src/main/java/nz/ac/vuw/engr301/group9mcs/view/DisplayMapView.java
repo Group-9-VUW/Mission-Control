@@ -133,8 +133,8 @@ public class DisplayMapView extends JPanel {
     int lowerRY = (int)((this.getSize().height + corners[3].getY()) / ((corners[2].getY() 
         - corners[3].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
     
-    BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
-    g.drawImage(image, 0, 0, this.getSize().width, this.getSize().height, null);
+    //BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
+    //g.drawImage(image, 0, 0, this.getSize().width, this.getSize().height, null);
 
     int width = this.getSize().width;
     int height = this.getSize().height;
