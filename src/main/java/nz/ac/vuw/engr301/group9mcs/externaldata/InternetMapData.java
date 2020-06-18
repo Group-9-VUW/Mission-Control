@@ -34,7 +34,13 @@ public class InternetMapData /*TODO: implements MapData*/ {
         try {
             // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
             // parameters.
-            return ImageIO.read(new URL(String.format(osmTileUriFormat, zoom, location[0], location[1])));
+            // URLConnection courtesy of @hindlejosh
+            URL url = new URL(String.format(osmTileUriFormat, zoom, location[0], location[1]));
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
+            connection.connect();
+            return ImageIO.read(connection.getInputStream());
+
         } catch (IOException e) {
             e.printStackTrace();
             // TODO: Determine error handling.
@@ -43,7 +49,7 @@ public class InternetMapData /*TODO: implements MapData*/ {
     }
 
     /**
-     * Checks if the user can succesfully connect to the OSM API.
+     * Checks if the user can successfully connect to the OSM API.
      * @return true if the user can connect to the API, false otherwise.
      */
     public boolean isAvailable() {
