@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
@@ -52,9 +53,9 @@ public class DisplayMapView extends JPanel {
   private double latRocket;
 
   /**
-   * The space between a point and the edge (any point).
+   * The ratio of how much screen is shown around the objects.
    */
-  private int zoom = 100;
+  private double zoom = 0.25;
   /**
    * UID.
    */
@@ -86,45 +87,54 @@ public class DisplayMapView extends JPanel {
     // calculate the x coordinates for rocket and launch site
     int xlaunch;
     int xrocket;
+    int xscreen = (int)(this.getSize().getWidth() - (this.getSize().getWidth() * this.zoom));
     if (launchCoordinates.getY() > rocketCoordinates.getY()) {
-      // the launch site is closer to the top of the screen
       xlaunch = (int)(translateScale(launchCoordinates.getX(),
-          corners[2].getX(), corners[3].getX(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
-      // the rocket is closer to the bottom of the screen
+          corners[2].getX(), corners[3].getX(), xscreen)) 
+          + (int)(this.getSize().width * this.zoom / 2);
       xrocket = (int)(translateScale(rocketCoordinates.getX(),
-          corners[0].getX(), corners[1].getX(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[0].getX(), corners[1].getX(), xscreen)) 
+          + (int)(this.getSize().width * this.zoom / 2);
     } else {
-      // the rocket is closer to the top of the screen
       xrocket = (int)(translateScale(rocketCoordinates.getX(),
-          corners[2].getX(), corners[3].getX(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
-      // the launch is closer to the bottom of the screen
+          corners[2].getX(), corners[3].getX(), xscreen)) 
+          + (int)(this.getSize().width * this.zoom / 2);
       xlaunch = (int)(translateScale(launchCoordinates.getX(),
-          corners[0].getX(), corners[1].getX(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[0].getX(), corners[1].getX(), xscreen)) 
+          + (int)(this.getSize().width * this.zoom / 2);
     }
-
+    
     // calculate the y coordinates for rocket and launch site
     int ylaunch;
     int yrocket;
+    int yscreen = (int)(this.getSize().getHeight() - this.getSize().getHeight() * this.zoom);
     if (launchCoordinates.getX() > rocketCoordinates.getX()) {
-      // the launch is closer to the 
       ylaunch = (int)(translateScale(launchCoordinates.getY(),
-          corners[1].getY(), corners[3].getY(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[1].getY(), corners[3].getY(), yscreen)) 
+          + (int)(this.getSize().getHeight() * this.zoom / 2);
       yrocket = (int)(translateScale(rocketCoordinates.getY(),
-          corners[0].getY(), corners[2].getY(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[0].getY(), corners[2].getY(), yscreen)) 
+          + (int)(this.getSize().getHeight() * this.zoom / 2);
     } else {
       yrocket = (int)(translateScale(rocketCoordinates.getY(),
-          corners[1].getY(), corners[3].getY(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[1].getY(), corners[3].getY(), yscreen)) 
+          + (int)(this.getSize().getHeight() * this.zoom / 2);
       ylaunch = (int)(translateScale(launchCoordinates.getY(),
-          corners[0].getY(), corners[2].getY(), this.getSize().getWidth() 
-          - this.zoom)) + this.zoom / 2;
+          corners[0].getY(), corners[2].getY(), yscreen)) 
+          + (int)(this.getSize().getHeight() * this.zoom / 2);
     }
+
+    int upperLX = (int)((0 + corners[0].getX()) / ((corners[1].getX() 
+        - corners[0].getX()) / xscreen)) - (int)(this.getSize().width * this.zoom / 2);
+    int lowerRX = (int)((this.getSize().width + corners[3].getX()) / ((corners[2].getX() 
+        - corners[3].getX()) / xscreen)) - (int)(this.getSize().width * this.zoom / 2);
+    int upperLY = (int)((0 + corners[0].getY()) / ((corners[1].getY() 
+        - corners[0].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
+    int lowerRY = (int)((this.getSize().height + corners[3].getY()) / ((corners[2].getY() 
+        - corners[3].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
+    
+    BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
+    g.drawImage(image, 0, 0, this.getSize().width, this.getSize().height, null);
 
     int width = this.getSize().width;
     int height = this.getSize().height;
@@ -146,8 +156,7 @@ public class DisplayMapView extends JPanel {
    */
   private static void drawRocketPath(int x1, int y1, int x2, int y2, Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    //float dash[] = {10.0f};
-    Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, 
+    Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, 
         BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     g2d.setStroke(dashed);
     g.drawLine(x1, y1, x2, y2);
@@ -164,7 +173,7 @@ public class DisplayMapView extends JPanel {
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
-      image = scaleDimensions(image, 5.0);
+      image = scaleDimensions(image, 6.0);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -192,7 +201,7 @@ public class DisplayMapView extends JPanel {
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
-      image = scaleDimensions(image, 4.0);
+      image = scaleDimensions(image, 5.0);
       double angle = angleOf(launch, rocket);
       image = rotateImage(image, angle);
     } catch (IOException e) {
@@ -307,10 +316,6 @@ public class DisplayMapView extends JPanel {
     int result = (int)(Math.atan2(p2.getY() - p1.getY(), p2.getX() - p1.getX()) * 180 / Math.PI);
     result -= 90;
     result = result * -1;
-    /*final double deltaY = (p1.getY() - p2.getY());
-    final double deltaX = (p2.getX() - p1.getX());
-    final double result = Math.toDegrees(Math.atan2(deltaY, deltaX)); 
-    return (result < 0) ? (360d + result) : result;*/
     return result;
   }
 
