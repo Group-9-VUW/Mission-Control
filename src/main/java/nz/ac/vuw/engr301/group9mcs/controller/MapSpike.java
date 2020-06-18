@@ -3,11 +3,14 @@
  */
 package nz.ac.vuw.engr301.group9mcs.controller;
 
+import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
 
@@ -30,6 +33,11 @@ public class MapSpike extends JFrame implements WindowListener {
 	 */
 	public MapSpike() throws HeadlessException {
 		super("Map Demo");
+		this.setLayout(new BorderLayout());
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.addTab("Test1", new JLabel("content1"));
+		tabs.addTab("Test2", new JLabel("content2"));
+		this.add(tabs, BorderLayout.CENTER);
 		this.addWindowListener(this);
 		this.setSize(900, 600);
 		DisplayHelper.center(this);
