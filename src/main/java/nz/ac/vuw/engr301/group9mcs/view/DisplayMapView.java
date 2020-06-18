@@ -2,11 +2,14 @@ package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -103,7 +106,7 @@ public class DisplayMapView extends JPanel {
           corners[0].getX(), corners[1].getX(), xscreen)) 
           + (int)(this.getSize().width * this.zoom / 2);
     }
-    
+
     // calculate the y coordinates for rocket and launch site
     int ylaunch;
     int yrocket;
@@ -132,7 +135,7 @@ public class DisplayMapView extends JPanel {
         - corners[0].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
     int lowerRY = (int)((this.getSize().height + corners[3].getY()) / ((corners[2].getY() 
         - corners[3].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
-    
+
     //BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
     //g.drawImage(image, 0, 0, this.getSize().width, this.getSize().height, null);
 
@@ -144,7 +147,7 @@ public class DisplayMapView extends JPanel {
     drawRocket(width - xrocket, height - yrocket, g, launchCoordinates, rocketCoordinates);
     drawLaunchSite(width - xlaunch, height - ylaunch, g);
   }
-  
+
   /**
    * Draw a dashed line between the launch site and the rocket.
    * 
@@ -173,7 +176,7 @@ public class DisplayMapView extends JPanel {
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
-      image = scaleDimensions(image, 6.0);
+      image = scaleDimensions(image, 7.0);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -184,8 +187,11 @@ public class DisplayMapView extends JPanel {
     int y = ylocation - image.getHeight() / 2;
     setColour(image);
     g.drawImage(image, x, y, null);
+    String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
+        + String.format("%.5g%n", this.longLaunchSite);
+    centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
   }
-  
+
   /**
    * Draw a rocket in the direction given at a point on the screen.
    * The direction could be 1 (NorthEast), 2 (NorthWest), 3 (SouthEast), 4 (SouthWest)
@@ -201,7 +207,7 @@ public class DisplayMapView extends JPanel {
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
-      image = scaleDimensions(image, 5.0);
+      image = scaleDimensions(image, 6.0);
       double angle = angleOf(launch, rocket);
       image = rotateImage(image, angle);
     } catch (IOException e) {
@@ -214,6 +220,33 @@ public class DisplayMapView extends JPanel {
     int y = ylocation - image.getHeight(null) / 2;
     setColour(image);
     g.drawImage(image, x, y, null);
+    String s = String.format("%.5g%n", this.latRocket) + ", " 
+        + String.format("%.5g%n", this.longRocket);
+    centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
+  }
+
+  /**
+   * Center the coordinates below the site images on a white rectangle.
+   * 
+   * @param text The text to display (coordinates of site)
+   * @param g The Graphics drawer
+   * @param x The x position of the site image
+   * @param y The y position of the site image
+   * @param width The site image's width
+   * @param height The site image's height
+   */
+  public void centerText(String text, Graphics2D g, int x, int y, int width, int height) {
+    g.setFont(new Font("Serif", Font.PLAIN, this.getSize().height / 30));
+    FontMetrics fm = g.getFontMetrics(g.getFont());
+    Rectangle2D rect = fm.getStringBounds(text, g);
+    int xstring = (int)(x - (rect.getWidth() / 2) + (width / 2));
+    int ystring = (int)(y + height + rect.getHeight());
+    g.setColor(Color.white);
+    g.fillRect(xstring - (int)rect.getWidth() / text.length() / 2, ystring - fm.getAscent(), 
+        (int)rect.getWidth(), (int)rect.getHeight());
+    g.setColor(Color.black);
+    g.drawString(text, xstring, ystring);
+
   }
 
   /**
@@ -261,12 +294,7 @@ public class DisplayMapView extends JPanel {
     if (image == null) {
       return image;
     }
-    double ratio = 0.0;
-    if (this.getSize().height > this.getSize().width) {
-      ratio = (this.getSize().width / scale) / image.getWidth();
-    } else {
-      ratio = (this.getSize().height / scale) / image.getHeight();
-    }
+    double ratio = (this.getSize().height / scale) / image.getHeight();
     int w = (int)(image.getWidth() * ratio);
     int h = (int)(image.getHeight() * ratio);
     BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -410,7 +438,7 @@ public class DisplayMapView extends JPanel {
    * @return The coordinates of the new point
    */
   private static Point2D getNewLocation(double lat, double lon, double dist, double angle) {
-    // Earth Radious in KM
+    // Earth Radius in KM
     double radiusEarth = 6378.14;
 
     // Degree to Radian
