@@ -126,13 +126,35 @@ public class DisplayMapView extends JPanel {
     int width = this.getSize().width;
     int height = this.getSize().height;
 
-    // Show a representation of the locations using rectangles
-    g.fillRect(0, 0, width - xlaunch, height - ylaunch);
-    g.setColor(Color.white);
-    g.drawRect(0, 0, width - xrocket, height - yrocket);
+    // draw the rocket and launch site on the map
     drawRocket(width - xrocket, height - yrocket, g, launchCoordinates, rocketCoordinates);
+    drawLaunchSite(width - xlaunch, height - ylaunch, g);
   }
 
+  /**
+   * Draw the launch site at a given point on the screen.
+   * 
+   * @param xlocation X coordinate of the site location
+   * @param ylocation Y coordinate of the site location
+   * @param g The Graphics drawer
+   */
+  private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
+    BufferedImage image = null;
+    try {
+      image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
+      image = scaleDimensions(image, 5.0);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (image == null) {
+      return;
+    }
+    int x = xlocation - image.getWidth() / 2;
+    int y = ylocation - image.getHeight() / 2;
+    setColour(image);
+    g.drawImage(image, x, y, null);
+  }
+  
   /**
    * Draw a rocket in the direction given at a point on the screen.
    * The direction could be 1 (NorthEast), 2 (NorthWest), 3 (SouthEast), 4 (SouthWest)
@@ -148,7 +170,7 @@ public class DisplayMapView extends JPanel {
     BufferedImage image = null;
     try {
       image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
-      image = scaleDimensions(image);
+      image = scaleDimensions(image, 4.0);
       double angle = angleOf(launch, rocket);
       image = rotateImage(image, angle);
     } catch (IOException e) {
@@ -201,17 +223,18 @@ public class DisplayMapView extends JPanel {
    * Scales to the shortest length (height/width).
    * 
    * @param image The image to be scaled
+   * @param scale The scale of the image (side = screen dimension / scale)
    * @return The scaled image
    */
-  private @Nullable BufferedImage scaleDimensions(@Nullable BufferedImage image) {
+  private @Nullable BufferedImage scaleDimensions(@Nullable BufferedImage image, double scale) {
     if (image == null) {
       return image;
     }
     double ratio = 0.0;
     if (this.getSize().height > this.getSize().width) {
-      ratio = (this.getSize().width / 4.0) / image.getWidth();
+      ratio = (this.getSize().width / scale) / image.getWidth();
     } else {
-      ratio = (this.getSize().height / 4.0) / image.getHeight();
+      ratio = (this.getSize().height / scale) / image.getHeight();
     }
     int w = (int)(image.getWidth() * ratio);
     int h = (int)(image.getHeight() * ratio);
