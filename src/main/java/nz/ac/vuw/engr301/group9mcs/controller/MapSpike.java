@@ -24,5 +24,9 @@ public class MapSpike extends JFrame {
 	public MapSpike() throws HeadlessException {
 		super("Map Demo");
 	}
+	
+	public static final void main(String[] args) {
+		new MapSpike().setVisible(true);
+	}
 
 }
