@@ -68,7 +68,11 @@ public class NOAAGetter {
 				
 				JSONObject currentData = weatherJSON.getJSONObject("current");
 				
-				JSONObject rainData =  currentData.getJSONObject("rain");
+                JSONObject rainData = null;
+                
+                if(currentData.has("rain")) {
+                    rainData = currentData.getJSONObject("rain");
+                }
 				
 				
 				double temperature = currentData.getDouble("temp");
@@ -79,8 +83,8 @@ public class NOAAGetter {
 				
 				double pressure = currentData.getDouble("pressure");
 				
-				// Amount of Rainfall in the last hour.
-				double precipitation = rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
+                // Amount of Rainfall in the last hour.
+                double precipitation = rainData != null && rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
 				
 				reader.close();
 				return new WeatherData(temperature, windSpeed, pressure, precipitation);
