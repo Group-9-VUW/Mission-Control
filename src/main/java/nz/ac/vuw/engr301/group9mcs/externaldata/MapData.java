@@ -32,7 +32,7 @@ public interface MapData {
 
     // Calculating cartesian coordinates.
     int n = (int) Math.pow(2, zoom);
-    int x = (int) (n * ((longitude + 180f) / 360f));
+    int x = (int) (n * ((longitude + 180.0) / 360.0));
     int y = (int) (n * (1 - (Math.log(Math.tan(latitudeRadians) + 1 
         / Math.cos(latitudeRadians)) / Math.PI)) / 2);
     return new int[]{x, y};

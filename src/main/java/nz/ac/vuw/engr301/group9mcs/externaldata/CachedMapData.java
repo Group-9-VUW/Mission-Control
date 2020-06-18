@@ -14,7 +14,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * 
  * @author Joshua Hindley, hindlejosh, 300438963
  */
-public class CachedMapData /*TODO implements MapData*/ {
+public class CachedMapData implements MapData {
   /**
    * Holds this CachedMapData's file. That is, the file where 
    * this class will save an image to, or load an image from.
@@ -40,8 +40,22 @@ public class CachedMapData /*TODO implements MapData*/ {
       double bottomRightLat, double bottomRightLong) {
     //TODO calculate zoom level
     int zoom = 16;
-    //TODO actually determine number of images that must be gotten might need 
-    //convertCoordsToXY method from InternetMapData class. Could move this to MapData interface.
+
+    int[] topLeftXY = MapData.convertCoordsToXY(topLeftLat, topLeftLong, zoom);
+    int[] bottomRightXY = MapData.convertCoordsToXY(bottomRightLat, bottomRightLong, zoom);
+    int xToDraw = bottomRightXY[0] - topLeftXY[0];
+    int yToDraw = bottomRightXY[1] - topLeftXY[1];
+    
+    
+    
+    
+    BufferedImage[][] images = new BufferedImage[xToDraw][yToDraw];
+    for (int x = 0; x < images.length; x++) {
+      
+    }
+    double currentLat = ;
+    double currentLong;
+    
     BufferedImage topLeft = (BufferedImage) data.get(topLeftLat, topLeftLong, zoom);
     BufferedImage topRight = (BufferedImage) data.get(topLeftLat, bottomRightLong, zoom);
     BufferedImage bottomLeft = (BufferedImage) data.get(bottomRightLat, topLeftLong, zoom);
