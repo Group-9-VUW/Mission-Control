@@ -30,6 +30,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	
 	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(this);
 	protected final ViewDemoPanel viewdemo = new ViewDemoPanel();
+	protected final WeatherDemoPanel weatherdemo = new WeatherDemoPanel();
 	
 	/**
 	 * @throws HeadlessException
@@ -40,6 +41,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab("Select Demo", selectdemo);
 		tabs.addTab("Launch Demo", viewdemo);
+		tabs.addTab("Weather Demo", weatherdemo);
 		this.add(tabs, BorderLayout.CENTER);
 		this.addWindowListener(this);
 		this.setSize(900, 600);
