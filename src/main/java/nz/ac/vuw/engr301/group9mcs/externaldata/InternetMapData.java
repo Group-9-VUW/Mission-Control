@@ -52,7 +52,7 @@ public class InternetMapData /*TODO: implements MapData*/ {
      * Checks if the user can successfully connect to the OSM API.
      * @return true if the user can connect to the API, false otherwise.
      */
-    public boolean isAvailable() {
+    public static boolean isAvailable() {
         // Multiple endpoints are available so we should test them all.
         String[] endpoints = new String[]{
                 "a", "b", "c"
@@ -72,7 +72,7 @@ public class InternetMapData /*TODO: implements MapData*/ {
      * Checks if the user can succesfully connect to the given URL.
      * @return Returns true if the user can connect to the URL, false otherwise.
      */
-    private boolean doIsAvailable(String URL) {
+    private static boolean doIsAvailable(String URL) {
         try {
             URL url = new URL(osmTileUriFormat.substring(osmTileUriFormat.length() - 14));
             URLConnection connection = url.openConnection();
