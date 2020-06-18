@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
@@ -29,7 +28,8 @@ public class MapSpike extends JFrame implements WindowListener {
 	protected static final int WINDOW_HEIGHT = 600;
 	
 	protected final SelectDemoPanel selectdemo = new SelectDemoPanel();
-
+	protected final ViewDemoPanel viewdemo = new ViewDemoPanel();
+	
 	/**
 	 * @throws HeadlessException
 	 */
@@ -38,7 +38,7 @@ public class MapSpike extends JFrame implements WindowListener {
 		this.setLayout(new BorderLayout());
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab("Select Demo", selectdemo);
-		tabs.addTab("Test2", new JLabel("content2"));
+		tabs.addTab("Launch Demo", viewdemo);
 		this.add(tabs, BorderLayout.CENTER);
 		this.addWindowListener(this);
 		this.setSize(900, 600);
