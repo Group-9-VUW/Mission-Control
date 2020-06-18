@@ -52,6 +52,7 @@ public class CachedMapData implements MapData {
     double[] longitudesToDo;
     //TODO this is hardcoded for now
     //It should be changed in the future to be a general solution
+    //determine which latitudes should be used
     switch (images.length) {
       case 1:
         latitudesToDo = new double[] {topLeftLat};
@@ -77,22 +78,48 @@ public class CachedMapData implements MapData {
         latitudesToDo = new double[] {topLeftLat};
         break;
     }
-    //TODO do longitudes to do
+    //determine which longitudes should be used
+    switch (images[0].length) {
+      case 1:
+        longitudesToDo = new double[] {topLeftLong};
+        break;
+      case 2:
+        longitudesToDo = new double[] {topLeftLong, bottomRightLong};
+        break;
+      case 3:
+        longitudesToDo = new double[] {topLeftLong, 
+            (topLeftLong + bottomRightLong) / 2, bottomRightLong};
+        break;
+      case 4:
+        longitudesToDo = new double[] {topLeftLong, topLeftLong * 2 / 3 + bottomRightLong * 1 / 3, 
+            topLeftLong * 1 / 3 + bottomRightLong * 2 / 3, bottomRightLong};
+        break;
+      case 5:
+        longitudesToDo = new double[] {topLeftLong, topLeftLong * 3 / 4 + bottomRightLong * 1 / 4, 
+            (topLeftLong + bottomRightLong) / 2, topLeftLong * 1 / 4 + bottomRightLong * 3 / 4, 
+            bottomRightLong};
+        break;
+      default:
+        System.out.println("This case has not been implemented.");
+        longitudesToDo = new double[] {topLeftLong};
+        break;
+    }
 
-
-    BufferedImage topLeft = (BufferedImage) data.get(topLeftLat, topLeftLong, zoom);
-    BufferedImage topRight = (BufferedImage) data.get(topLeftLat, bottomRightLong, zoom);
-    BufferedImage bottomLeft = (BufferedImage) data.get(bottomRightLat, topLeftLong, zoom);
-    BufferedImage bottomRight = (BufferedImage) data.get(bottomRightLat, bottomRightLong, zoom);
-
-    this.img = new BufferedImage(topLeft.getWidth() + topRight.getWidth(), 
+    //TODO check this is actually working
+    for (int x = 0; x < images.length && x < latitudesToDo.length; x++) {
+      for (int y = 0; y < images[0].length && y < longitudesToDo.length; y++) {
+        images[x][y] = (BufferedImage) data.get(latitudesToDo[x], longitudesToDo[y], zoom);
+      }
+    }
+    
+    /*this.img = new BufferedImage(topLeft.getWidth() + topRight.getWidth(), 
         topLeft.getHeight() + bottomLeft.getHeight(), bottomRight.getType());
     Graphics2D g = this.img.createGraphics();
     g.drawImage(topLeft, null, 0, 0);
     g.drawImage(topRight, null, topLeft.getWidth(), 0);
     g.drawImage(bottomLeft, null, 0, topLeft.getHeight());
     g.drawImage(bottomRight, null, topLeft.getWidth(), topLeft.getHeight());
-    g.dispose();
+    g.dispose();*/
 
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
