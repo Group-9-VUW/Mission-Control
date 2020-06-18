@@ -112,14 +112,20 @@ public class CachedMapData implements MapData {
       }
     }
     
-    /*this.img = new BufferedImage(topLeft.getWidth() + topRight.getWidth(), 
-        topLeft.getHeight() + bottomLeft.getHeight(), bottomRight.getType());
+    this.img = new BufferedImage(images.length * images[0][0].getWidth(),  
+        images[0].length * images[0][0].getHeight(), images[0][0].getType());
     Graphics2D g = this.img.createGraphics();
-    g.drawImage(topLeft, null, 0, 0);
-    g.drawImage(topRight, null, topLeft.getWidth(), 0);
-    g.drawImage(bottomLeft, null, 0, topLeft.getHeight());
-    g.drawImage(bottomRight, null, topLeft.getWidth(), topLeft.getHeight());
-    g.dispose();*/
+    int currX = 0;
+    int currY = 0;
+    for (int x = 0; x < images.length; x++) {
+      for (int y = 0; y < images[0].length; y++) {
+        g.drawImage(images[x][y], null, currX, currY);
+        currY += images[x][y].getHeight();
+      }
+      currX += images[x][0].getWidth();
+      currY = 0;
+    }
+    g.dispose();
 
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
