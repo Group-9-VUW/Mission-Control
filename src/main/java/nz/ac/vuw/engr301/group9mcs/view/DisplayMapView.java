@@ -1,12 +1,16 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -15,8 +19,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
@@ -35,6 +42,27 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 
 public class DisplayMapView extends JPanel {
+
+  /**
+   * Drop down menu for the view (how the objects are shown).
+   */
+  private JComboBox<String> viewDropDown;
+  /**
+   * Dropdown menu for Labels (if labels should be shown).
+   */
+  private JComboBox<String> labelDropDown;
+  /**
+   * The drawing panel.
+   */
+  private JComponent panel;
+  /**
+   * The menu bar across the top.
+   */
+  private JMenuBar bar;
+  /**
+   * The size of the dots in relation to screen size.
+   */
+  private int dotRatio = 30;
 
   /**
    * The Longitude of where the launch site is. 
@@ -56,6 +84,15 @@ public class DisplayMapView extends JPanel {
   private double latRocket;
 
   /**
+   * Colour of launch site.
+   */
+  private Color launchSiteColor = new Color(39, 0, 200);
+  /**
+   * Color of rocket.
+   */
+  private Color rocketColor = new Color(255, 0, 0);
+  
+  /**
    * The ratio of how much screen is shown around the objects.
    */
   private double zoom = 0.25;
@@ -74,14 +111,66 @@ public class DisplayMapView extends JPanel {
     this.longRocket = longLaunchSite;
     this.latLaunchSite = latLaunchSite;
     this.latRocket = latLaunchSite;
+
+    this.setPreferredSize(new Dimension(300, 300));
+
+    this.setLayout(new BorderLayout());
+
+    this.bar = new JMenuBar();//createMenuBar();
+
+    @NonNull String[] strings = {"Images", "Dots"};
+    this.viewDropDown = new JComboBox<>(strings);
+    this.viewDropDown.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(@Nullable ActionEvent e) {
+        DisplayMapView.this.repaint();
+      }
+    });
+    this.bar.add(this.viewDropDown);
+
+    @NonNull String[] texts = {"Labels", "No Labels"};
+    this.labelDropDown = new JComboBox<>(texts);
+    this.labelDropDown.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(@Nullable ActionEvent e) {
+        DisplayMapView.this.repaint();
+      }
+    });
+    this.bar.add(this.labelDropDown);
+
+    this.panel = new JComponent() {
+      /**
+       * UID.
+       */
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void paintComponent(@Nullable Graphics g) {
+        paintInsideComponent(g);
+      }
+    };
+    this.panel.setPreferredSize(new Dimension(300, 300 - this.bar.getSize().height));
+    this.add(this.bar, BorderLayout.NORTH);
+    this.add(this.panel, BorderLayout.SOUTH);
   }
 
   @Override
   public void paintComponent(@Nullable Graphics g) {
+    Dimension d = this.getSize();
+    this.panel.setPreferredSize(new Dimension(d.width, d.height - this.bar.getSize().height));
+  }
+
+  /**
+   * Paint the Component inside the Panel.
+   * 
+   * @param g Graphics drawer
+   */
+  public void paintInsideComponent(@Nullable Graphics g) {
     if (g == null) {
       return;
     }
 
+    // box around launch and rocket locations (tight)
     Point2D[] corners = getCorners();
 
     Point2D launchCoordinates = new Point2D.Double(this.longLaunchSite, this.latLaunchSite);
@@ -90,57 +179,66 @@ public class DisplayMapView extends JPanel {
     // calculate the x coordinates for rocket and launch site
     int xlaunch;
     int xrocket;
-    int xscreen = (int)(this.getSize().getWidth() - (this.getSize().getWidth() * this.zoom));
+    int xscreen = (int)(this.panel.getSize().getWidth() 
+        - (this.panel.getSize().getWidth() * this.zoom));
+    // translate and scale x coordinates based on which site is north most
+    // new coordinates are within the screen boundaries (0 - x)
     if (launchCoordinates.getY() > rocketCoordinates.getY()) {
       xlaunch = (int)(translateScale(launchCoordinates.getX(),
           corners[2].getX(), corners[3].getX(), xscreen)) 
-          + (int)(this.getSize().width * this.zoom / 2);
+          + (int)(this.panel.getSize().width * this.zoom / 2);
       xrocket = (int)(translateScale(rocketCoordinates.getX(),
           corners[0].getX(), corners[1].getX(), xscreen)) 
-          + (int)(this.getSize().width * this.zoom / 2);
+          + (int)(this.panel.getSize().width * this.zoom / 2);
     } else {
       xrocket = (int)(translateScale(rocketCoordinates.getX(),
           corners[2].getX(), corners[3].getX(), xscreen)) 
-          + (int)(this.getSize().width * this.zoom / 2);
+          + (int)(this.panel.getSize().width * this.zoom / 2);
       xlaunch = (int)(translateScale(launchCoordinates.getX(),
           corners[0].getX(), corners[1].getX(), xscreen)) 
-          + (int)(this.getSize().width * this.zoom / 2);
+          + (int)(this.panel.getSize().width * this.zoom / 2);
     }
 
     // calculate the y coordinates for rocket and launch site
     int ylaunch;
     int yrocket;
-    int yscreen = (int)(this.getSize().getHeight() - this.getSize().getHeight() * this.zoom);
+    int yscreen = (int)(this.panel.getSize().getHeight() 
+        - this.panel.getSize().getHeight() * this.zoom);
+    // translate and scale y coordinates based on which site is east most
+    // new coordinates are within the screen boundaries (0 - x)
     if (launchCoordinates.getX() > rocketCoordinates.getX()) {
       ylaunch = (int)(translateScale(launchCoordinates.getY(),
           corners[1].getY(), corners[3].getY(), yscreen)) 
-          + (int)(this.getSize().getHeight() * this.zoom / 2);
+          + (int)(this.panel.getSize().getHeight() * this.zoom / 2);
       yrocket = (int)(translateScale(rocketCoordinates.getY(),
           corners[0].getY(), corners[2].getY(), yscreen)) 
-          + (int)(this.getSize().getHeight() * this.zoom / 2);
+          + (int)(this.panel.getSize().getHeight() * this.zoom / 2);
     } else {
       yrocket = (int)(translateScale(rocketCoordinates.getY(),
           corners[1].getY(), corners[3].getY(), yscreen)) 
-          + (int)(this.getSize().getHeight() * this.zoom / 2);
+          + (int)(this.panel.getSize().getHeight() * this.zoom / 2);
       ylaunch = (int)(translateScale(launchCoordinates.getY(),
           corners[0].getY(), corners[2].getY(), yscreen)) 
-          + (int)(this.getSize().getHeight() * this.zoom / 2);
+          + (int)(this.panel.getSize().getHeight() * this.zoom / 2);
     }
 
+    // Calculate the four corners of the screen
+    // Reverse translate/scale process to get lat/long
     int upperLX = (int)((0 + corners[0].getX()) / ((corners[1].getX() 
-        - corners[0].getX()) / xscreen)) - (int)(this.getSize().width * this.zoom / 2);
-    int lowerRX = (int)((this.getSize().width + corners[3].getX()) / ((corners[2].getX() 
-        - corners[3].getX()) / xscreen)) - (int)(this.getSize().width * this.zoom / 2);
+        - corners[0].getX()) / xscreen)) - (int)(this.panel.getSize().width * this.zoom / 2);
+    int lowerRX = (int)((this.panel.getSize().width + corners[3].getX()) / ((corners[2].getX() 
+        - corners[3].getX()) / xscreen)) - (int)(this.panel.getSize().width * this.zoom / 2);
     int upperLY = (int)((0 + corners[0].getY()) / ((corners[1].getY() 
-        - corners[0].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
-    int lowerRY = (int)((this.getSize().height + corners[3].getY()) / ((corners[2].getY() 
-        - corners[3].getY()) / yscreen)) - (int)(this.getSize().height * this.zoom / 2);
+        - corners[0].getY()) / yscreen)) - (int)(this.panel.getSize().height * this.zoom / 2);
+    int lowerRY = (int)((this.panel.getSize().height + corners[3].getY()) / ((corners[2].getY() 
+        - corners[3].getY()) / yscreen)) - (int)(this.panel.getSize().height * this.zoom / 2);
 
+    // Get and Draw map
     //BufferedImage image = (BufferedImage)new MapData().get(upperLY, upperLX, lowerRY, lowerRX);
-    //g.drawImage(image, 0, 0, this.getSize().width, this.getSize().height, null);
+    //g.drawImage(image, 0, 0, this.panel.getSize().width, this.panel.getSize().height, null);
 
-    int width = this.getSize().width;
-    int height = this.getSize().height;
+    int width = this.panel.getSize().width;
+    int height = this.panel.getSize().height;
 
     // draw the rocket and launch site on the map
     drawRocketPath(width - xlaunch, height - ylaunch, width - xrocket, height - yrocket, g);
@@ -159,7 +257,7 @@ public class DisplayMapView extends JPanel {
    */
   private static void drawRocketPath(int x1, int y1, int x2, int y2, Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
-    Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, 
+    Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, 
         BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     g2d.setStroke(dashed);
     g.drawLine(x1, y1, x2, y2);
@@ -173,23 +271,36 @@ public class DisplayMapView extends JPanel {
    * @param g The Graphics drawer
    */
   private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
-    BufferedImage image = null;
-    try {
-      image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
-      image = scaleDimensions(image, 7.0);
-    } catch (IOException e) {
-      e.printStackTrace();
+    if (this.viewDropDown.getSelectedItem().equals("Images")) {
+      BufferedImage image = null;
+      try {
+        image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
+        image = scaleDimensions(image, 7.0);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if (image == null) {
+        return;
+      }
+      int x = xlocation - image.getWidth() / 2;
+      int y = ylocation - image.getHeight() / 2;
+      setColour(image, this.launchSiteColor);
+      g.drawImage(image, x, y, null);
+      if (this.labelDropDown.getSelectedItem().equals("Labels")) {
+        String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
+            + String.format("%.5g%n", this.longLaunchSite);
+        centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
+      }
+    } else {
+      g.setColor(this.launchSiteColor);
+      int size = this.panel.getSize().height / this.dotRatio;
+      g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
+      if (this.labelDropDown.getSelectedItem().equals("Labels")) {
+        String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
+            + String.format("%.5g%n", this.longLaunchSite);
+        centerText(s, (Graphics2D)g, xlocation - size / 2, ylocation - size / 2, size, size);
+      }
     }
-    if (image == null) {
-      return;
-    }
-    int x = xlocation - image.getWidth() / 2;
-    int y = ylocation - image.getHeight() / 2;
-    setColour(image);
-    g.drawImage(image, x, y, null);
-    String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
-        + String.format("%.5g%n", this.longLaunchSite);
-    centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
   }
 
   /**
@@ -204,25 +315,38 @@ public class DisplayMapView extends JPanel {
    */
   private void drawRocket(int xlocation, int ylocation, Graphics g, 
       Point2D launch, Point2D rocket) {
-    BufferedImage image = null;
-    try {
-      image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
-      image = scaleDimensions(image, 6.0);
-      double angle = angleOf(launch, rocket);
-      image = rotateImage(image, angle);
-    } catch (IOException e) {
-      e.printStackTrace();
+    if (this.viewDropDown.getSelectedItem().equals("Images")) {
+      BufferedImage image = null;
+      try {
+        image = ImageIO.read(new File("./src/main/resources/view/rocket.png")); 
+        image = scaleDimensions(image, 6.0);
+        double angle = angleOf(launch, rocket);
+        image = rotateImage(image, angle);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if (image == null) {
+        return;
+      }
+      int x = xlocation - image.getWidth(null) / 2;
+      int y = ylocation - image.getHeight(null) / 2;
+      setColour(image, this.rocketColor);
+      g.drawImage(image, x, y, null);
+      if (this.labelDropDown.getSelectedItem().equals("Labels")) {
+        String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
+            + String.format("%.5g%n", this.longLaunchSite);
+        centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
+      }
+    } else {
+      g.setColor(this.rocketColor);
+      int size = this.panel.getSize().height / this.dotRatio;
+      g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
+      if (this.labelDropDown.getSelectedItem().equals("Labels")) {
+        String s = String.format("%.5g%n", this.latLaunchSite) + ", " 
+            + String.format("%.5g%n", this.longLaunchSite);
+        centerText(s, (Graphics2D)g, xlocation - size / 2, ylocation - size / 2, size, size);
+      }
     }
-    if (image == null) {
-      return;
-    }
-    int x = xlocation - image.getWidth(null) / 2;
-    int y = ylocation - image.getHeight(null) / 2;
-    setColour(image);
-    g.drawImage(image, x, y, null);
-    String s = String.format("%.5g%n", this.latRocket) + ", " 
-        + String.format("%.5g%n", this.longRocket);
-    centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
   }
 
   /**
@@ -236,7 +360,7 @@ public class DisplayMapView extends JPanel {
    * @param height The site image's height
    */
   public void centerText(String text, Graphics2D g, int x, int y, int width, int height) {
-    g.setFont(new Font("Serif", Font.PLAIN, this.getSize().height / 30));
+    g.setFont(new Font("Serif", Font.PLAIN, this.panel.getSize().height / 30));
     FontMetrics fm = g.getFontMetrics(g.getFont());
     Rectangle2D rect = fm.getStringBounds(text, g);
     int xstring = (int)(x - (rect.getWidth() / 2) + (width / 2));
@@ -254,9 +378,10 @@ public class DisplayMapView extends JPanel {
    * Sets the image color to red (has a black outline).
    * 
    * @param image Image to be colored
+   * @param color Color image will become
    * @return Colored image
    */
-  private @Nullable static BufferedImage setColour(@Nullable BufferedImage image) {
+  private @Nullable static BufferedImage setColour(@Nullable BufferedImage image, Color color) {
     if (image == null) {
       return image;
     }
@@ -264,7 +389,7 @@ public class DisplayMapView extends JPanel {
     int width = image.getWidth(); 
     int height = image.getHeight(); 
 
-    int set = new Color(255,0,0).getRGB();
+    int set = color.getRGB();
 
     int[] result = new int[height * width];
     image.getRGB(0, 0, width, height, result, 0, width);
@@ -294,7 +419,7 @@ public class DisplayMapView extends JPanel {
     if (image == null) {
       return image;
     }
-    double ratio = (this.getSize().height / scale) / image.getHeight();
+    double ratio = (this.panel.getSize().height / scale) / image.getHeight();
     int w = (int)(image.getWidth() * ratio);
     int h = (int)(image.getHeight() * ratio);
     BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -408,7 +533,7 @@ public class DisplayMapView extends JPanel {
    * @param longR Longitude of the rocket's location
    * @param latR Latitude of the rocket's location
    */
-  public void updateRocketPosition(double longR, double latR) {
+  public void updateRocketPosition(double latR, double longR) {
     this.longRocket = longR;
     this.latRocket = latR;
   }
