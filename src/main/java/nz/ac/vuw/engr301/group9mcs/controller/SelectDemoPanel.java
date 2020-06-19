@@ -32,7 +32,6 @@ public class SelectDemoPanel extends JPanel implements ActionListener, LaunchSel
 	private final JPanel top = new JPanel();
 	private final SelectMapView bottom;
 	
-	private final MapData data;
 	private final SimpleEventListener saveListener;
 	
 	private double latN, lonN;
@@ -41,7 +40,6 @@ public class SelectDemoPanel extends JPanel implements ActionListener, LaunchSel
 	
 	public SelectDemoPanel(MapData data, SimpleEventListener saveListener)
 	{
-		this.data = data;
 		this.bottom = new SelectMapView(data);
 		this.bottom.addListener(this);
 		

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
 import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapData;
@@ -57,9 +58,12 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 			case "save":
 				double lat = selectdemo.getLatN();
 				double lon = selectdemo.getLonN();
-				CachedMapData cmd = new CachedMapData(mapdata, 0.0, 0.0, 0.0, 0.0);
-				
-				viewdemo.setSave(null); //TODO: Get file
+				double latUL = lat - LongLatHelper.latitudeNKilometersNorth(lat, 2);
+				double latLR = lat - LongLatHelper.latitudeNKilometersSouth(lat, 2);
+				double lonUL = LongLatHelper.longditudeNKilometersEast(lat, lon, 2);
+				double lonLR = LongLatHelper.longditudeNKilometersWest(lat, lon, 2);
+				CachedMapData cmd = new CachedMapData(mapdata, latUL, lonUL, latLR, lonLR);
+				viewdemo.setSave(cmd.getFile()); 
 				break;
 		}
 	}
