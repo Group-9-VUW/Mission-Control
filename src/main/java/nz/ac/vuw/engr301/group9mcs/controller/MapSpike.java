@@ -13,6 +13,8 @@ import javax.swing.JTabbedPane;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
+import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapData;
 
 /**
  * A runner class for the map demo. Executable.
@@ -28,7 +30,8 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	protected static final int WINDOW_WIDTH = 900;
 	protected static final int WINDOW_HEIGHT = 600;
 	
-	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(this);
+	protected final InternetMapData mapdata = new InternetMapData();
+	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(null, this);
 	protected final ViewDemoPanel viewdemo = new ViewDemoPanel();
 	protected final WeatherDemoPanel weatherdemo = new WeatherDemoPanel();
 	
@@ -52,6 +55,10 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	public void event(String type) {
 		switch(type) {
 			case "save":
+				double lat = selectdemo.getLatN();
+				double lon = selectdemo.getLonN();
+				CachedMapData cmd = new CachedMapData(mapdata, 0.0, 0.0, 0.0, 0.0);
+				
 				viewdemo.setSave(null); //TODO: Get file
 				break;
 		}
