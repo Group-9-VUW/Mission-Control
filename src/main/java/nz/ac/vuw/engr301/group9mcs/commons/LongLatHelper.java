@@ -45,12 +45,12 @@ public final class LongLatHelper {
 	
 	public static double longditudeNKilometersEast(double latitude, double longitude, double N)
 	{
-		return longditude + (N / kilometeresPerDegreeOfLongitude(latitude));
+		return longitude + (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 	
 	public static double longditudeNKilometersWest(double latitude, double longitude, double N)
 	{
-		return longditude - (N / kilometeresPerDegreeOfLongitude(latitude));
+		return longitude - (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 	
 }
