@@ -28,7 +28,7 @@ public final class LongLatHelper {
 	 * @param latitude The latitude you're measuring from
 	 * @return The number of kilometers for every degree of longditude
 	 */
-	public static double kilometeresPerDegreeOfLongditude(double latitude)
+	public static double kilometeresPerDegreeOfLongitude(double latitude)
 	{
 		return 111.3215 * Math.cos(Math.toRadians(Math.abs(latitude)));
 	}
@@ -43,14 +43,14 @@ public final class LongLatHelper {
 		return latitude - (N / kilometersPerDegreeOfLatitude(latitude));
 	}
 	
-	public static double longditudeNKilometersEast(double latitude, double longditude, double N)
+	public static double longditudeNKilometersEast(double latitude, double longitude, double N)
 	{
-		return longditude + (N / kilometeresPerDegreeOfLongditude(latitude));
+		return longditude + (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 	
-	public static double longditudeNKilometersWest(double latitude, double longditude, double N)
+	public static double longditudeNKilometersWest(double latitude, double longitude, double N)
 	{
-		return longditude - (N / kilometeresPerDegreeOfLongditude(latitude));
+		return longditude - (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 	
 }
