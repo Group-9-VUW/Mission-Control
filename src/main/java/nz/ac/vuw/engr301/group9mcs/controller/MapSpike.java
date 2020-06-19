@@ -32,7 +32,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	protected static final int WINDOW_HEIGHT = 600;
 	
 	protected final InternetMapData mapdata = new InternetMapData();
-	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(null, this);
+	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(mapdata, this);
 	protected final ViewDemoPanel viewdemo = new ViewDemoPanel();
 	protected final WeatherDemoPanel weatherdemo = new WeatherDemoPanel();
 	
@@ -58,10 +58,13 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 			case "save":
 				double lat = selectdemo.getLatN();
 				double lon = selectdemo.getLonN();
-				double latUL = lat - LongLatHelper.latitudeNKilometersNorth(lat, 2);
-				double latLR = lat - LongLatHelper.latitudeNKilometersSouth(lat, 2);
-				double lonUL = LongLatHelper.longditudeNKilometersEast(lat, lon, 2);
-				double lonLR = LongLatHelper.longditudeNKilometersWest(lat, lon, 2);
+				double latUL = LongLatHelper.latitudeNKilometersNorth(lat, 2);
+				double latLR = LongLatHelper.latitudeNKilometersSouth(lat, 2);
+				double lonUL = LongLatHelper.longditudeNKilometersWest(lat, lon, 2);
+				double lonLR = LongLatHelper.longditudeNKilometersEast(lat, lon, 2);
+				System.out.println(LongLatHelper.kilometeresPerDegreeOfLongitude(lat));
+				System.out.println(latUL + " down " + latLR);
+				System.out.println(lonUL + " across " + lonLR);
 				CachedMapData cmd = new CachedMapData(mapdata, latUL, lonUL, latLR, lonLR);
 				viewdemo.setSave(cmd.getFile()); 
 				break;

@@ -2,6 +2,8 @@ package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -23,7 +25,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
  *
  */
 
-public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener {
 
 	private static final long serialVersionUID = 438543895484881L;
 	private double longUL; //Longitude of top left corner of the map
@@ -56,18 +58,20 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		locationSelected = false;
 		locSize = 20;
 		zoom = 1;
-		sizeX = this.getHeight();
+		sizeX = this.getWidth();
 		sizeY = this.getHeight();
-		pixelToLongLat();
-		repaint();
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
+		this.addMouseWheelListener(this);
+		this.addComponentListener(this);
 	}
 	
 	/** Calculates how many longitudes/latitudes are in a pixel */
 	private void pixelToLongLat() {
 		double longDiff = Math.abs(longUL - longBR);
 		double latDiff = Math.abs(latUL - latBR);
-		pixelToLong = longDiff/sizeX;
-		pixelToLat = latDiff/sizeY;
+		pixelToLong = longDiff / sizeX;
+		pixelToLat = latDiff / sizeY;
 	}
 	
 	@Override
@@ -75,11 +79,11 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		if (g == null) {
 			return;
 		}
-		image = mapData.get(longUL, latUL, longBR, latBR); //Gets the image
-		g.drawImage(image, sizeX, sizeY, this); //Draws it
+		image = mapData.get(latUL, longUL, latBR, longBR); //Gets the image
+		g.drawImage(image, 0, 0, this); //Draws it
 		if (locationSelected) { //If location has been selected then still draw it
 			this.getGraphics().fillOval(locationX-(locSize/2), locationY-(locSize/2), locSize, locSize);
-		}
+		}		
 	}
 
 	@Override
@@ -89,10 +93,11 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		int diffX = currentX - initialX;
 		int diffY = currentY - initialY;
 		/* Converting pixel difference to longitude/latitude difference and adding/subtracting that from current longitude/latitude */
-		longUL = longUL - diffX*pixelToLong;
-		longBR = longBR - diffX*pixelToLong;
-		latUL = latUL + diffY*pixelToLat;
-		latBR = latBR + diffY*pixelToLat;
+		longUL = longUL - diffX * pixelToLong;
+		longBR = longBR - diffX * pixelToLong;
+		latUL = latUL + diffY * pixelToLat;
+		latBR = latBR + diffY * pixelToLat;
+		
 		repaint(); //Draw the new map
 		
 		/* Moving the highlighted location */
@@ -123,7 +128,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			else {
 				locationSelected = true;
 			}
-			launchListener.onLaunchSelected((longUL + (locationX/pixelToLong)), (latUL + (locationY/pixelToLat)));
+			launchListener.onLaunchSelected((latUL - (locationY * pixelToLat)), (longUL + (locationX * pixelToLong)));
 		}
 	}
 
@@ -182,6 +187,32 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	
 	public void addListener(LaunchSelectedListener listener) {
 		launchListener = listener;
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		this.sizeX = this.getSize().width;
+		this.sizeY = this.getSize().height;
+		this.pixelToLongLat();
+		this.repaint();
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

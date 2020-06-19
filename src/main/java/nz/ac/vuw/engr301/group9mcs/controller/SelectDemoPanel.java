@@ -53,7 +53,7 @@ public class SelectDemoPanel extends JPanel implements ActionListener, LaunchSel
 		
 		this.setLayout(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
-		//this.add(bottom, BorderLayout.CENTER);
+		this.add(bottom, BorderLayout.CENTER);
 		
 		save.addActionListener(this);
 	}
