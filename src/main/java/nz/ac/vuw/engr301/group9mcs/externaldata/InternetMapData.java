@@ -26,9 +26,9 @@ public class InternetMapData implements MapData {
    */
   private static String osmTileUriFormat = "http://a.tile.openstreetmap.org/%d/%d/%d.png";
 
+
   @Override
-  public BufferedImage get(double topLeftLat, double topLeftLong, 
-      double bottomRightLat, double bottomRightLong) {
+  public BufferedImage get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
     // FIXME: Zoom fixed at 16 for demo
     int zoom = 16;
 
@@ -69,20 +69,19 @@ public class InternetMapData implements MapData {
    *
    * @param latitude Latitude (degrees) of centre point of image to be requested.
    * @param longitude Longitude (degrees) of centre point of image to be requested.
-   * @param zoom Zoom level. Follows the formula 2^2n to determine the number 
-   *        of 256px tiles returned around the centre point.
+   * @param zoom Zoom level. Follows the formula 2^2n to determine the number of 256px tiles returned around
+   *             the centre point.
    * @return Returns an Image object of the specified location.
    */
   public Image get(double latitude, double longitude, int zoom) {
     int[] location = convertCoordsToXY(latitude, longitude, zoom);
     try {
-      // Get the image and return it. The zoom level and Cartesian coordinates 
-      //are used as the string format parameters
+      // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
+      // parameters.
       // URLConnection courtesy of @hindlejosh
       URL url = new URL(String.format(osmTileUriFormat, zoom, location[0], location[1]));
       URLConnection connection = url.openConnection();
-      connection.setRequestProperty("User-Agent", 
-          "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
+      connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
       connection.connect();
       return ImageIO.read(connection.getInputStream());
 
@@ -98,19 +97,18 @@ public class InternetMapData implements MapData {
    *
    * @param x X tile value.
    * @param y Y tile value.
-   * @param zoom Zoom level. Follows the formula 2^2n to determine the number 
-   *        of 256px tiles returned around the centre point.
+   * @param zoom Zoom level. Follows the formula 2^2n to determine the number of 256px tiles returned around
+   *             the centre point.
    * @return Returns an Image object of the specified location.
    */
   public BufferedImage get(int x, int y, int zoom) {
     try {
-      // Get the image and return it. The zoom level and Cartesian coordinates 
-      //are used as the string format parameters
+      // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
+      // parameters.
       // URLConnection courtesy of @hindlejosh
       URL url = new URL(String.format(osmTileUriFormat, zoom, x, y));
       URLConnection connection = url.openConnection();
-      connection.setRequestProperty("User-Agent", 
-          "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
+      connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
       connection.connect();
       return ImageIO.read(connection.getInputStream());
 
@@ -131,8 +129,7 @@ public class InternetMapData implements MapData {
         "a", "b", "c"
     };
     for (String endpoint : endpoints) {
-      String endpointUrl = osmTileUriFormat.substring(osmTileUriFormat.length() 
-          - 14).replaceFirst("a", endpoint);
+      String endpointUrl = osmTileUriFormat.substring(osmTileUriFormat.length() - 14).replaceFirst("a", endpoint);
       if (doIsAvailable(endpointUrl)) {
         // If this endpoint is reachable, modify the base URI and return.
         osmTileUriFormat = osmTileUriFormat.replaceFirst("a", endpoint);
@@ -167,8 +164,7 @@ public class InternetMapData implements MapData {
    * @param latitude Latitude (degrees) of centre point of image to be requested.
    * @param longitude Longitude (degrees) of centre point of image to be requested.
    * @param zoom Zoom level. Is used as a scalar when calculating XY coordinates.
-   * @return Returns an integer array containing the X and Y 
-   *         coordinates of the given latitude and longitude.
+   * @return Returns an integer array containing the X and Y coordinates of the given latitude and longitude.
    */
   private static int[] convertCoordsToXY(double latitude, double longitude, int zoom) {
     // Converting coordinates to radians for use in tile formula.
@@ -178,8 +174,7 @@ public class InternetMapData implements MapData {
     // Calculating cartesian coordinates.
     int n = (int) Math.pow(2, zoom);
     int x = (int) (n * ((longitude + 180f) / 360f));
-    int y = (int) (n * (1 - (Math.log(Math.tan(latitudeRadians) + 1 
-        / Math.cos(latitudeRadians)) / Math.PI)) / 2);
+    int y = (int) (n * (1 - (Math.log(Math.tan(latitudeRadians) + 1 / Math.cos(latitudeRadians)) / Math.PI)) / 2);
     return new int[]{x, y};
   }
 }
