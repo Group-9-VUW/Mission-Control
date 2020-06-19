@@ -54,109 +54,12 @@ public class CachedMapData implements MapData {
     this.topLeftLong = topLeftLong;
     this.bottomRightLat = bottomRightLat;
     this.bottomRightLong = bottomRightLong;
-
-
-    //** TODO this should be moved to the InternetDataClass
-
-
-    //FIXME this is almost certainly FULL of bugs (e.g. lang/lat, x/y confusion)
-    //TODO calculate zoom level
-    int zoom = 16;
-
-    /* int[] topLeftXY = MapData.convertCoordsToXY(topLeftLat, topLeftLong, zoom);
-    int[] bottomRightXY = MapData.convertCoordsToXY(bottomRightLat, bottomRightLong, zoom);
-    int numXToDraw = bottomRightXY[0] - topLeftXY[0];
-    int numYToDraw = bottomRightXY[1] - topLeftXY[1];
-
-    //TODO check that x and y are correct at these locations
-    BufferedImage[][] images = new BufferedImage[numXToDraw][numYToDraw];
-    double[] latitudesToDo;
-    double[] longitudesToDo;
-    //TODO this is hardcoded for now
-    //It should be changed in the future to be a general solution
-    //determine which latitudes should be used
-    switch (images.length) {
-      case 1:
-        latitudesToDo = new double[] {topLeftLat};
-        break;
-      case 2:
-        latitudesToDo = new double[] {topLeftLat, bottomRightLat};
-        break;
-      case 3:
-        latitudesToDo = new double[] {topLeftLat, 
-            (topLeftLat + bottomRightLat) / 2, bottomRightLat};
-        break;
-      case 4:
-        latitudesToDo = new double[] {topLeftLat, topLeftLat * 2 / 3 + bottomRightLat * 1 / 3, 
-            topLeftLat * 1 / 3 + bottomRightLat * 2 / 3, bottomRightLat};
-        break;
-      case 5:
-        latitudesToDo = new double[] {topLeftLat, topLeftLat * 3 / 4 + bottomRightLat * 1 / 4, 
-            (topLeftLat + bottomRightLat) / 2, topLeftLat * 1 / 4 + bottomRightLat * 3 / 4, 
-            bottomRightLat};
-        break;
-      default:
-        System.out.println("This case has not been implemented.");
-        latitudesToDo = new double[] {topLeftLat};
-        break;
-    }
-    //determine which longitudes should be used
-    switch (images[0].length) {
-      case 1:
-        longitudesToDo = new double[] {topLeftLong};
-        break;
-      case 2:
-        longitudesToDo = new double[] {topLeftLong, bottomRightLong};
-        break;
-      case 3:
-        longitudesToDo = new double[] {topLeftLong, 
-            (topLeftLong + bottomRightLong) / 2, bottomRightLong};
-        break;
-      case 4:
-        longitudesToDo = new double[] {topLeftLong, topLeftLong * 2 / 3 + bottomRightLong * 1 / 3, 
-            topLeftLong * 1 / 3 + bottomRightLong * 2 / 3, bottomRightLong};
-        break;
-      case 5:
-        longitudesToDo = new double[] {topLeftLong, topLeftLong * 3 / 4 + bottomRightLong * 1 / 4, 
-            (topLeftLong + bottomRightLong) / 2, topLeftLong * 1 / 4 + bottomRightLong * 3 / 4, 
-            bottomRightLong};
-        break;
-      default:
-        System.out.println("This case has not been implemented.");
-        longitudesToDo = new double[] {topLeftLong};
-        break;
-    }
-
-    //TODO check this is actually working
-    for (int x = 0; x < images.length && x < latitudesToDo.length; x++) {
-      for (int y = 0; y < images[0].length && y < longitudesToDo.length; y++) {
-        images[x][y] = (BufferedImage) data.get(latitudesToDo[x], longitudesToDo[y], zoom);
-      }
-    }
-
-    this.img = new BufferedImage(images.length * images[0][0].getWidth(),  
-        images[0].length * images[0][0].getHeight(), images[0][0].getType());
-    Graphics2D g = this.img.createGraphics();
-    int currX = 0;
-    int currY = 0;
-    for (int x = 0; x < images.length; x++) {
-      for (int y = 0; y < images[0].length; y++) {
-        g.drawImage(images[x][y], null, currX, currY);
-        currY += images[x][y].getHeight();
-      }
-      currX += images[x][0].getWidth();
-      currY = 0;
-    }
-    g.dispose();*/
-
-    //** END OF SHOULD BE MOVED
-
-
-
+  
+    
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
     //TODO change this method call
-    this.img = (BufferedImage) data.get(centreLat, centreLong, zoom);
+    this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
     this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
@@ -248,6 +151,7 @@ public class CachedMapData implements MapData {
    * @param lonBR the bottom right longitude of the image to return.
    * @return the subimage.
    */
+  @Override
   public Image get(double latUL, double lonUL, 
       double latBR, double lonBR) {
 
@@ -305,6 +209,8 @@ public class CachedMapData implements MapData {
       return false;
     }
     CachedMapData cmd = (CachedMapData) obj;
+    //TODO check lats and longs here
+    
     //compare this and cmd's files
     if (!cmd.file.getName().equals(this.file.getName())) {
       return false;
