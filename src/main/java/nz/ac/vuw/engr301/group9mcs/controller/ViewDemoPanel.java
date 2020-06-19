@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
 import nz.ac.vuw.engr301.group9mcs.view.DisplayMapView;
 
@@ -49,6 +50,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		
 		load.addActionListener(this);
 		launchsim.addActionListener(this);
+		stoplaunch.addActionListener(this);
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 			this.launchLat = data.centerLat();
 			this.launchLon = data.centerLon();
 			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon(), data);
+			this.dmv.updateRocketPosition(launchLat, launchLon);
 			this.remove(this.bottom);
 			this.bottom = this.dmv;
 			this.add(this.bottom, BorderLayout.CENTER);
@@ -88,11 +91,11 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 	
 	private class Launch extends Thread {
 		
-		private static final double SCALE_FACTOR = 1.0;
+		private final double SCALE_FACTOR = 1.0 / LongLatHelper.kilometersPerDegreeOfLatitude(ViewDemoPanel.this.launchLat);
 		
 		private double dist = 0.0;
 		
-		private boolean running = true;
+		private volatile boolean running = true;
 		
 		@Override
 		public void run()
