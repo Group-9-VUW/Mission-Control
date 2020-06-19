@@ -14,7 +14,7 @@ import java.net.URLConnection;
  *
  * @author Bailey Jewell (jewellbail)
  */
-public class InternetMapData implements MapData*/ {
+public class InternetMapData implements MapData {
 
     /**
      * This is the basic format for the OSM tile URI.
