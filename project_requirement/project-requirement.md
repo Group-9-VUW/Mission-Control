@@ -1,23 +1,11 @@
-# ENGR 301: Project Requirements Document
-
-The aim of this document is to specify the requirements of the system your group is to build. The focus of a requirements document is the problem you are attempting to solve:  not a first attempt at a solution to that problem. This document should communicate clearly to the supervisor, client and course coordinator what the system you build is going to do, and what constraints it must meet while doing so.
-
-The document should also demonstrate your understanding of the main analysis principles and quality guidelines, and applicable standards, using tools and notations as necessary to communicate the requirements precisely, unambiguously and clearly in a written technical document. Page specifications below are *limits not targets* and refer to the pages in the PDF generated from the markdown. Because the size of your document is necessarily limited, you should ensure that you focus your efforts on those requirements that are most important to completing a successful system: if sections are at their page limit, indicate how many items would be expected in a complete specification. 
-
-The ENGR 301 project proposal and requirements document should be based on the standard ISO/IEC/IEEE 29148:2011(E), primarily sections 8.4 and 9.5, plus section 9.4 for projects involving hardware and ISO 25010 SQuaRE for systemic requirements. While excerpts from the standard have been quoted within the template, to understand what is required it will be necessary to read earlier sections of the standards themselves. A supplementary treatment of requirements gathering in engineering projects may be found in [Requirements in Engineering Projects](https://victoria.rl.talis.com/items/F166DA94-DAD8-FBDB-0785-7A63C9BA3603.html?referrer=%2Flists%2F5886F297-2506-1F17-45D9-7F04CEE284EE.html%23item-F166DA94-DAD8-FBDB-0785-7A63C9BA3603) (Talis). The requirements document should contain the sections listed below, and conform to the formatting rules listed at the end of this brief. 
-
-All team members are expected to contribute equally to the document and list their contributions in section 6 of the document. You should work on your document in your team's GitLab repository. While collective contributions are expected to be the exception rather than the rule, if more than one team member has contributed to a particular commit then all those team member IDs should be included in the first line of the git commit message. `git blame`, `git diff`, file histories, etc. will be tools used to assess individual contributions, so everyone is encouraged to contribute individually, commit early and commit often. Any team wishing to separate individually contributed sections into a single file before collation into the single proposal document for submission is welcome to do so.
-
----
-
+# ENGR 301: Mission Control Project Proposal and Requirements Document
 <div style="page-break-after: always;"></div>
 
-# ENGR 301 Project *NN* Project Proposal and Requirements Document
-#### Author list, a comma-separated list of the names of each member of the team.
+
+August Bolter, Claire Chambers, Bryony Gatehouse, Joshua Hindley, Bailey Jewell, Sai Panda 
+
 
 ## 1. Introduction
-
-One page overall introduction including sections 1.1 and 1.2.
 
 ### Client
 
@@ -192,8 +180,6 @@ Our teams' wellbeing is a limitation as well. In the sense that mental problems 
 
 ## 2. References
 
-References to other documents or standards. Follow the IEEE Citation  Reference scheme, available from the [IEEE website](https://www.ieee.org/) (please use the search box). (1 page, longer if required)
-
 [1] NZ Rocketry Association, "NZ Rocketry Association - Rocket Safety," [Online]. Available: https://www.nzrocketry.org.nz/rocketry/rocket-safety. [Accessed 24 May 2020].  
   
 [2] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101. [Accessed 10 June 2020].  
@@ -201,9 +187,6 @@ References to other documents or standards. Follow the IEEE Citation  Reference 
 [3] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101/4. [Accessed 10 June 2020].
 
 ## 3. Specific requirements  
-
-20 pages outlining the requirements of the system. You should apportion these pages across the following subsections to focus on the most important parts of your product.
-
 
 ### 3.1 External interfaces
 
@@ -242,33 +225,35 @@ Data is to be displayed in a human readable format and should be augmented with 
 
 ### 3.2 Functions
 
-#### 1   Get remote weather data from internet
-	The software must be able to pull weather data from an API (such as openweathermap or NOAA) and supply that data to other parts of the system. 
-    This data must be as accurate and up to date as possible, since incorrect data can have a severe impact on functionality. 
-    Determining probable landing locations and the "go no go" functions are two important aspects of the system 
-    that heavily relay on accurate weather data, so data correctness should be ensured. 
+#### 1.   Get remote weather data from internet
+
+The software must be able to pull weather data from an API (such as openweathermap or NOAA) and supply that data to other parts of the system. 
+This data must be as accurate and up to date as possible, since incorrect data can have a severe impact on functionality. 
+Determining probable landing locations and the "go no go" functions are two important aspects of the system 
+that heavily relay on accurate weather data, so data correctness should be ensured. 
     
-    Alternatively, there is an API on the National Oceanic and Atmospheric Association (NOAA) website. 
-    This API allows for 5 requests per second and a total of 10,000 requests per day. All responses from this API
-    are in JSON. 
+Alternatively, there is an API on the National Oceanic and Atmospheric Association (NOAA) website. 
+This API allows for 5 requests per second and a total of 10,000 requests per day. All responses from this API
+are in JSON. 
     
-#### 2   Enter local weather data
-    An internet connection is not guaranteed at our launch site, so it is appropriate to consider methods to
-    manually gather local weather data and input it into our software. Our software should have a form with specified inputs
-    that will need to be gathered (i.e. temperature, wind speed). Specific units (preferably metric) should be used to avoid any confusion
-    and invalid calculations. 
+#### 2.   Enter local weather data
+
+An internet connection is not guaranteed at our launch site, so it is appropriate to consider methods to
+manually gather local weather data and input it into our software. Our software should have a form with specified inputs
+that will need to be gathered (i.e. temperature, wind speed). Specific units (preferably metric) should be used to avoid any confusion
+and invalid calculations. 
     
-    Specialised tools are available for people to gather their own weather data. To calculate the wind speed, 
-    an anemometer can be used. An anemometer has multiple arms attached to a vertical rod. As the wind blows, the cups on the edge 
-    of the arms rotate and the anemometer counts the number of revolutions per second to calculate the wind speed.
-    Thermometers can be utilised to measure the temperature, and barometers can be used to measure air pressure.
-    There are multiple methods and tools to measure the weather manually and if needed, will be decided in future meetings.
+Specialised tools are available for people to gather their own weather data. To calculate the wind speed, 
+an anemometer can be used. An anemometer has multiple arms attached to a vertical rod. As the wind blows, the cups on the edge 
+of the arms rotate and the anemometer counts the number of revolutions per second to calculate the wind speed.
+Thermometers can be utilised to measure the temperature, and barometers can be used to measure air pressure.
+There are multiple methods and tools to measure the weather manually and if needed, will be decided in future meetings.
 
     
-    https://openweathermap.org/api 
-    https://www.ncdc.noaa.gov/cdo-web/webservices/v2
+https://openweathermap.org/api 
+https://www.ncdc.noaa.gov/cdo-web/webservices/v2
 
-3. Determine probable landing locations<br>
+#### 3. Determine probable landing locations<br>
 
 The system must use the local weather conditions, and an external Monte Carlo simulation in order to determine, and display to the user, the probable landing locations of the rocket if it were launched in the current conditions. The minimum viable product is comprised of this use case, among others.
 
@@ -280,14 +265,17 @@ The system must use the local weather conditions, and an external Monte Carlo si
 | Exit Conditions | The launcher is notified of the probable landing locations and whether it is safe to launch. |
 | Special Requirements | The Monte Carlo simulation must simulate the launch correctly and determine probable landing locations accurately. <br> The system must be compatable with the operating system it is being run on. |
 
-3a. As a part of determining the probable landing locations, the system must connect to an external Monte Carlo simulation, written by another team. The system must send the local weather data obtained from NOAA, or entered manually by the user to the Monte Carlo simulation as well as additional information regarding the rocket.
+#### 3a. 
+As a part of determining the probable landing locations, the system must connect to an external Monte Carlo simulation, written by another team. The system must send the local weather data obtained from NOAA, or entered manually by the user to the Monte Carlo simulation as well as additional information regarding the rocket.
 
-3b. As another part of determining the probable landing locations, the system must be able to receive and store the data that results from the Monte Carlo simulation. This may involve receiving the data directly from the Monte Carlo simulation, or loading the data from a file that the Monte Carlo simulation saves to.
+#### 3b. 
+As another part of determining the probable landing locations, the system must be able to receive and store the data that results from the Monte Carlo simulation. This may involve receiving the data directly from the Monte Carlo simulation, or loading the data from a file that the Monte Carlo simulation saves to.
 
-3c. The final part of determining the probable landing locations is displaying the data. The system must display the simulation data visually to the user by showing the user probable landing locations on the map of the local area using a GUI. The displayed information should contain different ranges and confidence intervals.<br><br>
+#### 3c. 
+The final part of determining the probable landing locations is displaying the data. The system must display the simulation data visually to the user by showing the user probable landing locations on the map of the local area using a GUI. The displayed information should contain different ranges and confidence intervals.<br><br>
 
   
-4. Go/No go function <br>
+#### 4. Go/No go function <br>
 
 The system must have a go/no go function. This function will define the area that is acceptable for the rocket to land in. The system must turn the acceptable area, a tolerance and the probabilities of landing in the acceptable area into a go/no go signal. If the system produces the no go signal, the rocket will be blocked from lauching. The goal of the go/no go system is to minimize the risk of injury or damage to the equipment by preventing a launch from taking place if certain conditions are not met. The minimum viable product is comprised of this use case, among others.
 
@@ -299,21 +287,26 @@ The system must have a go/no go function. This function will define the area tha
 | Exit Conditions | The rocket has been launched (go) or the launch was cancelled or not approved (no go). <br> The launcher has been notified of the outcome. |
 | Special Requirements | The system and the rocket must be able to communicate to each other. <br>The system must be compatable with the operating system it is being run on. |
 
-4a. The system must define acceptable areas. That is, the system must determine an area surrounding the launch zone that it is acceptable for the rocket to land in. The area that the system defines must be an area that does not include residential ares, and does not breach rocketry regulations.
+#### 4a. 
+The system must define acceptable areas. That is, the system must determine an area surrounding the launch zone that it is acceptable for the rocket to land in. The area that the system defines must be an area that does not include residential ares, and does not breach rocketry regulations.
 
-4b. The system must use the acceptable areas it defines with the probability of landing in an acceptable area with a tolerance to determine whether it is safe to launch. If the probability of the rocket landing in an acceptable area is too low, the system will send a no go signal to the rocket, indicating that a launch is not approved. If the probability of the rocket landing in an acceptable area is high enough, the system will allow the user to launch the rocket.
+#### 4b. 
+The system must use the acceptable areas it defines with the probability of landing in an acceptable area with a tolerance to determine whether it is safe to launch. If the probability of the rocket landing in an acceptable area is too low, the system will send a no go signal to the rocket, indicating that a launch is not approved. If the probability of the rocket landing in an acceptable area is high enough, the system will allow the user to launch the rocket.
 
-4c. The system must perform pre-launch checks before the user goes to the launch site. These checks will ensure that, with the current weather, the launch site chosen by the user will be acceptable. These checks will ensure that the location the user chooses as a launch site is not in a residential area, and will not result in a break of rocketry regulations.
+#### 4c. 
+The system must perform pre-launch checks before the user goes to the launch site. These checks will ensure that, with the current weather, the launch site chosen by the user will be acceptable. These checks will ensure that the location the user chooses as a launch site is not in a residential area, and will not result in a break of rocketry regulations.
 
-4d. The system must perform launch checks on location at the launch site. These checks will ensure that the correct go/no go decision has been reached given the actual launch site and current local weather conditions. Additionally, the checks at this stage will involve communicating with the rocket to check that all the rocket's systems are nominal before the system allows the user to begin the launch procedure.<br><br>
+#### 4d. 
+The system must perform launch checks on location at the launch site. These checks will ensure that the correct go/no go decision has been reached given the actual launch site and current local weather conditions. Additionally, the checks at this stage will involve communicating with the rocket to check that all the rocket's systems are nominal before the system allows the user to begin the launch procedure.<br><br>
 
 
-5Relaying rocket information to user interface <-- very important (specifically location, velocity, rotation, not so important)<br>
-5A   Showing GPS location on a map<br>
-5B   Showing diagram of rocket with rotation and velocity - NI<br>
-5C   What to do when you can't contact the rocket<br>
-5D   Recording it to a file<br>
-5E   Playing back that file virtually - NI<br>
+#### 5. Relaying rocket information to user interface.
+Specifically, relaying the rocket's location, velocity, and rotation<br>
+5a.   Showing GPS location on a map<br>
+5b.   Showing diagram of rocket with rotation and velocity<br>
+5c.   What to do when you can't contact the rocket<br>
+5d.   Recording it to a file<br>
+5e.   Playing back that file virtually<br>
 
 #### 6 Suggesting launch angle 
 The application can determine the correct launch angle for the rocket to follow the desired trajectory. This will take into account environmental factors such as wind speed. This is important to maximise the chance that the rocket lands in the desired landing zone. 
@@ -400,15 +393,15 @@ At its peak workload conditions, the mission control software should not be cons
 
 ### 3.5 Logical database requirements
 
-Data from the rocket. Position, rotation, possibily speed?
+As it stands, this question is unanswerable. Information is first required from the rocket teams and Monte Carlo teams as to what data they will transmit to the mission control software.
 
-Data from NOAA. Windspeed, barometric pressure, temp, ...
+Our current best guess for the data the mission control software will receive from the rocket is position, rotation (pitch, roll, yaw) and speed. The current best guess for data that will be obtained from NOAA includes windspeed, barometric pressure, temperature and rainfall. There is currently no best guess for the data that will be received from the Monte Carlo software.
 
-To be decided at a meeting at a later time.
-
+```
 See 9.5.14. for most systems, a focus on d) and e) is appropriate, such as an object-oriented domain analysis. You should provide an overview domain model (e.g.  a UML class diagram of approximately ten classes) and write a brief description of the responsibilities of each class in the model (3 pages).
 
 You should use right tools, preferabley PlantUML, to draw your UML diagrams which can be easily embedded into a Mardown file (PlantUML is also supported by GitLab and Foswiki).
+```
 
 ### 3.6 Design constraints  
   
@@ -471,7 +464,7 @@ Stuff that we need to live test, such as with Monte Carlo<br>
 
 ### 5.1 Schedule
 
-This project consists of three primary deliverables: an architechure prototype, a minimum viable product and the project termination. The architectural prototype should be completed by the 19th of June in week eleven of trimester one. Our team chose this date for the architectural prototype as it signifies the end of the first trimester and the end of the planning stage of the mission control project. After this deliverable has been delivered, the team can begin programming the mission control software, creating a skeleton proof of concept before arriving at a minimum viable product. The minimim viable product for our project is a program that can act as mission control for a hobby rocket launch without any bells and whistles. The minimum viable product should be fully functional, if bare-bones, in successfully allowing a user to launch a hobby rocket. Our team should deliver the minimim viable product by the 14th of August in week five of trimester two. We chose this date as it allows the team sufficient time to create the mission control program while also allowing plenty of time to receive feedback from the client and make changes and improvements the the product. The project should terminate on the 16th of October in week twelve of trimester two. Ideally, the complete version of the product should be finished much earlier and only minor quality-of-life changes should be made the the mission control program in the weeks leading up to the project termination. At this stage there are no plans for any further releases beyond project termination. 
+This project consists of three primary deliverables: an architecture prototype, a minimum viable product and the project termination. The architectural prototype should be completed by the 19th of June in week eleven of trimester one. Our team chose this date for the architectural prototype as it signifies the end of the first trimester and the end of the planning stage of the mission control project. After this deliverable has been delivered, the team can begin programming the mission control software, creating a skeleton proof of concept before arriving at a minimum viable product. The minimim viable product for our project is a program that can act as mission control for a hobby rocket launch without any bells and whistles. The minimum viable product should be fully functional, if bare-bones, in successfully allowing a user to launch a hobby rocket. Our team should deliver the minimim viable product by the 14th of August in week five of trimester two. We chose this date as it allows the team sufficient time to create the mission control program while also allowing plenty of time to receive feedback from the client and make changes and improvements the the product. The project should terminate on the 16th of October in week twelve of trimester two. Ideally, the complete version of the product should be finished much earlier and only minor quality-of-life changes should be made the the mission control program in the weeks leading up to the project termination. At this stage there are no plans for any further releases beyond project termination. 
 
 ### 5.2 Budget
 
@@ -673,28 +666,8 @@ One page on assumptions and dependencies (9.5.7).
 NOAA = National Oceanic and Atmospheric Administration
 API = Application Program Interface
 
-One page glossary _as required_.
 
 ## 7. Contributions
 
 A one page statement of contributions, including a list of each member of the group and what they contributed to this document.
 
----
-
-## Formatting Rules 
-
- * Write your document using [Markdown](https://gitlab.ecs.vuw.ac.nz/help/user/markdown#gitlab-flavored-markdown-gfm) and ensure you commit your work to your team's GitLab repository.
- * Major sections should be separated by a horizontal rule.
-
-
-## Assessment  
-
-The goal of a requirements document is the problem you are attempting to solve:  not a first attempt at a solution to that problem. The most important factor in the assessmernt of the document is how will it meet that goal. The document will be assessed for both presentation and content. 
-
-The presentation will be based on how easy it is to read, correct spelling, grammar, punctuation, clear diagrams, and so on.
-
-The content will be assessed according to its clarity, consistency, relevance, critical engagement and a demonstrated understanding of the material in the course. We look for evidence these traits are represented and assess the level of performance against these traits. While being comprehensive and easy to understand, this document must be reasonably concise too. You will be affected negatively by writing a report with too many pages (far more than what has been suggested for each section above).
-
-We aim to evaluate ENGR301 documents and projects as if they were real projects rather than academic exercises &mdash; especially as they are real projects with real clients. The best way to get a good mark in a document is to do the right thing for your project, your client, and your team. We encourage you to raise questions with your tutor or course staff, as soon as possible, so you can incorporate their feedback into your work.
-
----

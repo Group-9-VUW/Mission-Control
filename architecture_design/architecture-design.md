@@ -1,47 +1,25 @@
-# ENGR 301: Architectural Design and Proof-of-Concept
+# ENGR 301: Mission Control Project Architectural Design and Proof-of-Concept
 
-## Proof-of-Concept
-
-The aim of an architectural proof-of-concept (spike or walking skeleton) is to demonstrate the technical feasibility of your chosen architecture, to mitigate technical and project risks, and to plan and validate your technical and team processes (e.g., build systems, story breakdown, Kanban boards, acceptance testing, deployment).
-
-A walking skeleton is an initial technical attempt that will form the architectural foundation of your product. Since a walking skeleton is expected to be carried into your product, it must be completed to the quality standards expected for your final product. A walking skeleton should demonstrate all the technologies your program will rely on "end-to-end" &mdash; from the user interface down to the hardware.
-
-In the context of ENGR 301, a walking skeleton does not need to deliver any business value to your project: the aim is technical validation and risk mitigation.
-
-
-## Document
-
-The aim of the architectural design document is to describe the architecture and high-level design of the system your group is to build, to identify any critical technical issues with your design, and to explain how you have addressed the highest rated technical and architectural risks. The architecture document should also demonstrate your understanding of architectural techniques and architectural quality, using tools and associated notations as necessary to communicate the architecture precisely, unambiguously and clearly in a written technical document.
-
-Page specifications below are *limits not targets* and refer to the pages in the PDF generated from the markdown. Because the size of your document is necessarily limited, you should ensure that you focus your efforts on those architectural concerns that are most important to completing a successful system: if sections are at their page limit, indicate how many items would be expected in a complete specification.
-
-The ENGR 301 project architecture design document should be based on the standard ISO/IEC/IEEE 42010:2011(E) _Systems and software engineering &mdash; Architecture description_, plus appropriate sections from ISO/IEC/IEEE 29148:2018(E) _Systems and software engineering &mdash; Life cycle processes &mdash; Requirements engineering_; ISO/IEC/IEEE 15289:2017 _Systems and software engineering &mdash; Content of life-cycle information items (documentation)_; ISO/IEC/IEEE 15288:2015 _Systems and software engineering &mdash; System life-cycle processes_; ISO/IEC/IEEE 12207:2017 _Systems and software engineering &mdash; Software life cycle processes_ and ISO 25010 SQuaRE; with notations from ISO/ISE 19501 (UML). In particular, Annex F of ISO/IEC/IEEE 15288 and Annex F of ISO/IEC/IEEE 12207. These standards are available through the Victoria University Library subscription to the [IEEE Xplore Digital Library](https://ieeexplore.ieee.org/) (e.g., by visiting IEEE Xplore from a computer connected to the University network).
-
-The document should contain the sections listed below, and conform to the formatting rules listed at the end of this brief.
-
-All team members are expected to contribute equally to the document and list their contributions in the last section of the document (please make sure that your continued contribution to this document can be traced in GitLab). You should work on your document in your team's GitLab repository in a directory called "M2_Architecture". If more than one team member has contributed to a particular commit, all those team member IDs should be included in the first line of the git commit message. ``git blame``, ``git diff``, file histories, etc. will be tools used to assess individual contributions, so everyone is encouraged to contribute individually (your contribution should be made to many sections of the document, rather than focusing on just a single section), commit early and commit often.
-
----
-
-# ENGR 301 Project *NN* Architectural Design and Proof-of-Concept
-
-**Authors:** a comma-separated list of the names of each member of the team.
+August Bolter, Claire Chambers, Bryony Gatehouse, Joshua Hindley, Bailey Jewell, Sai Panda
 
 ## 1. Introduction
 
-One page overall introduction including sections 1.1 and 1.2 (ISO/IEC/IEEE 42010:2011(E) clause 5.2)
-
 ### Client
 
-Identify the client and their contact details.
+Our client is Andre Geldenhuis, and he can be contacted via the ecs mattermost, or via email at andre.geldenhuis@vuw.ac.nz.
 
 ### 1.1 Purpose
 
-One sentence describing the purpose of the system.
+Andre has contracted us to create mission control software for a hobby rocket launch, control, and recovery system. 
 
 ### 1.2 Scope
 
-One paragraph describing the scope of the system.
+The Mission Control Software is a multirole software package that facilitates pre-launch, mid-launch, and post-launch activities.
+It will identify favorable launch conditions, set the starting conditions for a rocket launch. 
+During the launch it will monitor the rocket, reporting its status and position.
+After the launch it will report the rockets position for manual recovery. 
+This software will facilitate the goal of making hobby rocket launches safer for both the users and the community, as well as aiding in convenience tasks like recovery.
+
 
 ### 1.3 Changes to requirements
 
@@ -120,27 +98,172 @@ Identify the architectural viewpoints you will use to present your system's arch
 
 ### 4. Architectural Views
 
-(5 sub-sections of 2 pages each sub-section, per 42010, 5.5, 5.6, with reference to Annex F of both 12207 and 15288) 
-
-Describe your system's architecture in a series of architectural views, each view corresponding to one viewpoint.
-
-You should include views from the following viewpoints (from Kruchten's 4+1 model):
-
- * Logical
- * Development
- * Process
- * Physical 
- * Scenarios - present scenarios illustrating how two of your most important use cases are supported by your architecture
-
-As appropriate you should include the following viewpoints:
-
- * Circuit Architecture
- * Hardware Architecture
-
-Each architectural view should include at least one architectural model. If architectural models are shared across views, refer back to the first occurrence of that model in your document, rather than including a separate section for the architectural models.
-
 ### 4.1 Logical
-...
+
+![Package Diagram](package_diagram.png)
+
+The logical architecture of the Mission Control System is designed around its features, with each feature being incorporated into a package with one-way dependencies. This is to facilitate high cohesion and low coupling, which will make the design more maintainable in the long run. Maintainability is a critical point of this design, as it is intended to be open-source software that serves a large community.
+
+Each package has only one responsibility:
+
+| Package | Responsibility |
+| ------- | -------------- |
+| OpenRocket | Go/No Go    |
+| Persistence | Use case 5d |
+| View | All the display items, including those used in Go/No Go and in the Rocket Status Display |
+| Controller | The control flow of the application |
+| External Data | Providing the data needed for the Go/No Go function |
+| Avionics | Interfacing with the Rocket Avionics Package, to facilitate the Rocket Status Display and the arming process |
+| Commons | Common data classes|
+
+The logical architecture also uses the MVC (Model-View-Controller) paradigm to increase flexibility and maintainability.
+
+### Avionics
+
+```plantuml
+CommandFormatter "1" *-- "1" SerialDriver
+RocketListenerManager "1" *-- "1" SerialDriver
+RocketListenerManager "1" *-- "1" DataInterpreter 
+
+SerialDriver : bytes getDataBuffer()
+SerialDriver : void sendBytes(bytes)
+
+DataInterpreter : bytes buffer
+DataInterpreter : void feedBytes(bytes)
+DataInterpreter : RocketData nextEvent()
+
+RocketListenerManager : List<RocketListener>
+RocketListenerManager : void register(RocketListener)
+RocketListenerManager : void unregister(RocketListener)
+
+```
+
+The Avionics Software Package contains the necessary classes to read and write data to the rocket. The public facing classes of this package are `RocketListenerManager` and `CommandFormatter`. The other classes could be made package-private as their functionality is internal, no other packages should be using the Serial Driver or the Data Interpreter to push or pull raw bytes. 
+
+The instantiation of the public-facing classes is handled by a factory pattern that hides the construction of the underlying classes. 
+
+This architecture could be extended to allow for different rocket types by subtyping `DataInterpreter` and `CommandFormatter`.
+
+### External Data
+
+```plantuml
+interface MapData
+class CachedMapData
+class InternetMapData
+class NOAAGetter
+
+MapData <|-- CachedMapData
+MapData <|-- InternetMapData
+
+MapData : Image get(long, lat)
+
+CachedMapData : Image cached
+CachedMapData : CachedMapData(Image cached)
+
+InternetMapData : Connection
+InternetMapData : static bool available()
+
+NOAAGetter : Connection
+NOAAGetter : WeatherData getWeatherData()
+NOAAGetter : static bool available()
+```
+
+The external data package is fairly straightforward, the main complication being the subtyping of `MapData`. This is to facilitate the internet and no-internet versions of the launch site view using a common type.
+
+Both network-faing classes have an `available()` function to signal unavailability to the controller.
+
+### External Data
+
+```plantuml
+class JPanel {
+   Provided
+}
+
+class JDialog {
+   Provided
+}
+
+abstract class AbstractMapView
+class SelectMapView
+class DisplayMapView
+class ForceDiagramView
+class ConsoleView
+class RocketDataView
+
+JPanel <|-- AbstractMapView
+JPanel <|-- ForceDiagramView
+JPanel <|-- ConsoleView
+JPanel <|-- RocketDataView
+
+AbstractMapView <|-- DisplayMapView
+AbstractMapView <|-- SelectMapView
+
+JDialog <|-- WeatherDataDialog
+```
+
+All view classes extend provided swing components, most often `JPanel` and `JDialog`. Notably, there's the abstract `AbstractMapView` which provides a base for both the select map views (used in the planning stage), and the display map views (used in the launching stage).
+
+### Program State
+
+```plantuml
+@startuml
+left to right direction
+
+
+[*] -> Startup
+Startup -> Planning : New Launch
+Startup -> Prelaunch : Resume
+Prelaunch -> Launched : Launch Detected
+Planning -> [*] : Cancellation or Confirmation
+Prelaunch -> [*] : No Go
+Launched -> [*] : Closed
+state Startup {
+}
+
+state Planning {
+ [*] -> SiteSelection
+ SiteSelection -> GoNoGo : Site Selected
+ GoNoGo -> SiteSelection : No Go
+ GoNoGo -> SiteSelection : Cancel Simulation
+ GoNoGo -> SiteFound : Go
+ SiteFound -> [*] : Confirm / saveLaunch()
+ SiteFound -> SiteSelection : Cancel 
+ SiteSelection -> [*] : Cancel
+ state SiteSelection {
+ }
+ state GoNoGo {
+ }
+ state SiteFound {
+ }
+}
+
+state Prelaunch {
+  [*] -> RocketInitialization
+  RocketInitialization -> GoNoGo2
+  GoNoGo2 -> Ready : Go
+  GoNoGo2 -> [*] : No Go
+  Ready -> Armed : Arm
+  Armed -> [*] : Launch Detected
+}
+
+state Launched {
+  [*] -> InProgress
+  InProgress -> LaunchOver
+}
+@enduml
+```
+
+The state of the program can be described as three separate states. 
+
+| State | Description |
+| ----- | ----------- |
+| Planning | The initial launch site selection, which involves evaluating potential launch sites and their weather conditions for safety, with an internet connection |
+| Prelaunch | The final checks done at the launch site, where an additional safety check is performed before the rocket is armed and launched |
+| Postlauch | Tracking the rocket in flight, and recovery |
+
+The `Planning` and `Prelaunch` stages aren't directly navigable, as they are performed at different locations. Howeber the `Prelaunch` and `Launched` stages are, as both stages occur at the launch site under the condition of no internet access.
+
+Notably, the transition from `Planning` to `Prelaunch` involves significant caching of the weather data and the satellite imagery data for use in the field.
 
 ### 4.2 Development
 
@@ -224,21 +347,13 @@ Schedules must be justified and supported by evidences; they must be either dire
 
 ### 5.1 Schedule
 
-Identify dates for key project deliverables:
-
-1. prototype(s).
-1. first deployment to the client.
-1. further improvements required or specified by the client.
-
-(1 page).
+This project consists of three primary deliverables: an architecture prototype, a minimum viable product and the project termination. The architectural prototype should be completed by the 19th of June in week eleven of trimester one. Our team chose this date for the architectural prototype as it signifies the end of the first trimester and the end of the planning stage of the mission control project. After this deliverable has been delivered, the team can begin programming the mission control software, creating a skeleton proof of concept before arriving at a minimum viable product. The minimim viable product for our project is a program that can act as mission control for a hobby rocket launch without any bells and whistles. The minimum viable product should be fully functional, if bare-bones, in successfully allowing a user to launch a hobby rocket. Our team should deliver the minimim viable product by the 14th of August in week five of trimester two. We chose this date as it allows the team sufficient time to create the mission control program while also allowing plenty of time to receive feedback from the client and make changes and improvements the the product. The project should terminate on the 16th of October in week twelve of trimester two. Ideally, the complete version of the product should be finished much earlier and only minor quality-of-life changes should be made the the mission control program in the weeks leading up to the project termination. At this stage there are no plans for any further releases beyond project termination. 
 
 ### 5.2 Budget and Procurement
 
 #### 5.2.1 Budget
 
-Present a budget for the project (as a table), showing the amount of expenditure the project requires and the date(s) on which it will be incurred. Substantiate each budget item by reference to fulfilment of project goals (one paragraph per item).
-
-(1 page). 
+No purchases required as the project is software-based.
 
 #### 5.2.2 Procurement
 
@@ -251,8 +366,6 @@ Present a budget for the project (as a table), showing the amount of expenditure
 
 
 ### 5.3 Risks 
-
-*Identify the ten most important project risks: their type, likelihood, impact, and mitigation strategies (3 pages).*
 
 #### Sudden prolonged absence of a team member.
 ##### Likelihood: Low Effect: High.
@@ -413,8 +526,6 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 ### 5.4 Health and Safety
 
-*Document here project requirements for Health and Safety.*
-
 1. How the team will manage computer-related risks
     - Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
     - Cable Management
@@ -434,7 +545,7 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 #### 5.4.1 Safety Plans
 
-Safety Plans may be required for some projects, depending on project requirements.
+As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
 
 
 ## 6. Appendices
@@ -450,25 +561,3 @@ One page glossary as required
 ## 7. Contributions
 
 An one page statement of contributions, including a list of each member of the group and what they contributed to this document.
-
----
-
-## Formatting Rules 
-
- * Write your document using [Markdown](https://gitlab.ecs.vuw.ac.nz/help/user/markdown#gitlab-flavored-markdown-gfm) in your team's GitLab repository.
- * Major sections should be separated by a horizontal rule.
-
-
-## Assessment 
-
-This document will be weighted at 20% on the architectural proof-of-concept(s), and 80% on the architecture design.
-
-The proof-of-concept will be assessed for coverage (does it demonstrate all the technologies needed to build your project?) and quality (with an emphasis on simplicity, modularity, and modifiability).
-
-The document will be assessed by considering both presentation and content. Group and individual group members will be assessed by identical criteria, the group mark for the finished PDF and the individual mark on the contributions visible through `git blame`, `git diff`, file histories, etc. 
-
-The presentation will be based on how easy it is to read, correct spelling, grammar, punctuation, clear diagrams, and so on.
-
-The content will be assessed according to its clarity, consistency, relevance, critical engagement and a demonstrated understanding of the material in the course. We look for evidence these traits are represented and assess the level of performance against these traits. Inspection of the GitLab Group is the essential form of assessing this document. While being comprehensive and easy to understand, this document must be reasonably concise too. You will be affected negatively by writing a report with too many pages (far more than what has been suggested for each section above).
-
----
