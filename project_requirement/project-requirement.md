@@ -1,8 +1,7 @@
-# ENGR 301: Project Requirements Document
-
+# ENGR 301: Mission Control Project Proposal and Requirements Document
 <div style="page-break-after: always;"></div>
 
-# ENGR 301: Mission Control Project Proposal and Requirements Document
+
 August Bolter, Claire Chambers, Bryony Gatehouse, Joshua Hindley, Bailey Jewell, Sai Panda 
 
 
