@@ -176,6 +176,16 @@ public class CachedMapData implements MapData {
     assert subImage != null;
     return subImage;
   }
+  
+  public double centerLat()
+  {
+	  return (topLeftLat + bottomRightLat) / 2;
+  }
+  
+  public double centerLon()
+  {
+	  return (topLeftLong + bottomRightLong) / 2;
+  }
 
   /**
    * Gets this CachedMapData's file.
