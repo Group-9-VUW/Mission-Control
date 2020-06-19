@@ -26,7 +26,7 @@ public class InternetMapData /*TODO: implements MapData*/ {
     private static String osmTileUriFormat = "http://a.tile.openstreetmap.org/%d/%d/%d.png";
 
 
-    public Image get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
+    public BufferedImage get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
         // FIXME: Zoom fixed at 16 for demo
         int zoom = 16;
 
@@ -37,7 +37,7 @@ public class InternetMapData /*TODO: implements MapData*/ {
         int numYToDraw = bottomRightXY[1] - topLeftXY[1];
 
         //TODO check that x and y are correct at these locations
-        BufferedImage[][] images = new BufferedImage[numXToDraw][numYToDraw];
+        BufferedImage[][] images = new BufferedImage[numYToDraw][numXToDraw];
 
         for (int i = 0; i < numXToDraw; ++i) {
             for (int j = 0; j < numYToDraw; ++j) {
