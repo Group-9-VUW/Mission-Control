@@ -1,10 +1,11 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStreamImpl;
+
+import org.eclipse.jdt.annotation.Nullable;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -87,7 +88,9 @@ public class InternetMapData implements MapData {
         int newHeight = fullImage.getHeight() - pixelsToCropTop - pixelsToCropBottom;
 
         // Crop the image by returning a subimage of the full image.
-        return fullImage.getSubimage(pixelsToCropLeft, pixelsToCropTop, newWidth, newHeight);
+        BufferedImage img = fullImage.getSubimage(pixelsToCropLeft, pixelsToCropTop, newWidth, newHeight);
+        assert img != null;
+        return img;
     }
 
     /**
@@ -99,13 +102,13 @@ public class InternetMapData implements MapData {
      *             the centre point.
      * @return Returns an Image object of the specified location.
      */
-    public Image get(double latitude, double longitude, int zoom) {
+    public static @Nullable Image get(double latitude, double longitude, int zoom) {
         int[] location = convertCoordsToXY(latitude, longitude, zoom);
         try {
             // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
             // parameters.
             // URLConnection courtesy of @hindlejosh
-            URL url = new URL(String.format(osmTileUriFormat, zoom, location[0], location[1]));
+            URL url = new URL(String.format(osmTileUriFormat, Integer.valueOf(zoom), Integer.valueOf(location[0]), Integer.valueOf(location[1])));
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
             connection.connect();
@@ -127,12 +130,12 @@ public class InternetMapData implements MapData {
      *             the centre point.
      * @return Returns an Image object of the specified location.
      */
-    public BufferedImage get(int x, int y, int zoom) {
+    public static @Nullable BufferedImage get(int x, int y, int zoom) {
         try {
             // Get the image and return it. The zoom level and Cartesian coordinates are used as the string format
             // parameters.
             // URLConnection courtesy of @hindlejosh
-            URL url = new URL(String.format(osmTileUriFormat, zoom, x, y));
+            URL url = new URL(String.format(osmTileUriFormat, Integer.valueOf(zoom), Integer.valueOf(x), Integer.valueOf(y)));
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact hindlejosh@ecs.vuw.ac.nz");
             connection.connect();
@@ -158,7 +161,9 @@ public class InternetMapData implements MapData {
             String endpointUrl = osmTileUriFormat.substring(osmTileUriFormat.length() - 14).replaceFirst("a", endpoint);
             if (doIsAvailable(endpointUrl)) {
                 // If this endpoint is reachable, modify the base URI and return.
-                osmTileUriFormat = osmTileUriFormat.replaceFirst("a", endpoint);
+            	String format = osmTileUriFormat.replaceFirst("a", endpoint);
+            	assert format != null;
+            	osmTileUriFormat = format;
                 return true;
             }
         }
@@ -169,8 +174,9 @@ public class InternetMapData implements MapData {
      * Checks if the user can succesfully connect to the given URL.
      * @return Returns true if the user can connect to the URL, false otherwise.
      */
-    private static boolean doIsAvailable(String URL) {
+    private static boolean doIsAvailable(@Nullable String URL) {
         try {
+        	if(URL == null) {return false;}
             URL url = new URL(osmTileUriFormat.substring(osmTileUriFormat.length() - 14));
             URLConnection connection = url.openConnection();
             connection.connect();
@@ -195,7 +201,6 @@ public class InternetMapData implements MapData {
     private static int[] convertCoordsToXY(double latitude, double longitude, int zoom) {
         // Converting coordinates to radians for use in tile formula.
         double latitudeRadians = Math.toRadians(latitude);
-        double longitudeRadians = Math.toRadians(longitude);
 
         // Calculating cartesian coordinates.
         int n = (int) Math.pow(2, zoom);
@@ -219,7 +224,7 @@ public class InternetMapData implements MapData {
         // Calculating latitude and longitude from tile coordinates.
         int n = (int) Math.pow(2, zoom);
         double longitude = (double) x / (double) n * 360f - 180f;
-        double latitudeRadians = Math.atan(Math.sinh(Math.PI * (1 - 2 * (double) y / (double) n)));
+        double latitudeRadians = Math.atan(Math.sinh(Math.PI * (1 - 2 * (double) y / n)));
         return new double[]{Math.toDegrees(latitudeRadians), longitude};
     }
 
