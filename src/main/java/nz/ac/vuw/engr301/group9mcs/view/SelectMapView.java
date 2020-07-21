@@ -28,6 +28,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
  * @editor Claire
  * @formatter Joshua
  */
+@SuppressWarnings(value = "all")
 public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener {
 
 	private static final long serialVersionUID = 438543895484881L;

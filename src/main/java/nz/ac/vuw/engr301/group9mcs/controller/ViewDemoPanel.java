@@ -20,6 +20,7 @@ import nz.ac.vuw.engr301.group9mcs.view.DisplayMapView;
  * @author Claire
  * @formatter Joshua
  */
+@SuppressWarnings(value = "all")
 public class ViewDemoPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = -7097275978056981331L;
