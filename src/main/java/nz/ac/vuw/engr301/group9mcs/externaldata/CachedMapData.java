@@ -61,7 +61,7 @@ public class CachedMapData implements MapData {
     //TODO change this method call
     this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
-    this.file = new File("src/main/resources/" + centreLat + "-" + centreLong + ".png"); 
+    this.file = new File("img_cache/" + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
   }
 
@@ -79,7 +79,7 @@ public class CachedMapData implements MapData {
    */
   private void saveMapToFile() {
     String fileName = this.file.getName();
-    File dat = new File("src/main/resources/" 
+    File dat = new File("img_cache/" 
         + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
       //save image
@@ -110,7 +110,7 @@ public class CachedMapData implements MapData {
   private void loadMapFromFile() {
     //get data file
     String fileName = this.file.getName();
-    File dat = new File("src/main/resources/" 
+    File dat = new File("img_cache/" 
         + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (Scanner sc = new Scanner(dat);) {
       //get image
@@ -179,12 +179,12 @@ public class CachedMapData implements MapData {
   
   public double centerLat()
   {
-	  return (topLeftLat + bottomRightLat) / 2;
+	  return (this.topLeftLat + this.bottomRightLat) / 2;
   }
   
   public double centerLon()
   {
-	  return (topLeftLong + bottomRightLong) / 2;
+	  return (this.topLeftLong + this.bottomRightLong) / 2;
   }
 
   /**
