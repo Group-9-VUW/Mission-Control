@@ -2,7 +2,7 @@
 
 #### 3.8.1 Physical Requirements
 
-The device running the program must have enough space in it's memory to download the program and save the files (log, weather and map data). This allows the program to run properly (or run at all).
+The device running the program must have enough space in its memory to download the program and save the files (log, weather and map data). This allows the program to run properly (or run at all).
 
 The device must be able to recieve information through the USB serial, thus must have a USB port or be able to use an adapter to accept a USB device.
 
