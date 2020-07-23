@@ -12,6 +12,6 @@ The device must have enough charge to run the software. The program must work as
 
 #### 3.8.3 Environmental Conditions
 
-The system must be able to receive a signal from the rocket while it's on the ground. It is preferred that the signal is also retrieved while the rocket is in the air. Other radio signals or buildings could interfere with the transfer of the signal.
+The system must be able to receive a signal from the rocket while it's on the ground. It is preferred that the signal is also received while the rocket is in the air. Other radio signals or buildings could interfere with the transfer of the signal.
 
 The system must be able to cooperate with the rocket api (designed by the avionics teams) and the Monte Carlo simulation (designed by the simulation teams). This includes communicating over USB Serial and to another software project (which might be a different language).
