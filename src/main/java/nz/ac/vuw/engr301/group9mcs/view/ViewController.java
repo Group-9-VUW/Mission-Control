@@ -12,13 +12,25 @@ import javax.swing.JPanel;
 public class ViewController{
 	
 	/**
+	 * Current View.
+	 */
+	private JPanel current;
+	
+	/**
+	 * Create a new Panel
+	 */
+	public ViewController() {
+		this.current = new JPanel();
+	}
+	
+	/**
 	 * Returns the current view based off information passed.
 	 * 
-	 * @param panel
+	 * @param name
 	 * @return Returns the current view
 	 */
-	public static JPanel getCurrentView(int panel) {
-		return new JPanel();
+	public JPanel getCurrentView(String name) {
+		return this.current;
 	}
 	
 }

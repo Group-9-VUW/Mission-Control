@@ -40,7 +40,7 @@ public class MenuController {
 	 */
 	@SuppressWarnings("null")
 	public MenuController(JFrame frame) {
-		createMenu();
+		frame.add(createMenu());
 	}
 	
 	/**
