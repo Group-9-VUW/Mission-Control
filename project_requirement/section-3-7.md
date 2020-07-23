@@ -28,7 +28,7 @@ Our software is going to be data agnostic, meaning that it will support multiple
 During development, the team will increase its functionality based on the Stakeholders needs. This will not be the case after development, but the open source nature of the software will allow for others to increase the scalability of the program.
 
 ### Survivability
-The software will incorporate multiple fail safes and will utilise proper handling of safety critical systems. In the event of an attack or a failure, the system will try to save as much information as it can and will try to minimise harm to anyone that can be affected.
+The software will incorporate multiple fail safes and will utilise proper handling of safety critical systems. 
 
 ### Deployment 
 The mission control software will be hosted on a repository from which users can download it from. Tags will be attached to each major version as development continues. 
@@ -37,13 +37,14 @@ The mission control software will be hosted on a repository from which users can
 All our code will be clearly documented with clear and concise comments. We will also include a readme file on the repository which will explain how to use the software. 
 
 ### Response Time
-Our user interface should have a response time less than 25 milliseconds. However, external factors such as network requests are exempt from the requirements. 
+Our user interface should have a response time less than 25 milliseconds. However, external factors such as network requests are exempt from the requirement.  
+
 
 ### Privacy 
 There is no persistent storage of the user’s data in our software. Regardless, the software will comply with all relevant privacy laws. 
 
 ### Testability
-The process of testing our software should be as easy as possible. Testing is critical for ensuring the correctness of our software, so we will do everything we can to ensure that our software can be easily tested. 
+The process of testing our software should be as easy as possible. Our test cases should achieve high coverage of the code. Testing is critical for ensuring the correctness of our software, so we will do everything we can to ensure that our software can be easily tested. 
 
 ### Platform Compatibility 
 Our software should be compatible on as many platforms as possible. However, we will not be supporting old or deprecated versions of current software (I.e. the software will be compatible with Windows 10, but not Windows XP). The major platforms we will support are Windows 10, macOS and Linux. 
