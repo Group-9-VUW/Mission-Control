@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package nz.ac.vuw.engr301.group9mcs.controller;
 
@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
 import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
 import nz.ac.vuw.engr301.group9mcs.view.LaunchSelectedListener;
@@ -23,72 +25,73 @@ import nz.ac.vuw.engr301.group9mcs.view.SelectMapView;
 public class SelectDemoPanel extends JPanel implements ActionListener, LaunchSelectedListener {
 
 	private static final long serialVersionUID = -274808354575526177L;
-	
+
 	private final JLabel lat = new JLabel("-");
 	private final JLabel lon = new JLabel("-");
-	
+
 	private final JButton save = new JButton("Save");
-	
+
 	private final JPanel top = new JPanel();
 	private final SelectMapView bottom;
-	
+
 	private final SimpleEventListener saveListener;
-	
+
 	private double latN, lonN;
-	
-	private File file;
-	
+
+	private @Nullable File file;
+
 	public SelectDemoPanel(MapData data, SimpleEventListener saveListener)
 	{
 		this.bottom = new SelectMapView(data);
 		this.bottom.addListener(this);
-		
+
 		this.saveListener = saveListener;
-		
-		top.add(new JLabel("Latitude: "));
-		top.add(lat);
-		top.add(new JLabel("Longditude: "));
-		top.add(lon);
-		top.add(save);
-		
+
+		this.top.add(new JLabel("Latitude: "));
+		this.top.add(this.lat);
+		this.top.add(new JLabel("Longditude: "));
+		this.top.add(this.lon);
+		this.top.add(this.save);
+
 		this.setLayout(new BorderLayout());
-		this.add(top, BorderLayout.NORTH);
-		this.add(bottom, BorderLayout.CENTER);
-		
-		save.addActionListener(this);
+		this.add(this.top, BorderLayout.NORTH);
+		this.add(this.bottom, BorderLayout.CENTER);
+
+		this.save.addActionListener(this);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == save) {
-			saveListener.event("save");
+	public void actionPerformed(@Nullable ActionEvent e) {
+		if(e == null) {return;}
+		if(e.getSource() == this.save) {
+			this.saveListener.event("save");
 		}
 	}
-	
-	public File getSaveFile() {
+
+	public @Nullable File getSaveFile() {
 		return this.file;
 	}
 
 	@Override
-	public void onLaunchSelected(double lat, double lon) {
-		this.lat.setText(Double.toString(lat));
-		this.lon.setText(Double.toString(lon));
-		this.latN = lat;
-		this.lonN = lon;
+	public void onLaunchSelected(double latitude, double longitude) {
+		this.lat.setText(Double.toString(latitude));
+		this.lon.setText(Double.toString(longitude));
+		this.latN = latitude;
+		this.lonN = longitude;
 	}
 
 	/**
 	 * @return the latN
 	 */
 	public double getLatN() {
-		return latN;
+		return this.latN;
 	}
 
 	/**
 	 * @return the lonN
 	 */
 	public double getLonN() {
-		return lonN;
+		return this.lonN;
 	}
 
 }

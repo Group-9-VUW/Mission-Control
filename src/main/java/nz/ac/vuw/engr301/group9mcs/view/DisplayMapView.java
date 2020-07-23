@@ -197,13 +197,23 @@ public class DisplayMapView extends JPanel {
     	radLat = (radLon * LongLatHelper.kilometeresPerDegreeOfLongitude(latLaunchSite)) / LongLatHelper.kilometersPerDegreeOfLatitude(latLaunchSite);
     }
     
+    int width = this.panel.getSize().width;
+    int height = this.panel.getSize().height;
+    
+    if(width > height) {
+    	//If width is greater than height, expand longditude such that it's proportional
+    	radLon *= width;
+    	radLon /= height;
+    } else {
+    	//Otherwise, do the opposite
+    	radLat *= height;
+    	radLat /= width;
+    }
+    
     double latUL = latLaunchSite + radLat;
     double lonUL = longLaunchSite - radLon;
     double latLR = latLaunchSite - radLat;
     double lonLR = longLaunchSite + radLon;
-
-    int width = this.panel.getSize().width;
-    int height = this.panel.getSize().height;
     
     double xRatio = (radLon * 2) / width;
     double yRatio = (radLat * 2) / height;
