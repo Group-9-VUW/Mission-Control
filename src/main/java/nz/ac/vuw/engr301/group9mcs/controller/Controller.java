@@ -1,8 +1,12 @@
 package main.java.nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.Dimension;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
+
+import org.eclipse.jdt.annotation.Nullable;
 
 import main.java.nz.ac.vuw.engr301.group9mcs.view.ViewController;
 
@@ -13,7 +17,7 @@ import main.java.nz.ac.vuw.engr301.group9mcs.view.ViewController;
  * @author Bryony
  *
  */
-public class Controller {
+public class Controller implements Observer{
 
 	/**
 	 * The entire frame of the program
@@ -43,6 +47,8 @@ public class Controller {
 		this.frame = new JFrame("Mission Control");
 		
 		this.menu = new MenuController(this.frame);
+		this.menu.addObserver(this);
+		this.menu.enableMenu("select");
 		this.view = new ViewController();
 		this.frame.add(this.view.getCurrentView("select"));
 		
@@ -52,9 +58,38 @@ public class Controller {
 		this.frame.setVisible(true);
 	}
 	
-	private void changePanel() {
+	/**
+	 * Change to named panel.
+	 * 
+	 * @param name
+	 */
+	private void changePanel(String name) {
 		this.frame.remove(this.view.getCurrentView("select"));
-		this.frame.add(this.view.getCurrentView("pre"));
+		this.frame.add(this.view.getCurrentView(name));
+		this.menu.enableMenu(name);
+	}
+
+	@Override
+	public void update(@Nullable Observable o, @Nullable Object arg) {
+		if(arg instanceof String[]) {
+			String[] args = (String[]) arg;
+			if(args[0].equals("Switch View") && args.length == 2) {
+				@Nullable String s = args[1];
+				if(s != null) {
+					changePanel(s);
+				}
+			}
+		}
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+

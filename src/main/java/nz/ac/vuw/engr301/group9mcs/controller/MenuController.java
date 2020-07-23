@@ -2,6 +2,7 @@ package main.java.nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -18,7 +19,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @author Bryony
  *
  */
-public class MenuController {
+public class MenuController extends Observable{
 
 	/**
 	 * Menu for Select Launch view.
@@ -59,6 +60,23 @@ public class MenuController {
 			}
 		});
 		file.add(quit);
+		JMenuItem select = new JMenuItem("Select a Launch Site");
+		select.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(@Nullable ActionEvent e) {
+				// TODO Auto-generated method stub
+				switchView("select");
+			}
+		});
+		file.add(select);
+		JMenuItem pre = new JMenuItem("Setup for Launch");
+		pre.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(@Nullable ActionEvent e) {
+				// TODO
+				switchView("pre");
+			}
+		});
 		
 		this.selectLaunch = new JMenu("Select Launch");
 		this.selectLaunch.setEnabled(false);
@@ -158,6 +176,17 @@ public class MenuController {
 	 */
 	public void disableMenu(String name) {
 		getMenuFromString(name).setEnabled(false);
+	}
+	
+	/**
+	 * Notify the Observer that the View needs switching.
+	 * 
+	 * @param name
+	 */
+	void switchView(String name) {
+		String[] arg = {"Switch View", name};
+		this.notifyObservers(name);
+		this.setChanged();
 	}
 	
 }
