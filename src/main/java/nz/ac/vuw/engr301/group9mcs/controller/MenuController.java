@@ -11,25 +11,31 @@ import javax.swing.JMenuItem;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
+ * Controller Class for the Menu.
+ * Creates the Menu.
+ * Allows an outside class to manipulate the Launch menus (select, pre, and launch)
+ * 
  * @author Bryony
  *
  */
 public class MenuController {
 
 	/**
-	 * 
+	 * Menu for Select Launch view.
 	 */
 	private JMenu selectLaunch;
 	/**
-	 * 
+	 * Menu for Pre-Launch view.
 	 */
 	private JMenu preLaunch;
 	/**
-	 * 
+	 * Menu for Launch view.
 	 */
 	private JMenu launch;
 	
 	/**
+	 * Add a menu to the given frame.
+	 * 
 	 * @param frame
 	 */
 	@SuppressWarnings("null")
@@ -38,6 +44,8 @@ public class MenuController {
 	}
 	
 	/**
+	 * Creates a menubar with a file menu, and three disabled menus.
+	 * 
 	 * @return Returns a Menu with all important items added
 	 */
 	private JMenuBar createMenu() {
@@ -69,6 +77,12 @@ public class MenuController {
 	}
 	
 	/**
+	 * Finds the Menu with the closest name.
+	 * Any name can be passed:
+	 *  	any word with 'select' in it returns Select Launch
+	 *    any word with 'pre' in it returns Pre-Launch
+	 *    any other word returns Launch
+	 * 
 	 * @param name
 	 * @return Returns the JMenu that matches the name (launch is default)
 	 */
@@ -83,6 +97,11 @@ public class MenuController {
 	}
 	
 	/**
+	 * Adds 'total' passed 'items' to the named menu.
+	 * 		'select' adds to Select Launch menu
+	 * 		'pre' adds to Pre Launch menu
+	 *    '' adds to Launch menu
+	 * 
 	 * @param name 
 	 * @param items
 	 * @param total
@@ -101,6 +120,11 @@ public class MenuController {
 	}
 	
 	/**
+	 * Checks if there are items in the named menu.
+	 * 		'select' adds to Select Launch menu
+	 * 		'pre' adds to Pre Launch menu
+	 *    '' adds to Launch menu
+	 * 
 	 * @param name 
 	 * @return Returns true if there are already Menu Items in the Menu
 	 */
@@ -109,6 +133,11 @@ public class MenuController {
 	}
 	
 	/**
+	 * Enables the named menu. Disables every other menu.
+	 * 		'select' adds to Select Launch menu
+	 * 		'pre' adds to Pre Launch menu
+	 *    '' adds to Launch menu
+	 * 
 	 * @param name
 	 */
 	public void enableMenu(String name) {
@@ -120,6 +149,11 @@ public class MenuController {
 	}
 	
 	/**
+	 * Disables the named menu.
+	 * 		'select' adds to Select Launch menu
+	 * 		'pre' adds to Pre Launch menu
+	 *    '' adds to Launch menu
+	 * 
 	 * @param name
 	 */
 	public void disableMenu(String name) {

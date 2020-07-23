@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 /**
+ * Controller class.
+ * Creates the screen.
+ * 
  * @author Bryony
  *
  */
@@ -16,7 +19,7 @@ public class Controller {
 	private JFrame frame;
 	
 	/**
-	 * 
+	 * Creates the screen.
 	 */
 	@SuppressWarnings("null")
 	public Controller() {
@@ -24,7 +27,7 @@ public class Controller {
 	}
 	
 	/**
-	 * 
+	 * Create the screen.
 	 */
 	private void createScreen() {
 		this.frame = new JFrame("Mission Control");
