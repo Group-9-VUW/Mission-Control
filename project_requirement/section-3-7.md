@@ -1,7 +1,7 @@
 ## Systemic (Nonfunctional) Requirements 
 
 ### Availability
-The mission control software will be available for use as long as the language level and libraries are non-deprecated.
+The mission control software will be available for use as long as the repository hosting the software exists. 
 
 ### Security
 Special care will be taken during development to ensure that the software has high security. After development has finished, the project team will no longer be updating the code base and hence the security level will remain the same.
@@ -38,6 +38,7 @@ All our code will be clearly documented with clear and concise comments. We will
 
 ### Response Time
 Our user interface should have a response time less than 25 milliseconds. However, external factors such as network requests are exempt from the requirements. 
+
 ### Privacy 
 There is no persistent storage of the user’s data in our software. Regardless, the software will comply with all relevant privacy laws. 
 
