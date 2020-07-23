@@ -18,6 +18,9 @@ import org.eclipse.jdt.annotation.Nullable;
  * @author Joshua Hindley, hindlejosh, 300438963
  */
 public class CachedMapData implements MapData {
+  
+  public static final String IMG_CACHE_FOLDER = "img_cache/";
+  
   /**
    * Holds this CachedMapData's file. That is, the file where 
    * this class will save an image to, or load an image from.
@@ -33,8 +36,6 @@ public class CachedMapData implements MapData {
   private double topLeftLong;
   private double bottomRightLat;
   private double bottomRightLong;
-
-
 
   //public CachedMapData() {} TODO maybe implement this to automatically load a file
 
@@ -61,7 +62,7 @@ public class CachedMapData implements MapData {
     //TODO change this method call
     this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
-    this.file = new File("img_cache/" + centreLat + "-" + centreLong + ".png"); 
+    this.file = new File(IMG_CACHE_FOLDER + centreLat + "-" + centreLong + ".png"); 
     saveMapToFile();
   }
 
@@ -79,8 +80,7 @@ public class CachedMapData implements MapData {
    */
   private void saveMapToFile() {
     String fileName = this.file.getName();
-    File dat = new File("img_cache/" 
-        + fileName.substring(0, fileName.length() - 4) + ".dat");
+    File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
       //save image
       RenderedImage renderedImg = this.img;
@@ -110,8 +110,7 @@ public class CachedMapData implements MapData {
   private void loadMapFromFile() {
     //get data file
     String fileName = this.file.getName();
-    File dat = new File("img_cache/" 
-        + fileName.substring(0, fileName.length() - 4) + ".dat");
+    File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
     try (Scanner sc = new Scanner(dat);) {
       //get image
       @Nullable BufferedImage image = ImageIO.read(this.file);
