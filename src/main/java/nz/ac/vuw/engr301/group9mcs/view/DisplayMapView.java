@@ -44,27 +44,30 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
  * allows the caller to choose aspect ratio in only two arguments). 
  * 
  * @author Bryony
- *
+ * @editor Claire
  */
-
 public class DisplayMapView extends JPanel {
 
   /**
    * Drop down menu for the view (how the objects are shown).
    */
   private JComboBox<String> viewDropDown;
+  
   /**
    * Dropdown menu for Labels (if labels should be shown).
    */
   private JComboBox<String> labelDropDown;
+  
   /**
    * The drawing panel.
    */
   private JComponent panel;
+  
   /**
    * The menu bar across the top.
    */
   private JMenuBar bar;
+  
   /**
    * The size of the dots in relation to screen size.
    */
@@ -75,15 +78,18 @@ public class DisplayMapView extends JPanel {
    * Longitude changes value along the horizontal axis, the X axis.
    */
   private double longLaunchSite;
+  
   /**
    * The Latitude of where the launch site is.
    * Latitude values increase or decrease along the vertical axis, the Y axis.
    */
   private double latLaunchSite;
+  
   /**
    * The longitude of where the rocket is.
    */
   private double longRocket;
+  
   /**
    * The Latitude of where the rocket is.
    */
@@ -93,15 +99,12 @@ public class DisplayMapView extends JPanel {
    * Colour of launch site.
    */
   private Color launchSiteColor = new Color(39, 0, 200);
+  
   /**
    * Color of rocket.
    */
   private Color rocketColor = new Color(255, 0, 0);
   
-  /**
-   * The ratio of how much screen is shown around the objects.
-   */
-  private double zoom = 0.25;
   /**
    * UID.
    */
@@ -185,16 +188,16 @@ public class DisplayMapView extends JPanel {
       return;
     }
 
-    double latDiff = Math.abs(latRocket - latLaunchSite);
-    double longDiff = Math.abs(longRocket - longLaunchSite);
+    double latDiff = Math.abs(this.latRocket - this.latLaunchSite);
+    double longDiff = Math.abs(this.longRocket - this.longLaunchSite);
     double radLat, radLon;
     
     if(latDiff > longDiff) {
-    	radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(latLaunchSite), Math.abs(latRocket - latLaunchSite) * 1.2);
-    	radLon = (radLat * LongLatHelper.kilometersPerDegreeOfLatitude(latLaunchSite)) / LongLatHelper.kilometeresPerDegreeOfLongitude(latLaunchSite);
+    	radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(this.latLaunchSite), Math.abs(this.latRocket - this.latLaunchSite) * 1.2);
+    	radLon = (radLat * LongLatHelper.kilometersPerDegreeOfLatitude(this.latLaunchSite)) / LongLatHelper.kilometeresPerDegreeOfLongitude(this.latLaunchSite);
     } else {
-    	radLon = Math.max(0.5 / LongLatHelper.kilometeresPerDegreeOfLongitude(latLaunchSite), Math.abs(longRocket - longLaunchSite) * 1.2);
-    	radLat = (radLon * LongLatHelper.kilometeresPerDegreeOfLongitude(latLaunchSite)) / LongLatHelper.kilometersPerDegreeOfLatitude(latLaunchSite);
+    	radLon = Math.max(0.5 / LongLatHelper.kilometeresPerDegreeOfLongitude(this.latLaunchSite), Math.abs(this.longRocket - this.longLaunchSite) * 1.2);
+    	radLat = (radLon * LongLatHelper.kilometeresPerDegreeOfLongitude(this.latLaunchSite)) / LongLatHelper.kilometersPerDegreeOfLatitude(this.latLaunchSite);
     }
     
     int width = this.panel.getSize().width;
@@ -210,25 +213,25 @@ public class DisplayMapView extends JPanel {
     	radLat /= width;
     }
     
-    double latUL = latLaunchSite + radLat;
-    double lonUL = longLaunchSite - radLon;
-    double latLR = latLaunchSite - radLat;
-    double lonLR = longLaunchSite + radLon;
+    double latUL = this.latLaunchSite + radLat;
+    double lonUL = this.longLaunchSite - radLon;
+    double latLR = this.latLaunchSite - radLat;
+    double lonLR = this.longLaunchSite + radLon;
     
     double xRatio = (radLon * 2) / width;
     double yRatio = (radLat * 2) / height;
     
-    int xlaunch = (int) ((longLaunchSite - lonUL) / xRatio);
-    int xrocket = (int) ((longRocket - lonUL) / xRatio);
-    int ylaunch = (int) ((latUL - latLaunchSite) / yRatio);
-    int yrocket = (int) ((latUL - latRocket) / yRatio);
+    int xlaunch = (int) ((this.longLaunchSite - lonUL) / xRatio);
+    int xrocket = (int) ((this.longRocket - lonUL) / xRatio);
+    int ylaunch = (int) ((latUL - this.latLaunchSite) / yRatio);
+    int yrocket = (int) ((latUL - this.latRocket) / yRatio);
     
     Image image = this.mapData.get(latUL, lonUL, latLR, lonLR);
     g.drawImage(image, 0, 0, width, height, null);
     
     // draw the rocket and launch site on the map
     drawRocketPath(width - xlaunch, height - ylaunch, width - xrocket, height - yrocket, g);
-    drawRocket(width - xrocket, height - yrocket, g, new Point2D.Double(longLaunchSite, latLaunchSite), new Point2D.Double(longRocket, latRocket));
+    drawRocket(width - xrocket, height - yrocket, g, new Point2D.Double(this.longLaunchSite, this.latLaunchSite), new Point2D.Double(this.longRocket, this.latRocket));
     drawLaunchSite(width - xlaunch, height - ylaunch, g);
   }
 
