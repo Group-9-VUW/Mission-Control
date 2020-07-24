@@ -2,8 +2,11 @@ package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Observable;
-
+import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,30 +25,29 @@ import org.eclipse.jdt.annotation.Nullable;
 public class MenuController extends Observable{
 
 	/**
-	 * Menu for Select Launch view.
+	 * Map of Map of Menu Items. Uses path name to search.
 	 */
-	private JMenu selectLaunch;
+	private Map<String, Map<String, JMenuItem>> items;
 	/**
-	 * Menu for Pre-Launch view.
+	 * Set of Menu Items that are used in every perspective.
+	 * Could be saved into the Perspectives. 
+	 * Saved by path name.
 	 */
-	private JMenu preLaunch;
-	/**
-	 * Menu for Launch view.
-	 */
-	private JMenu launch;
+	private Set<String> globalItems;
 	
 	/**
 	 * Add a menu to the given frame.
 	 * 
 	 * @param frame
 	 */
-	@SuppressWarnings("null")
 	public MenuController(JFrame frame) {
+		this.items = new HashMap<>();
+		this.globalItems = new HashSet<>();
 		frame.add(createMenu());
 	}
 	
 	/**
-	 * Creates a menubar with a file menu, and three disabled menus.
+	 * Creates a menu bar with a file menu, and three disabled menus.
 	 * 
 	 * @return Returns a Menu with all important items added
 	 */
@@ -60,6 +62,7 @@ public class MenuController extends Observable{
 			}
 		});
 		file.add(quit);
+		addItem("File/Quit", quit, true);
 		JMenuItem select = new JMenuItem("Select a Launch Site");
 		select.addActionListener(new ActionListener() {
 			@Override
@@ -69,6 +72,7 @@ public class MenuController extends Observable{
 			}
 		});
 		file.add(select);
+		addItem("File/Select a Launch Site", select, true);
 		JMenuItem pre = new JMenuItem("Setup for Launch");
 		pre.addActionListener(new ActionListener() {
 			@Override
@@ -77,105 +81,44 @@ public class MenuController extends Observable{
 				switchView("pre");
 			}
 		});
-		
-		this.selectLaunch = new JMenu("Select Launch");
-		this.selectLaunch.setEnabled(false);
-		
-		this.preLaunch = new JMenu("Pre-Launch");
-		this.preLaunch.setEnabled(false);
-		
-		this.launch = new JMenu("Launch");
-		this.launch.setEnabled(false);
+		file.add(pre);
+		addItem("File/Setup for Launch", pre, true);
 		
 		menu.add(file);
-		menu.add(this.launch);
-		menu.add(this.preLaunch);
-		menu.add(this.selectLaunch);
+		
 		return menu;
 	}
 	
 	/**
-	 * Finds the Menu with the closest name.
-	 * Any name can be passed:
-	 *  	any word with 'select' in it returns Select Launch
-	 *    any word with 'pre' in it returns Pre-Launch
-	 *    any other word returns Launch
+	 * Enables all the Menu Items in the list (search by pathname).
+	 * Only enables an item if it exists. Does not create new items.
 	 * 
-	 * @param name
-	 * @return Returns the JMenu that matches the name (launch is default)
+	 * @param paths
 	 */
-	private JMenu getMenuFromString(String name) {
-		if((name.toLowerCase()).contains("select")) {
-			return this.selectLaunch;
-		} else if ((name.toLowerCase()).contains("pre")) {
-			return this.preLaunch;
-		} else {
-			return this.launch;
+	@SuppressWarnings("null")
+	public void enableItems(String[] paths) {
+		for(String path : paths) {
+			String[] split = path.split("/");
+			if(this.items.containsKey(split[0])) {
+				if(this.items.get(split[0]).containsKey(split[1])) {
+					this.items.get(split[0]).get(split[1]).setEnabled(true);
+				}
+			}
 		}
 	}
 	
 	/**
-	 * Adds 'total' passed 'items' to the named menu.
-	 * 		'select' adds to Select Launch menu
-	 * 		'pre' adds to Pre Launch menu
-	 *    '' adds to Launch menu
-	 * 
-	 * @param name 
-	 * @param items
-	 * @param total
-	 * @return Returns true if the total is smaller or equal to item.length
+	 * Disables all Menu Items expect ones used globally.
 	 */
-	public boolean setMenuItems(String name, JMenuItem[] items, int total) {
-		if(items.length > total) {
-			return false;
+	@SuppressWarnings("null")
+	public void disableAll() {
+		for(String map : this.items.keySet()) {
+			for(String item : this.items.get(map).keySet()) {
+				if(!this.globalItems.contains(map + "/" + item)) {
+					this.items.get(map).get(item).setEnabled(false);
+				}
+			}
 		}
-		JMenu menu = getMenuFromString(name);
-		menu.removeAll();
-		for(int i = 0; i < total; i++) {
-			menu.add(items[i]);
-		}
-		return true;
-	}
-	
-	/**
-	 * Checks if there are items in the named menu.
-	 * 		'select' adds to Select Launch menu
-	 * 		'pre' adds to Pre Launch menu
-	 *    '' adds to Launch menu
-	 * 
-	 * @param name 
-	 * @return Returns true if there are already Menu Items in the Menu
-	 */
-	public boolean menuContainsOptions(String name) {
-		return getMenuFromString(name).getMenuComponentCount() > 0;
-	}
-	
-	/**
-	 * Enables the named menu. Disables every other menu.
-	 * 		'select' adds to Select Launch menu
-	 * 		'pre' adds to Pre Launch menu
-	 *    '' adds to Launch menu
-	 * 
-	 * @param name
-	 */
-	public void enableMenu(String name) {
-		disableMenu("pre");
-		disableMenu("select");
-		disableMenu("");
-		
-		getMenuFromString(name).setEnabled(true);
-	}
-	
-	/**
-	 * Disables the named menu.
-	 * 		'select' adds to Select Launch menu
-	 * 		'pre' adds to Pre Launch menu
-	 *    '' adds to Launch menu
-	 * 
-	 * @param name
-	 */
-	public void disableMenu(String name) {
-		getMenuFromString(name).setEnabled(false);
 	}
 	
 	/**
@@ -187,6 +130,26 @@ public class MenuController extends Observable{
 		String[] arg = {"Switch View", name};
 		this.notifyObservers(arg);
 		this.setChanged();
+	}
+	
+	/**
+	 * Adds an Menu item at the path name to the map of map of Menu Items.
+	 * Also adds item to global items (used in every perspective) if global is true.
+	 * 
+	 * @param path
+	 * @param item
+	 * @param global
+	 */
+	@SuppressWarnings("null")
+	private void addItem(String path, JMenuItem item, boolean global) {
+		String[] split = path.split("/");
+		if(!this.items.containsKey(split[0])) {
+			this.items.put(split[0], new HashMap<>());
+		}
+		this.items.get(split[0]).put(split[1], item);
+		if(global) {
+			this.globalItems.add(path);
+		}
 	}
 	
 }

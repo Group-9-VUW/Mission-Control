@@ -49,7 +49,7 @@ public class Controller implements Observer{
 		
 		this.menu = new MenuController(this.frame);
 		this.menu.addObserver(this);
-		this.menu.enableMenu("select");
+		// this.menu.enableItems( {"Path/To/Item"} );
 		this.view = new ViewController();
 		this.frame.add(this.view.getCurrentView("select"));
 		
@@ -67,7 +67,6 @@ public class Controller implements Observer{
 	private void changePanel(String name) {
 		this.frame.remove(this.view.getCurrentView("select"));
 		this.frame.add(this.view.getCurrentView(name));
-		this.menu.enableMenu(name);
 	}
 
 	@Override
