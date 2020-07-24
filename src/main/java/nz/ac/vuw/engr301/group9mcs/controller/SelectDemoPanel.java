@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 import nz.ac.vuw.engr301.group9mcs.view.LaunchSelectedListener;
 import nz.ac.vuw.engr301.group9mcs.view.SelectMapView;
 
@@ -40,7 +40,7 @@ public class SelectDemoPanel extends JPanel implements ActionListener, LaunchSel
 
 	private @Nullable File file;
 
-	public SelectDemoPanel(MapData data, SimpleEventListener saveListener)
+	public SelectDemoPanel(MapImage data, SimpleEventListener saveListener)
 	{
 		this.bottom = new SelectMapView(data);
 		this.bottom.addListener(this);
