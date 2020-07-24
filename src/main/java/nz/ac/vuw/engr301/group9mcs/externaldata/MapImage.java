@@ -8,7 +8,7 @@ import java.awt.Image;
  * @author Bryony
  *
  */
-public interface MapData {
+public interface MapImage {
 
   // Gets image 
   /**

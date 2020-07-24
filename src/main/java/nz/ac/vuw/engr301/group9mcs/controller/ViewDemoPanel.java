@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
-import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.DisplayMapView;
 
 /**
@@ -62,7 +62,7 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 		File save = this.saveFile;
 		if(e.getSource() == this.load) {
 			assert save != null;
-			CachedMapData data = new CachedMapData(save);
+			CachedMapImage data = new CachedMapImage(save);
 			this.launchLat = data.centerLat();
 			this.launchLon = data.centerLon();
 			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon(), data);

@@ -16,8 +16,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.DisplayHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
-import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapData;
-import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 
 /**
  * A runner class for the map demo. Executable.
@@ -33,7 +33,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	protected static final int WINDOW_WIDTH = 900;
 	protected static final int WINDOW_HEIGHT = 600;
 
-	protected final InternetMapData mapdata = new InternetMapData();
+	protected final InternetMapImage mapdata = new InternetMapImage();
 	protected final SelectDemoPanel selectdemo = new SelectDemoPanel(this.mapdata, this);
 	protected final ViewDemoPanel viewdemo = new ViewDemoPanel();
 	protected final WeatherDemoPanel weatherdemo = new WeatherDemoPanel();
@@ -67,7 +67,7 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 				System.out.println(LongLatHelper.kilometeresPerDegreeOfLongitude(lat));
 				System.out.println(latUL + " down " + latLR);
 				System.out.println(lonUL + " across " + lonLR);
-				CachedMapData cmd = new CachedMapData(this.mapdata, latUL, lonUL, latLR, lonLR);
+				CachedMapImage cmd = new CachedMapImage(this.mapdata, latUL, lonUL, latLR, lonLR);
 				this.viewdemo.setSave(cmd.getFile());
 				break;
 		default:

@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
  * This view displays the Map in a specified window. The user can zoom in/out of the map using a mouse scroll wheel
@@ -47,7 +47,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private int locationY; //y pixel of highlighted location
 	private boolean locationSelected; //Has the user selected a location (launch site)
 	
-	private final MapData mapData; //Used to get the map images
+	private final MapImage mapData; //Used to get the map images
 	private final List<LaunchSelectedListener> launchListener = new ArrayList<>();
 
 	private double lat = -41.291257;
@@ -62,7 +62,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	/**
 	 * This sets up fields, draws the initial map and determines longitude/latitude to pixel ratios
 	 */
-	public SelectMapView(final MapData data) {
+	public SelectMapView(final MapImage data) {
 		this.mapData = data;
 		this.locationSelected = false;
 		this.sizeX = this.getWidth();
