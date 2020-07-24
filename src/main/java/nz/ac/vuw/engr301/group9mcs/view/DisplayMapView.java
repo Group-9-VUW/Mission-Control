@@ -30,7 +30,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
  * Display map view is for showing the position of the rocket. 
@@ -113,7 +113,7 @@ public class DisplayMapView extends JPanel {
   /**
    * Provides the map image.
    */
-  private MapData mapData;
+  private MapImage mapData;
 
   /**
    * Set up JPanel for Displaying Map of Rocket's Progress.
@@ -121,7 +121,7 @@ public class DisplayMapView extends JPanel {
    * @param longLaunchSite The Longitude of where the launch site is
    * @param mapData The MapData class, provides the map image
    */
-  public DisplayMapView(double latLaunchSite, double longLaunchSite, MapData mapData) {
+  public DisplayMapView(double latLaunchSite, double longLaunchSite, MapImage mapData) {
     this.longLaunchSite = longLaunchSite;
     this.longRocket = longLaunchSite;
     this.latLaunchSite = latLaunchSite;
