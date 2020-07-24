@@ -1,4 +1,4 @@
-package main.java.nz.ac.vuw.engr301.group9mcs.view;
+package nz.ac.vuw.engr301.group9mcs.view;
 
 import javax.swing.JPanel;
 

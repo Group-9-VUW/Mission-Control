@@ -1,4 +1,4 @@
-package main.java.nz.ac.vuw.engr301.group9mcs.controller;
+package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.Dimension;
 import java.util.Observable;
@@ -8,7 +8,8 @@ import javax.swing.JFrame;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import main.java.nz.ac.vuw.engr301.group9mcs.view.ViewController;
+import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
+import nz.ac.vuw.engr301.group9mcs.view.ViewController;
 
 /**
  * Controller class.

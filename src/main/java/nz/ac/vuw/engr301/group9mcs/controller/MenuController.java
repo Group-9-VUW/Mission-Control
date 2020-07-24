@@ -1,4 +1,4 @@
-package main.java.nz.ac.vuw.engr301.group9mcs.controller;
+package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -185,7 +185,7 @@ public class MenuController extends Observable{
 	 */
 	void switchView(String name) {
 		String[] arg = {"Switch View", name};
-		this.notifyObservers(name);
+		this.notifyObservers(arg);
 		this.setChanged();
 	}
 	
