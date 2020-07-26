@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
-import nz.ac.vuw.engr301.group9mcs.view.ViewController;
-
 /**
  * Controller class.
  * Creates the screen.
@@ -29,9 +26,9 @@ public class Controller implements Observer{
 	 */
 	private MenuController menu;
 	/**
-	 * The view controller.
+	 * The perspective controller.
 	 */
-	private ViewController view;
+	private PerspectiveController view;
 	
 	/**
 	 * Creates the screen.
@@ -50,8 +47,8 @@ public class Controller implements Observer{
 		this.menu = new MenuController(this.frame);
 		this.menu.addObserver(this);
 		// this.menu.enableItems( {"Path/To/Item"} );
-		this.view = new ViewController();
-		this.frame.add(this.view.getCurrentView("select"));
+		this.view = new PerspectiveController();
+		this.view.changeState("select", this.frame, this.menu);
 		
 		this.frame.setPreferredSize(new Dimension(300, 300));
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,8 +62,9 @@ public class Controller implements Observer{
 	 * @param name
 	 */
 	private void changePanel(String name) {
-		this.frame.remove(this.view.getCurrentView("select"));
-		this.frame.add(this.view.getCurrentView(name));
+		this.frame.removeAll();
+		this.menu.addMenuBar(this.frame);
+		this.view.changeState("select", this.frame, this.menu);
 	}
 
 	@Override

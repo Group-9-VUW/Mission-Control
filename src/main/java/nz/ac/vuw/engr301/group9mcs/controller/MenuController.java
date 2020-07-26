@@ -34,6 +34,10 @@ public class MenuController extends Observable{
 	 * Saved by path name.
 	 */
 	private Set<String> globalItems;
+	/**
+	 * Menu Bar
+	 */
+	private JMenuBar menu;
 	
 	/**
 	 * Add a menu to the given frame.
@@ -43,7 +47,8 @@ public class MenuController extends Observable{
 	public MenuController(JFrame frame) {
 		this.items = new HashMap<>();
 		this.globalItems = new HashSet<>();
-		frame.add(createMenu());
+		this.menu = createMenu();
+		frame.add(this.menu);
 	}
 	
 	/**
@@ -52,7 +57,7 @@ public class MenuController extends Observable{
 	 * @return Returns a Menu with all important items added
 	 */
 	private JMenuBar createMenu() {
-		JMenuBar menu = new JMenuBar();
+		JMenuBar menu1 = new JMenuBar();
 		JMenu file = new JMenu("File");
 		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(new ActionListener() {
@@ -84,9 +89,9 @@ public class MenuController extends Observable{
 		file.add(pre);
 		addItem("File/Setup for Launch", pre, true);
 		
-		menu.add(file);
+		menu1.add(file);
 		
-		return menu;
+		return menu1;
 	}
 	
 	/**
@@ -150,6 +155,16 @@ public class MenuController extends Observable{
 		if(global) {
 			this.globalItems.add(path);
 		}
+	}
+	
+	/**
+	 * Adds the Menu Bar to the Frame.
+	 * To be called after the Frame has been cleared.
+	 * 
+	 * @param frame
+	 */
+	public void addMenuBar(JFrame frame) {
+		frame.add(this.menu);
 	}
 	
 }
