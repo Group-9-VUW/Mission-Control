@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.json.JSONArray;
@@ -44,6 +42,7 @@ public class NOAAGetter {
 	 * @param longitude - longitude of the location.
 	 * @return WeatherData with the data returned by the API call.
 	 */
+	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
 		try {
 			String units = "metric";
@@ -58,7 +57,7 @@ public class NOAAGetter {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 
 				JSONObject currentData = weatherJSON.getJSONObject("current");
-                
+
 				reader.close();
 				return parseWeatherJSON(currentData);
 			}
@@ -112,7 +111,7 @@ public class NOAAGetter {
 	 * @param weatherJSON the JSON object containing all weather info from the API
 	 * @return WeatherData with all needed weather attributes
 	 */
-	private WeatherData parseWeatherJSON(JSONObject weatherJSON){
+	private static WeatherData parseWeatherJSON(JSONObject weatherJSON){
 		JSONObject rainData = null;
 
 		if(weatherJSON.has("rain")) {
