@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,7 +119,16 @@ public class NOAAGetter {
 
 				for(int i = 0; i < hourlyforecasts.length(); i++){
 					JSONObject forecast = hourlyforecasts.getJSONObject(i);
-					System.out.println(forecast);
+
+					long unixTime = forecast.getLong("dt");
+
+					Date date = new Date(unixTime * 1000);
+					SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+					String formattedDate = sdf.format(date);
+					System.out.println(formattedDate);
+
+					//System.out.println(forecast.getLong("dt"));
 				}
 				System.out.println(hourlyforecasts);
 			}
