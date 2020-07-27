@@ -15,7 +15,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @author Bryony
  *
  */
-public class Controller implements Observer{
+public class MainController implements Observer{
 
 	/**
 	 * The entire frame of the program
@@ -34,7 +34,7 @@ public class Controller implements Observer{
 	 * Creates the screen.
 	 */
 	@SuppressWarnings("null")
-	public Controller() {
+	public MainController() {
 		createScreen();
 	}
 	
