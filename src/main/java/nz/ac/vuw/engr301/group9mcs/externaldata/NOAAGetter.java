@@ -67,7 +67,11 @@ public class NOAAGetter {
 				// The units for the wind speed returned by the API is in meters per second.
 				// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
 				double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
-
+					
+	            // Wind direction (meteorological) 
+                double windDegrees = currentData.getDouble("wind_deg");
+				
+                // Atmospheric Pressure in hPa
 				double pressure = currentData.getDouble("pressure");
 
                 // Amount of Rainfall in the last hour.
@@ -76,22 +80,17 @@ public class NOAAGetter {
                 // Current Humidity in percentage 
                 double humidity = currentData.getDouble("humidity");
                 
-                // Wind direction (meteorological) 
-                double windDegrees = currentData.getDouble("wind_deg");
-                
                 // Cloudiness percentage 
                 double cloudiness = currentData.getDouble("clouds");
-     
-                
                 
 				reader.close();
-				return new WeatherData(temperature, windSpeed, pressure, precipitation);
+				return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block.
 			e.printStackTrace();
 		}
-		return new WeatherData(0, 0, 0, 0); //TODO change this
+		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
 	}
 
 
