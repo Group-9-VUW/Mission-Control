@@ -93,7 +93,31 @@ public class NOAAGetter {
 		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
 	}
 
+	/**
+	 * Get the
+	 * @param latitude
+	 * @param longitude
+	 * @return
+	 */
+	public WeatherData getForecast(double latitude, double longitude){
+		try {
+			String units = "metric";
+			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
+					+ "lat=" + latitude + "&lon=" + longitude + "&units=" +
+					units + "&exclude=current,daily,minutely&appid=" + this.appid;
 
+			URL url = new URL(urlString);
+			URLConnection connection = url.openConnection();
+
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
+				JSONObject weatherJSON = new JSONObject(reader.readLine());
+				System.out.println(weatherJSON);
+			}
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		return new WeatherData(0,0,0,0,0,0, 0);
+	}
 	/**
 	 * @return the appid.
 	 */
@@ -135,7 +159,7 @@ public class NOAAGetter {
 		System.out.println();
 
 		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		System.out.println(getter.getWeatherData(-41.289224, 174.768352));
+		System.out.println(getter.getForecast(-41.289224, 174.768352));
 
 	}
 
