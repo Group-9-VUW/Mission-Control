@@ -58,36 +58,9 @@ public class NOAAGetter {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 
 				JSONObject currentData = weatherJSON.getJSONObject("current");
-
-                JSONObject rainData = null;
-
-                if(currentData.has("rain")) {
-                    rainData = currentData.getJSONObject("rain");
-                }
-
-				double temperature = currentData.getDouble("temp");
-
-				// The units for the wind speed returned by the API is in meters per second.
-				// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
-				double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
-					
-	            // Wind direction (meteorological) 
-                double windDegrees = currentData.getDouble("wind_deg");
-				
-                // Atmospheric Pressure in hPa
-				double pressure = currentData.getDouble("pressure");
-
-                // Amount of Rainfall in the last hour.
-                double precipitation = rainData != null && rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
-                
-                // Current Humidity in percentage 
-                double humidity = currentData.getDouble("humidity");
-                
-                // Cloudiness percentage 
-                double cloudiness = currentData.getDouble("clouds");
                 
 				reader.close();
-				return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
+				return parseWeatherJSON(currentData);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block.
@@ -126,40 +99,51 @@ public class NOAAGetter {
 					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 					String formattedDate = sdf.format(date);
 
-					JSONObject rainData = null;
-
-					if(forecast.has("rain")) {
-						rainData = forecast.getJSONObject("rain");
-					}
-
-					double temperature = forecast.getDouble("temp");
-
-					// The units for the wind speed returned by the API is in meters per second.
-					// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
-					double windSpeed = ((forecast.getDouble("wind_speed") * 60) * 60) / 1000;
-
-					// Wind direction (meteorological)
-					double windDegrees = forecast.getDouble("wind_deg");
-
-					// Atmospheric Pressure in hPa
-					double pressure = forecast.getDouble("pressure");
-
-					// Amount of Rainfall in the last hour.
-					double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
-
-					// Current Humidity in percentage
-					double humidity = forecast.getDouble("humidity");
-
-					// Cloudiness percentage
-					double cloudiness = forecast.getDouble("clouds");
-
-					forecasts.put(formattedDate, new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness));
+					forecasts.put(formattedDate, parseWeatherJSON(forecast));
 				}
+
 			}
 		} catch(IOException e){
 			e.printStackTrace();
 		}
 		return forecasts;
+	}
+
+	/**
+	 * Parses and returns the appropriate weather data from the supplied JSON
+	 * @param weatherJSON the JSON object containing all weather info from the API
+	 * @return WeatherData with all needed weather attributes
+	 */
+	private WeatherData parseWeatherJSON(JSONObject weatherJSON){
+		JSONObject rainData = null;
+
+		if(weatherJSON.has("rain")) {
+			rainData = weatherJSON.getJSONObject("rain");
+		}
+
+		double temperature = weatherJSON.getDouble("temp");
+
+		// The units for the wind speed returned by the API is in meters per second.
+		// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
+		double windSpeed = ((weatherJSON.getDouble("wind_speed") * 60) * 60) / 1000;
+
+		// Wind direction (meteorological)
+		double windDegrees = weatherJSON.getDouble("wind_deg");
+
+		// Atmospheric Pressure in hPa
+		double pressure = weatherJSON.getDouble("pressure");
+
+		// Amount of Rainfall in the last hour.
+		double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
+
+		// Current Humidity in percentage
+		double humidity = weatherJSON.getDouble("humidity");
+
+		// Cloudiness percentage
+		double cloudiness = weatherJSON.getDouble("clouds");
+
+		return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
+
 	}
 	/**
 	 * @return the appid.
@@ -202,7 +186,8 @@ public class NOAAGetter {
 		System.out.println();
 
 		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		System.out.println(getter.getForecast(-41.289224, 174.768352));
+		//System.out.println(getter.getForecast(-41.289224, 174.768352));
+		System.out.println(getter.getWeatherData(-41.289224, 174.768352));
 
 	}
 
