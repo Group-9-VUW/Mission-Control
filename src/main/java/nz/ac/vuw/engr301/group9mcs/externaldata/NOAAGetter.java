@@ -62,7 +62,6 @@ public class NOAAGetter {
                     rainData = currentData.getJSONObject("rain");
                 }
 
-
 				double temperature = currentData.getDouble("temp");
 
 				// The units for the wind speed returned by the API is in meters per second.
@@ -73,7 +72,18 @@ public class NOAAGetter {
 
                 // Amount of Rainfall in the last hour.
                 double precipitation = rainData != null && rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
-
+                
+                // Current Humidity in percentage 
+                double humidity = currentData.getDouble("humidity");
+                
+                // Wind direction (meteorological) 
+                double windDegrees = currentData.getDouble("wind_deg");
+                
+                // Cloudiness percentage 
+                double cloudiness = currentData.getDouble("clouds");
+     
+                
+                
 				reader.close();
 				return new WeatherData(temperature, windSpeed, pressure, precipitation);
 			}
@@ -100,7 +110,7 @@ public class NOAAGetter {
 	}
 
 	/**
-	 * Checks if the user can succesfully connect to the OpenWeatherMap API.
+	 * Checks if the user can successfully connect to the OpenWeatherMap API.
 	 * @return true if the user can connect to the API, false otherwise.
 	 */
 	public static boolean isAvailable() {
