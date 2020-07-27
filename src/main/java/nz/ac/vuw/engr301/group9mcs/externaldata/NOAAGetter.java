@@ -28,19 +28,7 @@ public class NOAAGetter {
 
 
 	/**
-	 * Default constuctor for testing.
-	 */
-	public NOAAGetter() {
-		System.out.println("Enter your appid for OpenWeatherMap:");
-		// Eclipse shows warning saying try-with-resource should be used
-		try (Scanner scan = new Scanner(System.in);) {
-			this.appid = scan.next();
-			scan.close();
-		}
-	}
-
-	/**
-	 * Constructor for when the user supplies their API token.
+	 * Constructor with the user supplies their API token.
 	 * @param token the token the user has supplied.
 	 */
 	public NOAAGetter(String appid) {
@@ -74,26 +62,35 @@ public class NOAAGetter {
                     rainData = currentData.getJSONObject("rain");
                 }
 
-
 				double temperature = currentData.getDouble("temp");
 
 				// The units for the wind speed returned by the API is in meters per second.
 				// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
 				double windSpeed = ((currentData.getDouble("wind_speed") * 60) * 60) / 1000;
-
+					
+	            // Wind direction (meteorological) 
+                double windDegrees = currentData.getDouble("wind_deg");
+				
+                // Atmospheric Pressure in hPa
 				double pressure = currentData.getDouble("pressure");
 
                 // Amount of Rainfall in the last hour.
                 double precipitation = rainData != null && rainData.keySet().contains("1h") == true ? rainData.getDouble("1h") : 0.0;
-
+                
+                // Current Humidity in percentage 
+                double humidity = currentData.getDouble("humidity");
+                
+                // Cloudiness percentage 
+                double cloudiness = currentData.getDouble("clouds");
+                
 				reader.close();
-				return new WeatherData(temperature, windSpeed, pressure, precipitation);
+				return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block.
 			e.printStackTrace();
 		}
-		return new WeatherData(0, 0, 0, 0); //TODO change this
+		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
 	}
 
 
@@ -112,7 +109,7 @@ public class NOAAGetter {
 	}
 
 	/**
-	 * Checks if the user can succesfully connect to the OpenWeatherMap API.
+	 * Checks if the user can successfully connect to the OpenWeatherMap API.
 	 * @return true if the user can connect to the API, false otherwise.
 	 */
 	public static boolean isAvailable() {
