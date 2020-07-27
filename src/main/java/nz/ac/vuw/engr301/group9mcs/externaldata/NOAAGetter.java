@@ -6,8 +6,11 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
@@ -28,8 +31,8 @@ public class NOAAGetter {
 
 
 	/**
-	 * Constructor with the user supplies their API token.
-	 * @param token the token the user has supplied.
+	 * Constructor with the user supplies their API appid.
+	 * @param appid the appid the user has supplied.
 	 */
 	public NOAAGetter(String appid) {
 		this.appid = appid;
@@ -94,12 +97,12 @@ public class NOAAGetter {
 	}
 
 	/**
-	 * Get the
+	 * Get the hourly forecast for the next 48 hours.
 	 * @param latitude
 	 * @param longitude
 	 * @return
 	 */
-	public WeatherData getForecast(double latitude, double longitude){
+	public List<WeatherData> getForecast(double latitude, double longitude){
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -111,12 +114,19 @@ public class NOAAGetter {
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
-				System.out.println(weatherJSON);
+
+				JSONArray hourlyforecasts = weatherJSON.getJSONArray("hourly");
+
+				for(int i = 0; i < hourlyforecasts.length(); i++){
+					JSONObject forecast = hourlyforecasts.getJSONObject(i);
+					System.out.println(forecast);
+				}
+				System.out.println(hourlyforecasts);
 			}
 		} catch(IOException e){
 			e.printStackTrace();
 		}
-		return new WeatherData(0,0,0,0,0,0, 0);
+		return new ArrayList<>();
 	}
 	/**
 	 * @return the appid.
@@ -128,8 +138,8 @@ public class NOAAGetter {
 	/**
 	 * @param appid the appid to set.
 	 */
-	public void setAppId(String token) {
-		this.appid = token;
+	public void setAppId(String appid) {
+		this.appid = appid;
 	}
 
 	/**
