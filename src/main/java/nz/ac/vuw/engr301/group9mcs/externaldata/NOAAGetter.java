@@ -97,12 +97,13 @@ public class NOAAGetter {
 	}
 
 	/**
-	 * Get the hourly forecast for the next 48 hours.
+	 * Get the hourly forecasts for the next 48 hours.
 	 * @param latitude
 	 * @param longitude
 	 * @return
 	 */
-	public List<WeatherData> getForecast(double latitude, double longitude){
+	public Map<String, WeatherData> getForecast(double latitude, double longitude){
+		Map<String, WeatherData> forecasts = new HashMap<>();
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -111,14 +112,12 @@ public class NOAAGetter {
 
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
-
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
+				JSONArray hourlyForecasts = weatherJSON.getJSONArray("hourly");
 
-				JSONArray hourlyforecasts = weatherJSON.getJSONArray("hourly");
-
-				for(int i = 0; i < hourlyforecasts.length(); i++){
-					JSONObject forecast = hourlyforecasts.getJSONObject(i);
+				for(int i = 0; i < hourlyForecasts.length(); i++){
+					JSONObject forecast = hourlyForecasts.getJSONObject(i);
 
 					long unixTime = forecast.getLong("dt");
 
@@ -126,16 +125,41 @@ public class NOAAGetter {
 					SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
 					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 					String formattedDate = sdf.format(date);
-					System.out.println(formattedDate);
 
-					//System.out.println(forecast.getLong("dt"));
+					JSONObject rainData = null;
+
+					if(forecast.has("rain")) {
+						rainData = forecast.getJSONObject("rain");
+					}
+
+					double temperature = forecast.getDouble("temp");
+
+					// The units for the wind speed returned by the API is in meters per second.
+					// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
+					double windSpeed = ((forecast.getDouble("wind_speed") * 60) * 60) / 1000;
+
+					// Wind direction (meteorological)
+					double windDegrees = forecast.getDouble("wind_deg");
+
+					// Atmospheric Pressure in hPa
+					double pressure = forecast.getDouble("pressure");
+
+					// Amount of Rainfall in the last hour.
+					double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
+
+					// Current Humidity in percentage
+					double humidity = forecast.getDouble("humidity");
+
+					// Cloudiness percentage
+					double cloudiness = forecast.getDouble("clouds");
+
+					forecasts.put(formattedDate, new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness));
 				}
-				System.out.println(hourlyforecasts);
 			}
 		} catch(IOException e){
 			e.printStackTrace();
 		}
-		return new ArrayList<>();
+		return forecasts;
 	}
 	/**
 	 * @return the appid.
