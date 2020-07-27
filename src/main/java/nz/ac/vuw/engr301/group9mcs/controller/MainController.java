@@ -11,7 +11,7 @@ import org.eclipse.jdt.annotation.Nullable;
 /**
  * Controller class.
  * Creates the screen.
- * 
+ *
  * @author Bryony
  *
  */
@@ -28,43 +28,43 @@ public class MainController implements Observer{
 	/**
 	 * The perspective controller.
 	 */
-	private PerspectiveController view;
-	
+	//private PerspectiveController view;
+
 	/**
 	 * Creates the screen.
 	 */
-	@SuppressWarnings("null")
+	//@SuppressWarnings("null")
 	public MainController() {
 		createScreen();
 	}
-	
+
 	/**
 	 * Create the screen.
 	 */
 	private void createScreen() {
 		this.frame = new JFrame("Mission Control");
-		
+
 		this.menu = new MenuController(this.frame);
 		this.menu.addObserver(this);
 		// this.menu.enableItems( {"Path/To/Item"} );
-		this.view = new PerspectiveController();
-		this.view.changeState("select", this.frame, this.menu);
-		
+		//this.view = new PerspectiveController();
+		//this.view.changeState("select", this.frame, this.menu);
+
 		this.frame.setPreferredSize(new Dimension(300, 300));
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.pack();
 		this.frame.setVisible(true);
 	}
-	
+
 	/**
 	 * Change to named panel.
-	 * 
+	 *
 	 * @param name
 	 */
 	private void changePanel(String name) {
 		this.frame.removeAll();
 		this.menu.addMenuBar(this.frame);
-		this.view.changeState("select", this.frame, this.menu);
+		//this.view.changeState("select", this.frame, this.menu);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class MainController implements Observer{
 			}
 		}
 	}
-	
+
 }
 
 
