@@ -28,19 +28,7 @@ public class NOAAGetter {
 
 
 	/**
-	 * Default constuctor for testing.
-	 */
-	public NOAAGetter() {
-		System.out.println("Enter your appid for OpenWeatherMap:");
-		// Eclipse shows warning saying try-with-resource should be used
-		try (Scanner scan = new Scanner(System.in);) {
-			this.appid = scan.next();
-			scan.close();
-		}
-	}
-
-	/**
-	 * Constructor for when the user supplies their API token.
+	 * Constructor with the user supplies their API token.
 	 * @param token the token the user has supplied.
 	 */
 	public NOAAGetter(String appid) {
