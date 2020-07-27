@@ -71,12 +71,12 @@ public class NOAAGetter {
 
 	/**
 	 * Get the hourly forecasts for the next 48 hours.
-	 * @param latitude
-	 * @param longitude
-	 * @return
+	 * @param latitude - latitude of the location.
+	 * @param longitude - longitude of the location
+	 * @return a Map of the
 	 */
-	public Map<String, WeatherData> getForecast(double latitude, double longitude){
-		Map<String, WeatherData> forecasts = new HashMap<>();
+	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
+		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -94,12 +94,10 @@ public class NOAAGetter {
 
 					long unixTime = forecast.getLong("dt");
 
+					// Converts Unix time to millis
 					Date date = new Date(unixTime * 1000);
-					SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
-					sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-					String formattedDate = sdf.format(date);
 
-					forecasts.put(formattedDate, parseWeatherJSON(forecast));
+					forecasts.put(date, parseWeatherJSON(forecast));
 				}
 
 			}
@@ -182,12 +180,16 @@ public class NOAAGetter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Connection to OWM: " + (NOAAGetter.isAvailable() == true ? "Successful" : "Failed"));
+		System.out.println("Connection to OWM: " + (NOAAGetter.isAvailable() ? "Successful" : "Failed"));
 		System.out.println();
 
 		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		//System.out.println(getter.getForecast(-41.289224, 174.768352));
-		System.out.println(getter.getWeatherData(-41.289224, 174.768352));
+		Map<Date, WeatherData> forecasts = getter.getForecast(-41.289224, 174.768352);
+		for(Date timestamp : forecasts.keySet()){
+			System.out.println(timestamp+":");
+			System.out.println(forecasts.get(timestamp));
+			System.out.println();
+		}
 
 	}
 
