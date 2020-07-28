@@ -1,18 +1,20 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import org.eclipse.jdt.annotation.Nullable;
+import nz.ac.vuw.engr301.group9mcs.commons.InvariantViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 /**
  * Controller Class for the Menu.
@@ -25,19 +27,26 @@ import org.eclipse.jdt.annotation.Nullable;
 public class MenuController extends Observable{
 
 	/**
-	 * Map of Map of Menu Items. Uses path name to search.
+	 * Map of Menu Items. Uses canonical path name to search.
 	 */
-	private Map<String, Map<String, JMenuItem>> items;
+	private final Map<String, JMenuItem> items = new HashMap<>();
+	
+	/**
+	 * Map of menus, uses the first element of canonical 
+	 */
+	private final Map<String, JMenu> menus = new HashMap<>();
+	
 	/**
 	 * Set of Menu Items that are used in every perspective.
 	 * Could be saved into the Perspectives. 
 	 * Saved by path name.
 	 */
-	private Set<String> globalItems;
+	private final Set<String> globalItems = new HashSet<>();
+	
 	/**
 	 * Menu Bar
 	 */
-	private JMenuBar menu;
+	private JMenuBar menubar;
 	
 	/**
 	 * Add a menu to the given frame.
@@ -45,53 +54,8 @@ public class MenuController extends Observable{
 	 * @param frame
 	 */
 	public MenuController(JFrame frame) {
-		this.items = new HashMap<>();
-		this.globalItems = new HashSet<>();
-		this.menu = createMenu();
-		frame.add(this.menu);
-	}
-	
-	/**
-	 * Creates a menu bar with a file menu, and three disabled menus.
-	 * 
-	 * @return Returns a Menu with all important items added
-	 */
-	private JMenuBar createMenu() {
-		JMenuBar menu1 = new JMenuBar();
-		JMenu file = new JMenu("File");
-		JMenuItem quit = new JMenuItem("Quit");
-		quit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(@Nullable ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		file.add(quit);
-		addItem("File/Quit", quit, true);
-		JMenuItem select = new JMenuItem("Select a Launch Site");
-		select.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(@Nullable ActionEvent e) {
-				// TODO Auto-generated method stub
-				switchView("select");
-			}
-		});
-		file.add(select);
-		addItem("File/Select a Launch Site", select, true);
-		JMenuItem pre = new JMenuItem("Setup for Launch");
-		pre.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(@Nullable ActionEvent e) {
-				// TODO
-				switchView("pre");
-			}
-		});
-		file.add(pre);
-		addItem("File/Setup for Launch", pre, true);
-		
-		menu1.add(file);
-		
-		return menu1;
+		this.menubar = new JMenuBar();
+		frame.add(this.menubar);
 	}
 	
 	/**
@@ -100,61 +64,75 @@ public class MenuController extends Observable{
 	 * 
 	 * @param paths
 	 */
-	@SuppressWarnings("null")
 	public void enableItems(String[] paths) {
 		for(String path : paths) {
-			String[] split = path.split("/");
-			if(this.items.containsKey(split[0])) {
-				if(this.items.get(split[0]).containsKey(split[1])) {
-					this.items.get(split[0]).get(split[1]).setEnabled(true);
-				}
-			}
+			this.enableItem(Null.nonNull(path));
 		}
+	}
+	
+	/**
+	 * Enables the given item
+	 * 
+	 * @param pathParam The path to the JMenuItem
+	 */
+	public void enableItem(String pathParam)
+	{
+		String path = canonicalizePath(pathParam);
+		if(!this.items.containsKey(path))
+			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
+		Null.nonNull(this.items.get(path)).setEnabled(true);
 	}
 	
 	/**
 	 * Disables all Menu Items expect ones used globally.
 	 */
-	@SuppressWarnings("null")
 	public void disableAll() {
-		for(String map : this.items.keySet()) {
-			for(String item : this.items.get(map).keySet()) {
-				if(!this.globalItems.contains(map + "/" + item)) {
-					this.items.get(map).get(item).setEnabled(false);
-				}
+		for(String key : this.items.keySet()) {
+			if(!this.globalItems.contains(key)) {
+				Null.nonNull(this.items.get(key)).setEnabled(false);
 			}
 		}
 	}
 	
 	/**
-	 * Notify the Observer that the View needs switching.
+	 * Adds a menu item at the specified path, or the listener to the item if it already exists
 	 * 
-	 * @param name
+	 * @param menuname The menu name for the menu item
+	 * @param itemname The name for the menu item
+	 * @param listener The listener to call when it's clicked
 	 */
-	void switchView(String name) {
-		String[] arg = {"Switch View", name};
-		this.notifyObservers(arg);
-		this.setChanged();
+	public void addMenuItem(String menuname, String itemname, ActionListener listener)
+	{
+		this.addMenuItem(menuname + "/" + itemname, listener);
 	}
 	
 	/**
-	 * Adds an Menu item at the path name to the map of map of Menu Items.
-	 * Also adds item to global items (used in every perspective) if global is true.
+	 * Adds a menu item at the specified path, or the listener to the item if it already exists
 	 * 
-	 * @param path
-	 * @param item
-	 * @param global
+	 * @param pathParam The path for the menu item
+	 * @param listener The listener to call when it's clicked
 	 */
-	@SuppressWarnings("null")
-	private void addItem(String path, JMenuItem item, boolean global) {
-		String[] split = path.split("/");
-		if(!this.items.containsKey(split[0])) {
-			this.items.put(split[0], new HashMap<>());
+	public void addMenuItem(String pathParam, ActionListener listener)
+	{
+		String path = canonicalizePath(pathParam);
+		
+		if(this.items.containsKey(path)) {
+			Null.nonNull(this.items.get(path)).addActionListener(listener);
+			return;
 		}
-		this.items.get(split[0]).put(split[1], item);
-		if(global) {
-			this.globalItems.add(path);
+		
+		String menuname = Null.nonNull(path.substring(0, path.indexOf('/')));
+		if(!this.menus.containsKey(menuname)) {
+			JMenu jmenu = new JMenu(menuname);
+			this.menus.put(menuname, jmenu);
+			this.menubar.add(jmenu);
 		}
+		
+		JMenu jmenu = Null.nonNull(this.menus.get(menuname));
+		JMenuItem menuitem = new JMenuItem(Null.nonNull(path.substring(path.indexOf('/') + 1)));
+		jmenu.add(menuitem);
+		menuitem.addActionListener(listener);
+		this.items.put(path, menuitem);
 	}
 	
 	/**
@@ -164,7 +142,43 @@ public class MenuController extends Observable{
 	 * @param frame
 	 */
 	public void addMenuBar(JFrame frame) {
-		frame.add(this.menu);
+		frame.add(this.menubar);
+	}
+	
+	/**
+	 * Creats a canonical path from a given path.
+	 * 
+	 * @param paramPath
+	 * @return
+	 */
+	private static String canonicalizePath(String paramPath)
+	{
+		String path = Null.nonNull(paramPath.toLowerCase().replace('\\', '/'));
+		String[] split = path.split("/");
+		if( split.length == 1 
+	    || (split.length == 2 && (split[0].length() == 0 || split[1].length() == 0)) 
+	    || (split.length == 3 && ((split[0].length() != 0 && split[2].length() != 0) || split[1].length() == 0))
+	    || (split.length == 4 && (split[0].length() != 0 || split[1].length() == 0 || split[2].length() == 0 || split[3].length() != 0))
+	    ||  split.length > 4) {
+			throw new PreconditionViolationException("Invalid path, unrecognized format.");
+		}
+		
+		String first = "";
+		String second = "";
+		for(String s : split) {
+			if(s.length() > 0) {
+				if(first.length() == 0) {
+					first = s;
+				} else if(second.length() == 0) {
+					second = s;
+				}
+			}
+		}
+		
+		if(first.length() == 0 || second.length() == 0)
+			throw new InvariantViolationException("Error in assumptions, given path did not contain two full names");
+		
+		return first + "/" + second;
 	}
 	
 }
