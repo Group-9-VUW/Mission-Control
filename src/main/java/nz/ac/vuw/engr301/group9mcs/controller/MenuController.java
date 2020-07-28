@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class MenuController extends Observable{
 	/**
 	 * Menu Bar
 	 */
-	private JMenuBar menu;
+	private JMenuBar menubar;
 	
 	/**
 	 * Add a menu to the given frame.
@@ -53,8 +54,8 @@ public class MenuController extends Observable{
 	 * @param frame
 	 */
 	public MenuController(JFrame frame) {
-		this.menu = new JMenuBar();
-		frame.add(this.menu);
+		this.menubar = new JMenuBar();
+		frame.add(this.menubar);
 	}
 	
 	/**
@@ -94,13 +95,54 @@ public class MenuController extends Observable{
 	}
 	
 	/**
+	 * Adds a menu item at the specified path, or the listener to the item if it already exists
+	 * 
+	 * @param menuname The menu name for the menu item
+	 * @param itemname The name for the menu item
+	 * @param listener The listener to call when it's clicked
+	 */
+	public void addMenuItem(String menuname, String itemname, ActionListener listener)
+	{
+		this.addMenuItem(menuname + "/" + itemname, listener);
+	}
+	
+	/**
+	 * Adds a menu item at the specified path, or the listener to the item if it already exists
+	 * 
+	 * @param pathParam The path for the menu item
+	 * @param listener The listener to call when it's clicked
+	 */
+	public void addMenuItem(String pathParam, ActionListener listener)
+	{
+		String path = canonicalizePath(pathParam);
+		
+		if(this.items.containsKey(path)) {
+			Null.nonNull(this.items.get(path)).addActionListener(listener);
+			return;
+		}
+		
+		String menuname = Null.nonNull(path.substring(0, path.indexOf('/')));
+		if(!this.menus.containsKey(menuname)) {
+			JMenu jmenu = new JMenu(menuname);
+			this.menus.put(menuname, jmenu);
+			this.menubar.add(jmenu);
+		}
+		
+		JMenu jmenu = Null.nonNull(this.menus.get(menuname));
+		JMenuItem menuitem = new JMenuItem(Null.nonNull(path.substring(path.indexOf('/') + 1)));
+		jmenu.add(menuitem);
+		menuitem.addActionListener(listener);
+		this.items.put(path, menuitem);
+	}
+	
+	/**
 	 * Adds the Menu Bar to the Frame.
 	 * To be called after the Frame has been cleared.
 	 * 
 	 * @param frame
 	 */
 	public void addMenuBar(JFrame frame) {
-		frame.add(this.menu);
+		frame.add(this.menubar);
 	}
 	
 	/**
