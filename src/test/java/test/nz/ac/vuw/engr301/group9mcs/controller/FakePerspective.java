@@ -1,6 +1,7 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -11,11 +12,16 @@ import nz.ac.vuw.engr301.group9mcs.controller.Perspective;
 public class FakePerspective extends Observable implements Perspective{
 
 	private Map<String, ActionListener> menuItems;
-	private JPanel panel;
+	private JPanel panel = new JPanel();
+
+	public FakePerspective() {
+		this.menuItems = new HashMap<>();
+	}
 
 	@Override
 	public JPanel enable(MenuController menu) {
-		menu.enableItems((String[])this.menuItems.keySet().toArray());
+		String[] a = new String[this.menuItems.size()];
+		menu.enableItems(this.menuItems.keySet().toArray(a));
 		return this.panel;
 	}
 

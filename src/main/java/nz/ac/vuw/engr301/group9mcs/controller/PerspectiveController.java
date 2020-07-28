@@ -49,7 +49,7 @@ public class PerspectiveController implements Observer{
 	 */
 	public void addPerspective(String name, Perspective p) {
 		p.init(menu, this);
-		this.perspectives.put(name, p);
+		this.perspectives.put(name.toLowerCase(), p);
 	}
 
 	/**
@@ -67,11 +67,11 @@ public class PerspectiveController implements Observer{
 	 * @param name
 	 */
 	public void changePerspective(String name) {
-		if(!this.perspectives.containsKey(name) || this.perspectives.get(name) == null) {
+		if(!this.perspectives.containsKey(name.toLowerCase()) || this.perspectives.get(name.toLowerCase()) == null) {
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(this.perspectives.get(name).enable(menu));
+		this.panel.add(this.perspectives.get(name.toLowerCase()).enable(menu));
 	}
 
 	/**
