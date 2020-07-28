@@ -1,110 +1,94 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
-import javax.swing.JFrame;
-
-import nz.ac.vuw.engr301.group9mcs.view.ViewController;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JPanel;
+import org.eclipse.jdt.annotation.Nullable;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 /**
  * Controls what view elements are shown on the screen for the different perspectives.
- * 
+ *
  * @author Bryony
  *
  */
-public class PerspectiveController {
+public class PerspectiveController implements Observer{
 
 	/**
-	 * The view controller.
+	 * A list of Perspectives and their names.
+	 * Perspectives can be looked up by their name.
 	 */
-	private ViewController view;
+	private Map<String, Perspective> perspectives;
 	/**
-	 * The three perspectives.
+	 * The menu controller.
 	 */
-	private enum States {
+	private MenuController menu;
 	/**
-	 * Initial Opening State.
+	 * The Panel.
 	 */
-	start, 
-	/**
-	 * Selecting the Launch Site.
-	 */
-	selectLaunch, 
-	/**
-	 * At the Launch Site.
-	 */
-	preLaunch, 
-	/**
-	 * Launching.
-	 */
-	launch}
-	/**
-	 * Current Perspective
-	 */
-	private States state;
-	
+	private JPanel panel;
+
 	/**
 	 * Constructor.
+	 * Updates the Menu through the passed MenuController over lifetime.
 	 */
-	public PerspectiveController() {
-		this.view = new ViewController();
-		this.state = States.launch;
+	public PerspectiveController(MenuController menu) {
+		this.menu = menu;
+		this.panel = new JPanel();
+		this.perspectives = new HashMap<>();
 	}
-	
+
 	/**
-	 * Change to a new State(perspective) and setup that new state.
-	 * 
+	 * Adds a Perspective to the Map.
+	 * Name will lead to the Perspective everytime.
+	 *
 	 * @param name
-	 * @param frame
-	 * @param menu
+	 * @param p
 	 */
-	public void changeState(String name, JFrame frame, MenuController menu) {
-		if(name.toLowerCase().contains("select")) {
-			setUpSelectLaunch(frame, menu);
-		} else if (name.toLowerCase().contains("pre")) {
-			return;
-		} else {
-			return;
+	public void addPerspective(String name, Perspective p) {
+		p.init(menu, this);
+		this.perspectives.put(name, p);
+	}
+
+	/**
+	 * Returns the Panel for the MainController.
+	 * @return
+	 */
+	public JPanel getPanel() {
+		return this.panel;
+	}
+
+	/**
+	 * Changes the Perspective to the one indicated by the passed name.
+	 * If name isn't connected to a perspective (doesn't exist in list or points to null) an Error is thrown.
+	 *
+	 * @param name
+	 */
+	public void changePerspective(String name) {
+		if(!this.perspectives.containsKey(name) || this.perspectives.get(name) == null) {
+			throw new PreconditionViolationException(name + " isn't a valid Perspective");
+		}
+		this.panel.removeAll();
+		this.panel.add(this.perspectives.get(name).enable(menu));
+	}
+
+	/**
+	 * Should only be used by Perspectives changing Perspective.
+	 * Requires a string array = ["switch view", name.of.perspective]
+	 */
+	@Override
+	public void update(@Nullable Observable o, @Nullable Object arg) {
+		if(arg instanceof String[]) {
+			String[] args = (String[]) arg;
+			if(args[0].toLowerCase().equals("switch view") && args.length == 2) {
+				@Nullable String s = args[1];
+				if(s != null) {
+					changePerspective(s);
+				}
+			}
 		}
 	}
-	
-	/**
-	 * Update the Current State with information from controller/logic.
-	 */
-	public void updateState(/* ??? */) {
-		switch(this.state) {
-			case selectLaunch:
-				updateSelectLaunch(/* ??? */);
-				break;
-			case launch:
-				break;
-			case preLaunch:
-				break;
-			case start:
-				break;
-			default:
-				break;
-		}
-	}
-	
-	/**
-	 * Create the Perspective for Select Launch.
-	 * 
-	 * @param frame
-	 * @param menu
-	 */
-	private void setUpSelectLaunch(JFrame frame, MenuController menu) {
-		String[] paths = {"File/Quit", "File/Setup For Launch"};
-		menu.enableItems(paths);
-		frame.add(this.view.getCurrentView("select"));
-		this.state = States.selectLaunch;
-	}
-	
-	/**
-	 * Receive information to update SelectLaunch
-	 */
-	private void updateSelectLaunch(/* ??? */) {
-		int i = this.state.ordinal();
-		i = i + 1;
-		return;
-	}
-	
+
 }
