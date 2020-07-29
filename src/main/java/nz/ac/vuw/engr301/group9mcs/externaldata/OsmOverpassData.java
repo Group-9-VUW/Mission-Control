@@ -22,11 +22,13 @@ public class OsmOverpassData {
         final int id;
         final double lat;
         final double lon;
+        final String[] tags;
 
-        public Node(int id, double lat, double lon) {
+        public Node(int id, double lat, double lon, String[] tags) {
             this.id = id;
             this.lat = lat;
             this.lon = lon;
+            this.tags = tags;
         }
     }
 
@@ -35,9 +37,11 @@ public class OsmOverpassData {
      */
     static final class Way {
         final Node[] nodes;
+        final String[] tags;
 
-        public Way(Node[] nodes) {
+        public Way(Node[] nodes, String[] tags) {
             this.nodes = nodes;
+            this.tags = tags;
         }
     }
 }
