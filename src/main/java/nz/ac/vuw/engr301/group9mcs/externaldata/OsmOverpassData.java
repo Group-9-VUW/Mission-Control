@@ -1,5 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.util.Map;
+
 /**
  * This class represents a set of data retrieved from the OSM Overpass API.
  *
@@ -22,9 +24,9 @@ public class OsmOverpassData {
         final int id;
         final double lat;
         final double lon;
-        final String[] tags;
+        final Map<String, String> tags;
 
-        public Node(int id, double lat, double lon, String[] tags) {
+        Node(int id, double lat, double lon, Map<String, String> tags) {
             this.id = id;
             this.lat = lat;
             this.lon = lon;
@@ -36,10 +38,12 @@ public class OsmOverpassData {
      * Represents a single OpenStreetMap way. Ways comprise nodes.
      */
     static final class Way {
+        final int id;
         final Node[] nodes;
-        final String[] tags;
+        final Map<String, String> tags;
 
-        public Way(Node[] nodes, String[] tags) {
+        Way(int id, Node[] nodes, Map<String, String> tags) {
+            this.id = id;
             this.nodes = nodes;
             this.tags = tags;
         }
