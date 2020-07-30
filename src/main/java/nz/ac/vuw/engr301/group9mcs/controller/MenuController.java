@@ -55,7 +55,7 @@ public class MenuController extends Observable{
 	 */
 	public MenuController(JFrame frame) {
 		this.menubar = new JMenuBar();
-		frame.add(this.menubar);
+		frame.setJMenuBar(this.menubar);
 	}
 	
 	/**
@@ -136,16 +136,6 @@ public class MenuController extends Observable{
 	}
 	
 	/**
-	 * Adds the Menu Bar to the Frame.
-	 * To be called after the Frame has been cleared.
-	 * 
-	 * @param frame
-	 */
-	public void addMenuBar(JFrame frame) {
-		frame.add(this.menubar);
-	}
-	
-	/**
 	 * @param pathParam A valid path to a menu item
 	 * @return Whether it's enabled or not
 	 */
@@ -163,15 +153,14 @@ public class MenuController extends Observable{
 	 * @param paramPath
 	 * @return
 	 */
-	private static String canonicalizePath(String paramPath)
+	public static String canonicalizePath(String paramPath)
 	{
 		String path = Null.nonNull(paramPath.toLowerCase().replace('\\', '/'));
 		String[] split = path.split("/");
-		if( split.length == 1 
+		if( split.length <= 1 
 	    || (split.length == 2 && (split[0].length() == 0 || split[1].length() == 0)) 
 	    || (split.length == 3 && ((split[0].length() != 0 && split[2].length() != 0) || split[1].length() == 0))
-	    || (split.length == 4 && (split[0].length() != 0 || split[1].length() == 0 || split[2].length() == 0 || split[3].length() != 0))
-	    ||  split.length > 4) {
+	    ||  split.length >= 4) {
 			throw new PreconditionViolationException("Invalid path, unrecognized format.");
 		}
 		

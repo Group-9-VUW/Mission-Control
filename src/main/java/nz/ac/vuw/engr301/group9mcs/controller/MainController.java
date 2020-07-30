@@ -33,7 +33,7 @@ public class MainController implements Observer{
 	/**
 	 * Creates the screen.
 	 */
-	//@SuppressWarnings("null")
+	@SuppressWarnings("null")
 	public MainController() {
 		createScreen();
 	}
@@ -63,7 +63,7 @@ public class MainController implements Observer{
 	 */
 	private void changePanel(String name) {
 		this.frame.removeAll();
-		this.menu.addMenuBar(this.frame);
+		//this.menu.addMenuBar(this.frame);
 		//this.view.changeState("select", this.frame, this.menu);
 	}
 
