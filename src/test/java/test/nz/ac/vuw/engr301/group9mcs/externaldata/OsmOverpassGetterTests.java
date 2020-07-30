@@ -48,12 +48,14 @@ class OsmOverpassGetterTests {
     void testNodeReferencesInWay_01() {
         /*
         This test retrieves a small area around VUW and checks the names of the buildings retrieved.
+
+        It then checks whether:
+          1. Node set contains all nodes in each building
+          2. Each building node set does NOT contain each other's nodes.
          */
         OsmOverpassData data = parseData(getAreasInBox(-41.29056, 174.76832, -41.29039, 174.76839));
         assertEquals("Cotton Building", data.getWays().get(0).getTags().get("name"));
         assertEquals("Alan MacDiarmid Building", data.getWays().get(1).getTags().get("name"));
-        System.out.println(data.getNodes());
-        System.out.println(data.getWays().get(0).getNodes());
         assertTrue(data.getNodes().containsAll(data.getWays().get(0).getNodes()));
         assertTrue(data.getNodes().containsAll(data.getWays().get(1).getNodes()));
         assertFalse(data.getWays().get(0).getNodes().containsAll(data.getWays().get(1).getNodes()));
