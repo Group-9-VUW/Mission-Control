@@ -1,7 +1,11 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
@@ -43,4 +47,26 @@ public final class TestMenuController {
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some///"); });
 	}
 	
+	/**
+	 * Tests adding, and using, menu items
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testMenuItem()
+	{
+		JFrame frame = new JFrame();
+		MenuController controller = new MenuController(frame);
+		ActionListener l1, l2, l3;
+		controller.addMenuItem("menu", "item", l1 = (e) -> { /**/ } );
+		controller.addMenuItem("menu", "item", l2 = (e) -> { /**/ } );
+		controller.disableAll();
+		assertFalse(controller.isEnabled("menu/item"));
+		controller.enableItem("menu/item");
+		assertTrue(controller.isEnabled("menu/item"));
+		controller.addMenuItem("menu", "item2", l3 = (e) -> { /**/ } );
+		assertEquals(l1, frame.getJMenuBar().getMenu(0).getItem(0).getActionListeners()[1]);
+		assertEquals(l2, frame.getJMenuBar().getMenu(0).getItem(0).getActionListeners()[0]);
+		assertEquals(l3, frame.getJMenuBar().getMenu(0).getItem(1).getActionListeners()[0]);
+	}
+
 }

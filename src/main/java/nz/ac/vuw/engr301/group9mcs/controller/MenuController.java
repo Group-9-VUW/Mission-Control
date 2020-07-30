@@ -55,7 +55,7 @@ public class MenuController extends Observable{
 	 */
 	public MenuController(JFrame frame) {
 		this.menubar = new JMenuBar();
-		frame.add(this.menubar);
+		frame.setJMenuBar(this.menubar);
 	}
 	
 	/**
@@ -133,16 +133,6 @@ public class MenuController extends Observable{
 		jmenu.add(menuitem);
 		menuitem.addActionListener(listener);
 		this.items.put(path, menuitem);
-	}
-	
-	/**
-	 * Adds the Menu Bar to the Frame.
-	 * To be called after the Frame has been cleared.
-	 * 
-	 * @param frame
-	 */
-	public void addMenuBar(JFrame frame) {
-		frame.add(this.menubar);
 	}
 	
 	/**
