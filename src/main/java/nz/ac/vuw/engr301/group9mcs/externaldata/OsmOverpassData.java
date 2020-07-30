@@ -1,5 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,43 +11,63 @@ import java.util.Map;
  */
 public class OsmOverpassData {
 
-    final Node[] nodes;
-    final Way[] ways;
+    private final List<Node> NODES;
+    private final List<Way> WAYS;
 
-    public OsmOverpassData(Node[] nodes, Way[] ways) {
-        this.nodes = nodes;
-        this.ways = ways;
+    OsmOverpassData(List<Node> nodes, List<Way> ways) {
+        this.NODES = nodes;
+        this.WAYS = ways;
+    }
+
+    public List<Node> getNodes() {
+        return Collections.unmodifiableList(NODES);
+    }
+
+    public List<Way> getWays() {
+        return Collections.unmodifiableList(WAYS);
     }
 
     /**
      * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
      */
-    static final class Node {
-        final int id;
-        final double lat;
-        final double lon;
-        final Map<String, String> tags;
+    public static final class Node {
+        final int ID;
+        final double LAT;
+        final double LON;
+        private final Map<String, String> TAGS;
 
         Node(int id, double lat, double lon, Map<String, String> tags) {
-            this.id = id;
-            this.lat = lat;
-            this.lon = lon;
-            this.tags = tags;
+            this.ID = id;
+            this.LAT = lat;
+            this.LON = lon;
+            this.TAGS = tags;
+        }
+
+        public Map<String, String> getTags() {
+            return Collections.unmodifiableMap(TAGS);
         }
     }
 
     /**
      * Represents a single OpenStreetMap way. Ways comprise nodes.
      */
-    static final class Way {
-        final int id;
-        final Node[] nodes;
-        final Map<String, String> tags;
+    public static final class Way {
+        final int ID;
+        private final List<Node> NODES;
+        private final Map<String, String> TAGS;
 
-        Way(int id, Node[] nodes, Map<String, String> tags) {
-            this.id = id;
-            this.nodes = nodes;
-            this.tags = tags;
+        Way(int id, List<Node> nodes, Map<String, String> tags) {
+            this.ID = id;
+            this.NODES = nodes;
+            this.TAGS = tags;
+        }
+
+        public List<Node> getNodes() {
+            return Collections.unmodifiableList(NODES);
+        }
+
+        public Map<String, String> getTags() {
+            return Collections.unmodifiableMap(TAGS);
         }
     }
 }

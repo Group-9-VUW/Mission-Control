@@ -1,8 +1,13 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class serves to retrieve pure map data for a specified region, including nodes, ways and the associated
@@ -43,23 +48,25 @@ public class OsmOverpassGetter {
     }
 
     /**
-     * Gets the building data around a point.
+     * Gets the building data of any building with a node within the specified bounding box.
      *
-     * @param latitude Latitude of point.
-     * @param longitude Longitude of point.
+     * @param south Latitude of southernmost point.
+     * @param west Longitude of westernmost point.
+     * @param north Latitude of northernmost point.
+     * @param east Longitude of easternmost point.
      * @return Returns the JSON response from Overpass.
      */
-    private static String getAreasAtPoint(double radius, double latitude, double longitude) {
+    public static String getAreasInBox(double south, double west, double north, double east) {
         // Firstly, we must generate the query.
         String queryBase = "data=" +
                 "[out:json][timeout:25];\n" +
                 "(\n" +
-                "  way(around:%f, %f, %f)[building];\n" +
+                "  way(%f, %f, %f, %f)[building];\n" +
                 ");\n" +
                 "(._;>;);\n" +
                 "out;";
 
-        String query = String.format(queryBase, radius, latitude, longitude);
+        String query = String.format(queryBase, south, west, north, east);
 
         try {
             // Setup connection.
@@ -98,5 +105,50 @@ public class OsmOverpassGetter {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static OsmOverpassData parseData(String json) {
+        JSONArray data = new JSONObject(json).getJSONArray("elements");
+
+        // We map to the node ID here to simplify adding node references to ways later on.
+        Map<Integer, OsmOverpassData.Node> nodes = new HashMap<>();
+        List<OsmOverpassData.Way> ways = new ArrayList<>();
+
+        for (int i = 0; i < data.length(); ++i) {
+            JSONObject elem = data.getJSONObject(i);
+
+            switch (elem.getString("type")) {
+                case "node":
+                    nodes.put(elem.getInt("id"), new OsmOverpassData.Node(
+                            elem.getInt("id"),
+                            elem.getDouble("lat"),
+                            elem.getDouble("lon"),
+                            elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
+                    ));
+
+                    break;
+                case "way":
+                    ways.add(new OsmOverpassData.Way(
+                            elem.getInt("id"),
+                            elem.getJSONArray("nodes").toList().stream().map(nodes::get).collect(Collectors.toList()),
+                            elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
+                    ));
+                    break;
+            }
+        }
+        // Return the OSM data with nodes reduced to a list.
+        return new OsmOverpassData(new ArrayList<>(nodes.values()), ways);
+    }
+
+    private static Map<String, String> parseTags(JSONObject tags) {
+        Map<String, String> tagMap = new HashMap<>();
+        for (String key : JSONObject.getNames(tags)) {
+            tagMap.put(key, tags.getString(key));
+        }
+        return tagMap;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(parseData(getAreasInBox(-41.29056, 174.76832, -41.29039, 174.76839)).getWays());
     }
 }
