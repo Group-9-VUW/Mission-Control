@@ -81,11 +81,11 @@ public class OsmOverpassGetter {
             BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-            // Reading response line by line.
-            int hasLine = in.read();
-            while(hasLine != -1) {
-                buffer.write((byte) hasLine);
-                hasLine = in.read();
+            // Reading response byte by byte.
+            int nextByte = in.read();
+            while(nextByte != -1) {
+                buffer.write((byte) nextByte);
+                nextByte = in.read();
             }
 
             String response = buffer.toString();
