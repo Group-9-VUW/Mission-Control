@@ -33,6 +33,7 @@ public class PerspectiveController implements Observer{
 	/**
 	 * Constructor.
 	 * Updates the Menu through the passed MenuController over lifetime.
+	 * @param menu 
 	 */
 	public PerspectiveController(MenuController menu) {
 		this.menu = menu;
@@ -47,14 +48,15 @@ public class PerspectiveController implements Observer{
 	 * @param name
 	 * @param p
 	 */
+	@SuppressWarnings("null")
 	public void addPerspective(String name, Perspective p) {
-		p.init(menu, this);
-		this.perspectives.put(name, p);
+		p.init(this.menu, this);
+		this.perspectives.put(name.toLowerCase(), p);
 	}
 
 	/**
 	 * Returns the Panel for the MainController.
-	 * @return
+	 * @return Returns the Perspective Controller Panel
 	 */
 	public JPanel getPanel() {
 		return this.panel;
@@ -62,16 +64,17 @@ public class PerspectiveController implements Observer{
 
 	/**
 	 * Changes the Perspective to the one indicated by the passed name.
-	 * If name isn't connected to a perspective (doesn't exist in list or points to null) an Error is thrown.
+	 * If name isn't connected to a perspective (doesn't exist in list) an Error is thrown.
 	 *
 	 * @param name
 	 */
+	@SuppressWarnings("null")
 	public void changePerspective(String name) {
-		if(!this.perspectives.containsKey(name) || this.perspectives.get(name) == null) {
+		if(!this.perspectives.containsKey(name.toLowerCase())) {
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(this.perspectives.get(name).enable(menu));
+		this.panel.add(this.perspectives.get(name.toLowerCase()).enable(this.menu));
 	}
 
 	/**
