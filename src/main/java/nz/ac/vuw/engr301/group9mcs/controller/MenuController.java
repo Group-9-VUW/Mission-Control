@@ -59,15 +59,30 @@ public class MenuController extends Observable{
 	}
 	
 	/**
+	 * Sets an item as always enabled
+	 * 
+	 * @param pathParam
+	 */
+	public void setAlwaysEnabled(String pathParam)
+	{
+		String path = canonicalizePath(pathParam);
+		if(!this.items.containsKey(path))
+			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
+		this.globalItems.add(path);
+	}
+	
+	/**
 	 * Enables all the Menu Items in the list (search by pathname).
 	 * Only enables an item if it exists. Does not create new items.
+	 * 
+	 * Disables all other items
 	 * 
 	 * @param paths
 	 */
 	public void enableItems(String[] paths) {
-		for(String path : paths) {
+		this.disableAll();
+		for(String path : paths) 
 			this.enableItem(Null.nonNull(path));
-		}
 	}
 	
 	/**
@@ -99,20 +114,22 @@ public class MenuController extends Observable{
 	 * 
 	 * @param menuname The menu name for the menu item
 	 * @param itemname The name for the menu item
+	 * @param flavor The display name of the item
 	 * @param listener The listener to call when it's clicked
 	 */
-	public void addMenuItem(String menuname, String itemname, ActionListener listener)
+	public void addMenuItem(String menuname, String itemname, String flavor, ActionListener listener)
 	{
-		this.addMenuItem(menuname + "/" + itemname, listener);
+		this.addMenuItem(menuname + "/" + itemname, flavor, listener);
 	}
 	
 	/**
 	 * Adds a menu item at the specified path, or the listener to the item if it already exists
 	 * 
 	 * @param pathParam The path for the menu item
+	 * @param flavor The display name of the item
 	 * @param listener The listener to call when it's clicked
 	 */
-	public void addMenuItem(String pathParam, ActionListener listener)
+	public void addMenuItem(String pathParam, String flavor, ActionListener listener)
 	{
 		String path = canonicalizePath(pathParam);
 		
@@ -129,7 +146,7 @@ public class MenuController extends Observable{
 		}
 		
 		JMenu jmenu = Null.nonNull(this.menus.get(menuname));
-		JMenuItem menuitem = new JMenuItem(Null.nonNull(path.substring(path.indexOf('/') + 1)));
+		JMenuItem menuitem = new JMenuItem(flavor);
 		jmenu.add(menuitem);
 		menuitem.addActionListener(listener);
 		this.items.put(path, menuitem);
@@ -183,14 +200,3 @@ public class MenuController extends Observable{
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
