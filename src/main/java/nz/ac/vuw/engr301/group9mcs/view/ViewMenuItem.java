@@ -12,7 +12,7 @@ public class ViewMenuItem {
 	/**
 	 * 
 	 */
-	private String filePath;
+	private String path;
 	/**
 	 * 
 	 */
@@ -23,12 +23,12 @@ public class ViewMenuItem {
 	private @Nullable ActionListener ls;
 	
 	/**
-	 * @param path
+	 * @param p
 	 * @param n
 	 * @param l
 	 */
-	public ViewMenuItem(String path, String n, ActionListener l) {
-		this.filePath = path;
+	public ViewMenuItem(String p, String n, ActionListener l) {
+		this.path = p;
 		this.name = n;
 		this.ls = l;
 	}
@@ -37,7 +37,7 @@ public class ViewMenuItem {
 	 * @return The Entire Path
 	 */
 	public String getPath() {
-		return this.filePath;
+		return this.path;
 	}
 	
 	/**
