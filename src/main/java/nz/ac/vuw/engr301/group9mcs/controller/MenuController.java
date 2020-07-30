@@ -146,6 +146,18 @@ public class MenuController extends Observable{
 	}
 	
 	/**
+	 * @param pathParam A valid path to a menu item
+	 * @return Whether it's enabled or not
+	 */
+	public boolean isEnabled(String pathParam)
+	{
+		String path = canonicalizePath(pathParam);
+		if(!this.items.containsKey(path))
+			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
+		return Null.nonNull(this.items.get(path)).isEnabled();
+	}
+	
+	/**
 	 * Creats a canonical path from a given path.
 	 * 
 	 * @param paramPath
