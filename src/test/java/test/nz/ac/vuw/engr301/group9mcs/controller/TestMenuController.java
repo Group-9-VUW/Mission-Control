@@ -57,8 +57,8 @@ public final class TestMenuController {
 		JFrame frame = new JFrame();
 		MenuController controller = new MenuController(frame);
 		ActionListener l1, l2, l3;
-		controller.addMenuItem("menu", "item", l1 = (e) -> { /**/ } );
-		controller.addMenuItem("menu", "item", l2 = (e) -> { /**/ } );
+		controller.addMenuItem("menu", "item", "Item", l1 = (e) -> { /**/ } );
+		controller.addMenuItem("menu", "item", "Item", l2 = (e) -> { /**/ } );
 		controller.disableAll();
 		assertFalse(controller.isEnabled("menu/item"));
 		controller.enableItem("menu/item");
