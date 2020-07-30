@@ -130,7 +130,7 @@ public class OsmOverpassGetter {
                 case "way":
                     ways.add(new OsmOverpassData.Way(
                             elem.getInt("id"),
-                            elem.getJSONArray("nodes").toList().stream().map(nodes::get).collect(Collectors.toList()),
+                            elem.getJSONArray("nodes").toList().stream().map(nodes::get).filter(Objects::nonNull).collect(Collectors.toList()),
                             elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
                     ));
                     break;
