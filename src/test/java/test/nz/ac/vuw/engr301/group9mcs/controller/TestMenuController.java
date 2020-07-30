@@ -63,7 +63,7 @@ public final class TestMenuController {
 		assertFalse(controller.isEnabled("menu/item"));
 		controller.enableItem("menu/item");
 		assertTrue(controller.isEnabled("menu/item"));
-		controller.addMenuItem("menu", "item2", l3 = (e) -> { /**/ } );
+		controller.addMenuItem("menu", "item2", "Item 2", l3 = (e) -> { /**/ } );
 		assertEquals(l1, frame.getJMenuBar().getMenu(0).getItem(0).getActionListeners()[1]);
 		assertEquals(l2, frame.getJMenuBar().getMenu(0).getItem(0).getActionListeners()[0]);
 		assertEquals(l3, frame.getJMenuBar().getMenu(0).getItem(1).getActionListeners()[0]);
