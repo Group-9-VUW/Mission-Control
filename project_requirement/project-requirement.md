@@ -491,13 +491,23 @@ Our software should be compatible on as many platforms as possible. However, we 
 ### Open Source 
 The mission control software will be open source, it will be hosted in a Git repository. This allows users of the software to directly contribute to its code base after the team has finished their development. 
 
+### 3.8 Physical and Environmental Requirements
 
+#### 3.8.1 Physical Requirements
 
-### 3.8 Physical and Environmental Requirements 
+The device running the program must have enough space in its memory to download the program and save the files (log, weather and map data). This allows the program to run properly (or run at all).
 
-Circumstances in which launch is not a good idea.
+The device must be able to recieve information through the USB serial, therefore it must have a USB port or be able to use an adapter to accept a USB device.
 
-For systems with hardware components, identify the physical characteristics of that hardware (9.4.10) and environment conditions in which it must operate (9.4.11).  Depending on the project, this section may be from one page up to 5 pages.
+The device chosen to run the program on must be portable (eg. laptop) as it will be used in the field. The rocket and computer must be close enough to connect through USB Serial while the rocket is in flight.
+
+The device must have enough charge to run the software. The program must work as efficiently as possible to reduce the power consumption.
+
+#### 3.8.3 Environmental Conditions
+
+The system must be able to receive a signal from the rocket while it's on the ground. It is preferred that the signal is also received while the rocket is in the air. Other radio signals or buildings could interfere with the transfer of the signal.
+
+The system must be able to cooperate with the rocket API (designed by the avionics teams) and the Monte Carlo simulation (designed by the simulation teams). This includes communicating over USB Serial and to another software project (which might be a different language).
 
 ### 3.9 Supporting information
 
