@@ -175,23 +175,4 @@ public class NOAAGetter {
 		return true;
 	}
 
-
-	/**
-	 * Test main method.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		System.out.println("Connection to OWM: " + (NOAAGetter.isAvailable() ? "Successful" : "Failed"));
-		System.out.println();
-
-		NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		Map<Date, WeatherData> forecasts = getter.getForecast(-41.289224, 174.768352);
-		for(Date timestamp : forecasts.keySet()){
-			System.out.println(timestamp+":");
-			System.out.println(forecasts.get(timestamp));
-			System.out.println();
-		}
-
-	}
-
 }
