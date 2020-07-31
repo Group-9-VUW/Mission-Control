@@ -107,6 +107,12 @@ public class OsmOverpassGetter {
         }
     }
 
+    /**
+     * Parses the JSON data retrieved from Overpass into an OsmOverpassData object consisting of Nodes and Ways.
+     *
+     * @param json Result of Overpass API call.
+     * @return Returns a complete OsmOverpassData object.
+     */
     public static OsmOverpassData parseData(String json) {
         JSONArray data = new JSONObject(json).getJSONArray("elements");
 
