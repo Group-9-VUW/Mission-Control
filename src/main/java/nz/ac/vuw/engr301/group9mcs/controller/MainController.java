@@ -1,93 +1,71 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
-import java.awt.Dimension;
-import java.util.Observable;
-import java.util.Observer;
+import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-
-import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Controller class.
  * Creates the screen.
  *
  * @author Bryony
- *
+ * @author Claire
  */
-public class MainController implements Observer{
+public class MainController extends JFrame {
 
-	/**
-	 * The entire frame of the program
-	 */
-	private JFrame frame;
+	private static final long serialVersionUID = -6186153488874946242L;
+	
 	/**
 	 * The menu controller.
 	 */
-	private MenuController menu;
+	private final MenuController menu;
+	
 	/**
 	 * The perspective controller.
 	 */
-	//private PerspectiveController view;
+	private final PerspectiveController persp;
 
 	/**
 	 * Creates the screen.
 	 */
-	@SuppressWarnings("null")
 	public MainController() {
-		createScreen();
+		super("Mission Control");
+		
+		this.menu = new MenuController(this);
+		this.menu.addMenuItem("file/exit", "Exit", (e) -> {
+			this.setVisible(false);
+			this.dispose();
+		});
+		
+		this.persp = new PerspectiveController(this.menu);
+		this.setLayout(new BorderLayout());
+		this.add(this.persp.getPanel(), BorderLayout.CENTER);
+
+		this.setSize(300, 300);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
 
 	/**
-	 * Create the screen.
+	 * Adds a perspective to this main
+	 * 
+	 * @param name The name of the perspective
+	 * @param perspective The perspective
 	 */
-	private void createScreen() {
-		this.frame = new JFrame("Mission Control");
-
-		this.menu = new MenuController(this.frame);
-		this.menu.addObserver(this);
-		// this.menu.enableItems( {"Path/To/Item"} );
-		//this.view = new PerspectiveController();
-		//this.view.changeState("select", this.frame, this.menu);
-
-		this.frame.setPreferredSize(new Dimension(300, 300));
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.frame.pack();
-		this.frame.setVisible(true);
+	public void addPerspective(String name, Perspective perspective)
+	{
+		this.persp.addPerspective(name, perspective);
 	}
-
+	
 	/**
-	 * Change to named panel.
-	 *
+	 * Changes the active perspective. Should only be called once
+	 * 
 	 * @param name
 	 */
-	private void changePanel(String name) {
-		this.frame.removeAll();
-		//this.menu.addMenuBar(this.frame);
-		//this.view.changeState("select", this.frame, this.menu);
+	public void setPerspective(String name)
+	{
+		this.persp.changePerspective(name);
 	}
 
-	@Override
-	public void update(@Nullable Observable o, @Nullable Object arg) {
-		if(arg instanceof String[]) {
-			String[] args = (String[]) arg;
-			if(args[0].equals("Switch View") && args.length == 2) {
-				@Nullable String s = args[1];
-				if(s != null) {
-					changePanel(s);
-				}
-			}
-		}
-	}
 
 }
-
-
-
-
-
-
-
-
-
-
