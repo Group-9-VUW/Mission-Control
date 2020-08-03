@@ -63,7 +63,8 @@ public class OsmOverpassGetter {
                 "(._;>;);\n" +
                 "out;";
 
-        String query = String.format(queryBase, south, west, north, east);
+        String query = String.format(queryBase, new Double(south), new Double(west),
+        		new Double(north), new Double(east));
 
         try {
             // Setup connection.
@@ -74,28 +75,37 @@ public class OsmOverpassGetter {
             connection.setDoInput(true);
 
             // Setup output stream and write query.
-            OutputStream out = connection.getOutputStream(); // We keep a reference to output stream so we can close it!
-            OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8);
-            outWriter.write(query);
-            outWriter.flush();
-            outWriter.close();
-            out.close();
-
-            // Setup the input stream and a buffer to store the response.
-            BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-            // Reading response byte by byte.
-            int nextByte = in.read();
-            while(nextByte != -1) {
-                buffer.write((byte) nextByte);
-                nextByte = in.read();
+            try (
+            		// We keep a reference to output stream so we can close it!
+            		OutputStream out = connection.getOutputStream();
+            		OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
+	            outWriter.write(query);
+	            outWriter.flush();
+	            outWriter.close();
+	            out.close();
+            } catch (IOException e) {
+            	// Error on write.
+            	e.printStackTrace();
+            	return null;
             }
 
-            String response = buffer.toString();
-            buffer.close();
-            in.close();
-            return response;
+            try (
+		            // Setup the input stream and a buffer to store the response.
+		            BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
+		            ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+
+	            // Reading response byte by byte.
+	            int nextByte = in.read();
+	            while(nextByte != -1) {
+	                buffer.write((byte) nextByte);
+	                nextByte = in.read();
+	            }
+
+	            String response = buffer.toString();
+	            buffer.close();
+	            in.close();
+	            return response;
+            }
 
         } catch (IOException e) {
             // Connection issue.
@@ -122,7 +132,7 @@ public class OsmOverpassGetter {
 
             switch (elem.getString("type")) {
                 case "node":
-                    nodes.put(elem.getInt("id"), new OsmOverpassData.Node(
+                    nodes.put(new Integer(elem.getInt("id")), new OsmOverpassData.Node(
                             elem.getInt("id"),
                             elem.getDouble("lat"),
                             elem.getDouble("lon"),
@@ -140,6 +150,9 @@ public class OsmOverpassGetter {
                             elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
                     ));
                     break;
+			default:
+				// Encountered malformed object.
+				return null; // TODO: Throw error here (make appropriate exception).
             }
         }
         // Return the OSM data with nodes reduced to a list.
