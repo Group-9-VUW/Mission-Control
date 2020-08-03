@@ -21,8 +21,6 @@ import org.junit.platform.commons.PreconditionViolationException;
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
  * The weather data is returned in the JSON format.
  * The JSON will be parsed and the info will be pushed to all other packages that need it.
- *
- *
  * @author Sai Panda, pandasai, 300449188
  */
 public class NOAAGetter {
@@ -45,7 +43,7 @@ public class NOAAGetter {
 	 * @param latitude - the latitude to validate
 	 * @param longitude - the longitude to validate
 	 */
-	private void checkValidLatAndLon(double latitude, double longitude){
+	private static void checkValidLatAndLon(double latitude, double longitude){
 		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
 		} else if(latitude < -90 || latitude > 90){
@@ -164,6 +162,7 @@ public class NOAAGetter {
 
 	}
 	/**
+	 * get the appid for the API. 
 	 * @return the appid.
 	 */
 	public String getAppId() {
@@ -171,6 +170,7 @@ public class NOAAGetter {
 	}
 
 	/**
+	 * set the appid for the API. 
 	 * @param appid the appid to set.
 	 */
 	public void setAppId(String appid) {
