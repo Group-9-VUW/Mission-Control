@@ -20,11 +20,11 @@ public class OsmOverpassData {
     }
 
     public List<Node> getNodes() {
-        return Collections.unmodifiableList(NODES);
+        return Collections.unmodifiableList(this.NODES);
     }
 
     public List<Way> getWays() {
-        return Collections.unmodifiableList(WAYS);
+        return Collections.unmodifiableList(this.WAYS);
     }
 
     /**
@@ -44,7 +44,7 @@ public class OsmOverpassData {
         }
 
         public Map<String, String> getTags() {
-            return Collections.unmodifiableMap(TAGS);
+            return Collections.unmodifiableMap(this.TAGS);
         }
     }
 
@@ -63,11 +63,11 @@ public class OsmOverpassData {
         }
 
         public List<Node> getNodes() {
-            return Collections.unmodifiableList(NODES);
+            return Collections.unmodifiableList(this.NODES);
         }
 
         public Map<String, String> getTags() {
-            return Collections.unmodifiableMap(TAGS);
+            return Collections.unmodifiableMap(this.TAGS);
         }
     }
 }
