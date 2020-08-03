@@ -42,15 +42,19 @@ public class NOAAGetter {
 
 	/**
 	 * Gets the current weather at the supplied latitude and longitude.
-	 * @param latitude - latitude of the location. (must be within range [-90, 90]
-	 * @param longitude - longitude of the location.
+	 * @param latitude - latitude of the location. (must be within range [-90, 90])
+	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @return WeatherData with the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
-		if(latitude < -90 || latitude > 90){
+		 if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
+			 throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
+		 } else if(latitude < -90 || latitude > 90){
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
-		}
+		 } else if (longitude < -180 || longitude > 180) {
+			 throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
+		 }
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"

@@ -18,14 +18,22 @@ public class TestNOAAGetter {
     }
 
     @Test
-    public void testInvalidLat(){
+    public void testInvalidLatitude() {
+        assert (canConnect());
+        try {
+            getter.getWeatherData(-91, 20);
+            fail("InvalidParameterException should be thrown");
+        } catch (InvalidParameterException e) {
+        }
+    }
+
+    @Test
+    public void testInvalidLongitude(){
         assert(canConnect());
         try{
-            getter.getWeatherData(-91, 20);
-            fail("Exception should be thrown");
+            getter.getWeatherData(20, -181);
+            fail("InvalidParameterException should be thrown");
         } catch(InvalidParameterException e){
-
         }
-
     }
 }
