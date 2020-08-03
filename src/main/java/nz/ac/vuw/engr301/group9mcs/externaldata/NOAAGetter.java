@@ -40,6 +40,16 @@ public class NOAAGetter {
 		this.appid = appid;
 	}
 
+	private void checkValidLatAndLon(double latitude, double longitude){
+		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
+			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
+		} else if(latitude < -90 || latitude > 90){
+			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
+		} else if (longitude < -180 || longitude > 180) {
+			throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
+		}
+	}
+
 	/**
 	 * Gets the current weather at the supplied latitude and longitude.
 	 * @param latitude - latitude of the location. (must be within range [-90, 90])
@@ -48,13 +58,7 @@ public class NOAAGetter {
 	 */
 	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
-		 if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
-			 throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
-		 } else if(latitude < -90 || latitude > 90){
-			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
-		 } else if (longitude < -180 || longitude > 180) {
-			 throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
-		 }
+		checkValidLatAndLon(latitude, longitude);
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -86,6 +90,7 @@ public class NOAAGetter {
 	 * @return a Map of the
 	 */
 	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
+		checkValidLatAndLon(latitude, longitude);
 		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
 			String units = "metric";

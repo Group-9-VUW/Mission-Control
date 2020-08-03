@@ -36,4 +36,16 @@ public class TestNOAAGetter {
         } catch(InvalidParameterException e){
         }
     }
+
+    @Test
+    public void testCorrectResponse(){
+        assert(canConnect());
+        assert getter.getWeatherData(41, 175) != null;
+    }
+
+    @Test
+    public void testCorrectForecastResponse(){
+        assert(canConnect());
+        assert getter.getForecast(41, 175) != null;
+    }
 }
