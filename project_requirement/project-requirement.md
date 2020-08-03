@@ -2,7 +2,7 @@
 <div style="page-break-after: always;"></div>
 
 
-August Bolter, Claire Chambers, Bryony Gatehouse, Joshua Hindley, Bailey Jewell, Sai Panda 
+August Bolter, Claire Chambers, Bryony Gatehouse, Joshua Hindley, Bailey Jewell, Sai Panda
 
 
 ## 1. Introduction
@@ -13,25 +13,19 @@ Our client is Andre Geldenhuis, and he can be contacted via the ecs mattermost, 
 
 ### 1.1 Purpose
 
-Andre has contracted us to create mission control software for a hobby rocket launch, control, and recovery system. 
+Andre has contracted us to create mission control software for a hobby rocket launch, control, and recovery system.
 
 ### 1.2 Scope
 
-The Mission Control Software is a multirole software package that facilitates pre-launch, mid-launch, and post-launch activities.
-It will identify favorable launch conditions, set the starting conditions for a rocket launch. 
-During the launch it will monitor the rocket, reporting its status and position.
-After the launch it will report the rockets position for manual recovery. 
+The Mission Control Software is a multirole software package that facilitates pre-launch, mid-launch, and post-launch activities. It will identify favorable launch conditions, set the starting conditions for a rocket launch.  During the launch it will monitor the rocket, reporting its status and position. After the launch it will report the rockets position for manual recovery.
+
 This software will facilitate the goal of making hobby rocket launches safer for both the users and the community, as well as aiding in convenience tasks like recovery.
 
-### 1.3 Product overview 
+### 1.3 Product overview
 
 #### 1.3.1 Product perspective
 
-The Mission Control Software is part of a larger software system to facilitate the launch and control of a hobby rocket.
-The Mission Control Software will interface with both the user and two other software packages, namely the Monte Carlo Simulation Package and the Rocket Avionics Package.
-The role of the Mission Control Software is to find potential launching sites, facilitate pre-launch procedures such as arming the rocket and finding an optimal
-launch profile. The control of the rocket mid flight is handled by the Rocket Avionics Package and the simulation of rocket flights is handled by the Monte Carlo
-Simulation package, respectively. The Mission Control Software will have to interface with those software packages to fulfill its functions.
+The Mission Control Software is part of a larger software system to facilitate the launch and control of a hobby rocket. The Mission Control Software will interface with both the user and two other software packages, namely the Monte Carlo Simulation Package and the Rocket Avionics Package. The role of the Mission Control Software is to find potential launching sites, facilitate pre-launch procedures such as arming the rocket and finding an optimal launch profile. The control of the rocket mid flight is handled by the Rocket Avionics Package and the simulation of rocket flights is handled by the Monte Carlo Simulation package, respectively. The Mission Control Software will have to interface with those software packages to fulfill its functions.
 
 Specifically:
 
@@ -39,8 +33,7 @@ Specifically:
 * The MCS will have to interface with the Rocket Avionics Package to arm the ejection charge and set the desired rocket orientation
 * The MCS will have to interface with the Monte Carlo Simulation Package to identify probable landing sites to facilitate screening possible launch sites.
 
-The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation
-Listeners with OpenRocket, respectively.
+The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation Listeners with OpenRocket, respectively.
 
 ![Semantic description of image](system_diagram.png)
 
@@ -53,67 +46,44 @@ To interface with the Monte Carlo Simulation Package, the following software pac
 
 The interface with OpenRocket/Monte Carlo Simulation Package will be through simulation listeners and the automatic creation of simulation files, which are in XML.
 
-The Mission Control Software will operate on a PC with the Java VM running any major operating system, most likely a laptop. It'll require enough free memory and 
-processor capacity to run both the Mission Control Software and the Monte Carlo Simuation Package, which would likely amount to 2GB (not accounting for memory used
-by the operating system) and a dual core x86 processor (additional capacity may be required on an ARM platform).
+The Mission Control Software will operate on a PC with the Java VM running any major operating system, most likely a laptop. It'll require enough free memory and processor capacity to run both the Mission Control Software and the Monte Carlo Simulation Package, which would likely amount to 2GB (not accounting for memory used by the operating system) and a dual core x86 processor (additional capacity may be required on an ARM platform).
 
-The PC must also have one free USB port to operate the serial over radio interface. The PC must also have a standard keyboard/pointing device combo to operate the
-Mission Control Software. The Mission Control Software will be a standard desktop application which can operate at full or half-screen.
+The PC must also have one free USB port to operate the serial over radio interface. The PC must also have a standard keyboard/pointing device combo to operate the Mission Control Software. The Mission Control Software will be a standard desktop application which can operate at full or half-screen.
 
-Communication with the internet is required for the pre-launch site determination, as the Mission Control Software needs to download weather data from NOAA to facilitate
-creating simulations for the Monte Carlo Simulation Package.
+Communication with the internet is required for the pre-launch site determination, as the Mission Control Software needs to download weather data from NOAA to facilitate creating simulations for the Monte Carlo Simulation Package.
 
-The Mission Control Software will also be indirectly be interfacing with a device that gathers local weather conditions, which the users of the software will use
-and manually transcribe the data into the software via the user interface.
+The Mission Control Software will also be indirectly be interfacing with a device that gathers local weather conditions, which the users of the software will use and manually transcribe the data into the software via the user interface.
 
 #### 1.3.2 Product functions
 
 The Mission Control Software has a role in facilitating pre-launch, mid-flight, and post-flight responsibilities.
 
-The primary pre-launch function of the Mission Control Software is to select potential launch sites. This is done at the user's home or place of work where they have
-an internet connection, in which the user will select launch sites that they have access too, and the software will use current weather conditions to predict whether
-a launch there would be safe. Safety is determined by their being a sufficiently low probability that the rocket will land in a populated area or otherwise breach 
-rocketry regulations. Once at the selected landing site, a second round of simulations is run using the weather data available from the ground of the launch site, 
-to determine a final go or no go for launch. Probability is calculated by consulting the Monte Carlo Simulation Package.
+The primary pre-launch function of the Mission Control Software is to select potential launch sites. This is done at the user's home or place of work where they have an internet connection, in which the user will select launch sites that they have access too, and the software will use current weather conditions to predict whether a launch there would be safe. Safety is determined by their being a sufficiently low probability that the rocket will land in a populated area or otherwise breach rocketry regulations. Once at the selected landing site, a second round of simulations is run using the weather data available from the ground of the launch site, to determine a final go or no go for launch. Probability is calculated by consulting the Monte Carlo Simulation Package.
 
-If a go is given, the Mission Control Software is responsible for remotely arming the rocket's ejection charge and setting an optimal orientation for the rocket that will
-minimize how far it lands from the launch site. This is accomplished by communicating with the Rocket Avionics Package.
+If a go is given, the Mission Control Software is responsible for remotely arming the rocket's ejection charge and setting an optimal orientation for the rocket that will minimize how far it lands from the launch site. This is accomplished by communicating with the Rocket Avionics Package.
 
-When in flight, the Mission Control Software monitors the rocket over radio, recording flight paramaters such as position, orientation, velocity, and acceleration, as
-well as stage information. This data is saved for futher dissection by the user.
+When in flight, the Mission Control Software monitors the rocket over radio, recording flight parameters such as position, orientation, velocity, and acceleration, as well as stage information. This data is saved for further dissection by the user.
 
-After the rocket lands, the Mission Control Software will provide the user with the location of the rocket so that they can safely recover it for potential re-use (and
-to avoid contamination of the environemnt)
+After the rocket lands, the Mission Control Software will provide the user with the location of the rocket so that they can safely recover it for potential re-use (and to avoid contamination of the environment)
 
-A minmim viable version of the Mission Control Software would encompass the launch site selection and providing the location of the rocket. 
+A minimum viable version of the Mission Control Software would encompass the launch site selection and providing the location of the rocket.
 
-#### 1.3.3 User characteristics   
+#### 1.3.3 User characteristics
 
-NZ Rocketry Association (NZRA) 
-The NZRA are a group of people who are interested in model rocketry and
-build model rockets which are launched every year. They range from model rocketry that
-leans more towards learning, safety and creativity, to advanced rocketry which includes
-extreme speeds and a goal of heading for space.
+NZ Rocketry Association (NZRA)
+The NZRA are a group of people who are interested in model rocketry and build model rockets which are launched every year. They range from model rocketry that leans more towards learning, safety and creativity, to advanced rocketry which includes extreme speeds and a goal of heading for space.
 
-The age range in the NZRA goes from Primary School kids to the elderly. They all have a
-keen interest in developing rockets and expanding their knowledge about rocket science.
+The age range in the NZRA goes from Primary School kids to the elderly. They all have a keen interest in developing rockets and expanding their knowledge about rocket science.
 
-The NZRA have a National Launch Day every year where rockets ranging from small-scale homemade
-ones to 6 meter factory built ones are launched. There are numerous videos of their launch days
-on their website.
+The NZRA have a National Launch Day every year where rockets ranging from small-scale homemade ones to 6 meter factory built ones are launched. There are numerous videos of their launch days on their website.
 
-Our mission control software could be utilised in their national launch days, our "go no go" and "determine probable landing location" functions may prove to be helpful.
-They have a similar set up to our project proposal, where a laptop controls an ejection charge under the rocket. They also do
-numerous check such as "sky is clear, ranges are clear" before initaiting the countdown.
+Our mission control software could be utilised in their national launch days, our "go no go" and "determine probable landing location" functions may prove to be helpful. They have a similar set up to our project proposal, where a laptop controls an ejection charge under the rocket. They also do numerous check such as "sky is clear, ranges are clear" before initiating the countdown.
 
-Considering the characteristics of our users, our Mission Control Software should have a simple user interface. 
-Primary school students and the elderly are a part of our userbase, so having a simple user interface will allow the software to be usable by a larger audience. <br>
-The software should also try to minimise the use of jargon. Not everyone will understand the technical terms that define aspects of software systems. 
-As in, if there is invalid input from the user, instead of saying “That input has caused a NumberFormatException”, a helpful error message such as “The rocket length field only accepts numbers as input” is more informative and readable, especially to a non-technical audience. 
+Considering the characteristics of our users, our Mission Control Software should have a simple user interface. Primary school students and the elderly are a part of our userbase, so having a simple user interface will allow the software to be usable by a larger audience.
 
-Our program should also support large and complex rockets as well. The NZRA is also known for building large scale rockets, which have 
-a much bigger landing zone and will pose a greater safety risk. So, making sure our program is extendable to these types of rockets will 
-also allow those users to use our software.
+The software should also try to minimise the use of jargon. Not everyone will understand the technical terms that define aspects of software systems. As in, if there is invalid input from the user, instead of saying “That input has caused a NumberFormatException”, a helpful error message such as “The rocket length field only accepts numbers as input” is more informative and readable, especially to a non-technical audience.
+
+Our program should also support large and complex rockets as well. The NZRA is also known for building large scale rockets, which have a much bigger landing zone and will pose a greater safety risk. So, making sure our program is extendable to these types of rockets will also allow those users to use our software.
 
 
 https://www.nzrocketry.org.nz/
@@ -121,24 +91,21 @@ https://www.facebook.com/groups/nzrocketry/
 
 #### 1.3.4 Limitations
 
-##### 1.3.4.1 Regulatory 
+##### 1.3.4.1 Regulatory
 
-The regulations our rocket needs to follow depends on the motor power range of the rocket.  
-  
-Source: [1]  
+The regulations our rocket needs to follow depends on the motor power range of the rocket.
+
+Source: [1]
 ![Source: https://www.nzrocketry.org.nz/rocketry/rocket-safety](NZRA_Minimum_Personnel_Distances.png)
 
-Motor power range is determined by the minimum safe distance (in meters). 
-Motor power range A-D can use the regulations as a guide, E-F need to follow the regulations and G+ need to follow additional regulations as well.
+Motor power range is determined by the minimum safe distance (in meters). Motor power range A-D can use the regulations as a guide, E-F need to follow the regulations and G+ need to follow additional regulations as well.
 
-The regulations are specified in the NZ Rocketry Association (NZRA) Safety Code [1].
-It is ideal for our software to be flexible (to work with any rocket). Therefore, our software for the rocket should conform with regulations specified for motor power range G+ since if the software is suitable for G+ it will also be suitable for motor power ranges below G.
+The regulations are specified in the NZ Rocketry Association (NZRA) Safety Code [1]. It is ideal for our software to be flexible (to work with any rocket). Therefore, our software for the rocket should conform with regulations specified for motor power range G+ since if the software is suitable for G+ it will also be suitable for motor power ranges below G.
 
-In NZRA High Power Rockets (rockets with a motor type G or higher) Safety Code one of the regulations states the rocket must comply with the Civil Aviation Authority of New Zealand (CAA) Rule Part 101 [2].
-So, our rocket must comply with the regulations stated in this rule as well.
+In NZRA High Power Rockets (rockets with a motor type G or higher) Safety Code one of the regulations states the rocket must comply with the Civil Aviation Authority of New Zealand (CAA) Rule Part 101 [2]. So, our rocket must comply with the regulations stated in this rule as well.
 
 ##### 1.3.4.2 Hardware
-There are a few potential hardware limitations such as: 
+There are a few potential hardware limitations such as:
 
 *  The rocket not having internet at the launch site which could impair our software’s ability to get weather data.
 *  The launch site could also be outside the range for GPS communication which would affect the rockets' GPS ability.
@@ -146,8 +113,7 @@ There are a few potential hardware limitations such as:
 *  The accelerometer the rocket will use needs to be powered by a stable, constant current supply to reduce noise on the signal generated by it.
 
 ##### 1.3.4.3 Interfaces to other applications
-The rocket will have various sensors so, it is important to make sure our software accounts for the delay and range these sensors will have.
-Our software also has to account for the transmission time for sending the weather data to the monte carlo and for receiving information about the rocket (e.g. GPS locatio)
+The rocket will have various sensors so, it is important to make sure our software accounts for the delay and range these sensors will have. Our software also has to account for the transmission time for sending the weather data to the monte carlo and for receiving information about the rocket (e.g. GPS location)
 
 ##### 1.3.4.4 Parallel operation
 If the rocket uses transformers that operate in parallel there are a few limitations associated with this such as:
@@ -164,10 +130,10 @@ The control functions in our software determines whether it is safe for the rock
 Our software will likely be written in Java. Java like any other language has limitations such as;
 *  Memory allocation and garbage collection being automatic (means the user has less control over their software)
 *  Java compiler being not as well optimised as compilers for other languages (e.g. C++)
-*  User interface libraries in Java such as Swing are limited in customability and functionality.
+*  User interface libraries in Java such as Swing are limited in customizability and functionality.
 
 ##### 1.3.4.8 Signal handshake protocols
-The rocket will use signal handshake protocols such as TCP 3-way-handshake to establish connections between its' interfaces. The limitation of this is performing the handshake isn't instantenous so the communication between interfaces will have a delay.
+The rocket will use signal handshake protocols such as TCP 3-way-handshake to establish connections between its' interfaces. The limitation of this is performing the handshake isn't instantaneous so the communication between interfaces will have a delay.
 
 ##### 1.3.4.9 Quality requirements
 Our software for the rocket and the rocket itself will be limited in the sense that they will need to conform to quality requirements (e.g. reliability).
@@ -181,13 +147,13 @@ Our teams' wellbeing is a limitation as well. In the sense that mental problems 
 
 ## 2. References
 
-[1] NZ Rocketry Association, "NZ Rocketry Association - Rocket Safety," [Online]. Available: https://www.nzrocketry.org.nz/rocketry/rocket-safety. [Accessed 24 May 2020].  
-  
-[2] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101. [Accessed 10 June 2020].  
-  
+[1] NZ Rocketry Association, "NZ Rocketry Association - Rocket Safety," [Online]. Available: https://www.nzrocketry.org.nz/rocketry/rocket-safety. [Accessed 24 May 2020].
+
+[2] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101. [Accessed 10 June 2020].
+
 [3] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101/4. [Accessed 10 June 2020].
 
-## 3. Specific requirements  
+## 3. Specific requirements
 
 ### 3.1 External interfaces
 
@@ -197,7 +163,7 @@ The rocket itself will communicate with mission control through LoRa (Long Range
 Rocket Avionics <-> LoRa module <-> LoRa module <-> ground station electronics <-> USB serial <-> Laptop
 ```
 #### 3.1.2 Weather Data
-As internet is not guaranteed in the field, weather data will be loaded prior to launch. 
+As internet is not guaranteed in the field, weather data will be loaded prior to launch.
 
 ##### 3.1.2.1 OpenWeatherMap
 Weather data is available from [OpenWeatherMap](https://openweathermap.org/api). Current wind speed (m/s), direction(degrees) and gust speed(m/s) is available through their web API. Temperature, humidity, visibility and rain data is also available. The data is provided in JSON format.
@@ -216,7 +182,7 @@ Map data is available from [OpenStreetMap](https://www.openstreetmap.org/). This
 The mission control software must be able to consume simulation data in order to determine whether or not launch conditions are met. The simulation will be based upon the [OpenRocket](http://openrocket.info/) software. [Simulation listeners](http://wiki.openrocket.info/Simulation_Listeners) may be used to extract data from the simulation, such as a [roll control listener](http://www.soupwizard.com/openrocket/code-coverage/eclemma-20121216/OpenRocket/src/net.sf.openrocket.simulation.listeners.example/RollControlListener.java.html).
 
 #### 3.1.4 Launch Control
-The mission control software is not responsible for issuing the launch command; the rocket will be launched through a seperate mechanical system. Mission control indicates whether or not launch conditions are met ("go or no go signal"). 
+The mission control software is not responsible for issuing the launch command; the rocket will be launched through a separate mechanical system. Mission control indicates whether or not launch conditions are met ("go or no go signal").
 
 #### 3.1.5 User Interface
 The mission control software is to be controlled using a keyboard and mouse driven desktop GUI, displayed on a normal laptop screen with a resolution of at least 1024x768.
@@ -228,30 +194,17 @@ Data is to be displayed in a human readable format and should be augmented with 
 
 #### 3.2.1 Get remote weather data from internet
 
-The software must be able to pull weather data from an API (such as openweathermap or NOAA) and supply that data to other parts of the system. 
-This data must be as accurate and up to date as possible, since incorrect data can have a severe impact on functionality. 
-Determining probable landing locations and the "go no go" functions are two important aspects of the system 
-that heavily relay on accurate weather data, so data correctness should be ensured. 
-    
-Alternatively, there is an API on the National Oceanic and Atmospheric Association (NOAA) website. 
-This API allows for 5 requests per second and a total of 10,000 requests per day. All responses from this API
-are in JSON. 
-    
+The software must be able to pull weather data from an API (such as openweathermap or NOAA) and supply that data to other parts of the system. This data must be as accurate and up to date as possible, since incorrect data can have a severe impact on functionality. Determining probable landing locations and the "go no go" functions are two important aspects of the system that heavily relay on accurate weather data, so data correctness should be ensured.
+
+Alternatively, there is an API on the National Oceanic and Atmospheric Association (NOAA) website. This API allows for 5 requests per second and a total of 10,000 requests per day. All responses from this API are in JSON.
+
 #### 3.2.2 Enter local weather data
 
-An internet connection is not guaranteed at our launch site, so it is appropriate to consider methods to
-manually gather local weather data and input it into our software. Our software should have a form with specified inputs
-that will need to be gathered (i.e. temperature, wind speed). Specific units (preferably metric) should be used to avoid any confusion
-and invalid calculations. 
-    
-Specialised tools are available for people to gather their own weather data. To calculate the wind speed, 
-an anemometer can be used. An anemometer has multiple arms attached to a vertical rod. As the wind blows, the cups on the edge 
-of the arms rotate and the anemometer counts the number of revolutions per second to calculate the wind speed.
-Thermometers can be utilised to measure the temperature, and barometers can be used to measure air pressure.
-There are multiple methods and tools to measure the weather manually and if needed, will be decided in future meetings.
+An internet connection is not guaranteed at our launch site, so it is appropriate to consider methods to manually gather local weather data and input it into our software. Our software should have a form with specified inputs that will need to be gathered (i.e. temperature, wind speed). Specific units (preferably metric) should be used to avoid any confusion and invalid calculations.
 
-    
-https://openweathermap.org/api 
+Specialised tools are available for people to gather their own weather data. To calculate the wind speed, an anemometer can be used. An anemometer has multiple arms attached to a vertical rod. As the wind blows, the cups on the edge of the arms rotate and the anemometer counts the number of revolutions per second to calculate the wind speed. Thermometers can be utilised to measure the temperature, and barometers can be used to measure air pressure. There are multiple methods and tools to measure the weather manually and if needed, will be decided in future meetings.
+
+https://openweathermap.org/api
 https://www.ncdc.noaa.gov/cdo-web/webservices/v2
 
 #### 3.2.3 Determine probable landing locations<br>
@@ -264,21 +217,21 @@ The system must use the local weather conditions, and an external Monte Carlo si
 | Event flow | 1. Launcher indicates to the system that they intend to launch <br>2. The system uses GPS coordinates to get the local weather data from NOAA<br>3. The system sends the local weather data to an external Monte Carlo simulation <br>4. The system receives a set of probable landing locations from the Monte Carlo simulation <br>5. The system displays the probable landing locations graphically to the launcher <br>6. The system indicates to the launcher the probability of the landing zone being acceptable/safe <br>7. The system indicates to the launcher that it is safe to launch<br> **Alternative: not safe to launch**<br>7a. The system indicates to the launcher that it is unsafe to launch<br>7b. The system suggests changes for the launcher to make to change the probable landing locations<br>7c. The launcher makes changes to the parameters (e.g. rocket angle) <br>7d. The launcher enters their changes into the system <br> Return to Step 2 <br> **Alternative: launcher enters weather conditions** <br>2a. The launcher can choose to enter the local weather conditions manually<br> 2b. The system prompts the launcher to enter all the relevant local weather conditions <br>2c. The launcher enters the local weather conditions <br> Return to Step 3 |
 | Entry Conditions | The system must be connected to a rocket over serial.<br> An external Monte Carlo simulation that the system can connect to exists. <br> The system can access NOAA or the launcher knows the specific local weather conditions. |
 | Exit Conditions | The launcher is notified of the probable landing locations and whether it is safe to launch. |
-| Special Requirements | The Monte Carlo simulation must simulate the launch correctly and determine probable landing locations accurately. <br> The system must be compatable with the operating system it is being run on. |
+| Special Requirements | The Monte Carlo simulation must simulate the launch correctly and determine probable landing locations accurately. <br> The system must be compatible with the operating system it is being run on. |
 
-##### 3.2.3.1 
+##### 3.2.3.1
 As a part of determining the probable landing locations, the system must connect to an external Monte Carlo simulation, written by another team. The system must send the local weather data obtained from NOAA, or entered manually by the user to the Monte Carlo simulation as well as additional information regarding the rocket.
 
-##### 3.2.3.2 
+##### 3.2.3.2
 As another part of determining the probable landing locations, the system must be able to receive and store the data that results from the Monte Carlo simulation. This may involve receiving the data directly from the Monte Carlo simulation, or loading the data from a file that the Monte Carlo simulation saves to.
 
 ##### 3.2.3.3
 The final part of determining the probable landing locations is displaying the data. The system must display the simulation data visually to the user by showing the user probable landing locations on the map of the local area using a GUI. The displayed information should contain different ranges and confidence intervals.<br><br>
 
-  
+
 ##### 3.2.4 Go/No go function <br>
 
-The system must have a go/no go function. This function will define the area that is acceptable for the rocket to land in. The system must turn the acceptable area, a tolerance and the probabilities of landing in the acceptable area into a go/no go signal. If the system produces the no go signal, the rocket will be blocked from lauching. The goal of the go/no go system is to minimize the risk of injury or damage to the equipment by preventing a launch from taking place if certain conditions are not met. The minimum viable product is comprised of this use case, among others.
+The system must have a go/no go function. This function will define the area that is acceptable for the rocket to land in. The system must turn the acceptable area, a tolerance and the probabilities of landing in the acceptable area into a go/no go signal. If the system produces the no go signal, the rocket will be blocked from launching. The goal of the go/no go system is to minimize the risk of injury or damage to the equipment by preventing a launch from taking place if certain conditions are not met. The minimum viable product is comprised of this use case, among others.
 
 | Name | Go/No Go  |
 | ------ | ------ |
@@ -286,31 +239,24 @@ The system must have a go/no go function. This function will define the area tha
 | Event flow | 1. The launcher indicates to the system that they intend to launch<br> 2. The system defines an acceptable landing area<br> 3. The system uses the probability of landing in an acceptable area with a tolerance to determine whether to send the go or no go signal<br> 4. The system indicates to the launcher that it is safe to launch <br>5. The launcher tells the system to launch the rocket <br>6. The system performs launch checks <br>7. The system sends a signal to the rocket to begin the launch procedure <br>8. The rocket is launched after a countdown<br> **Alternative: not safe to launch** <br>4a. The system sends a no go signal to the rocket, preventing it from launching <br>4b. The launcher is told that the launch cannot commence. <br> **Alternative: pre-launch checks fail** <br> Go to 4a. <br> **Alternative: the launcher cancels the launch** <br> 8a. The launcher indicates to the system that the launch should be cancelled <br>8b. The system cancels the launch <br> 8c. The launcher is notified that the launch has been cancelled |
 | Entry Conditions | The system must be connected to a rocket over serial. <br> The system must have access to a map of the area. <br> The system must have a list of probable landing areas and their probabilities. |
 | Exit Conditions | The rocket has been launched (go) or the launch was cancelled or not approved (no go). <br> The launcher has been notified of the outcome. |
-| Special Requirements | The system and the rocket must be able to communicate to each other. <br>The system must be compatable with the operating system it is being run on. |
+| Special Requirements | The system and the rocket must be able to communicate to each other. <br>The system must be compatible with the operating system it is being run on. |
 
-##### 3.2.4.1 
+##### 3.2.4.1
 The system must define acceptable areas. That is, the system must determine an area surrounding the launch zone that it is acceptable for the rocket to land in. The area that the system defines must be an area that does not include residential ares, and does not breach rocketry regulations.
 
 ##### 3.2.4.2
 The system must use the acceptable areas it defines with the probability of landing in an acceptable area with a tolerance to determine whether it is safe to launch. If the probability of the rocket landing in an acceptable area is too low, the system will send a no go signal to the rocket, indicating that a launch is not approved. If the probability of the rocket landing in an acceptable area is high enough, the system will allow the user to launch the rocket.
 
-##### 3.2.4.3 
+##### 3.2.4.3
 The system must perform pre-launch checks before the user goes to the launch site. These checks will ensure that, with the current weather, the launch site chosen by the user will be acceptable. These checks will ensure that the location the user chooses as a launch site is not in a residential area, and will not result in a break of rocketry regulations.
 
 ##### 3.2.4.4
 The system must perform launch checks on location at the launch site. These checks will ensure that the correct go/no go decision has been reached given the actual launch site and current local weather conditions. Additionally, the checks at this stage will involve communicating with the rocket to check that all the rocket's systems are nominal before the system allows the user to begin the launch procedure.<br><br>
 
 
-#### 3.2.5 Relaying rocket information to user interface.
-Specifically, relaying the rocket's location, velocity, and rotation<br>
-5a.   Showing GPS location on a map<br>
-5b.   Showing diagram of rocket with rotation and velocity<br>
-5c.   What to do when you can't contact the rocket<br>
-5d.   Recording it to a file<br>
-5e.   Playing back that file virtually<br>
-#### 5. Rocket Status Display
+#### 3.2.5 Rocket Status Display
 
-The Mission Control Software must posses a display that shows all relevant data incoming from the rocket, specifically information about its state, position, and any other variable such as rotation and velocity that may be reported by the Rocket Avionics Package. This display must show this information in a way that a user can understand at a glance during live-fire conditions, where real-time understanding of the rocket's trajectory is important. This display should be accessible without continuous input from the user and therefore should be updated autonomously and shown all at once, without submenus.
+The Mission Control Software must possess a display that shows all relevant data incoming from the rocket, specifically information about its state, position, and any other variable such as rotation and velocity that may be reported by the Rocket Avionics Package. This display must show this information in a way that a user can understand at a glance during live-fire conditions, where real-time understanding of the rocket's trajectory is important. This display should be accessible without continuous input from the user and therefore should be updated autonomously and shown all at once, without sub-menus.
 
 | Name | Rocket Status Display  |
 | ------ | ------ |
@@ -320,17 +266,17 @@ The Mission Control Software must posses a display that shows all relevant data 
 | Exit Conditions | Explicit termination by user input. |
 | Special Requirements | Available screen resolution must be 1280 x 720 pixels.|
 
-##### 5a. 
+##### 5a.
 
 The Rocket Status display must show the position of the rocket on a map, using satellite imagery to convey the position to the user with recognizable imagery and a colored icon to represent the rocket. The position of the rocket on the map must be updated autonomously with each update from the Rocket Avionics Package. The satellite imagery used for this function must be cacheable, so that it will function in a launch site without reliable internet access.
 
 ##### 5b.
 
-If the Rocket Avionics Package reports rotation and velocity, the Rocket Status Display will show a conceptual diagram of a rocket on a horizon, conveying its orientation. A vector diagram overlayed will show any velocity and acceleration data provided, also including the constant force of gravity, creating an incomplete force diagram allowing the user to visualize the rockets second-to-second status.
+If the Rocket Avionics Package reports rotation and velocity, the Rocket Status Display will show a conceptual diagram of a rocket on a horizon, conveying its orientation. A vector diagram overlaid will show any velocity and acceleration data provided, also including the constant force of gravity, creating an incomplete force diagram allowing the user to visualize the rockets second-to-second status.
 
 ##### 5c.
 
-In the event that the connection between the MCS and the Rocket Avionics Package is severed unexpectedly, the Rocket Status display must report this in a timely manner to the user to avoid confusion with 'stuck' values. This warning must take up 25% of the screen area so that it is noticable.
+In the event that the connection between the MCS and the Rocket Avionics Package is severed unexpectedly, the Rocket Status display must report this in a timely manner to the user to avoid confusion with 'stuck' values. This warning must take up 25% of the screen area so that it is noticeable.
 
 ##### 5d.
 
@@ -340,8 +286,8 @@ The user shall have the option to record oncoming status data to a file in a for
 
 The user should be able to play back files they've saved, creating a non-live version of the Rocket Status Display that will show a launch as though it were a real launch.
 
-#### 3.2.6 Suggesting launch angle 
-The application can determine the correct launch angle for the rocket to follow the desired trajectory. This will take into account environmental factors such as wind speed. This is important to maximise the chance that the rocket lands in the desired landing zone. 
+#### 3.2.6 Suggesting launch angle
+The application can determine the correct launch angle for the rocket to follow the desired trajectory. This will take into account environmental factors such as wind speed. This is important to maximise the chance that the rocket lands in the desired landing zone.
 
 This data may be calculated from the mission control software itself, or passed on from the Monte Carlo simulation.
 
@@ -350,7 +296,7 @@ Ejection charges are controlled by the avionics team, with their detonation time
 
 Upon detonation of a charge, this information should be displayed in the mission control software.
 
-There are a number of ways that mission control can determine whether charges have been detonated. Firing the charges results in a large voltage drop, which when corroberated with a predetermined expected detonation time, changes in pressure and expected change in flight path provides an indication that the ejection charge has been deployed successfully.
+There are a number of ways that mission control can determine whether charges have been detonated. Firing the charges results in a large voltage drop, which when corroborated with a predetermined expected detonation time, changes in pressure and expected change in flight path provides an indication that the ejection charge has been deployed successfully.
 
 
 ### 3.3 Usability Requirements
@@ -373,54 +319,38 @@ There are a number of ways that mission control can determine whether charges ha
 ### 3.4 Performance requirements
 
 #### 3.4.1 How often the position of the rocket is updated on the map<br>
-This will be a tick-based update where each tick can be a specified 
-number of milliseconds, say 500ms for example. Every 500ms, the positional data
-of the rocket can be retrieved and then be processed at mission control to
-then be displayed on the map. At a tick rate of 500ms, the rockets position will be
-updated 120 times over the course of 1 minute. 
-The latency between the rocket and mission control will need to be considered. As the rocket
-travels further away, the connection is likely to get weaker, so a variable tick-rate may be considered. 
+This will be a tick-based update where each tick can be a specified number of milliseconds, say 500ms for example. Every 500ms, the positional data of the rocket can be retrieved and then be processed at mission control to then be displayed on the map. At a tick rate of 500ms, the rockets position will be updated 120 times over the course of 1 minute. The latency between the rocket and mission control will need to be considered. As the rocket travels further away, the connection is likely to get weaker, so a variable tick-rate may be considered.
 
 #### 3.4.2 No 'go' given on failure probabilities of greater than X%
-As part of our go no go functionality, we will be calculating a probability of failure based on current conditions. 
-These conditions can range from the current weather (i.e. wind speed or temperature) to the strength of the connection between 
-the rocket and mission control. Each condition could be given weights (that are calibrated beforehand) which signify their 
-overall impact as a cause of failure during the rocket launch. 
-We will set a probability threshold at a value that will be decided in the future. If the probability of failure is greater than or equal
-to our predefined threshold, then the rocket will be given the "no go", signifying that the chance of failure is too high.  
+As part of our go no go functionality, we will be calculating a probability of failure based on current conditions. These conditions can range from the current weather (i.e. wind speed or temperature) to the strength of the connection between the rocket and mission control. Each condition could be given weights (that are calibrated beforehand) which signify their overall impact as a cause of failure during the rocket launch. We will set a probability threshold at a value that will be decided in the future. If the probability of failure is greater than or equal to our predefined threshold, then the rocket will be given the "no go", signifying that the chance of failure is too high.
 
 #### 3.4.3 Number of Simultaneous users
-Our program can have infinitely many users. However, each computer can only support one instance at a time and that instance can only support one rocket at a time. 
+Our program can have infinitely many users. However, each computer can only support one instance at a time and that instance can only support one rocket at a time.
 
-#### 3.4.4 Amount and Type of Information to be handled 
-The system should be able to handle as much information as the USB serial can send at its optimal performance. 
-If the serial can transmit a high amount of data that we cannot cater to due to our technical
-limitations, then we will aim to get as close to this as possible.
+#### 3.4.4 Amount and Type of Information to be handled
+The system should be able to handle as much information as the USB serial can send at its optimal performance. If the serial can transmit a high amount of data that we cannot cater to due to our technical limitations, then we will aim to get as close to this as possible.
 
-As for the type of information to be handled, our system will be data agnostic meaning that it can
-parse and output any of the three major data file formats which are:
+As for the type of information to be handled, our system will be data agnostic meaning that it can parse and output any of the three major data file formats which are:
 - JSON
 - XML
 - CSV
 
-The format of the incoming data will be dependent on what format the Avionics team decide on. 
+The format of the incoming data will be dependent on what format the Avionics team decide on.
 
-#### 3.4.5 Map Data Caching 
-An internet connection at the launch site is not guaranteed. So, prior to launch, our software should be able to 
-cache map information of a 2km radius of the launch site. That way, map data at launch can be accessed without 
-the need for an internet connection. 
+#### 3.4.5 Map Data Caching
+An internet connection at the launch site is not guaranteed. So, prior to launch, our software should be able to cache map information of a 2km radius of the launch site. That way, map data at launch can be accessed without the need for an internet connection.
 
-#### 3.4.6 Minimum Map Precision 
+#### 3.4.6 Minimum Map Precision
 Our software should have a minimum precision of 3 metres on map features. That is, features must be no more than 3 metres away from their true position (i.e. the rockets positional data should always be within 3 metres of it.)
 
 #### 3.4.7 Maximum GUI response time
-The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement. 
+The GUI must have a response of time of less than 25 milliseconds. External factors such as network requests are exempt from this requirement.
 
 #### 3.4.8 Rocket Data Incorporation
-Once data is received from the rocket (whether it is pre, during or post launch), it must be incorporated (parsed and interpreted) into our system in under 100 milliseconds. 
+Once data is received from the rocket (whether it is pre, during or post launch), it must be incorporated (parsed and interpreted) into our system in under 100 milliseconds.
 
 #### 3.4.9 Maximum System Memory Consumption
-At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time. 
+At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time.
 
 ### 3.5 Logical database requirements
 
@@ -431,21 +361,21 @@ Our current best guess for the data the mission control software will receive fr
 ```
 See 9.5.14. for most systems, a focus on d) and e) is appropriate, such as an object-oriented domain analysis. You should provide an overview domain model (e.g.  a UML class diagram of approximately ten classes) and write a brief description of the responsibilities of each class in the model (3 pages).
 
-You should use right tools, preferabley PlantUML, to draw your UML diagrams which can be easily embedded into a Mardown file (PlantUML is also supported by GitLab and Foswiki).
+You should use right tools, preferably PlantUML, to draw your UML diagrams which can be easily embedded into a Markdown file (PlantUML is also supported by GitLab and Foswiki).
 ```
 
-### 3.6 Design constraints  
-  
-**Design Constraints**  
-The system’s design is constrained by the New Zealand Rocketry Associations (NZRA) regulations [1] (their safety code) for model rockets. Though the safety code is focused on the rocket’s hardware rather than the software some of these regulations also affect the software of the rocket. For example, one of the regulations is that a countdown must be used before launch to ensure everyone is 10m away from the rocket before it launches. This means our software must account for this (i.e. only give clearance for the rocket launch after the countdown). 
+### 3.6 Design constraints
+
+**Design Constraints**
+The system’s design is constrained by the New Zealand Rocketry Associations (NZRA) regulations [1] (their safety code) for model rockets. Though the safety code is focused on the rocket’s hardware rather than the software some of these regulations also affect the software of the rocket. For example, one of the regulations is that a countdown must be used before launch to ensure everyone is 10m away from the rocket before it launches. This means our software must account for this (i.e. only give clearance for the rocket launch after the countdown).
 
 Other regulations that constrain our software designs include:
 *   Launcher - “A launching device shall not be used to launch a high power rocket at an angle more than twenty degrees (20″) from vertical.” – The horizontal angle calculated by our software must be no more than 20 degrees from vertical
 *   Flight Safety - “I will not launch my rocket at targets, into clouds, or near airplanes, and will not put any flammable or explosive payload in my rocket” – Our Go-NoGo function should only respond a Go signal (rocket can launch) if there are no clouds, objects (like airplanes) or people in the rocket’s simulated path
 *   Wind speed – “A person shall not launch a high power rocket if the surface wind at the launcher is more than 32km/hr” – Our Go-NoGo function should only respond with a Go signal (rocket can launch) if wind is 32km/hr or less.
-*   Launch site – “In no case shall the minimum launch site dimension be less than 450m” – Our software must operate correctly with the rocket in a launch site that has a maximum dimension of 450m. 
+*   Launch site – “In no case shall the minimum launch site dimension be less than 450m” – Our software must operate correctly with the rocket in a launch site that has a maximum dimension of 450m.
 
-The Civil Aviation Authority of New Zealand (CAA) also outlines regulations that rockets must follow in Part 101 [2]. Like, NZRA their regulations are social and physical regulations rather than software regulations. However, some of these regulations also are applicable to software. For example, in the rocket section of Part 101 [3] CAA states that the horizontal visibility must be 8km or greater and that the rocket can’t be flown into clouds. Our software (in particular our No-Go function) will need to have checks to ensure the rocket follows these regulations. 
+The Civil Aviation Authority of New Zealand (CAA) also outlines regulations that rockets must follow in Part 101 [2]. Like, NZRA their regulations are social and physical regulations rather than software regulations. However, some of these regulations also are applicable to software. For example, in the rocket section of Part 101 [3] CAA states that the horizontal visibility must be 8km or greater and that the rocket can’t be flown into clouds. Our software (in particular our No-Go function) will need to have checks to ensure the rocket follows these regulations.
 Our project also has limitations which can constrain our design. The limitations and how they constrain are design is shown in the table below.
 
 | Limitation | How it constrains our design |
@@ -454,24 +384,24 @@ Our project also has limitations which can constrain our design. The limitations
 | Auditing (Audit functions) | Our software will need to pass all test cases (auditing) we create. |
 | Programming Language (Java) | We plan to use Java as it is all the language we are most comfortable with. However, Java constrains what we can do in our code (e.g. can’t manually dynamically allocate memory) |
 | Physical/mental considerations | Our design is limited by our lack of experience completing full-scale projects |
- 
-**Standards Compliance**  
-Report format:  
-Any reports we create should follow IEEE format in the sense that they should have IEEE references and should reference IEEE documents if applicable.  
-  
-Data naming:  
+
+**Standards Compliance**
+Report format:
+Any reports we create should follow IEEE format in the sense that they should have IEEE references and should reference IEEE documents if applicable.
+
+Data naming:
 Variables, fields, constants and any other container that holds data in our software must follow the naming convention specified in the [code style standard](https://gitlab.ecs.vuw.ac.nz/course-work/engr300/2020/group9/group-9/-/blob/master/CONTRIBUTING.md) we created.
 
-Audit Tracing:  
+Audit Tracing:
 Sensitive and important data should be logged correctly and safely (e.g. using a logging library (e.g. log4j)) and any changes to this data should also be logged. This is so that if a something goes wrong (e.g. error occurs, exception is thrown) then we can trace it back to the source and identify the issue.
 
 
 ### 3.7 Nonfunctional system attributes
 
-#### 3.7.1 Systemic (Nonfunctional) Requirements 
+#### 3.7.1 Systemic (Nonfunctional) Requirements
 
 #### 3.7.2 Availability
-The mission control software will be available for use as long as the repository hosting the software exists. 
+The mission control software will be available for use as long as the repository hosting the software exists.
 
 #### 3.7.3 Security
 Special care will be taken during development to ensure that the software has high security. After development has finished, the project team will no longer be updating the code base and hence the security level will remain the same.
@@ -498,28 +428,28 @@ Our software is going to be data agnostic, meaning that it will support multiple
 During development, the team will increase its functionality based on the Stakeholders needs. This will not be the case after development, but the open source nature of the software will allow for others to increase the scalability of the program.
 
 #### 3.7.11 Survivability
-The software will incorporate multiple fail safes and will utilise proper handling of safety critical systems. 
+The software will incorporate multiple fail safes and will utilise proper handling of safety critical systems.
 
-#### 3.7.12 Deployment 
-The mission control software will be hosted on a repository from which users can download it from. Tags will be attached to each major version as development continues. 
+#### 3.7.12 Deployment
+The mission control software will be hosted on a repository from which users can download it from. Tags will be attached to each major version as development continues.
 
 #### 3.7.13 Documentation
-All our code will be clearly documented with clear and concise comments. We will also include a readme file on the repository which will explain how to use the software. 
+All our code will be clearly documented with clear and concise comments. We will also include a readme file on the repository which will explain how to use the software.
 
 #### 3.7.14 Response Time
-Our user interface should have a response time less than 25 milliseconds. However, external factors such as network requests are exempt from the requirement.  
+Our user interface should have a response time less than 25 milliseconds. However, external factors such as network requests are exempt from the requirement.
 
-#### 3.7.15 Privacy 
-There is no persistent storage of the user’s data in our software. Regardless, the software will comply with all relevant privacy laws. 
+#### 3.7.15 Privacy
+There is no persistent storage of the user’s data in our software. Regardless, the software will comply with all relevant privacy laws.
 
 #### 3.7.16 Testability
-The process of testing our software should be as easy as possible. Our test cases should achieve high coverage of the code. Testing is critical for ensuring the correctness of our software, so we will do everything we can to ensure that our software can be easily tested. 
+The process of testing our software should be as easy as possible. Our test cases should achieve high coverage of the code. Testing is critical for ensuring the correctness of our software, so we will do everything we can to ensure that our software can be easily tested.
 
-#### 3.7.17 Platform Compatibility 
-Our software should be compatible on as many platforms as possible. However, we will not be supporting old or deprecated versions of current software (I.e. the software will be compatible with Windows 10, but not Windows XP). The major platforms we will support are Windows 10, macOS and Linux. 
+#### 3.7.17 Platform Compatibility
+Our software should be compatible on as many platforms as possible. However, we will not be supporting old or deprecated versions of current software (I.e. the software will be compatible with Windows 10, but not Windows XP). The major platforms we will support are Windows 10, macOS and Linux.
 
-#### 3.7.18 Open Source 
-The mission control software will be open source, it will be hosted in a Git repository. This allows users of the software to directly contribute to its code base after the team has finished their development. 
+#### 3.7.18 Open Source
+The mission control software will be open source, it will be hosted in a Git repository. This allows users of the software to directly contribute to its code base after the team has finished their development.
 
 ### 3.8 Physical and Environmental Requirements
 
@@ -527,7 +457,7 @@ The mission control software will be open source, it will be hosted in a Git rep
 
 The device running the program must have enough space in its memory to download the program and save the files (log, weather and map data). This allows the program to run properly (or run at all).
 
-The device must be able to recieve information through the USB serial, therefore it must have a USB port or be able to use an adapter to accept a USB device.
+The device must be able to receive information through the USB serial, therefore it must have a USB port or be able to use an adapter to accept a USB device.
 
 The device chosen to run the program on must be portable (eg. laptop) as it will be used in the field. The rocket and computer must be close enough to connect through USB Serial while the rocket is in flight.
 
@@ -541,7 +471,7 @@ The system must be able to cooperate with the rocket API (designed by the avioni
 
 ### 3.9 Supporting information
 
-see 9.5.19. 
+see 9.5.19.
 
 ## 4. Verification
 
@@ -555,20 +485,20 @@ Stuff that we need to live test, such as with Monte Carlo<br>
 
 ### 5.1 Schedule
 
-This project consists of three primary deliverables: an architecture prototype, a minimum viable product and the project termination. The architectural prototype should be completed by the 19th of June in week eleven of trimester one. Our team chose this date for the architectural prototype as it signifies the end of the first trimester and the end of the planning stage of the mission control project. After this deliverable has been delivered, the team can begin programming the mission control software, creating a skeleton proof of concept before arriving at a minimum viable product. The minimim viable product for our project is a program that can act as mission control for a hobby rocket launch without any bells and whistles. The minimum viable product should be fully functional, if bare-bones, in successfully allowing a user to launch a hobby rocket. Our team should deliver the minimim viable product by the 14th of August in week five of trimester two. We chose this date as it allows the team sufficient time to create the mission control program while also allowing plenty of time to receive feedback from the client and make changes and improvements the the product. The project should terminate on the 16th of October in week twelve of trimester two. Ideally, the complete version of the product should be finished much earlier and only minor quality-of-life changes should be made the the mission control program in the weeks leading up to the project termination. At this stage there are no plans for any further releases beyond project termination. 
+This project consists of three primary deliverables: an architecture prototype, a minimum viable product and the project termination. The architectural prototype should be completed by the 19th of June in week eleven of trimester one. Our team chose this date for the architectural prototype as it signifies the end of the first trimester and the end of the planning stage of the mission control project. After this deliverable has been delivered, the team can begin programming the mission control software, creating a skeleton proof of concept before arriving at a minimum viable product. The minimum viable product for our project is a program that can act as mission control for a hobby rocket launch without any bells and whistles. The minimum viable product should be fully functional, if bare-bones, in successfully allowing a user to launch a hobby rocket. Our team should deliver the minimum viable product by the 14th of August in week five of trimester two. We chose this date as it allows the team sufficient time to create the mission control program while also allowing plenty of time to receive feedback from the client and make changes and improvements the the product. The project should terminate on the 16th of October in week twelve of trimester two. Ideally, the complete version of the product should be finished much earlier and only minor quality-of-life changes should be made the the mission control program in the weeks leading up to the project termination. At this stage there are no plans for any further releases beyond project termination.
 
 ### 5.2 Budget
 
 No purchases required. It's a software project.
 
-### 5.3 Risks 
+### 5.3 Risks
 
 #### 5.3.1 Sudden prolonged absence of a team member.
 ##### Likelihood: Low Effect: High.
 
-The sudden prolonged absense of a team member is a schedule risk that can cause the project to run overtime. It is caused when a team member disappears for a long period without explanation. An example is if a team member is in a crash and is in a coma.
+The sudden prolonged absence of a team member is a schedule risk that can cause the project to run overtime. It is caused when a team member disappears for a long period without explanation. An example is if a team member is in a crash and is in a coma.
 
-The impact of a sudden prolonged absense of a team member is that there is one less person working on the project. This means that that member's work would have to be split between the other team members and the project will take more time and effort to complete. 
+The impact of a sudden prolonged absence of a team member is that there is one less person working on the project. This means that that member's work would have to be split between the other team members and the project will take more time and effort to complete.
 
 To avoid the risks of a sudden prolonged absence, each team member will strive to:
 - Offer an explanation if they are going to be absent.
@@ -583,12 +513,12 @@ To avoid the risks of a sudden prolonged absence of a team member, the team will
 
 The sudden temporary absence of a team member is a schedule risk that could cause decisions to be delayed. It is caused when a team member fails to remember a meeting, and is contactable during the meeting. An example is when a team member schedules their work during the meeting, thus is busy and away from their device.
 
-The impact of a sudden temporary absence of a team member is that a decision isn't able to be made. This will halt progress on the project, potentially pushing it back past the deadline. 
+The impact of a sudden temporary absence of a team member is that a decision isn't able to be made. This will halt progress on the project, potentially pushing it back past the deadline.
 
 To avoid the risks of a sudden temporary absence, each team member will strive to:
 - Check the communication channel at least once a day.
 - Avoid booking commitments during the lab times.
-- Be available on the communcation channel during lab times.
+- Be available on the communication channel during lab times.
 
 To avoid the risks of a sudden temporary absence of a team member, the team will strive to:
 - Have regular meetings at the same time every week.
@@ -598,9 +528,9 @@ To avoid the risks of a sudden temporary absence of a team member, the team will
 #### 5.3.3 Loss of work due to technological problems.
 ##### Likelihood: Medium Effect: Low
 
-Loss of work due to technological problems is a scheduling risk that could lead to the project not being finished on time. It is caused when a technological problem causes the file that was being worked on to be closed without saving the work. An example is when a blackout causes the desktop to shutdown before the file was saved. 
+Loss of work due to technological problems is a scheduling risk that could lead to the project not being finished on time. It is caused when a technological problem causes the file that was being worked on to be closed without saving the work. An example is when a blackout causes the desktop to shutdown before the file was saved.
 
-The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project. 
+The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project.
 
 To avoid losing work due to technological problems, each team member will strive to:
 - Save their work regularly to keep an almost up-to-date version of their work.
@@ -610,7 +540,7 @@ To avoid losing work due to technological problems, each team member will strive
 To avoid losing work due to technological problems, the team will strive to:
 - Split tasks into smaller units so work done each 'task' is less.
 
-#### 5.3.4 Failure to agree on protocol with the Monte Carlo teams. 
+#### 5.3.4 Failure to agree on protocol with the Monte Carlo teams.
 ##### Likelihood: High      Effect: High
 
 Failure to agree on protocol with the Monte Carlo teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the Monte Carlo teams over how the two projects will communicate. An example is this project not wanting to send a piece of information the Monte Carlo team were expecting.
@@ -618,28 +548,28 @@ Failure to agree on protocol with the Monte Carlo teams is a performance risk th
 The impact of failing to agree on protocol with the Monte Carlo teams is being unable to simulate the rocket's launch. This would lead to the system being unable to determine if a launch is safe.
 
 To avoid failing to agree on protocol with the Monte Carlo teams, the team will strive to:
-- Be willing to make compromises on agreements. 
+- Be willing to make compromises on agreements.
 - Outline what the system can actually do.
-- Don't accept impossible terms. 
+- Don't accept impossible terms.
 
-#### 5.3.5 Failure to agree on protocol with the avionics teams. 
+#### 5.3.5 Failure to agree on protocol with the avionics teams.
 ##### Likelihood: High      Effect: High
 
 Failure to agree on protocol with the avionics teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the avionics teams over how the two projects will communicate. An example is the avionics team wanting to send information that this project doesn't want to deal with.
 
-The impact of failing to agree on protocol with the avionics teams is being unable to connect to the rocket. This would lead to the user not being able to control the rocket, or see information about the rocket's position. 
+The impact of failing to agree on protocol with the avionics teams is being unable to connect to the rocket. This would lead to the user not being able to control the rocket, or see information about the rocket's position.
 
 To avoid failing to agree on protocol with the avionics teams, the team will strive to:
 - Be willing to make compromises on agreements.
 - Outline what the system can actually do.
 - Don't accept impossible terms.
 
-#### 5.3.6 Other teams fail to meet deadline. 
+#### 5.3.6 Other teams fail to meet deadline.
 ##### Likelihood: Low       Effect: High
 
-The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule. 
+The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule.
 
-The impact of the other teams failing to meet deadlines is that the project deadlines will have to be pushed back to accomondate them. This will cause the project to be completed later than expected, and the team will be waiting around for it to be completed. 
+The impact of the other teams failing to meet deadlines is that the project deadlines will have to be pushed back to accommodate them. This will cause the project to be completed later than expected, and the team will be waiting around for it to be completed.
 
 To avoid the other teams failing to meet deadlines, the team will strive to:
 - Clearly express when a component from another team is needed.
@@ -660,7 +590,7 @@ To avoid failing to meet deadlines, each team member will strive to:
 - Share if they have other circumstances preventing them from working early.
 
 To avoid a team member failing to meet deadlines, the team will strive to:
-- Plan work around other obligations or deadlines. 
+- Plan work around other obligations or deadlines.
 - Have slack in the schedule so delays don't throw the project off track.
 
 #### 5.3.8 Major scope creep.<br>
@@ -671,7 +601,7 @@ Major scope creep is a cost risk that can cause the project to run overtime. It 
 The impacts of major scope creep are extensions to the project lifetime or extra work to the team to fit into the same lifetime.
 
 To avoid major scope creep, the team will strive to:
-- Carefully define the project specifications so there is no room for confusion. 
+- Carefully define the project specifications so there is no room for confusion.
 - Focus on finishing the project requirements before adding extra functions.
 - Review the code regularly to spot wasted code early.
 - Communicate about tasks.
@@ -679,19 +609,19 @@ To avoid major scope creep, the team will strive to:
 #### 5.3.9 Bad documentation.<br>
 ##### Likelihood: Medium/High   Effect: Medium/Low
 
-Bad Docmentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
+Bad Documentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
 
 The impact of bad documentation is that the method is incorrectly used or that the code is confusing to developers who are editing it. These effects could lead to bugs in the program which will increase the work for developers and testers and increase the time/cost of maintaining the program or adding new features.
 
 To avoid bad documentation, each team member will strive to:
 - Write a JavaDoc comment for every method.
 - Add important comments to their code so that it can be understood by other team mates.
-- Make sure that documentation can be understood by outsiders. 
+- Make sure that documentation can be understood by outsiders.
 
 #### 5.3.10 Injuries due to overwork. <br>
 ##### Likelihood: Medium     Effect: Medium
 
-Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test. 
+Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test.
 
 The more likely impacts of overwork, other than death, are sleeping disorders, anxiety, and a weakened immune system. These effects will reduce the work quality of the individual and potentially stop them from working on the project.
 
@@ -709,7 +639,7 @@ To avoid a team member becoming overworked, the team will strive to:
 #### 5.3.11 Computer-use related injuries.<br>
 ##### Likelihood: Low        Effect: High
 
-Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor. 
+Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor.
 
 The impacts often noticed of poor computer-use are back/neck pain, headaches, and arm pain. These effects could make the individual uncomfortable using the computer, thus reducing their speed or output, or making it too painful to use the computer at all.
 
@@ -743,7 +673,7 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
 
 ## 6. Appendices
-### 6.1 Assumptions and dependencies 
+### 6.1 Assumptions and dependencies
 
 Communication with rocket will be over serial
 Public weather data from NOAA exists and is accurate
