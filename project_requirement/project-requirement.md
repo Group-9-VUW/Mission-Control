@@ -153,6 +153,7 @@ Our teams' wellbeing is a limitation as well. In the sense that mental problems 
 
 [3] Civil Aviation Authority of New Zealand, "Part 101 Gyrogliders and Parasails, Unmanned Aircraft (including Balloons), Kites, and Rockets Operating Rules," 27 September 2019. [Online]. Available: https://www.aviation.govt.nz/rules/rule-part/show/101/4. [Accessed 10 June 2020].
 
+
 ## 3. Specific requirements
 
 ### 3.1 External interfaces
@@ -174,6 +175,7 @@ api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={your api key}
 NOAA has a [Global Forecast System](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/global-forcast-system-gfs) that provides historical records and weather predictions. This data is available from the NOAA National Operational Model Archive and Distribution System ([NOMADS](https://www.ncdc.noaa.gov/nomads/documentation/user-guide)) through FTP. This data may require a large amount of preparation in order to be useful and may require a degree of meteorological expertise to accurately parse. Additionally, there is a [JSON API](https://www.ncdc.noaa.gov/cdo-web/webservices/v2#gettingStarted) for climate data access.
 
 The Cambridge University Spaceflight Wiki has produced a [balloon flight predictor](http://predict.habhub.org/) using this dataset. This open source implementation may provide some insight into handling this data.
+
 
 #### 3.1.3 Map Data
 Map data is available from [OpenStreetMap](https://www.openstreetmap.org/). This low level data can be accessed through their API. This is important for providing relevant contextual information regarding the rocket's flight path.
@@ -266,25 +268,26 @@ The Mission Control Software must possess a display that shows all relevant data
 | Exit Conditions | Explicit termination by user input. |
 | Special Requirements | Available screen resolution must be 1280 x 720 pixels.|
 
-##### 5a.
+##### 3.2.5.1
 
 The Rocket Status display must show the position of the rocket on a map, using satellite imagery to convey the position to the user with recognizable imagery and a colored icon to represent the rocket. The position of the rocket on the map must be updated autonomously with each update from the Rocket Avionics Package. The satellite imagery used for this function must be cacheable, so that it will function in a launch site without reliable internet access.
 
-##### 5b.
+##### 3.2.5.2
 
 If the Rocket Avionics Package reports rotation and velocity, the Rocket Status Display will show a conceptual diagram of a rocket on a horizon, conveying its orientation. A vector diagram overlaid will show any velocity and acceleration data provided, also including the constant force of gravity, creating an incomplete force diagram allowing the user to visualize the rockets second-to-second status.
 
-##### 5c.
+##### 3.2.5.3
 
 In the event that the connection between the MCS and the Rocket Avionics Package is severed unexpectedly, the Rocket Status display must report this in a timely manner to the user to avoid confusion with 'stuck' values. This warning must take up 25% of the screen area so that it is noticeable.
 
-##### 5d.
+##### 3.2.5.4
 
 The user shall have the option to record oncoming status data to a file in a format of their choice. This option shall be available from a menu bar. At least one of these formats should be in a ASCII/text format that is readable via text editor, complete with newlines for each new section of data.
 
-##### 5e.
+##### 3.2.5.5
 
 The user should be able to play back files they've saved, creating a non-live version of the Rocket Status Display that will show a launch as though it were a real launch.
+
 
 #### 3.2.6 Suggesting launch angle
 The application can determine the correct launch angle for the rocket to follow the desired trajectory. This will take into account environmental factors such as wind speed. This is important to maximise the chance that the rocket lands in the desired landing zone.
@@ -315,6 +318,7 @@ There are a number of ways that mission control can determine whether charges ha
 *  The Mission Control Software should let the rocket know when launch is imminent as soon as possible.
 *  The software will allow users to select proper launch sites and will help them identify unsafe areas.
 *  The software will facilitate recovering the rocket with GPS tracking if something goes awry.
+
 
 ### 3.4 Performance requirements
 
@@ -351,6 +355,7 @@ Once data is received from the rocket (whether it is pre, during or post launch)
 
 #### 3.4.9 Maximum System Memory Consumption
 At its peak workload conditions, the mission control software should not be consuming more than 750 megabytes of memory at any given time.
+
 
 ### 3.5 Logical database requirements
 
@@ -451,6 +456,7 @@ Our software should be compatible on as many platforms as possible. However, we 
 #### 3.7.18 Open Source
 The mission control software will be open source, it will be hosted in a Git repository. This allows users of the software to directly contribute to its code base after the team has finished their development.
 
+
 ### 3.8 Physical and Environmental Requirements
 
 #### 3.8.1 Physical Requirements
@@ -469,9 +475,11 @@ The system must be able to receive a signal from the rocket while it's on the gr
 
 The system must be able to cooperate with the rocket API (designed by the avionics teams) and the Monte Carlo simulation (designed by the simulation teams). This includes communicating over USB Serial and to another software project (which might be a different language).
 
+
 ### 3.9 Supporting information
 
 see 9.5.19.
+
 
 ## 4. Verification
 
@@ -480,6 +488,7 @@ Stuff that we can unit/regression tests<br>
 Stuff that we need to live test, such as with Monte Carlo<br>
 
 3 pages outlining how you will verify that the product meets the most important specific requirements. The format of this section should parallel section 3 of your document (see 9.5.18). Wherever possible (especially systemic requirements) you should indicate testable acceptance criteria.
+
 
 ## 5. Development schedule.
 
@@ -650,6 +659,7 @@ To avoid a computer-use injury, each team member will strive to:
 To avoid a team member getting a computer-use injury, the team will strive to:
 - Reduce length of online meetings.
 
+
 ### 5.4 Health and Safety
 
 1. How the team will manage computer-related risks
@@ -672,7 +682,9 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
 
+
 ## 6. Appendices
+
 ### 6.1 Assumptions and dependencies
 
 Communication with rocket will be over serial
