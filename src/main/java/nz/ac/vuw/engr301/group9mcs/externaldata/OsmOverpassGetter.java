@@ -50,13 +50,27 @@ public class OsmOverpassGetter {
     /**
      * Gets the building data of any building with a node within the specified bounding box.
      *
+     * @param latTop Latitude of northernmost point.
+     * @param lonLeft Longitude of westernmost point.
+     * @param latBot Latitude of southernmost point.
+     * @param lonRight Longitude of easternmost point.
+     * @return Returns an OsmOverpassData object created from the JSON response from Overpass.
+     */
+    public static OsmOverpassData getAreasInBox(double latTop, double lonLeft, double latBot, double lonRight) {
+        // Order of parameters is switched to suit API call.
+        return parseData(getAreasInBoxJson(latBot, lonLeft, latTop, lonRight));
+    }
+
+    /**
+     * Gets the building data of any building with a node within the specified bounding box.
+     *
      * @param south Latitude of southernmost point.
      * @param west Longitude of westernmost point.
      * @param north Latitude of northernmost point.
      * @param east Longitude of easternmost point.
      * @return Returns the JSON response from Overpass.
      */
-    public static String getAreasInBox(double south, double west, double north, double east) {
+    private static String getAreasInBoxJson(double south, double west, double north, double east) {
         // Firstly, we must generate the query.
         String queryBase = "data=" +
                 "[out:json][timeout:25];\n" +
@@ -113,7 +127,7 @@ public class OsmOverpassGetter {
      * @param json Result of Overpass API call.
      * @return Returns a complete OsmOverpassData object.
      */
-    public static OsmOverpassData parseData(String json) {
+    private static OsmOverpassData parseData(String json) {
         JSONArray data = new JSONObject(json).getJSONArray("elements");
 
         // We map to the node ID here to simplify adding node references to ways later on.
@@ -136,7 +150,10 @@ public class OsmOverpassGetter {
                 case "way":
                     ways.add(new OsmOverpassData.Way(
                             elem.getInt("id"),
-                            elem.getJSONArray("nodes").toList().stream().map(nodes::get).filter(Objects::nonNull).collect(Collectors.toList()),
+                            elem.getJSONArray("nodes").toList().stream()
+                                    .map(nodes::get)
+                                    .filter(Objects::nonNull)
+                                    .collect(Collectors.toList()),
                             elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
                     ));
                     break;
@@ -146,15 +163,16 @@ public class OsmOverpassGetter {
         return new OsmOverpassData(new ArrayList<>(nodes.values()), ways);
     }
 
+    /**
+     * Parses the tags of a node or way into a String:String map.
+     * @param tags JSON object containing the element's tags.
+     * @return Returns a map containing all tags belonging to the element.
+     */
     private static Map<String, String> parseTags(JSONObject tags) {
         Map<String, String> tagMap = new HashMap<>();
         for (String key : JSONObject.getNames(tags)) {
             tagMap.put(key, tags.getString(key));
         }
         return tagMap;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(parseData(getAreasInBox(-41.29056, 174.76832, -41.29039, 174.76839)).getWays());
     }
 }

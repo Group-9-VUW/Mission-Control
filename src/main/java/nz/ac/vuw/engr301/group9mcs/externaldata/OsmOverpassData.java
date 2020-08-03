@@ -31,12 +31,12 @@ public class OsmOverpassData {
      * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
      */
     public static final class Node {
-        final int ID;
+        final long ID;
         final double LAT;
         final double LON;
         private final Map<String, String> TAGS;
 
-        Node(int id, double lat, double lon, Map<String, String> tags) {
+        Node(long id, double lat, double lon, Map<String, String> tags) {
             this.ID = id;
             this.LAT = lat;
             this.LON = lon;
@@ -52,11 +52,11 @@ public class OsmOverpassData {
      * Represents a single OpenStreetMap way. Ways comprise nodes.
      */
     public static final class Way {
-        final int ID;
+        final long ID;
         private final List<Node> NODES;
         private final Map<String, String> TAGS;
 
-        Way(int id, List<Node> nodes, Map<String, String> tags) {
+        Way(long id, List<Node> nodes, Map<String, String> tags) {
             this.ID = id;
             this.NODES = nodes;
             this.TAGS = tags;
