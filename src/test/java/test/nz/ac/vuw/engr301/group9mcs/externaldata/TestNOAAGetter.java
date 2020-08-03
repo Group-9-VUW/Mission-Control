@@ -1,14 +1,11 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 
 import java.security.InvalidParameterException;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
@@ -24,7 +21,7 @@ public class TestNOAAGetter {
     public void testAppID(){
         NOAAGetter testGetter = new NOAAGetter("");
         testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
-        assert testGetter.getAppId().equals("ead647e24776f26ed6f63af5f1bbf68");
+        assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
     }
 
     /**
@@ -32,7 +29,7 @@ public class TestNOAAGetter {
      */
     @Test
     public void testInvalidLatitude() {
-        assert (canConnect());
+        assertTrue(canConnect());
         try {
             getter.getWeatherData(-91, 20);
             fail("InvalidParameterException should be thrown");
@@ -45,7 +42,7 @@ public class TestNOAAGetter {
      */
     @Test
     public void testInvalidLongitude(){
-        assert(canConnect());
+        assertTrue(canConnect());
         try{
             getter.getWeatherData(20, -181);
             fail("InvalidParameterException should be thrown");
@@ -58,8 +55,8 @@ public class TestNOAAGetter {
      */
     @Test
     public void testCorrectResponse(){
-        assert(canConnect());
-        assert getter.getWeatherData(41, 175) != null;
+        assertTrue(canConnect());
+        assertNotNull(getter.getWeatherData(41, 175));
     }
 
     /**
@@ -67,8 +64,8 @@ public class TestNOAAGetter {
      */
     @Test
     public void testCorrectForecastResponse(){
-        assert(canConnect());
-        assert getter.getForecast(41, 175) != null;
+        assertTrue(canConnect());
+        assertNotNull(getter.getForecast(41, 175));
     }
 
 }
