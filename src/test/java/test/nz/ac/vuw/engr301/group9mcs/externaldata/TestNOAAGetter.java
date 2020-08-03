@@ -18,6 +18,13 @@ public class TestNOAAGetter {
     }
 
     @Test
+    public void testAppID(){
+        NOAAGetter testGetter = new NOAAGetter("");
+        testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
+        assert testGetter.getAppId().equals("ead647e24776f26ed6f63af5f1bbf68");
+    }
+
+    @Test
     public void testInvalidLatitude() {
         assert (canConnect());
         try {
@@ -48,4 +55,5 @@ public class TestNOAAGetter {
         assert(canConnect());
         assert getter.getForecast(41, 175) != null;
     }
+
 }
