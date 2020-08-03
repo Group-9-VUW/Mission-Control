@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
+import org.junit.platform.commons.PreconditionViolationException;
 
 /**
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
@@ -39,13 +41,29 @@ public class NOAAGetter {
 	}
 
 	/**
+	 * Validates the supplied latitiude and longitude to see if they fit within the required range
+	 * @param latitude - the latitude to validate
+	 * @param longitude - the longitude to validate
+	 */
+	private void checkValidLatAndLon(double latitude, double longitude){
+		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
+			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
+		} else if(latitude < -90 || latitude > 90){
+			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
+		} else if (longitude < -180 || longitude > 180) {
+			throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
+		}
+	}
+
+	/**
 	 * Gets the current weather at the supplied latitude and longitude.
-	 * @param latitude - latitude of the location.
-	 * @param longitude - longitude of the location.
+	 * @param latitude - latitude of the location. (must be within range [-90, 90])
+	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @return WeatherData with the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
+		checkValidLatAndLon(latitude, longitude);
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
@@ -77,6 +95,7 @@ public class NOAAGetter {
 	 * @return a Map of the
 	 */
 	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
+		checkValidLatAndLon(latitude, longitude);
 		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
 			String units = "metric";
@@ -167,8 +186,6 @@ public class NOAAGetter {
 	         URL url = new URL("http://openweathermap.org/");
 	         URLConnection connection = url.openConnection();
 	         connection.connect();
-	      } catch (MalformedURLException e) {
-	         return false;
 	      } catch (IOException e) {
 	         return false;
 	      }
