@@ -30,23 +30,6 @@ public class OsmOverpassGetter {
         OVERPASS_URL = overpassUrl;
     }
 
-
-    /**
-     * Determines whether or not a given location is on a forbidden area.
-     *
-     * Forbidden areas include:
-     *  - Buildings
-     *  - Forests
-     *
-     * @param latitude Latitude of point.
-     * @param longitude Longitude of point.
-     * @return Returns true if on a building, false otherwise.
-     */
-    public static boolean isOnForbiddenArea(double latitude, double longitude) {
-        // TODO: Implement me!
-        return false;
-    }
-
     /**
      * Gets the building data of any building with a node within the specified bounding box.
      *
