@@ -40,6 +40,11 @@ public class NOAAGetter {
 		this.appid = appid;
 	}
 
+	/**
+	 * Validates the supplied latitiude and longitude to see if they fit within the required range
+	 * @param latitude - the latitude to validate
+	 * @param longitude - the longitude to validate
+	 */
 	private void checkValidLatAndLon(double latitude, double longitude){
 		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
