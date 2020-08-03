@@ -92,9 +92,19 @@ The software will incorporate  multiple fail safes and will utilise proper handl
 
 
 ### 3.2 Architectural Viewpoints
-(1 page, 42010 5.4) 
+We will use Kruchten’s 4 + 1 architecture view model to present our systems architecture.
 
-Identify the architectural viewpoints you will use to present your system's architecture. Write one sentence to outline each viewpoint. Show which viewpoint frames which architectural concern.
+This model consists of logical, development, process, physical and scenarios viewpoints.
+
+The logical viewpoint will highlight the functionality that our system provides to our customer. This will be expressed in the form of a UML class diagram.
+
+The development viewpoint will illustrate our system from a development perspective. It will go into detail about the design pattern(s) and components we will use.
+
+The process viewpoint will describe how the dynamic aspects of the system incorporate with each other. A flow chart outline possible control flows that arise from the interaction between different processes.
+
+The physical viewpoint will illustrate our system from a hardware perspective. It will provide a high level view of all connections between physical components.
+
+Finally, the scenarios viewpoint will describe important user stories that will define the architecture of our document. It will also state how the described user stories relate to each of the different views described above.
 
 ### 4. Architectural Views
 
