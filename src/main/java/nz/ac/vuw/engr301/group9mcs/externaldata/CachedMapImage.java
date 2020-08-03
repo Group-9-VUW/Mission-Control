@@ -170,8 +170,7 @@ public class CachedMapImage implements MapImage {
       return this.img;
     }
 
-    BufferedImage subImage = this.img.getSubimage((int) topLeftX, 
-        (int) topLeftY, (int) width, (int) height);
+    BufferedImage subImage = this.img.getSubimage((int) Math.round(topLeftX), (int) Math.round(topLeftY), (int) Math.round(width), (int) Math.round(height));
     assert subImage != null;
     return subImage;
   }
