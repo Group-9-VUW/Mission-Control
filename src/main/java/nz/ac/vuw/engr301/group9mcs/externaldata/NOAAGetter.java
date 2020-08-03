@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.InvalidParameterException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
+import org.junit.platform.commons.PreconditionViolationException;
 
 /**
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
@@ -40,12 +42,15 @@ public class NOAAGetter {
 
 	/**
 	 * Gets the current weather at the supplied latitude and longitude.
-	 * @param latitude - latitude of the location.
+	 * @param latitude - latitude of the location. (must be within range [-90, 90]
 	 * @param longitude - longitude of the location.
 	 * @return WeatherData with the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
+		if(latitude < -90 || latitude > 90){
+			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
+		}
 		try {
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
