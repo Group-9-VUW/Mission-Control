@@ -181,8 +181,6 @@ public class NOAAGetter {
 	         URL url = new URL("http://openweathermap.org/");
 	         URLConnection connection = url.openConnection();
 	         connection.connect();
-	      } catch (MalformedURLException e) {
-	         return false;
 	      } catch (IOException e) {
 	         return false;
 	      }
