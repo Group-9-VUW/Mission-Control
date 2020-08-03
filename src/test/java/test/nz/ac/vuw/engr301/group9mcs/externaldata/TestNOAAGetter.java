@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.security.InvalidParameterException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
