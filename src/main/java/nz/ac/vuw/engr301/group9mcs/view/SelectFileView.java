@@ -24,10 +24,11 @@ public class SelectFileView extends JPanel {
 	private ViewObservable observer;
 
 	/**
-	 * Constructor which adds the file chooser to the Panel
+	 * Constructor which adds the file chooser to the Panel.
+	 * @param observer - The observer for this View that waits for the file input from the user. 
 	 */
-	public SelectFileView(ViewObservable o){
-		this.observer = o;
+	public SelectFileView(ViewObservable observer){
+		this.observer = observer;
 
 		this.setLayout(new GridBagLayout());
 
