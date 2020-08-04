@@ -42,14 +42,15 @@ public class SelectFileView extends JPanel {
 
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
 		c.gridy = 0;
 		
 		this.chooseFileButton = new JButton("Choose File");
 		
 		this.fileChooser = new JFileChooser();
-		this.filter = new FileNameExtensionFilter("Open Rocket Files", "ork");
+		this.filter = new FileNameExtensionFilter("Open Rocket Files (.ork)", "ork");
+		this.fileChooser.setFileFilter(this.filter);
 		
 		this.chooseFileButton.addActionListener(e -> {
 			this.chooseFile();
