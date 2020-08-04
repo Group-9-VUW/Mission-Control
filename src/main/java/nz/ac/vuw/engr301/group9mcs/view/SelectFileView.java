@@ -1,17 +1,11 @@
-/**
- * 
- */
 package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Observable;
-import java.util.Observer;
-
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -24,17 +18,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  */
 public class SelectFileView extends JPanel {
-	private JFileChooser fileChooser; 
-	private FileNameExtensionFilter filter;
+	private JFileChooser fileChooser;
 	private final JButton chooseFileButton;
 	private JLabel fileNameLabel;
-	private Observer observer;
-	
+	private ViewObservable observer;
+
 	/**
 	 * Constructor which adds the file chooser to the Panel
 	 */
-	public SelectFileView(Observer o){
+	public SelectFileView(ViewObservable o){
 		this.observer = o;
+
 		this.setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -42,12 +36,11 @@ public class SelectFileView extends JPanel {
 		c.fill = GridBagConstraints.NONE; //Stops button from resizing with the JLabel
 		c.gridx = 1;
 		c.gridy = 0;
-		
+
 		this.chooseFileButton = new JButton("Choose File");
 		
 		this.fileChooser = new JFileChooser();
-		this.filter = new FileNameExtensionFilter("Open Rocket Files (.ork)", "ork");
-		this.fileChooser.setFileFilter(this.filter);
+		this.fileChooser.setFileFilter(new FileNameExtensionFilter("Open Rocket Files (.ork)", "ork"));
 		
 		this.chooseFileButton.addActionListener(e -> {
 			this.chooseFile();
@@ -64,8 +57,7 @@ public class SelectFileView extends JPanel {
 		this.setPreferredSize(new Dimension(300, 100));
 		
 	}
-	
-	
+
 	/**
 	 * Opens the JFileChooser to allow the user to select a .ork file. 
 	 */
@@ -75,8 +67,8 @@ public class SelectFileView extends JPanel {
 			// User has selected a valid .ork file
 			this.fileNameLabel.setText(this.fileChooser.getSelectedFile().getName());
 			
-			this.observer.notify();
-			//TODO need to add Observer logic here
+			File orkFile = this.fileChooser.getSelectedFile();
+			this.observer.notify(orkFile);
 		}
 	}
 	
@@ -84,17 +76,5 @@ public class SelectFileView extends JPanel {
 	 * Serial version UID
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		SelectFileView view = new SelectFileView(); 
-		frame.add(view);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
 
 }
