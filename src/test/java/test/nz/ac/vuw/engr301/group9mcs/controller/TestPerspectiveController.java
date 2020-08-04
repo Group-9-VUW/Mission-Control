@@ -13,20 +13,43 @@ import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.PerspectiveController;
 
-@SuppressWarnings("javadoc")
+/**
+ * Test the Perspective Controller Class
+ *
+ * @author Bryony Gatehouse
+ *
+ */
 class TestPerspectiveController {
 
+	/**
+	 * A Perspective Controller.
+	 */
 	private PerspectiveController p;
+	/**
+	 * A Fake Perspective to pass into the Controller.
+	 */
 	private FakePerspective fp;
+	/**
+	 * A JPanel.
+	 */
 	private JPanel panel;
+	/**
+	 * A JFrame.
+	 */
 	private JFrame frame;
+	/**
+	 * A Menu Controller.
+	 */
 	private MenuController m;
+	/**
+	 * A Fake ActionListener which does nothing.
+	 */
 	private ActionListener fakeListen = e -> {
 		e.getID();
 	};
 
 	/**
-	 *
+	 * Sets up the basic test classes.
 	 */
 	private void setUpPerspective() {
 		this.frame = new JFrame();
@@ -38,18 +61,27 @@ class TestPerspectiveController {
 		this.p.changePerspective("start");
 	}
 
+	/**
+	 * Check that when a perspective is chosen the required menu items are enabled/added.
+	 */
 	@Test
 	void testCheckMenuEnabled() {
 		setUpPerspective();
 		assertTrue(this.m.isEnabled("File/Start"));
 	}
 
+	/**
+	 * Check that when a perspective is chosen the correct panel is added to the frame.
+	 */
 	@Test
 	void testCheckPanelIsSet() {
 		setUpPerspective();
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
 
+	/**
+	 * Check that when a Perspective is changed, the panel is removed.
+	 */
 	@Test
 	void test3CheckPanelIsRemovedAndAdded() {
 		setUpPerspective();
@@ -62,6 +94,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
 
+	/**
+	 * Check that an error is thrown when the program tries to switch to a none existent perspective.
+	 */
 	@Test
 	void testCantChangeToNoneExistantPerspective() {
 		setUpPerspective();
@@ -72,6 +107,9 @@ class TestPerspectiveController {
 		}
 	}
 
+	/**
+	 * Check that the panel passed to the Perspective can be changed while on the JFrame.
+	 */
 	@Test
 	void testCheckPanelCanBeChangedOutsidePerspectiveController() {
 		setUpPerspective();
@@ -84,6 +122,9 @@ class TestPerspectiveController {
 		assertTrue(!this.p.getPanel().getComponent(0).getName().equals("second"));
 	}
 
+	/**
+	 * Check that the Perspective controller ignores capitalisation.
+	 */
 	@Test
 	void testCheckUsingCapitalLettersDontMatter() {
 		setUpPerspective();
@@ -97,6 +138,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
 
+	/**
+	 * Check that the main panel in Perspective Controller doesn't change.
+	 */
 	@Test
 	void testCheckPanelIsAlwaysSame() {
 		setUpPerspective();
@@ -109,6 +153,7 @@ class TestPerspectiveController {
 	}
 
 	/**
+	 * Check that menu items are disabled when that perspective isn't on screen
 	 * NOTE: Perspectives shouldn't be added after startup - this makes the menu move around.
 	 */
 	@Test
@@ -126,6 +171,9 @@ class TestPerspectiveController {
 		assertTrue(this.m.isEnabled("Julius/Null"));
 	}
 
+	/**
+	 * Check that the perspectives can change Perspective through the Update method.
+	 */
 	@Test
 	void testCheckUpDateWorks() {
 		setUpPerspective();
@@ -136,6 +184,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
 
+	/**
+	 * Check that the Update method requires the string "Switch View".
+	 */
 	@Test
 	void testUpDateRequiresSwitchView() {
 		setUpPerspective();
@@ -146,6 +197,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
 
+	/**
+	 * Check that the Update method ignores Capitalisation.
+	 */
 	@Test
 	void testUpDateIgnoresCapitalisation() {
 		setUpPerspective();
@@ -156,6 +210,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
 
+	/**
+	 * Check that the Update method requires the Perspective name.
+	 */
 	@Test
 	void testUpDateRequiresPerspectiveName() {
 		setUpPerspective();
@@ -166,6 +223,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
 
+	/**
+	 * Check that the UpDate method requires a String array.
+	 */
 	@Test
 	void testUpDateRequiresStringArray() {
 		setUpPerspective();
@@ -176,6 +236,9 @@ class TestPerspectiveController {
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
 
+	/**
+	 * Check that the Update method requires non-null
+	 */
 	@Test
 	void testUpDateRequiresNonNull() {
 		setUpPerspective();
