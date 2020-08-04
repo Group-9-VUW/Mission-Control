@@ -30,6 +30,11 @@ public class GoNoGoSelectView extends JPanel{
 	 * The Observable that speaks to Parent.
 	 */
 	ViewObservable obs;
+	
+	/**
+	 * The Panel that shows the results of the simulation.
+	 */
+	private JPanel simulationResults;
 	/**
 	 * The Panel that holds the buttons.
 	 */
@@ -46,7 +51,17 @@ public class GoNoGoSelectView extends JPanel{
 		
 		this.setPreferredSize(new Dimension(300, 300));
     this.setLayout(new BorderLayout());
-    
+    this.simulationResults = new JPanel() {
+			/**
+			 * UID.
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+      protected void paintComponent(@Nullable Graphics g) {
+        paintResults(results, g);
+      }
+    };
     this.buttons = new JPanel();
     this.buttons.setPreferredSize(new Dimension(300, 50));
     
@@ -71,8 +86,21 @@ public class GoNoGoSelectView extends JPanel{
     this.buttons.add(save);
     
     this.add(this.buttons, BorderLayout.NORTH);
+    this.add(this.simulationResults, BorderLayout.SOUTH);
     
     this.repaint();
+	}
+	
+	/**
+	 * Paints the Simulation Results Panel with the given results.
+	 * 
+	 * @param results
+	 * @param g
+	 */
+	void paintResults(Object results, @Nullable Graphics g) {
+		if( g == null ) return;
+		g.setColor(Color.blue);
+		g.fillRect(0, 0, this.simulationResults.getWidth(), this.simulationResults.getHeight());
 	}
 	
 }
