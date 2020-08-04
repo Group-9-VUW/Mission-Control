@@ -3,25 +3,17 @@
  */
 package nz.ac.vuw.engr301.group9mcs.view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Allows the user to select a .ork file to load the rocket specifications. 
@@ -42,7 +34,7 @@ public class SelectFileView extends JPanel {
 
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.NONE;
+		c.fill = GridBagConstraints.NONE; //Stops button from resizing with the JLabel
 		c.gridx = 1;
 		c.gridy = 0;
 		
@@ -58,7 +50,6 @@ public class SelectFileView extends JPanel {
 		
 		this.add(this.chooseFileButton, c);
 		
-		
 		c.gridx = 1;
 		c.gridy = 1;
 		c.ipady = 20;
@@ -71,7 +62,7 @@ public class SelectFileView extends JPanel {
 	
 	
 	/**
-	 * Opens the JFileChooser to allow the user to select thei .ork file. 
+	 * Opens the JFileChooser to allow the user to select a .ork file. 
 	 */
 	private void chooseFile() {
 		int result = this.fileChooser.showOpenDialog(this);
@@ -82,7 +73,7 @@ public class SelectFileView extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Serial version UID
 	 */
 	private static final long serialVersionUID = 1L;
 
