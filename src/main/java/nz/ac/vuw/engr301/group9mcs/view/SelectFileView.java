@@ -6,6 +6,9 @@ package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -25,11 +28,13 @@ public class SelectFileView extends JPanel {
 	private FileNameExtensionFilter filter;
 	private final JButton chooseFileButton;
 	private JLabel fileNameLabel;
+	private Observer observer;
 	
 	/**
 	 * Constructor which adds the file chooser to the Panel
 	 */
-	public SelectFileView(){
+	public SelectFileView(Observer o){
+		this.observer = o;
 		this.setLayout(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -69,6 +74,9 @@ public class SelectFileView extends JPanel {
 		if(result == JFileChooser.APPROVE_OPTION) {
 			// User has selected a valid .ork file
 			this.fileNameLabel.setText(this.fileChooser.getSelectedFile().getName());
+			
+			this.observer.notify();
+			//TODO need to add Observer logic here
 		}
 	}
 	
@@ -87,4 +95,6 @@ public class SelectFileView extends JPanel {
 		frame.pack();
 		frame.setVisible(true);
 	}
+
+
 }
