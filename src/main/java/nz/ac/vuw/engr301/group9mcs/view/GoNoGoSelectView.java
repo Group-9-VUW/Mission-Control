@@ -63,7 +63,6 @@ public class GoNoGoSelectView extends JPanel{
       }
     };
     this.simulationResults.setName("Simulation Results");
-    //this.simulationResults.setPreferredSize(new Dimension(300, 300));
     this.buttons = new JPanel();
     this.buttons.setName("Buttons");
     
@@ -100,7 +99,6 @@ public class GoNoGoSelectView extends JPanel{
 	 * @param g
 	 */
 	void paintResults(Object results, @Nullable Graphics g) {
-		//this.simulationResults.setPreferredSize(new Dimension(this.getSize().width, this.getSize().height - this.buttons.getSize().height));
 		if( g == null ) return;
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, this.simulationResults.getWidth(), this.simulationResults.getHeight());
