@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,13 +21,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 /**
  * Allows the user to select a .ork file to load the rocket specifications. 
  * @author pandasai
  *
  */
 public class SelectFileView extends JPanel {
-	private JFileChooser chooser; 
+	private JFileChooser fileChooser; 
 	private FileNameExtensionFilter filter;
 	private final JButton chooseFileButton;
 	private JLabel fileNameLabel;
@@ -44,10 +48,14 @@ public class SelectFileView extends JPanel {
 		
 		this.chooseFileButton = new JButton("Choose File");
 		
-		this.add(this.chooseFileButton, c);
-		
-		this.chooser = new JFileChooser();
+		this.fileChooser = new JFileChooser();
 		this.filter = new FileNameExtensionFilter("Open Rocket Files", "ork");
+		
+		this.chooseFileButton.addActionListener(e -> {
+			this.chooseFile();
+		});
+		
+		this.add(this.chooseFileButton, c);
 		
 		
 		c.gridx = 1;
@@ -56,10 +64,20 @@ public class SelectFileView extends JPanel {
 		this.fileNameLabel = new JLabel("No File Selected", SwingConstants.CENTER);
 
 		this.add(this.fileNameLabel, c);
-//		this.add(BorderLayout.NORTH, this.chooseFileButton);
-//		this.add(BorderLayout.CENTER, this.fileNameLabel);
 		this.setPreferredSize(new Dimension(300, 100));
 		
+	}
+	
+	
+	/**
+	 * Opens the JFileChooser to allow the user to select thei .ork file. 
+	 */
+	private void chooseFile() {
+		int result = this.fileChooser.showOpenDialog(this);
+		if(result == JFileChooser.APPROVE_OPTION) {
+			// User has selected a valid .ork file
+			this.fileNameLabel.setText(this.fileChooser.getSelectedFile().getName());
+		}
 	}
 	
 	/**
