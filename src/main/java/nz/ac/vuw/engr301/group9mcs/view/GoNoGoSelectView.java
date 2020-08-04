@@ -30,6 +30,10 @@ public class GoNoGoSelectView extends JPanel{
 	 * The Observable that speaks to Parent.
 	 */
 	ViewObservable obs;
+	/**
+	 * The Panel that holds the buttons.
+	 */
+	private JPanel buttons;
 	
 	/**
 	 * Sets the View up, and saves the Observer.
@@ -42,6 +46,31 @@ public class GoNoGoSelectView extends JPanel{
 		
 		this.setPreferredSize(new Dimension(300, 300));
     this.setLayout(new BorderLayout());
+    
+    this.buttons = new JPanel();
+    this.buttons.setPreferredSize(new Dimension(300, 50));
+    
+    JButton change = new JButton("Change Launch Parameters");
+    change.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(@Nullable ActionEvent e) {
+				String[] args = {"Change View", "Launch Parameters"};
+				GoNoGoSelectView.this.obs.notify(args);
+			}
+    });
+    this.buttons.add(change);
+    
+    JButton save = new JButton("Save and Quit");
+    save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(@Nullable ActionEvent e) {
+				String[] args = {"Save", "Quit"};
+				GoNoGoSelectView.this.obs.notify(args);
+			}
+    });
+    this.buttons.add(save);
+    
+    this.add(this.buttons, BorderLayout.NORTH);
     
     this.repaint();
 	}
