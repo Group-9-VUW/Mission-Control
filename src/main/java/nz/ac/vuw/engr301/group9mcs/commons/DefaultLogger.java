@@ -10,18 +10,20 @@ import org.apache.log4j.PatternLayout;
  *
  * @author Joshua Hindley (hindlejosh)
  */
+@SuppressWarnings("null")
 public class DefaultLogger {
 
 	/**
 	 * The default logger.
 	 */
-	public static final Logger logger = Logger.getLogger(DefaultLogger.class);
+	public static final Logger logger = Logger.getLogger(DefaultLogger.class); //TODO fix null warning
 
 	/**
 	 * Initializes the logger by adding a console appender to it.
 	 * This method should only be called once.
 	 */
-	public static void initialiseLogger() {
+	public DefaultLogger() {
+		//TODO change appender (especially the layout).
 		logger.addAppender(new ConsoleAppender(new PatternLayout("%m%n"), "System.out"));
 	}
 
