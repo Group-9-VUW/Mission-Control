@@ -1,10 +1,14 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.PerspectiveController;
@@ -17,18 +21,20 @@ class TestPerspectiveController {
 	private JPanel panel;
 	private JFrame frame;
 	private MenuController m;
+	private ActionListener fakeListen = e -> {
+		e.getID();
+	};
 
 	/**
-	 * 
+	 *
 	 */
-	@SuppressWarnings("null")
 	private void setUpPerspective() {
 		this.frame = new JFrame();
-		this.m = new MenuController(this.frame);
-		this.p = new PerspectiveController(this.m);
+		this.m = new MenuController(Null.nonNull(this.frame));
+		this.p = new PerspectiveController(Null.nonNull(this.m));
 		this.fp = new FakePerspective("FakePerspective", null);
-		this.fp.add("File/Start", "Start", null);
-		this.p.addPerspective("start", this.fp);
+		this.fp.add("File/Start", "Start", this.fakeListen);
+		this.p.addPerspective("start", Null.nonNull(this.fp));
 		this.p.changePerspective("start");
 	}
 
@@ -37,13 +43,13 @@ class TestPerspectiveController {
 		setUpPerspective();
 		assertTrue(this.m.isEnabled("File/Start"));
 	}
-	
+
 	@Test
 	void testCheckPanelIsSet() {
 		setUpPerspective();
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
-	
+
 	@Test
 	void test3CheckPanelIsRemovedAndAdded() {
 		setUpPerspective();
@@ -55,7 +61,7 @@ class TestPerspectiveController {
 		assertTrue(this.p.getPanel().getComponents().length == 1);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
-	
+
 	@Test
 	void testCantChangeToNoneExistantPerspective() {
 		setUpPerspective();
@@ -65,7 +71,7 @@ class TestPerspectiveController {
 			assertTrue(e.getMessage().contains("second"));
 		}
 	}
-	
+
 	@Test
 	void testCheckPanelCanBeChangedOutsidePerspectiveController() {
 		setUpPerspective();
@@ -77,7 +83,7 @@ class TestPerspectiveController {
 		this.panel.setName("This is not a drill");
 		assertTrue(!this.p.getPanel().getComponent(0).getName().equals("second"));
 	}
-	
+
 	@Test
 	void testCheckUsingCapitalLettersDontMatter() {
 		setUpPerspective();
@@ -90,7 +96,7 @@ class TestPerspectiveController {
 		}
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
-	
+
 	@Test
 	void testCheckPanelIsAlwaysSame() {
 		setUpPerspective();
@@ -101,7 +107,7 @@ class TestPerspectiveController {
 		JPanel after = this.p.getPanel();
 		assertEquals(before, after);
 	}
-	
+
 	/**
 	 * NOTE: Perspectives shouldn't be added after startup - this makes the menu move around.
 	 */
@@ -109,8 +115,8 @@ class TestPerspectiveController {
 	void testCheckAddedMenuItemsAreDisabledWhenOutOfPersepective() {
 		setUpPerspective();
 		FakePerspective second = new FakePerspective("second", null);
-		second.add("File/Second", "Second", null);
-		second.add("Julius/Null", "Null", null);
+		second.add("File/Second", "Second", this.fakeListen);
+		second.add("Julius/Null", "Null", this.fakeListen);
 		this.p.addPerspective("second", second);
 		this.p.changePerspective("start");
 		assertFalse(this.m.isEnabled("File/Second"));
@@ -119,7 +125,7 @@ class TestPerspectiveController {
 		assertTrue(this.m.isEnabled("File/Second"));
 		assertTrue(this.m.isEnabled("Julius/Null"));
 	}
-	
+
 	@Test
 	void testCheckUpDateWorks() {
 		setUpPerspective();
@@ -129,7 +135,7 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
-	
+
 	@Test
 	void testUpDateRequiresSwitchView() {
 		setUpPerspective();
@@ -139,7 +145,7 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
-	
+
 	@Test
 	void testUpDateIgnoresCapitalisation() {
 		setUpPerspective();
@@ -149,7 +155,7 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
-	
+
 	@Test
 	void testUpDateRequiresPerspectiveName() {
 		setUpPerspective();
@@ -159,7 +165,7 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
-	
+
 	@Test
 	void testUpDateRequiresStringArray() {
 		setUpPerspective();
@@ -169,7 +175,7 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
-	
+
 	@Test
 	void testUpDateRequiresNonNull() {
 		setUpPerspective();
@@ -179,5 +185,5 @@ class TestPerspectiveController {
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
-	
+
 }
