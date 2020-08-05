@@ -3,7 +3,6 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.InvalidParameterException;
@@ -16,7 +15,6 @@ import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
-import org.junit.platform.commons.PreconditionViolationException;
 
 /**
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
@@ -191,20 +189,10 @@ public class NOAAGetter {
 	         URLConnection connection = url.openConnection();
 	         connection.connect();
 	      } catch (IOException e) {
+	    	  DefaultLogger.logger.error(e.getMessage());
 	         return false;
 	      }
 		return true;
-	}
-	
-	/**
-	 * Main method just for testing, initialises logger. 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		DefaultLogger logClass = new DefaultLogger(); 
-		NOAAGetter g = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
-		g.getWeatherData(-100000, 100000);
-		g.getForecast(-100000, 100000);
 	}
 
 }
