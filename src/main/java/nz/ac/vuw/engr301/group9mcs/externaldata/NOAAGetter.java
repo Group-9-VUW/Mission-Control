@@ -14,6 +14,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
 import org.junit.platform.commons.PreconditionViolationException;
 
@@ -43,7 +44,7 @@ public class NOAAGetter {
 	 * @param latitude - the latitude to validate
 	 * @param longitude - the longitude to validate
 	 */
-	private static void checkValidLatAndLon(double latitude, double longitude){
+	private static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
 		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
 		} else if(latitude < -90 || latitude > 90){
@@ -61,8 +62,8 @@ public class NOAAGetter {
 	 */
 	@SuppressWarnings("null")
 	public WeatherData getWeatherData(double latitude, double longitude) {
-		checkValidLatAndLon(latitude, longitude);
 		try {
+			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
 					+ "lat=" + latitude + "&lon=" + longitude + "&units=" + units + "&exclude=daily,hourly,minutely&appid=" + this.appid;
@@ -80,8 +81,9 @@ public class NOAAGetter {
 				return parseWeatherJSON(currentData);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block.
-			e.printStackTrace();
+			DefaultLogger.logger.error(e.getMessage());
+		} catch (InvalidParameterException e) {
+			DefaultLogger.logger.error(e.getMessage());
 		}
 		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
 	}
@@ -93,9 +95,9 @@ public class NOAAGetter {
 	 * @return a Map of the
 	 */
 	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
-		checkValidLatAndLon(latitude, longitude);
 		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
+			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
 			String urlString = "https://api.openweathermap.org/data/2.5/onecall?"
 					+ "lat=" + latitude + "&lon=" + longitude + "&units=" +
@@ -119,8 +121,10 @@ public class NOAAGetter {
 				}
 
 			}
-		} catch(IOException e){
-			e.printStackTrace();
+		} catch (IOException e) {
+			DefaultLogger.logger.error(e.getMessage());
+		} catch (InvalidParameterException e) {
+			DefaultLogger.logger.error(e.getMessage());
 		}
 		return forecasts;
 	}
@@ -190,6 +194,17 @@ public class NOAAGetter {
 	         return false;
 	      }
 		return true;
+	}
+	
+	/**
+	 * Main method just for testing, initialises logger. 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		DefaultLogger logClass = new DefaultLogger(); 
+		NOAAGetter g = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
+		g.getWeatherData(-100000, 100000);
+		g.getForecast(-100000, 100000);
 	}
 
 }

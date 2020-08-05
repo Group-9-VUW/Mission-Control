@@ -10,6 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * This class tests the implementation of the NOAAGetter class. More specifically, it tests the responses from the 
+ * weather API and also tests if the weather methods reject invalid inputs. 
+ * @author pandasai
+ */
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
 
@@ -34,7 +39,7 @@ public class TestNOAAGetter {
     public void testInvalidLatitude() {
         assertTrue(canConnect());
         try {
-            getter.getWeatherData(-91, 20);
+            this.getter.getWeatherData(-91, 20);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
         }
@@ -47,7 +52,7 @@ public class TestNOAAGetter {
     public void testInvalidLongitude(){
         assertTrue(canConnect());
         try{
-            getter.getWeatherData(20, -181);
+            this.getter.getWeatherData(20, -181);
             fail("InvalidParameterException should be thrown");
         } catch(InvalidParameterException e){
         }
@@ -59,7 +64,7 @@ public class TestNOAAGetter {
     @Test
     public void testCorrectResponse(){
         assertTrue(canConnect());
-        assertNotNull(getter.getWeatherData(41, 175));
+        assertNotNull(this.getter.getWeatherData(41, 175));
     }
 
     /**
@@ -68,7 +73,7 @@ public class TestNOAAGetter {
     @Test
     public void testCorrectForecastResponse(){
         assertTrue(canConnect());
-        assertNotNull(getter.getForecast(41, 175));
+        assertNotNull(this.getter.getForecast(41, 175));
     }
 
 }
