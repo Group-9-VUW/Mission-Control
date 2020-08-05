@@ -72,4 +72,9 @@ public class FakePerspective extends Observable implements Perspective{
 		this.menuItems.add(new ViewMenuItem(path, name, a));
 	}
 
+	@Override
+	public @NonNull String name() {
+		return "Fake Perspective";
+	}
+
 }
