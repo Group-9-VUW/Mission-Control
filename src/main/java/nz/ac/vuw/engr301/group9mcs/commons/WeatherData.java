@@ -41,8 +41,11 @@ public class WeatherData {
 	/**
 	 * @param temperature - temperature reading in celsius. 
 	 * @param windSpeed - wind speed reading in km/h.
+	 * @param windDegrees - wind degrees in meteorological units. 
 	 * @param pressure - atmospheric pressure in hPA.
 	 * @param precipitation - precipitation in mm.
+	 * @param humidity - the amount of humidity in %. 
+	 * @param cloudiness - the amount of cloudiness in %. 
 	 */
 	public WeatherData(double temperature, double windSpeed, double windDegrees, double pressure, double precipitation,
 			double humidity, double cloudiness) {
@@ -90,7 +93,7 @@ public class WeatherData {
 		return this.humidity;
 	}
 	
-	/*
+	/**
 	 * @return the cloudiness. 
 	 */
 	public double getCloudiness() {
