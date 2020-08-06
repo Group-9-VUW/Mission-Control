@@ -131,13 +131,10 @@ public class NOAAGetter {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
-		} catch (IOException e) {
+		} catch (IOException | InvalidParameterException  e) {
 			DefaultLogger.logger.error(e.getMessage());
 			throw e;
-		} catch (InvalidParameterException e) {
-			DefaultLogger.logger.error(e.getMessage());
-			throw e;
-		}
+		} 
 		return forecasts;
 	}
 
