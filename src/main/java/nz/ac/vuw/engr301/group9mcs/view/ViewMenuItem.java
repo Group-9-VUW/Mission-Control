@@ -1,8 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.event.ActionListener;
-import org.eclipse.jdt.annotation.Nullable;
-
 /**
  * @author Bryony
  *
@@ -10,18 +8,18 @@ import org.eclipse.jdt.annotation.Nullable;
 public class ViewMenuItem {
 
 	/**
-	 * 
+	 *
 	 */
 	private String path;
 	/**
-	 * 
+	 *
 	 */
 	private String name;
 	/**
-	 * 
+	 *
 	 */
-	private @Nullable ActionListener ls;
-	
+	private ActionListener ls;
+
 	/**
 	 * @param p
 	 * @param n
@@ -32,26 +30,26 @@ public class ViewMenuItem {
 		this.name = n;
 		this.ls = l;
 	}
-	
+
 	/**
 	 * @return The Entire Path
 	 */
 	public String getPath() {
 		return this.path;
 	}
-	
+
 	/**
 	 * @return The Name Displayed
 	 */
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
 	 * @return The Listener
 	 */
-	public @Nullable ActionListener getListener() {
+	public ActionListener getListener() {
 		return this.ls;
 	}
-	
+
 }
