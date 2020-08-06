@@ -12,6 +12,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.view.GoNoGoSelectView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 
@@ -35,11 +37,11 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for choosing the site and time.
 	 */
-	private final JPanel siteMap = new SelectSiteView(this, null);
+	private final JPanel siteMap = new SelectSiteView(this, new InternetMapImage());
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new JPanel();
+	private final JPanel resultsShow = new GoNoGoSelectView(new Object(), this, new InternetMapImage());
 
 	/**
 	 * The filename from SelectFileView.
@@ -101,7 +103,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.resultsShow);
 					this.latitude = Double.valueOf(Null.nonNull(args[1])).doubleValue();
 					this.longitude = Double.valueOf(Null.nonNull(args[2])).doubleValue();
-					this.time = new Date(Null.nonNull((args[3])));
+					
 					// should the simulation be run here?????
 					return;
 				case "return to rocket import":
@@ -130,6 +132,8 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	{
 		this.panel.removeAll();
 		this.panel.add(newPanel, BorderLayout.CENTER);
+		this.panel.revalidate();
+		this.panel.repaint();
 	}
 
 }
