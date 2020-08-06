@@ -15,7 +15,7 @@ import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
- * 
+ *
  * @author Bryony
  *
  */
@@ -25,7 +25,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
-	
+
 	private final JPanel fileGet = new SelectFileView(this);
 	private final JPanel siteMap = new JPanel();
 	private final JPanel resultsShow = new JPanel();
@@ -34,6 +34,14 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * The filename from SelectFileView.
 	 */
 	private String filename;
+	/**
+	 * Location of launch site, Latitude.
+	 */
+	private double latitude;
+	/**
+	 * Location of launch site, Longitude.
+	 */
+	private double longitude;
 
 	/**
 	 * Create the Perspective and construct the Panel.
@@ -43,7 +51,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		this.panel = new JPanel(new BorderLayout());
 		this.switchTo(this.fileGet);
 	}
-	
+
 	@Override
 	public JPanel enable(MenuController menu) {
 		this.switchTo(this.fileGet);
@@ -67,7 +75,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		{
 			String[] args = (String[]) Null.nonNull(arg);
 			Condition.PRE.positive("args.length", args.length);
-			
+
 			switch(args[0])
 			{
 				case "rocket imported":
@@ -80,11 +88,11 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		}
 		throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 	}
-	
+
 	private void switchTo(JPanel newPanel)
 	{
 		this.panel.removeAll();
 		this.panel.add(newPanel, BorderLayout.CENTER);
 	}
-	
+
 }
