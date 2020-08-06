@@ -103,9 +103,13 @@ public class CachedMapImage implements MapImage {
 	 * @throws IOException if the image cannot be saved.
 	 */
 	private void saveMapToFile() throws IOException {
-		String fileName = this.file.getName();
-		File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
-		try (BufferedWriter out = new BufferedWriter(new FileWriter(dat))) {
+		try {
+			String fileName = this.file.getName();
+			if (fileName == "" || fileName.length() < 5) {
+				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
+			}
+			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
+			BufferedWriter out = new BufferedWriter(new FileWriter(dat)); //TODO try-with-resource
 			//save image
 			RenderedImage renderedImg = this.img;
 			ImageIO.write(renderedImg, "png", this.file);
@@ -131,14 +135,19 @@ public class CachedMapImage implements MapImage {
 	 * @throws NullPointerException if the image file cannot be read.
 	 */
 	private void loadMapFromFile() throws IOException, NullPointerException {
-		//get data file
-		String fileName = this.file.getName();
-		File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
-		try (Scanner sc = new Scanner(dat);) {
+		try {
+			//get data file
+			String fileName = this.file.getName();
+			if (fileName == "" || fileName.length() < 5 || !fileName.endsWith(".png")) {
+				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
+			}
+			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
+			Scanner sc = new Scanner(dat); //TODO try-with-resource
 			//get image
 			@Nullable BufferedImage image = ImageIO.read(this.file);
 			if (image == null) {
-				throw new NullPointerException();
+				sc.close();
+				throw new NullPointerException("No image could be loaded from \"" + fileName + "\"");
 			}
 			this.img = image;
 			//get the data
