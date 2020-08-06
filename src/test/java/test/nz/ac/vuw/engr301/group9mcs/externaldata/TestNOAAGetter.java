@@ -3,6 +3,7 @@ package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.security.InvalidParameterException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
 
-    private boolean canConnect(){
+    private static boolean canConnect(){
         return NOAAGetter.isAvailable();
     }
 
@@ -26,7 +27,7 @@ public class TestNOAAGetter {
      * Tests if the appID is correctly set within the class
      */
     @Test
-    public void testAppID(){
+    public static void testAppID(){
         NOAAGetter testGetter = new NOAAGetter("");
         testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
         assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
@@ -39,31 +40,39 @@ public class TestNOAAGetter {
      * be implemented at a later date. 
      */
     
-//    /**
-//     * Tests that getWeatherData does not accept invalid latitude values
-//     */
-//    @Test
-//    public void testInvalidLatitude() {
-//        assertTrue(canConnect());
-//        try {
-//            this.getter.getWeatherData(-91, 20);
-//            fail("InvalidParameterException should be thrown");
-//        } catch (InvalidParameterException e) {
-//        }
-//    }
-//
-//    /**
-//     * Tests that getWeatherData does not accept invalid longitude values
-//     */
-//    @Test
-//    public void testInvalidLongitude(){
-//        assertTrue(canConnect());
-//        try{
-//            this.getter.getWeatherData(20, -181);
-//            fail("InvalidParameterException should be thrown");
-//        } catch(InvalidParameterException e){
-//        }
-//    }
+    /**
+     * Tests that getWeatherData does not accept invalid latitude values
+     */
+    @Test
+    public void testInvalidLatitude() {
+        assertTrue(canConnect());
+        try {
+            this.getter.getWeatherData(-91, 20);
+            fail("InvalidParameterException should be thrown");
+        } catch (InvalidParameterException e) {
+        	// Correct exception as the supplied parameters are invalid. 
+        } catch (IOException e) {
+        	// This exception should not be thrown, unless the machine running the tests has no 
+        	// internet connection, or the weather API is down. 
+		}
+    }
+
+    /**
+     * Tests that getWeatherData does not accept invalid longitude values
+     */
+    @Test
+    public void testInvalidLongitude(){
+        assertTrue(canConnect());
+        try{
+            this.getter.getWeatherData(20, -181);
+            fail("InvalidParameterException should be thrown");
+        } catch (InvalidParameterException e) {
+        	// Correct exception as the supplied parameters are invalid. 
+        } catch (IOException e) {
+        	// This exception should not be thrown, unless the machine running the tests has no 
+        	// internet connection, or the weather API is down. 
+		}
+    }
 
     /**
      * Tests that getWeatherData returns weather data with valid latitude and longitude
@@ -71,7 +80,13 @@ public class TestNOAAGetter {
     @Test
     public void testCorrectResponse(){
         assertTrue(canConnect());
-        assertNotNull(this.getter.getWeatherData(41, 175));
+        try {
+			assertNotNull(this.getter.getWeatherData(41, 175));
+		} catch (InvalidParameterException e) {
+			fail("InvalidParameterException should not be thrown: " + e.getMessage());
+		} catch (IOException e) {
+			fail("IOException should not be thrown: " + e.getMessage());
+		}
     }
 
     /**
@@ -80,7 +95,13 @@ public class TestNOAAGetter {
     @Test
     public void testCorrectForecastResponse(){
         assertTrue(canConnect());
-        assertNotNull(this.getter.getForecast(41, 175));
+        try {
+			assertNotNull(this.getter.getForecast(41, 175));
+		} catch (InvalidParameterException e) {
+			fail("InvalidParameterException should not be thrown: " + e.getMessage());
+		} catch (IOException e) {
+			fail("IOException should not be thrown: " + e.getMessage());
+		}
     }
 
 }
