@@ -102,6 +102,17 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.latitude = Double.valueOf(Null.nonNull(args[1])).doubleValue();
 					this.longitude = Double.valueOf(Null.nonNull(args[2])).doubleValue();
 					this.time = new Date(Null.nonNull((args[3])));
+					// should the simulation be run here?????
+					return;
+				case "return to rocket import":
+					this.switchTo(this.fileGet);
+					return;
+				case "change parameters":
+					this.switchTo(this.siteMap);
+					return;
+				case "save and quit":
+					// save information - what to save????
+					System.exit(0);
 					return;
 				default:
 					throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
