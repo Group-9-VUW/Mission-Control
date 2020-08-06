@@ -36,6 +36,7 @@ public class InternetMapImage implements MapImage {
      * @param bottomRightLong Bottom right longitude.
      * @return Returns an image of the rectangular area requested.
      */
+    @Override
     public BufferedImage get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
         // FIXME: Zoom fixed at 16 for demo
         int zoom = 16;
@@ -181,6 +182,7 @@ public class InternetMapImage implements MapImage {
             URLConnection connection = url.openConnection();
             connection.connect();
         } catch (IOException e) {
+        	e.printStackTrace();
             return false;
         }
         return true;
