@@ -1,6 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,6 +13,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
+import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -26,8 +28,17 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 */
 	private JPanel panel;
 
+	/**
+	 * The View Panel for getting the filename.
+	 */
 	private final JPanel fileGet = new SelectFileView(this);
-	private final JPanel siteMap = new JPanel();
+	/**
+	 * The View Panel for choosing the site and time.
+	 */
+	private final JPanel siteMap = new SelectSiteView(this, null);
+	/**
+	 * The View Panel for showing the simulation results.
+	 */
 	private final JPanel resultsShow = new JPanel();
 
 	/**
@@ -42,6 +53,10 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * Location of launch site, Longitude.
 	 */
 	private double longitude;
+	/**
+	 * When the rocket will be flown HH:mm
+	 */
+	private Date time;
 
 	/**
 	 * Create the Perspective and construct the Panel.
@@ -82,6 +97,12 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.siteMap);
 					this.filename = Null.nonNull(args[1]);
 					return;
+				case "site selected":
+					this.switchTo(this.resultsShow);
+					this.latitude = Double.valueOf(Null.nonNull(args[1])).doubleValue();
+					this.longitude = Double.valueOf(Null.nonNull(args[2])).doubleValue();
+					this.time = new Date(Null.nonNull((args[3])));
+					return;
 				default:
 					throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 			}
@@ -89,6 +110,11 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 	}
 
+	/**
+	 * Switch to the indicated View Panel.
+	 *
+	 * @param newPanel
+	 */
 	private void switchTo(JPanel newPanel)
 	{
 		this.panel.removeAll();
