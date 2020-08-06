@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
+import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -39,7 +40,7 @@ public class PerspectiveController implements Observer{
 	 */
 	public PerspectiveController(MenuController menu) {
 		this.menu = menu;
-		this.panel = new JPanel();
+		this.panel = new JPanel(new BorderLayout());
 		this.perspectives = new HashMap<>();
 	}
 
@@ -74,7 +75,8 @@ public class PerspectiveController implements Observer{
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu));
+		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu), BorderLayout.CENTER);
+		this.panel.revalidate();
 	}
 
 	/**
