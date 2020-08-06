@@ -41,29 +41,65 @@ public class PlanetaryArea {
 	/**
 	 * @return the lat
 	 */
-	public double getLat() {
+	public double getLat() 
+	{
 		return this.lat;
 	}
 
 	/**
 	 * @return the lon
 	 */
-	public double getLon() {
+	public double getLon() 
+	{
 		return this.lon;
 	}
 
 	/**
 	 * @return the radLat
 	 */
-	public double getRadLat() {
+	public double getRadLat() 
+	{
 		return this.radLat;
 	}
 
 	/**
 	 * @return the radLon
 	 */
-	public double getRadLon() {
+	public double getRadLon() 
+	{
 		return this.radLon;
+	}
+	
+	/**
+	 * @return The upper left latitude
+	 */
+	public double getUpperLeftLatitude()
+	{
+		return this.lat + this.radLat;
+	}
+	
+	/**
+	 * @return The upper left latitude
+	 */
+	public double geBottomRightLatitude()
+	{
+		return this.lat - this.radLat;
+	}
+	
+	/**
+	 * @return The upper left longitude
+	 */
+	public double getUpperLeftLongitude()
+	{
+		return this.lon - this.radLon;
+	}
+	
+	/**
+	 * @return The bottom right longitude
+	 */
+	public double geBottomRightLongitude()
+	{
+		return this.lon + this.radLon;
 	}
 
 	@Override
