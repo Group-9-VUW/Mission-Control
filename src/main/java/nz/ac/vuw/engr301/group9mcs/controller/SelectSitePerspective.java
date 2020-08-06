@@ -12,7 +12,6 @@ import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
-import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -30,19 +29,27 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	private final JPanel fileGet = new SelectFileView(this);
 	private final JPanel siteMap = new JPanel();
 	private final JPanel resultsShow = new JPanel();
-	
+
+	/**
+	 * The filename from SelectFileView.
+	 */
+	private String filename;
+
 	/**
 	 * Create the Perspective and construct the Panel.
 	 */
 	public SelectSitePerspective() {
+		this.filename = "";
 		this.panel = new JPanel(new BorderLayout());
 		this.switchTo(this.fileGet);
 	}
 	
 	@Override
 	public JPanel enable(MenuController menu) {
+		this.switchTo(this.fileGet);
 		return this.panel;
 	}
+
 
 	@Override
 	public void init(MenuController menu, Observer o) {
@@ -65,11 +72,13 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 			{
 				case "rocket imported":
 					this.switchTo(this.siteMap);
-					break;
+					this.filename = Null.nonNull(args[1]);
+					return;
 				default:
 					throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 			}
 		}
+		throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 	}
 	
 	private void switchTo(JPanel newPanel)
