@@ -22,7 +22,7 @@ public class ViewMenuItem {
 	/**
 	 * The ActionListener.
 	 */
-	private @Nullable ActionListener ls;
+	private ActionListener ls;
 
 	/**
 	 * Save all the passed info.
