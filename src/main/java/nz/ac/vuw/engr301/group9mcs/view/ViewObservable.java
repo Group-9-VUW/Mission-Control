@@ -30,4 +30,14 @@ public class ViewObservable extends Observable{
 		this.notifyObservers(o);
 	}
 	
+	/**
+	 * Sends the given arguments to the observers as an array
+	 * 
+	 * @param args The arguments as strings
+	 */
+	public void notify(String ... args)
+	{
+		this.notify((Object) args);
+	}
+	
 }

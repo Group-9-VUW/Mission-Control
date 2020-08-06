@@ -6,6 +6,8 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
+
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 /**
@@ -33,7 +35,7 @@ public class PerspectiveController implements Observer{
 	/**
 	 * Constructor.
 	 * Updates the Menu through the passed MenuController over lifetime.
-	 * @param menu 
+	 * @param menu
 	 */
 	public PerspectiveController(MenuController menu) {
 		this.menu = menu;
@@ -48,10 +50,9 @@ public class PerspectiveController implements Observer{
 	 * @param name
 	 * @param p
 	 */
-	@SuppressWarnings("null")
 	public void addPerspective(String name, Perspective p) {
 		p.init(this.menu, this);
-		this.perspectives.put(name.toLowerCase(), p);
+		this.perspectives.put(Null.nonNull(name.toLowerCase()), p);
 	}
 
 	/**
@@ -68,13 +69,12 @@ public class PerspectiveController implements Observer{
 	 *
 	 * @param name
 	 */
-	@SuppressWarnings("null")
 	public void changePerspective(String name) {
 		if(!this.perspectives.containsKey(name.toLowerCase())) {
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(this.perspectives.get(name.toLowerCase()).enable(this.menu));
+		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu));
 	}
 
 	/**
