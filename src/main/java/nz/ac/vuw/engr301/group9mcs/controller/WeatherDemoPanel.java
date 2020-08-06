@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.security.InvalidParameterException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -92,6 +94,16 @@ public class WeatherDemoPanel extends JPanel implements ActionListener {
 				} catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(this.getParent(),
 						    "Latitude and longditude must both be numbers with no units.",
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				} catch (InvalidParameterException ex) {
+					JOptionPane.showMessageDialog(this.getParent(),
+						    ex.getMessage(),
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				} catch (IOException ex) {
+					JOptionPane.showMessageDialog(this.getParent(),
+						    ex.getMessage(),
 						    "Error",
 						    JOptionPane.ERROR_MESSAGE);
 				}
