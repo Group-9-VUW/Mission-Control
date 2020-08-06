@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  * @author Bryony
  *
  */
-public class SelectSitePerspective extends Observable implements Perspective{
+public class SelectSitePerspective extends Observable implements Perspective {
 
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
