@@ -45,6 +45,28 @@ public class PlanetaryArea {
 	{
 		return this.lat;
 	}
+	
+	/**
+	 * @param area The area
+	 * @return Whether the given area is entirely contained within this one
+	 */
+	public boolean containsArea(PlanetaryArea area)
+	{
+		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
+		    && this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
+			&& this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
+			&& this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude());
+	}
+	
+	/**
+	 * @param latitude The latitude of the point
+	 * @param longitude The longitude of the point
+	 * @return Whether the point is contained in this area
+	 */
+	public boolean containsPoint(double latitude, double longitude)
+	{
+		return Math.abs(this.lat - latitude) < this.radLat && Math.abs(this.lon - longitude) < this.radLon;
+	}
 
 	/**
 	 * @return the lon
@@ -81,7 +103,7 @@ public class PlanetaryArea {
 	/**
 	 * @return The upper left latitude
 	 */
-	public double geBottomRightLatitude()
+	public double getBottomRightLatitude()
 	{
 		return this.lat - this.radLat;
 	}
@@ -97,7 +119,7 @@ public class PlanetaryArea {
 	/**
 	 * @return The bottom right longitude
 	 */
-	public double geBottomRightLongitude()
+	public double getBottomRightLongitude()
 	{
 		return this.lon + this.radLon;
 	}
@@ -156,6 +178,12 @@ public class PlanetaryArea {
 	 */
 	public static final PlanetaryArea fromCorners(double latUL, double lonUL, double latBR, double lonBR)
 	{
+		if(latUL < latBR) {
+			throw new PreconditionViolationException("Invalid planetary area specification, upper latitude should be larger than lower latitude");
+		}
+		if(lonUL > lonBR) {
+			throw new PreconditionViolationException("Invalid planetary area specification, left longitude should be smaller than right longitude");
+		}
 		double latCenter = (latUL + latBR) / 2;
 		double lonCenter = (lonUL + lonBR) / 2;
 		double latRadius = Math.abs(latUL - latBR) / 2;
@@ -174,6 +202,8 @@ public class PlanetaryArea {
 	 */
 	public static final PlanetaryArea fromCenter(double latCenter, double lonCenter, double latRadius, double lonRadius)
 	{
+		Condition.PRE.positive("latRadius", (int) Math.ceil(latRadius));
+		Condition.PRE.positive("lonRadius", (int) Math.ceil(lonRadius));
 		return new PlanetaryArea(latCenter, lonCenter, latRadius, lonRadius);
 	}
 
