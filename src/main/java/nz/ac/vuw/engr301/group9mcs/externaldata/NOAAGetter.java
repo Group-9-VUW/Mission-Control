@@ -56,10 +56,12 @@ public class NOAAGetter {
 	 * Gets the current weather at the supplied latitude and longitude.
 	 * @param latitude - latitude of the location. (must be within range [-90, 90])
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
-	 * @return WeatherData with the data returned by the API call.
+	 * @throws IOException - if the API does not output correctly.
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @return WeatherData - the parsed version of the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
-	public WeatherData getWeatherData(double latitude, double longitude) {
+	public WeatherData getWeatherData(double latitude, double longitude) throws IOException, InvalidParameterException {
 		try {
 			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
@@ -80,6 +82,7 @@ public class NOAAGetter {
 			}
 		} catch (IOException e) {
 			DefaultLogger.logger.error(e.getMessage());
+			
 		} catch (InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
 		}
@@ -88,9 +91,11 @@ public class NOAAGetter {
 
 	/**
 	 * Get the hourly forecasts for the next 48 hours.
-	 * @param latitude - latitude of the location.
-	 * @param longitude - longitude of the location
-	 * @return a Map of the
+	 * @param latitude - latitude of the location. (must be within range [-90, 90])
+	 * @param longitude - longitude of the location. (must be within range [-180, 180])
+	 * @throws IOException - if the API does not output correctly.
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @return WeatherData - the parsed version of the data returned by the API call.
 	 */
 	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
 		Map<Date, WeatherData> forecasts = new HashMap<>();
