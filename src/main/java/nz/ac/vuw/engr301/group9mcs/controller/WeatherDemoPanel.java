@@ -96,17 +96,12 @@ public class WeatherDemoPanel extends JPanel implements ActionListener {
 						    "Latitude and longditude must both be numbers with no units.",
 						    "Error",
 						    JOptionPane.ERROR_MESSAGE);
-				} catch (InvalidParameterException ex) {
+				} catch (InvalidParameterException | IOException ex) {
 					JOptionPane.showMessageDialog(this.getParent(),
 						    ex.getMessage(),
 						    "Error",
 						    JOptionPane.ERROR_MESSAGE);
-				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(this.getParent(),
-						    ex.getMessage(),
-						    "Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
+				} 
 			} else {
 				JOptionPane.showMessageDialog(this.getParent(),
 					    "The OpenWeatherMap API is not available.",
