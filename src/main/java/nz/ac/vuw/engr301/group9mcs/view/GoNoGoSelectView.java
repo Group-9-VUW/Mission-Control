@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observer;
@@ -12,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
+
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
  * Class for the Select Launch Perspective.
@@ -43,10 +46,11 @@ public class GoNoGoSelectView extends JPanel{
 	/**
 	 * Sets the View up, and saves the Observer.
 	 *
-	 * @param results
+	 * @param parameters
 	 * @param o
+	 * @param map
 	 */
-	public GoNoGoSelectView(Object results, Observer o) {
+	public GoNoGoSelectView(Object parameters, Observer o, MapImage map) {
 		this.obs = new ViewObservable(o);
 
 		this.setPreferredSize(new Dimension(300, 300));
@@ -59,7 +63,7 @@ public class GoNoGoSelectView extends JPanel{
 
 			@Override
 			protected void paintComponent(@Nullable Graphics g) {
-				paintResults(results, g);
+				paintResults(parameters, map, g);
 			}
 		};
 		this.simulationResults.setName("Simulation Results");
@@ -95,11 +99,20 @@ public class GoNoGoSelectView extends JPanel{
 	/**
 	 * Paints the Simulation Results Panel with the given results.
 	 *
-	 * @param results
+	 * @param parameters
 	 * @param g
+	 * @param map
 	 */
-	void paintResults(Object results, @Nullable Graphics g) {
+	void paintResults(Object parameters, MapImage map, @Nullable Graphics g) {
 		if( g == null ) return;
+		// Pass parameters (file name, location, weather) to Simulation
+		// Get results from Simulation
+		// Find largest lat, long -> latLR, lonLR
+		// Find smallest lat, long -> latUL, lonUL
+		// Image image = this.mapData.get(latUL, lonUL, latLR, lonLR);
+		// g.drawImage(image, 0, 0, width, height, null);
+		// for all points, draw as small point => line from point to launchsite?
+		// diff colors for safety?
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, this.simulationResults.getWidth(), this.simulationResults.getHeight());
 	}
