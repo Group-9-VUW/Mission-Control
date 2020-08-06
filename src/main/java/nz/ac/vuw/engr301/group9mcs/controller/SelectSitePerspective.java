@@ -49,11 +49,17 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		this.panel.add(new SelectFileView(new ViewObservable(this)), BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Continue the Perspective in the Select Information.
+	 */
 	private void second() {
 		this.panel.removeAll();
 		// this.panel.add(SelectSiteView(....
 	}
 	
+	/**
+	 * Finish the Perspective in the Go No Go View.
+	 */
 	private void third() {
 		this.panel.removeAll();
 		// this.panel.add(GoNoGoView(....
