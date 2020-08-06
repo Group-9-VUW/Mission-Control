@@ -1,8 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.event.ActionListener;
-import org.eclipse.jdt.annotation.Nullable;
-
 /**
  * Holds the information to be passed to the MenuController to create a Menu Item.
  *
@@ -56,7 +54,7 @@ public class ViewMenuItem {
 	/**
 	 * @return The Listener
 	 */
-	public @Nullable ActionListener getListener() {
+	public ActionListener getListener() {
 		return this.ls;
 	}
 
