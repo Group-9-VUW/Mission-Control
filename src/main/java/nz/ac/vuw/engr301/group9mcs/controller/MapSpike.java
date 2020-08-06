@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -57,19 +58,24 @@ public class MapSpike extends JFrame implements WindowListener, SimpleEventListe
 	@Override
 	public void event(String type) {
 		switch(type) {
-			case "save":
-				double lat = this.selectdemo.getLatN();
-				double lon = this.selectdemo.getLonN();
-				double latUL = LongLatHelper.latitudeNKilometersNorth(lat, 2);
-				double latLR = LongLatHelper.latitudeNKilometersSouth(lat, 2);
-				double lonUL = LongLatHelper.longditudeNKilometersWest(lat, lon, 2);
-				double lonLR = LongLatHelper.longditudeNKilometersEast(lat, lon, 2);
-				System.out.println(LongLatHelper.kilometeresPerDegreeOfLongitude(lat));
-				System.out.println(latUL + " down " + latLR);
-				System.out.println(lonUL + " across " + lonLR);
-				CachedMapImage cmd = new CachedMapImage(this.mapdata, latUL, lonUL, latLR, lonLR);
+		case "save":
+			double lat = this.selectdemo.getLatN();
+			double lon = this.selectdemo.getLonN();
+			double latUL = LongLatHelper.latitudeNKilometersNorth(lat, 2);
+			double latLR = LongLatHelper.latitudeNKilometersSouth(lat, 2);
+			double lonUL = LongLatHelper.longditudeNKilometersWest(lat, lon, 2);
+			double lonLR = LongLatHelper.longditudeNKilometersEast(lat, lon, 2);
+			System.out.println(LongLatHelper.kilometeresPerDegreeOfLongitude(lat));
+			System.out.println(latUL + " down " + latLR);
+			System.out.println(lonUL + " across " + lonLR);
+			CachedMapImage cmd;
+			try {
+				cmd = new CachedMapImage(this.mapdata, latUL, lonUL, latLR, lonLR);
 				this.viewdemo.setSave(cmd.getFile());
-				break;
+			} catch (IOException e) {
+				//TODO handle error
+			}
+			break;
 		default:
 			break;
 		}

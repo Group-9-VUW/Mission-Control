@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author Bailey Jewell (jewellbail)
  */
+@SuppressWarnings("null")
 public class OsmOverpassGetter {
 
     private static final URL OVERPASS_URL;
