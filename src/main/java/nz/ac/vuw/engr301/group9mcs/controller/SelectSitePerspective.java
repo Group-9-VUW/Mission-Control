@@ -1,12 +1,13 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
+import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
-
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
@@ -22,14 +23,17 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
+	/**
+	 * The filename from SelectFileView.
+	 */
 	private String filename;
 	
 	/**
 	 * Create the Perspective and construct the Panel.
 	 */
 	public SelectSitePerspective() {
-		this.panel = new JPanel();
 		this.filename = "";
+		this.panel = new JPanel(new BorderLayout());
 	}
 	
 	@Override
@@ -42,7 +46,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * Start the Perspective at the File Selection.
 	 */
 	private void start() {
-		this.panel.add(new SelectFileView(new ViewObservable(this)));
+		this.panel.add(new SelectFileView(new ViewObservable(this)), BorderLayout.CENTER);
 	}
 	
 	private void second() {
@@ -71,8 +75,10 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 			if(arg instanceof String) {
 				this.filename = (String) arg;
 				second();
+				return;
 			}
 		}
+		throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 	}
 	
 }
