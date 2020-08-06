@@ -12,29 +12,50 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
+
 /**
  * A class to save and load map data to files (i.e. cache the map data).
- * 
+ *
  * @author Joshua Hindley, hindlejosh, 300438963
  */
 public class CachedMapImage implements MapImage {
-  
+
+	/**
+	 * The name of the folder that images saved by this class should be saved in.
+	 */
   public static final String IMG_CACHE_FOLDER = "img_cache/";
-  
+
   /**
-   * Holds this CachedMapData's file. That is, the file where 
+   * Holds this CachedMapData's file. That is, the file where
    * this class will save an image to, or load an image from.
    */
   private final File file;
+
   /**
-   * Holds this CachedMapData's image. Initialises as a one-width, 
+   * Holds this CachedMapData's image. Initialises as a one-width,
    * one-height black BufferedImage to avoid null errors.
    */
-  private BufferedImage img = new BufferedImage(1, 1, 1); 
+  private BufferedImage img = new BufferedImage(1, 1, 1);
 
+  /**
+   * The latitude of the top left point of this cached image.
+   */
   private double topLeftLat;
+
+  /**
+   * The longitude of the top left point of this cached image.
+   */
   private double topLeftLong;
+
+  /**
+   * The latitude of the bottom right point of this cached image.
+   */
   private double bottomRightLat;
+
+  /**
+   * The longitude of the bottom right point of this cached image.
+   */
   private double bottomRightLong;
 
   //public CachedMapData() {} TODO maybe implement this to automatically load a file
@@ -47,7 +68,7 @@ public class CachedMapImage implements MapImage {
    * @param bottomRightLat The latitude of the bottom right of the image to get.
    * @param bottomRightLong The longitude of the bottom right of the image to get.
    */
-  public CachedMapImage(InternetMapImage data, double topLeftLat, double topLeftLong, 
+  public CachedMapImage(InternetMapImage data, double topLeftLat, double topLeftLong,
       double bottomRightLat, double bottomRightLong) {
     //TODO maybe remove the data parameter and create new instance here.
 
@@ -55,14 +76,14 @@ public class CachedMapImage implements MapImage {
     this.topLeftLong = topLeftLong;
     this.bottomRightLat = bottomRightLat;
     this.bottomRightLong = bottomRightLong;
-  
-    
+
+
     double centreLat = (topLeftLat + bottomRightLat) / 2;
     double centreLong = (topLeftLong + bottomRightLong) / 2;
     //TODO change this method call
     this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
-    this.file = new File(IMG_CACHE_FOLDER + centreLat + "-" + centreLong + ".png"); 
+    this.file = new File(IMG_CACHE_FOLDER + centreLat + "-" + centreLong + ".png");
     saveMapToFile();
   }
 
@@ -151,7 +172,7 @@ public class CachedMapImage implements MapImage {
    * @return the subimage.
    */
   @Override
-  public Image get(double latUL, double lonUL, 
+  public Image get(double latUL, double lonUL,
       double latBR, double lonBR) {
 
     double pixelsPerDegreeX = (this.bottomRightLong - this.topLeftLong) / this.img.getWidth();
@@ -165,7 +186,7 @@ public class CachedMapImage implements MapImage {
     double height = bottomRightY - topLeftY;
 
     //parameters were invalid
-    if (topLeftX < 0 || topLeftY < 0 || width > this.img.getWidth() 
+    if (topLeftX < 0 || topLeftY < 0 || width > this.img.getWidth()
         || height > this.img.getHeight()) {
       return this.img;
     }
@@ -174,14 +195,20 @@ public class CachedMapImage implements MapImage {
     assert subImage != null;
     return subImage;
   }
-  
-  public double centerLat()
-  {
+
+  /**
+   * Gets the latitude of the center point of this image.
+   * @return the center latitude
+   */
+  public double centerLat() {
 	  return (this.topLeftLat + this.bottomRightLat) / 2;
   }
-  
-  public double centerLon()
-  {
+
+  /**
+   * Gets the longitude of the center point of this image.
+   * @return the center longitude
+   */
+  public double centerLon() {
 	  return (this.topLeftLong + this.bottomRightLong) / 2;
   }
 
@@ -207,12 +234,12 @@ public class CachedMapImage implements MapImage {
       return false;
     }
     CachedMapImage cmd = (CachedMapImage) obj;
-    //TODO check lats and longs here
-    
+    //TODO check latitudes and longitudes here?
+
     //compare this and cmd's files
     if (!cmd.file.getName().equals(this.file.getName())) {
       return false;
-    } 
+    }
     //compare this and cmd's images
     if (cmd.img.getHeight() != this.img.getHeight()) {
       return false;
