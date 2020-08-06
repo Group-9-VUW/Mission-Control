@@ -13,7 +13,7 @@ public final class SelectSiteSpike {
 	 */
 	public static void main(String[] args) {
 		MainController controller = new MainController();
-		controller.addPerspective("site", new SelectSitePerspective());
+		controller.addPerspective("select", new SelectSitePerspective());
 	}
 
 }
