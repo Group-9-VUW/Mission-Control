@@ -37,7 +37,7 @@ public class ViewObservable extends Observable{
 	 */
 	public void notify(String ... args)
 	{
-		this.notify(args);
+		this.notify((Object) args);
 	}
 	
 }

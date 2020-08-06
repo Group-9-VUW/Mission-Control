@@ -75,6 +75,7 @@ public class PerspectiveController implements Observer{
 		}
 		this.panel.removeAll();
 		this.panel.add(this.perspectives.get(name.toLowerCase()).enable(this.menu));
+		this.panel.revalidate();
 	}
 
 	/**

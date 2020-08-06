@@ -27,7 +27,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 */
 	private JPanel panel;
 	
-	private final JPanel fileGet = new SelectFileView(new ViewObservable(this));
+	private final JPanel fileGet = new SelectFileView(this);
 	private final JPanel siteMap = new JPanel();
 	private final JPanel resultsShow = new JPanel();
 	
@@ -36,6 +36,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 */
 	public SelectSitePerspective() {
 		this.panel = new JPanel(new BorderLayout());
+		this.switchTo(this.fileGet);
 	}
 	
 	@Override
@@ -62,6 +63,9 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 			
 			switch(args[0])
 			{
+				case "rocket imported":
+					this.switchTo(this.siteMap);
+					break;
 				default:
 					throw new PreconditionViolationException("Unregonized command sent to SelectSitePerspective");
 			}
