@@ -18,7 +18,9 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
 import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
 
 /**
  * This view displays the Map in a specified window. The user can zoom in/out of the map using a mouse scroll wheel
@@ -29,7 +31,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
  * @editor Claire
  * @formatter Joshua
  */
-public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener {
+public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
 
 	private static final long serialVersionUID = 438543895484881L;
 	
@@ -61,9 +63,10 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 
 	/**
 	 * This sets up fields, draws the initial map and determines longitude/latitude to pixel ratios
+	 * @param data A map image to source the images
 	 */
 	public SelectMapView(final MapImage data) {
-		this.mapData = data;
+		this.mapData = new SmoothMapImage(data, this);
 		this.locationSelected = false;
 		this.sizeX = this.getWidth();
 		this.sizeY = this.getHeight();
@@ -226,6 +229,11 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	@Override
 	public void componentHidden(@Nullable ComponentEvent e) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void event(String type) {
+		this.repaint();
 	}
 }
 

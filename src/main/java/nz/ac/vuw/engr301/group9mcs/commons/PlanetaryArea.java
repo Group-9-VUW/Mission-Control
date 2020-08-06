@@ -39,6 +39,22 @@ public class PlanetaryArea {
 	}
 	
 	/**
+	 * Clips a given Area to be inside this area
+	 * @param toClip Area to clip
+	 * @return The clipped area
+	 */
+	public PlanetaryArea clip(PlanetaryArea toClip)
+	{
+		PlanetaryArea newArea = fromCorners(Math.min(this.getUpperLeftLatitude(), toClip.getUpperLeftLatitude()),
+											Math.max(this.getUpperLeftLongitude(), toClip.getUpperLeftLongitude()),
+											Math.max(this.getBottomRightLatitude(), toClip.getBottomRightLatitude()),
+											Math.min(this.getBottomRightLongitude(), toClip.getBottomRightLongitude()));
+		if(!this.containsArea(newArea))
+			throw new PostconditionViolationException("Algorithm didn't clip properly");
+		return newArea;
+	}
+	
+	/**
 	 * @return the lat
 	 */
 	public double getLat() 
@@ -65,7 +81,7 @@ public class PlanetaryArea {
 	 */
 	public boolean containsPoint(double latitude, double longitude)
 	{
-		return Math.abs(this.lat - latitude) < this.radLat && Math.abs(this.lon - longitude) < this.radLon;
+		return Math.abs(this.lat - latitude) <= this.radLat && Math.abs(this.lon - longitude) <= this.radLon;
 	}
 
 	/**

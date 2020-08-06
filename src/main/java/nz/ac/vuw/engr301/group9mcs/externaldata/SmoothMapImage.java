@@ -22,11 +22,15 @@ public class SmoothMapImage implements MapImage {
 
 	private static final double OVERREACH = 1.2;
 	
-	private final MapImage parentImage;
-	private final SimpleEventListener loadListener;
+	protected final MapImage parentImage;
+	protected final SimpleEventListener loadListener;
+	
+	protected Image cur = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+	
+	protected double pixelsPerLat, pixelsPerLon;
 	
 	@Nullable
-	private PlanetaryArea area; 
+	protected PlanetaryArea area; 
 	
 	/**
 	 * Creates a SmoothMapImage from a parent Map Image and a listener.
@@ -48,13 +52,27 @@ public class SmoothMapImage implements MapImage {
 	public Image get(double latUL, double longUL, double latBR, double lonBR) {
 		PlanetaryArea getArea = PlanetaryArea.fromCorners(latUL, longUL, latBR, lonBR);
 		if(this.area == null || !this.area.containsArea(getArea)) {
-			this.area = getArea.scale(OVERREACH);
-			this.startBackgroundLoadIfIdle();
+			this.startBackgroundLoadIfIdle(getArea.scale(OVERREACH));
 		} 
-		
-		return null;
+		BufferedImage image = loadingImage((int) Math.round(this.cur.getWidth(null) / OVERREACH), (int) Math.round(this.cur.getHeight(null) / OVERREACH));
+		if(this.area != null) {
+			PlanetaryArea clipped = this.area.clip(getArea);
+			int xStart = (int) Math.round((clipped.getUpperLeftLongitude() - this.area.getUpperLeftLongitude()) * this.pixelsPerLon);
+			int yStart = (int) Math.round((this.area.getUpperLeftLatitude() - clipped.getUpperLeftLatitude()) * this.pixelsPerLat);
+			int xEnd = (int) Math.round((clipped.getBottomRightLongitude() - this.area.getBottomRightLongitude()) * this.pixelsPerLon);
+			int yEnd = (int) Math.round((this.area.getBottomRightLatitude() - clipped.getBottomRightLatitude()) * this.pixelsPerLat);
+			Graphics graphics = image.getGraphics();
+			graphics.drawImage(this.cur, xStart, yStart, xEnd - xStart, yEnd - yStart, null);
+			graphics.dispose();
+		}
+		return image;
 	}
 	
+	private void startBackgroundLoadIfIdle(PlanetaryArea toLoad)
+	{
+		new GetImage(toLoad).start();
+	}	
+
 	private static BufferedImage loadingImage(int width, int height)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -75,9 +93,24 @@ public class SmoothMapImage implements MapImage {
 		return image;
 	}
 	
-	private void startBackgroundLoadIfIdle()
+	private class GetImage extends Thread
 	{
-		//Unimplemented
+		private final PlanetaryArea toLoad;
+		
+		public GetImage(PlanetaryArea toLoad)
+		{
+			this.toLoad = toLoad;
+		}
+		
+		public void run()
+		{
+			Image image = SmoothMapImage.this.parentImage.get(this.toLoad.getUpperLeftLatitude(), this.toLoad.getUpperLeftLongitude(), this.toLoad.getBottomRightLatitude(), this.toLoad.getBottomRightLongitude());
+			SmoothMapImage.this.cur = image;
+			SmoothMapImage.this.area = this.toLoad;
+			SmoothMapImage.this.pixelsPerLat = image.getHeight(null) / (this.toLoad.getRadLat() * 2);
+			SmoothMapImage.this.pixelsPerLon = image.getWidth(null) / (this.toLoad.getRadLon() * 2);
+			SmoothMapImage.this.loadListener.event("image loaded");
+		}
 	}
 
 }
