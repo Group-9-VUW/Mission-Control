@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.security.InvalidParameterException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -94,7 +96,12 @@ public class WeatherDemoPanel extends JPanel implements ActionListener {
 						    "Latitude and longditude must both be numbers with no units.",
 						    "Error",
 						    JOptionPane.ERROR_MESSAGE);
-				}
+				} catch (InvalidParameterException | IOException ex) {
+					JOptionPane.showMessageDialog(this.getParent(),
+						    ex.getMessage(),
+						    "Error",
+						    JOptionPane.ERROR_MESSAGE);
+				} 
 			} else {
 				JOptionPane.showMessageDialog(this.getParent(),
 					    "The OpenWeatherMap API is not available.",

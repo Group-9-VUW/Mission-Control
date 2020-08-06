@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
@@ -56,10 +57,12 @@ public class NOAAGetter {
 	 * Gets the current weather at the supplied latitude and longitude.
 	 * @param latitude - latitude of the location. (must be within range [-90, 90])
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
-	 * @return WeatherData with the data returned by the API call.
+	 * @throws IOException - if the API does not output correctly.
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @return WeatherData - the parsed version of the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
-	public WeatherData getWeatherData(double latitude, double longitude) {
+	public WeatherData getWeatherData(double latitude, double longitude) throws IOException, InvalidParameterException {
 		try {
 			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
@@ -77,22 +80,25 @@ public class NOAAGetter {
 
 				reader.close();
 				return parseWeatherJSON(currentData);
+			} catch(JSONException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				throw e;
 			}
-		} catch (IOException e) {
+		} catch (IOException | InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
-		} catch (InvalidParameterException e) {
-			DefaultLogger.logger.error(e.getMessage());
-		}
-		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
+			throw e;
+		} 
 	}
 
 	/**
 	 * Get the hourly forecasts for the next 48 hours.
-	 * @param latitude - latitude of the location.
-	 * @param longitude - longitude of the location
-	 * @return a Map of the
+	 * @param latitude - latitude of the location. (must be within range [-90, 90])
+	 * @param longitude - longitude of the location. (must be within range [-180, 180])
+	 * @throws IOException - if the API does not output correctly.
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @return WeatherData - the parsed version of the data returned by the API call.
 	 */
-	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
+	public Map<Date, WeatherData> getForecast(double latitude, double longitude)  throws IOException, InvalidParameterException {
 		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
 			checkValidLatAndLon(latitude, longitude);
@@ -118,12 +124,14 @@ public class NOAAGetter {
 					forecasts.put(date, parseWeatherJSON(forecast));
 				}
 
+			} catch(JSONException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				throw e;
 			}
-		} catch (IOException e) {
+		} catch (IOException | InvalidParameterException  e) {
 			DefaultLogger.logger.error(e.getMessage());
-		} catch (InvalidParameterException e) {
-			DefaultLogger.logger.error(e.getMessage());
-		}
+			throw e;
+		} 
 		return forecasts;
 	}
 
@@ -132,35 +140,39 @@ public class NOAAGetter {
 	 * @param weatherJSON the JSON object containing all weather info from the API
 	 * @return WeatherData with all needed weather attributes
 	 */
-	private static WeatherData parseWeatherJSON(JSONObject weatherJSON){
+	private static WeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException{
 		JSONObject rainData = null;
-
-		if(weatherJSON.has("rain")) {
-			rainData = weatherJSON.getJSONObject("rain");
+		
+		try {
+			if(weatherJSON.has("rain")) {
+				rainData = weatherJSON.getJSONObject("rain");
+			}
+	
+			double temperature = weatherJSON.getDouble("temp");
+	
+			// The units for the wind speed returned by the API is in meters per second.
+			// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
+			double windSpeed = ((weatherJSON.getDouble("wind_speed") * 60) * 60) / 1000;
+	
+			// Wind direction (meteorological)
+			double windDegrees = weatherJSON.getDouble("wind_deg");
+	
+			// Atmospheric Pressure in hPa
+			double pressure = weatherJSON.getDouble("pressure");
+	
+			// Amount of Rainfall in the last hour.
+			double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
+	
+			// Current Humidity in percentage
+			double humidity = weatherJSON.getDouble("humidity");
+	
+			// Cloudiness percentage
+			double cloudiness = weatherJSON.getDouble("clouds");
+			
+			return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
+		} catch(JSONException e) {
+			throw new JSONException("JSON returned by the API could be parsed properly: " + e.getMessage());
 		}
-
-		double temperature = weatherJSON.getDouble("temp");
-
-		// The units for the wind speed returned by the API is in meters per second.
-		// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
-		double windSpeed = ((weatherJSON.getDouble("wind_speed") * 60) * 60) / 1000;
-
-		// Wind direction (meteorological)
-		double windDegrees = weatherJSON.getDouble("wind_deg");
-
-		// Atmospheric Pressure in hPa
-		double pressure = weatherJSON.getDouble("pressure");
-
-		// Amount of Rainfall in the last hour.
-		double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
-
-		// Current Humidity in percentage
-		double humidity = weatherJSON.getDouble("humidity");
-
-		// Cloudiness percentage
-		double cloudiness = weatherJSON.getDouble("clouds");
-
-		return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
 
 	}
 	/**
