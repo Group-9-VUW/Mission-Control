@@ -82,11 +82,11 @@ public class NOAAGetter {
 			}
 		} catch (IOException e) {
 			DefaultLogger.logger.error(e.getMessage());
-			
+			throw new IOException(e.getMessage());
 		} catch (InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
+			throw new InvalidParameterException(e.getMessage());
 		}
-		return new WeatherData(0, 0, 0, 0, 0, 0, 0); //TODO change this
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class NOAAGetter {
 	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
 	 * @return WeatherData - the parsed version of the data returned by the API call.
 	 */
-	public Map<Date, WeatherData> getForecast(double latitude, double longitude){
+	public Map<Date, WeatherData> getForecast(double latitude, double longitude)  throws IOException, InvalidParameterException {
 		Map<Date, WeatherData> forecasts = new HashMap<>();
 		try {
 			checkValidLatAndLon(latitude, longitude);
@@ -126,8 +126,10 @@ public class NOAAGetter {
 			}
 		} catch (IOException e) {
 			DefaultLogger.logger.error(e.getMessage());
+			throw new IOException(e.getMessage());
 		} catch (InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
+			throw new InvalidParameterException(e.getMessage());
 		}
 		return forecasts;
 	}
