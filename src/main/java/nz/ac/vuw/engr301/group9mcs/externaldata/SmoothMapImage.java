@@ -3,8 +3,14 @@
  */
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
+import org.eclipse.jdt.annotation.Nullable;
+
+import nz.ac.vuw.engr301.group9mcs.commons.PlanetaryArea;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
 
 /**
@@ -18,6 +24,9 @@ public class SmoothMapImage implements MapImage {
 	
 	private final MapImage parentImage;
 	private final SimpleEventListener loadListener;
+	
+	@Nullable
+	private PlanetaryArea area; 
 	
 	/**
 	 * Creates a SmoothMapImage from a parent Map Image and a listener.
@@ -36,9 +45,39 @@ public class SmoothMapImage implements MapImage {
 	
 	@SuppressWarnings("null")
 	@Override
-	public Image get(double longUL, double latUL, double longBR, double latBR) {
-		// TODO Auto-generated method stub
+	public Image get(double latUL, double longUL, double latBR, double lonBR) {
+		PlanetaryArea getArea = PlanetaryArea.fromCorners(latUL, longUL, latBR, lonBR);
+		if(this.area == null || !this.area.containsArea(getArea)) {
+			this.area = getArea.scale(OVERREACH);
+			this.startBackgroundLoadIfIdle();
+		} 
+		
 		return null;
+	}
+	
+	private static BufferedImage loadingImage(int width, int height)
+	{
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics graph = image.getGraphics();
+		graph.setColor(Color.GRAY);
+		graph.fillRect(0, 0, width, height);
+		graph.setColor(Color.WHITE);
+		graph.drawString("Loading", (int) (width - 1.0 * (width / 6.0)), (int) (height - 1.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 3.0 * (width / 6.0)), (int) (height - 1.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 5.0 * (width / 6.0)), (int) (height - 1.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 1.0 * (width / 6.0)), (int) (height - 3.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 3.0 * (width / 6.0)), (int) (height - 3.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 5.0 * (width / 6.0)), (int) (height - 3.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 1.0 * (width / 6.0)), (int) (height - 5.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 3.0 * (width / 6.0)), (int) (height - 5.0 * (height / 6.0)));
+		graph.drawString("Loading", (int) (width - 5.0 * (width / 6.0)), (int) (height - 5.0 * (height / 6.0)));
+		graph.dispose();
+		return image;
+	}
+	
+	private void startBackgroundLoadIfIdle()
+	{
+		//Unimplemented
 	}
 
 }
