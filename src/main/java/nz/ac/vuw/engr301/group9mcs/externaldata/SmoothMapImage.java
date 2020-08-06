@@ -25,9 +25,11 @@ public class SmoothMapImage implements MapImage {
 	protected final MapImage parentImage;
 	protected final SimpleEventListener loadListener;
 	
-	protected Image cur = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+	protected Image cur = new BufferedImage(400, 400, BufferedImage.TYPE_INT_ARGB);
 	
 	protected double pixelsPerLat, pixelsPerLon;
+	
+	protected boolean loadingAlready = false;
 	
 	@Nullable
 	protected PlanetaryArea area; 
@@ -50,7 +52,9 @@ public class SmoothMapImage implements MapImage {
 	@SuppressWarnings("null")
 	@Override
 	public Image get(double latUL, double longUL, double latBR, double lonBR) {
+		System.out.println(latUL + " : " + latBR);
 		PlanetaryArea getArea = PlanetaryArea.fromCorners(latUL, longUL, latBR, lonBR);
+		System.out.println(getArea.getUpperLeftLatitude() + " : " + getArea.getBottomRightLatitude());
 		if(this.area == null || !this.area.containsArea(getArea)) {
 			this.startBackgroundLoadIfIdle(getArea.scale(OVERREACH));
 		} 
@@ -70,7 +74,8 @@ public class SmoothMapImage implements MapImage {
 	
 	private void startBackgroundLoadIfIdle(PlanetaryArea toLoad)
 	{
-		new GetImage(toLoad).start();
+		if(!this.loadingAlready)
+			new GetImage(toLoad).start();
 	}	
 
 	private static BufferedImage loadingImage(int width, int height)
@@ -104,12 +109,14 @@ public class SmoothMapImage implements MapImage {
 		
 		public void run()
 		{
+			SmoothMapImage.this.loadingAlready = true;
 			Image image = SmoothMapImage.this.parentImage.get(this.toLoad.getUpperLeftLatitude(), this.toLoad.getUpperLeftLongitude(), this.toLoad.getBottomRightLatitude(), this.toLoad.getBottomRightLongitude());
 			SmoothMapImage.this.cur = image;
 			SmoothMapImage.this.area = this.toLoad;
 			SmoothMapImage.this.pixelsPerLat = image.getHeight(null) / (this.toLoad.getRadLat() * 2);
 			SmoothMapImage.this.pixelsPerLon = image.getWidth(null) / (this.toLoad.getRadLon() * 2);
 			SmoothMapImage.this.loadListener.event("image loaded");
+			SmoothMapImage.this.loadingAlready = false;
 		}
 	}
 
