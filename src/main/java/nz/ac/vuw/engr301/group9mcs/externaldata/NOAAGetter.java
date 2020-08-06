@@ -80,6 +80,9 @@ public class NOAAGetter {
 
 				reader.close();
 				return parseWeatherJSON(currentData);
+			} catch(JSONException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				throw e;
 			}
 		} catch (IOException e) {
 			DefaultLogger.logger.error(e.getMessage());
@@ -125,7 +128,7 @@ public class NOAAGetter {
 				}
 
 			} catch(JSONException e) {
-				DefaultLogger.logger.error("JSON returned by the API could be parsed properly.");
+				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
 		} catch (IOException e) {
