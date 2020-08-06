@@ -1,13 +1,16 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -102,7 +105,7 @@ public class GoNoGoSelectView extends JPanel{
 	 * @param g
 	 * @param map
 	 */
-	void paintResults(Object parameters, MapImage map, @Nullable Graphics g) {
+	public void paintResults(Object parameters, MapImage map, @Nullable Graphics g) {
 		if( g == null ) return;
 		// Pass parameters (file name, location, weather) to Simulation
 		// Get results from Simulation
@@ -112,8 +115,13 @@ public class GoNoGoSelectView extends JPanel{
 		// g.drawImage(image, 0, 0, width, height, null);
 		// for all points, draw as small point => line from point to launchsite?
 		// diff colors for safety?
-		g.setColor(Color.blue);
-		g.fillRect(0, 0, this.simulationResults.getWidth(), this.simulationResults.getHeight());
+		try {
+		    File pathToFile = new File("./src/main/resources/view/MapImageOpenStreetMap.png");
+		    Image img = ImageIO.read(pathToFile);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
+		} catch (IOException ex) {
+			// TODO: this isn't important
+		}
 	}
 
 }
