@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observer;
@@ -74,7 +73,7 @@ public class GoNoGoSelectView extends JPanel{
 		change.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
-				String[] args = {"Change View", "Launch Parameters"};
+				String[] args = {"change parameters"};
 				GoNoGoSelectView.this.obs.notify(args);
 			}
 		});
@@ -84,7 +83,7 @@ public class GoNoGoSelectView extends JPanel{
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
-				String[] args = {"Save", "Quit"};
+				String args = "save and quit";
 				GoNoGoSelectView.this.obs.notify(args);
 			}
 		});
