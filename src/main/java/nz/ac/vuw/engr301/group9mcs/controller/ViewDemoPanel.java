@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -58,29 +59,34 @@ public class ViewDemoPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(@Nullable ActionEvent e) {
-		if(e == null) {return;}
-		File save = this.saveFile;
-		if(e.getSource() == this.load) {
-			assert save != null;
-			CachedMapImage data = new CachedMapImage(save);
-			this.launchLat = data.centerLat();
-			this.launchLon = data.centerLon();
-			this.dmv = new DisplayMapView(data.centerLat(), data.centerLon(), data);
-			assert this.dmv != null;
-			this.dmv.updateRocketPosition(this.launchLat, this.launchLon);
-			this.remove(this.bottom);
-			this.bottom = this.dmv;
-			this.add(this.bottom, BorderLayout.CENTER);
-		} else if(e.getSource() == this.launchsim) {
-			this.launch = new Launch();
-			this.launch.start();
-			this.simrunning = true;
-			this.setSave(save);
-		} else if(e.getSource() == this.stoplaunch) {
-			if(this.launch != null) {
-				this.launch.stopLaunch();
-				this.launch = null;
+		try {
+			if(e == null) {return;}
+			File save = this.saveFile;
+			if(e.getSource() == this.load) {
+				assert save != null;
+				CachedMapImage data;
+				data = new CachedMapImage(save);
+				this.launchLat = data.centerLat();
+				this.launchLon = data.centerLon();
+				this.dmv = new DisplayMapView(data.centerLat(), data.centerLon(), data);
+				assert this.dmv != null;
+				this.dmv.updateRocketPosition(this.launchLat, this.launchLon);
+				this.remove(this.bottom);
+				this.bottom = this.dmv;
+				this.add(this.bottom, BorderLayout.CENTER);
+			} else if(e.getSource() == this.launchsim) {
+				this.launch = new Launch();
+				this.launch.start();
+				this.simrunning = true;
+				this.setSave(save);
+			} else if(e.getSource() == this.stoplaunch) {
+				if(this.launch != null) {
+					this.launch.stopLaunch();
+					this.launch = null;
+				}
 			}
+		} catch (NullPointerException | IOException e1) {
+			// TODO handle Error
 		}
 	}
 
