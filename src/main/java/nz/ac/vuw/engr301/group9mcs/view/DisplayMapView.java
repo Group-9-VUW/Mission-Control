@@ -315,7 +315,8 @@ public class DisplayMapView extends JPanel {
         double angle = angleOf(launch, rocket);
         image = rotateImage(image, angle);
       } catch (IOException e) {
-        e.printStackTrace();
+    	DefaultLogger.logger.error("File wasn't found", e);
+    	throw new PreconditionViolationException(e);
       }
       if (image == null) {
         return;
