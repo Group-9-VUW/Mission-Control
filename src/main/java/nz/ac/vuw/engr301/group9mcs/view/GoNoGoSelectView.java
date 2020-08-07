@@ -2,8 +2,12 @@ package nz.ac.vuw.engr301.group9mcs.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,7 +16,9 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -41,9 +47,9 @@ public class GoNoGoSelectView extends JPanel{
 	 */
 	private JPanel simulationResults;
 	/**
-	 * The Panel that holds the buttons.
+	 *
 	 */
-	private JPanel buttons;
+	private JPanel sidePanel;
 
 	/**
 	 * Sets the View up, and saves the Observer.
@@ -68,9 +74,63 @@ public class GoNoGoSelectView extends JPanel{
 				paintResults(parameters, map, g);
 			}
 		};
+		this.sidePanel = new JPanel();
+		setupSidePanel();
 		this.simulationResults.setName("Simulation Results");
-		this.buttons = new JPanel();
-		this.buttons.setName("Buttons");
+		this.add(this.simulationResults, BorderLayout.CENTER);
+		this.add(this.sidePanel, BorderLayout.WEST);
+
+		this.repaint();
+	}
+
+	/**
+	 *
+	 */
+	private void setupSidePanel() {
+		this.sidePanel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 1;
+		gbc.weighty = 0;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.insets = new Insets(3, 3, 3, 3);
+		gbc.fill = GridBagConstraints.BOTH;
+
+		JLabel percen = new JLabel("50%", SwingConstants.CENTER);
+		System.out.println(percen.getFont().toString());
+		percen.setFont(new Font("Dialog", Font.BOLD, 30));
+		JLabel percen2 = new JLabel("Probability of Landing Safely", SwingConstants.CENTER);
+		JLabel percen3 = new JLabel("(Not on someone's head)", SwingConstants.CENTER);
+		JLabel length = new JLabel("2-20m", SwingConstants.CENTER);
+		length.setFont(new Font("Dialog", Font.BOLD, 30));
+		JLabel length2 = new JLabel("Prediced Landing from Launch Site", SwingConstants.CENTER);
+
+		gbc.weighty = 1;
+		this.sidePanel.add(new JPanel(), gbc);
+		gbc.weighty = 0;
+		gbc.gridy++;
+
+		this.sidePanel.add(percen, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(percen2, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(percen3, gbc);
+		gbc.gridy++;
+
+		gbc.weighty = 1;
+		this.sidePanel.add(new JPanel(), gbc);
+		gbc.weighty = 0;
+		gbc.gridy++;
+
+		this.sidePanel.add(length, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(length2, gbc);
+		gbc.gridy++;
+
+		gbc.weighty = 1;
+		this.sidePanel.add(new JPanel(), gbc);
+		gbc.weighty = 0;
+		gbc.gridy++;
 
 		JButton change = new JButton("Change Launch Parameters");
 		change.addActionListener(new ActionListener() {
@@ -80,7 +140,8 @@ public class GoNoGoSelectView extends JPanel{
 				GoNoGoSelectView.this.obs.notify(args);
 			}
 		});
-		this.buttons.add(change);
+		this.sidePanel.add(change, gbc);
+		gbc.gridy++;
 
 		JButton save = new JButton("Save and Quit");
 		save.addActionListener(new ActionListener() {
@@ -90,12 +151,13 @@ public class GoNoGoSelectView extends JPanel{
 				GoNoGoSelectView.this.obs.notify(args);
 			}
 		});
-		this.buttons.add(save);
+		this.sidePanel.add(save, gbc);
+		gbc.gridy++;
 
-		this.add(this.buttons, BorderLayout.NORTH);
-		this.add(this.simulationResults, BorderLayout.CENTER);
-
-		this.repaint();
+		gbc.weighty = 1;
+		this.sidePanel.add(new JPanel(), gbc);
+		gbc.weighty = 0;
+		gbc.gridy++;
 	}
 
 	/**
