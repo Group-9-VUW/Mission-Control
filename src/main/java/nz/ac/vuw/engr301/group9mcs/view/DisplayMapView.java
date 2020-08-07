@@ -29,7 +29,9 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
@@ -266,7 +268,8 @@ public class DisplayMapView extends JPanel {
         image = ImageIO.read(new File("./src/main/resources/view/launchsite.png"));
         image = scaleDimensions(image, 7.0);
       } catch (IOException e) {
-    	  // TODO: what to do with error?
+        DefaultLogger.logger.error("File wasn't found", e);
+        throw new PreconditionViolationException(e);
       }
       if (image == null) {
         return;
@@ -276,8 +279,8 @@ public class DisplayMapView extends JPanel {
       setColour(image, this.launchSiteColor);
       g.drawImage(image, x, y, null);
       if (this.labelDropDown.getSelectedItem().equals("Labels")) {
-        String s = String.format("%.5g%n", this.latLaunchSite) + ", "
-            + String.format("%.5g%n", this.longLaunchSite);
+        String s = String.format("%.5g%n", Double.valueOf(this.latLaunchSite)) + ", "
+            + String.format("%.5g%n", Double.valueOf(this.longLaunchSite));
         centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
       }
     } else {
@@ -285,8 +288,8 @@ public class DisplayMapView extends JPanel {
       int size = this.panel.getSize().height / this.dotRatio;
       g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
       if (this.labelDropDown.getSelectedItem().equals("Labels")) {
-        String s = String.format("%.5g%n", this.latLaunchSite) + ", "
-            + String.format("%.5g%n", this.longLaunchSite);
+        String s = String.format("%.5g%n", Double.valueOf(this.latLaunchSite)) + ", "
+            + String.format("%.5g%n", Double.valueOf(this.longLaunchSite));
         centerText(s, (Graphics2D)g, xlocation - size / 2, ylocation - size / 2, size, size);
       }
     }
@@ -312,7 +315,8 @@ public class DisplayMapView extends JPanel {
         double angle = angleOf(launch, rocket);
         image = rotateImage(image, angle);
       } catch (IOException e) {
-        // TODO: what to do???
+    	DefaultLogger.logger.error("File wasn't found", e);
+    	throw new PreconditionViolationException(e);
       }
       if (image == null) {
         return;
@@ -322,8 +326,8 @@ public class DisplayMapView extends JPanel {
       setColour(image, this.rocketColor);
       g.drawImage(image, x, y, null);
       if (this.labelDropDown.getSelectedItem().equals("Labels")) {
-        String s = String.format("%.5g%n", this.latLaunchSite) + ", "
-            + String.format("%.5g%n", this.longLaunchSite);
+        String s = String.format("%.5g%n", Double.valueOf(this.latLaunchSite)) + ", "
+            + String.format("%.5g%n", Double.valueOf(this.longLaunchSite));
         centerText(s, (Graphics2D)g, x, y, image.getWidth(), image.getHeight());
       }
     } else {
@@ -331,8 +335,8 @@ public class DisplayMapView extends JPanel {
       int size = this.panel.getSize().height / this.dotRatio;
       g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
       if (this.labelDropDown.getSelectedItem().equals("Labels")) {
-        String s = String.format("%.5g%n", this.latLaunchSite) + ", "
-            + String.format("%.5g%n", this.longLaunchSite);
+        String s = String.format("%.5g%n", Double.valueOf(this.latLaunchSite)) + ", "
+            + String.format("%.5g%n", Double.valueOf(this.longLaunchSite));
         centerText(s, (Graphics2D)g, xlocation - size / 2, ylocation - size / 2, size, size);
       }
     }
