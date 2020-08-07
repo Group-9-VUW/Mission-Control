@@ -83,7 +83,11 @@ public class PlanetaryArea {
 		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
 		    || this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
 			|| this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
-			|| this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude());
+			|| this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude())
+			|| area.containsPoint(this.getUpperLeftLatitude(), this.getUpperLeftLongitude())
+		    || area.containsPoint(this.getUpperLeftLatitude(), this.getBottomRightLongitude())
+			|| area.containsPoint(this.getBottomRightLatitude(), this.getBottomRightLongitude())
+			|| area.containsPoint(this.getBottomRightLatitude(), this.getUpperLeftLongitude());
 	}
 	
 	
