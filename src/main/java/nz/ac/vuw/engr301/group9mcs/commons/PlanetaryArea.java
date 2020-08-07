@@ -75,13 +75,27 @@ public class PlanetaryArea {
 	}
 	
 	/**
+	 * @param area The area
+	 * @return Whether the given area overlaps with this one
+	 */
+	public boolean overlapsWithArea(PlanetaryArea area)
+	{
+		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
+		    || this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
+			|| this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
+			|| this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude());
+	}
+	
+	
+	/**
 	 * @param latitude The latitude of the point
 	 * @param longitude The longitude of the point
 	 * @return Whether the point is contained in this area
 	 */
 	public boolean containsPoint(double latitude, double longitude)
 	{
-		return Math.abs(this.lat - latitude) <= this.radLat && Math.abs(this.lon - longitude) <= this.radLon;
+		return (Math.abs(this.lat - latitude) - this.radLat)  < 0.000001 
+			&& (Math.abs(this.lon - longitude) - this.radLon) < 0.000001;
 	}
 
 	/**
