@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Tests the BaseStationParser. Particularly the correctness of the data. 
+ * Tests the BaseStationParser. Particularly the correctness of the data and whether the parser throws the 
+ * correct exceptions. 
  */
 public class TestBaseStationParser {
 
