@@ -17,7 +17,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 /**
  * A class to save and load map data to files (i.e. cache the map data).
  *
- * @author Joshua Hindley, hindlejosh, 300438963
+ * @author hindlejosh
  */
 public class CachedMapImage implements MapImage {
 
@@ -58,8 +58,6 @@ public class CachedMapImage implements MapImage {
 	 */
 	private double bottomRightLong;
 
-	//public CachedMapData() {} TODO maybe implement this to automatically load a file
-
 	/**
 	 * Creates a new CachedMapData given an InternetMapData instance and relevant image parameters.
 	 * @param data The instance of InternetMapData to get the image from.
@@ -71,7 +69,6 @@ public class CachedMapImage implements MapImage {
 	 */
 	public CachedMapImage(InternetMapImage data, double topLeftLat, double topLeftLong,
 			double bottomRightLat, double bottomRightLong) throws IOException {
-		//TODO maybe remove the data parameter and create new instance here.
 
 		this.topLeftLat = topLeftLat;
 		this.topLeftLong = topLeftLong;
@@ -80,7 +77,7 @@ public class CachedMapImage implements MapImage {
 
 		double centreLat = (topLeftLat + bottomRightLat) / 2;
 		double centreLong = (topLeftLong + bottomRightLong) / 2;
-		//TODO change this method call
+
 		this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
 		this.file = new File(IMG_CACHE_FOLDER + centreLat + "-" + centreLong + ".png");
@@ -109,24 +106,24 @@ public class CachedMapImage implements MapImage {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
 			}
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
-			BufferedWriter out = new BufferedWriter(new FileWriter(dat)); //TODO try-with-resource
-			//save image
-			RenderedImage renderedImg = this.img;
-			ImageIO.write(renderedImg, "png", this.file);
-			//save data
-			out.write("" + this.topLeftLat);
-			out.newLine();
-			out.write("" + this.topLeftLong);
-			out.newLine();
-			out.write("" + this.bottomRightLat);
-			out.newLine();
-			out.write("" + this.bottomRightLong);
-			out.close();
-		} catch (IOException e) {
-			DefaultLogger.logger.error(e.getMessage());
-			//DefaultLogger.logger.error("The map image could not be saved to " + this.file.getName());
-			throw e;
-		}
+			try (BufferedWriter out = new BufferedWriter(new FileWriter(dat));) {
+				//save image
+				RenderedImage renderedImg = this.img;
+				ImageIO.write(renderedImg, "png", this.file);
+				//save data
+				out.write("" + this.topLeftLat);
+				out.newLine();
+				out.write("" + this.topLeftLong);
+				out.newLine();
+				out.write("" + this.bottomRightLat);
+				out.newLine();
+				out.write("" + this.bottomRightLong);
+				out.close();
+			}} catch (IOException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				//DefaultLogger.logger.error("The map image could not be saved to " + this.file.getName());
+				throw e;
+			}
 	}
 
 	/**
@@ -142,29 +139,29 @@ public class CachedMapImage implements MapImage {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
 			}
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
-			Scanner sc = new Scanner(dat); //TODO try-with-resource
-			//get image
-			@Nullable BufferedImage image = ImageIO.read(this.file);
-			if (image == null) {
+			try (Scanner sc = new Scanner(dat);) {
+				//get image
+				@Nullable BufferedImage image = ImageIO.read(this.file);
+				if (image == null) {
+					sc.close();
+					throw new NullPointerException("No image could be loaded from \"" + fileName + "\"");
+				}
+				this.img = image;
+				//get the data
+				this.topLeftLat = sc.nextDouble();
+				this.topLeftLong = sc.nextDouble();
+				this.bottomRightLat = sc.nextDouble();
+				this.bottomRightLong = sc.nextDouble();
 				sc.close();
-				throw new NullPointerException("No image could be loaded from \"" + fileName + "\"");
+			}} catch (IOException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				//DefaultLogger.logger.error("The file: " + this.file.getName() + " could not be found or loaded.");
+				throw e;
+			} catch (NullPointerException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				//DefaultLogger.logger.error("The image in the file: " + this.file.getName() + " could not be read.");
+				throw e;
 			}
-			this.img = image;
-			//get the data
-			this.topLeftLat = sc.nextDouble();
-			this.topLeftLong = sc.nextDouble();
-			this.bottomRightLat = sc.nextDouble();
-			this.bottomRightLong = sc.nextDouble();
-			sc.close();
-		} catch (IOException e) {
-			DefaultLogger.logger.error(e.getMessage());
-			//DefaultLogger.logger.error("The file: " + this.file.getName() + " could not be found or loaded.");
-			throw e;
-		} catch (NullPointerException e) {
-			DefaultLogger.logger.error(e.getMessage());
-			//DefaultLogger.logger.error("The image in the file: " + this.file.getName() + " could not be read.");
-			throw e;
-		}
 	}
 
 	/**
@@ -246,8 +243,12 @@ public class CachedMapImage implements MapImage {
 			return false;
 		}
 		CachedMapImage cmd = (CachedMapImage) obj;
-		//TODO check latitudes and longitudes here?
 
+		//compare this and cmd's latitudes and longitudes
+		if (cmd.topLeftLat != this.topLeftLat || cmd.topLeftLong != this.topLeftLong
+				|| cmd.bottomRightLat != this.bottomRightLat || this.bottomRightLong != this.bottomRightLong) {
+			return false;
+		}
 		//compare this and cmd's files
 		if (!cmd.file.getName().equals(this.file.getName())) {
 			return false;
