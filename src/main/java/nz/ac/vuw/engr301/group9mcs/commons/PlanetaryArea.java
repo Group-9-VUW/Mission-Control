@@ -13,11 +13,32 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 public class PlanetaryArea {
 	
+	/**
+	 * Center latitude
+	 */
 	private final double lat;
+	
+	/**
+	 * Center longitude
+	 */
 	private final double lon;
+	
+	/**
+	 * Degrees of latitude from center to top and bottom edges
+	 */
 	private final double radLat;
+	
+	/**
+	 * Degrees of longitude from center to left and right edges
+	 */
 	private final double radLon;
 	
+	/**
+	 * @param lat
+	 * @param lon
+	 * @param radLat
+	 * @param radLon
+	 */
 	private PlanetaryArea(double lat, double lon, double radLat, double radLon)
 	{
 		this.lat = lat;
