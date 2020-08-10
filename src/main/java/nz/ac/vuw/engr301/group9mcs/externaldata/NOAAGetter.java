@@ -21,7 +21,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
  * The weather data is returned in the JSON format.
  * The JSON will be parsed and the info will be pushed to all other packages that need it.
- * @author Sai Panda, pandasai, 300449188
+ * @author pandasai
  */
 public class NOAAGetter {
 	/*

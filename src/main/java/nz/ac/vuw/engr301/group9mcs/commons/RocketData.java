@@ -2,6 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
  * Holds one instance of rocket data.
+ * @author pandasai
  */
 public class RocketData {
 

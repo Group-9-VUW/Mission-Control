@@ -7,6 +7,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.RocketData;
 /**
  * This will parse incoming data from the rocket and will create objects contained the
  * parsed information. The incoming data is in CSV format (without headers).
+ * 
+ * @author pandasai
  */
 public class BaseStationParser {
 

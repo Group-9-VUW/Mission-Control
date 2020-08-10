@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Tests the BaseStationParser. Particularly the correctness of the data and whether the parser throws the 
  * correct exceptions. 
+ * 
+ * @author pandasai
  */
 public class TestBaseStationParser {
 
