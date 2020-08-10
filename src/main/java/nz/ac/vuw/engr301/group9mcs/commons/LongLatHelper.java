@@ -4,6 +4,8 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
+ * A helper class for dealing with long/lat coordinates
+ * 
  * @author Claire
  */
 public final class LongLatHelper {
@@ -33,21 +35,47 @@ public final class LongLatHelper {
 		return 111.3215 * Math.cos(Math.toRadians(Math.abs(latitude)));
 	}
 	
+	/**
+	 * Returns the latitude N kilometers north of a given latitude
+	 * @param latitude The current latitude
+	 * @param N The number of kilometers to go north
+	 * @return The latitude N kilometers north
+	 */
 	public static double latitudeNKilometersNorth(double latitude, double N)
 	{
 		return latitude + (N / kilometersPerDegreeOfLatitude(latitude));
 	}
 	
+	/**
+	 * Returns the latitude N kilometers south of a given latitude
+	 * @param latitude The current latitude
+	 * @param N The number of kilometers to go south
+	 * @return The latitude N kilometers south
+	 */
 	public static double latitudeNKilometersSouth(double latitude, double N)
 	{
 		return latitude - (N / kilometersPerDegreeOfLatitude(latitude));
 	}
 	
+	/**
+	 * Returns the longitude N kilometers east of a given longitude
+	 * @param latitude The current latitude
+	 * @param longitude The current longitude
+	 * @param N The number of kilometers to go east
+	 * @return The longitude N kilometers east
+	 */
 	public static double longditudeNKilometersEast(double latitude, double longitude, double N)
 	{
 		return longitude + (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 	
+	/**
+	 * Returns the longitude N kilometers west of a given longitude
+	 * @param latitude The current latitude
+	 * @param longitude The current longitude
+	 * @param N The number of kilometers to go west
+	 * @return The longitude N kilometers west
+	 */
 	public static double longditudeNKilometersWest(double latitude, double longitude, double N)
 	{
 		return longitude - (N / kilometeresPerDegreeOfLongitude(latitude));
