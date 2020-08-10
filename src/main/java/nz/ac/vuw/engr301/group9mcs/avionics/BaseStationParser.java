@@ -29,17 +29,21 @@ public class BaseStationParser {
         //the rocket state will be converted on its own.
         double[] converted = new double[separated.length-1];
         RocketData.ROCKET_STATE state = null; 
-        try {
-	        for(int i = 0; i < converted.length; i++){
-	            converted[i] = Double.parseDouble(separated[i]);
-	        }
-	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1]));
-        } catch(NumberFormatException e) {
-        	DefaultLogger.logger.error("Invalid input for RocketData");
-        	throw e; 
+        
+        for(int i = 0; i < converted.length; i++){
+        	try {
+        		converted[i] = Double.parseDouble(separated[i]);
+        	} catch(NumberFormatException e) {
+            	DefaultLogger.logger.error("Invalid input for RocketData: " + separated[i] + " is not a double.");
+            	throw new NumberFormatException(separated[i] + " is not a double."); 
+        	}
+        }
+        
+	    try {
+	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1])); 
         } catch(IllegalArgumentException e) {
         	DefaultLogger.logger.error("Invalid rocket state");
-        	throw e;
+        	throw new IllegalArgumentException("Invalid rocket state: " + separated[separated.length-1]);
         }
 
         return new RocketData(converted[0], converted[1], converted[2], converted[3], converted[4], converted[5],
