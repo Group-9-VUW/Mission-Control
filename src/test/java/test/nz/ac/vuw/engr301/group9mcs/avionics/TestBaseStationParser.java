@@ -5,6 +5,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.RocketData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Tests the BaseStationParser. Particularly the correctness of the data. 
@@ -42,6 +43,20 @@ public class TestBaseStationParser {
         assertEquals(6.53, parsedData.getAirPressure());
 
         assertEquals(RocketData.ROCKET_STATE.ARMED, parsedData.getState());
+    }
+    
+    /**
+     * Checks if the parser throws an error when passed an invalid type for a double. 
+     */
+    @Test
+    public void checkInvalidDouble() {
+    	try {
+            String testData = "invalid_double,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
+            this.parser.parse(testData);
+            fail("Number format exception should be thrown.");
+    	} catch(NumberFormatException e) {
+    		assertEquals("invalid_double is not a double.", e.getMessage());
+    	}
     }
     
 }
