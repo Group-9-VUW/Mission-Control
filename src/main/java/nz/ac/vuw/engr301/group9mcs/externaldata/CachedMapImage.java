@@ -17,7 +17,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 /**
  * A class to save and load map data to files (i.e. cache the map data).
  *
- * @author Joshua Hindley, hindlejosh, 300438963
+ * @author hindlejosh
  */
 public class CachedMapImage implements MapImage {
 
