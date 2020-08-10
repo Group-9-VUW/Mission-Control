@@ -20,17 +20,44 @@ import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
  */
 public class SmoothMapImage implements MapImage {
 
+	/**
+	 * The proportion by which to load around the requested area. 1.5 = a 50% increased radius
+	 */
 	private static final double OVERREACH = 1.5;
 	
+	/**
+	 * Parent MapImage, used for all requests
+	 */
 	protected final MapImage parentImage;
+	
+	/**
+	 * For when the loading thread terminates
+	 */
 	protected final SimpleEventListener loadListener;
 	
+	/**
+	 * The latest image loaded
+	 */
 	protected volatile Image cur = new BufferedImage(400, 400, BufferedImage.TYPE_INT_ARGB);
 	
-	protected volatile double pixelsPerLat, pixelsPerLon;
+	/**
+	 * Pixels per latitude
+	 */
+	protected volatile double pixelsPerLat;
 	
+	/**
+	 * Pixels per longitude
+	 */
+	protected volatile double pixelsPerLon;
+	
+	/**
+	 * Whether we already are loading an image. Used to prevent multiple redundant loading operations
+	 */
 	protected volatile boolean loadingAlready = false;
 	
+	/**
+	 * The PlanetaryArea the current image covers. Null if no image has been loaded
+	 */
 	@Nullable
 	protected PlanetaryArea area; 
 	
@@ -83,6 +110,11 @@ public class SmoothMapImage implements MapImage {
 		return image;
 	}
 	
+	/**
+	 * Loads a given area if we're not already loading.
+	 * 
+	 * @param toLoad The area to load
+	 */
 	private void startBackgroundLoadIfIdle(PlanetaryArea toLoad)
 	{
 		if(!this.loadingAlready) {
@@ -91,6 +123,13 @@ public class SmoothMapImage implements MapImage {
 		}
 	}	
 
+	/**
+	 * Produces a background loading image as a placeholder for not-yet-loaded content
+	 * 
+	 * @param width The width of the image in pixels
+	 * @param height The height of the image in pixels
+	 * @return The image
+	 */
 	private static BufferedImage loadingImage(int width, int height)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -111,10 +150,22 @@ public class SmoothMapImage implements MapImage {
 		return image;
 	}
 	
+	/**
+	 * A image loading thread. Loads an image from the parent image and then assigns it 
+	 * to SmoothMapImage.cur
+	 * 
+	 * @author Claire
+	 */
 	private class GetImage extends Thread
 	{
+		/**
+		 * Area to load
+		 */
 		private final PlanetaryArea toLoad;
 		
+		/**
+		 * @param toLoad
+		 */
 		public GetImage(PlanetaryArea toLoad)
 		{
 			this.toLoad = toLoad;
