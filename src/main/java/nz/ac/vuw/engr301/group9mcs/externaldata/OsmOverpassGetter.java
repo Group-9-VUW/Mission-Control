@@ -2,7 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.platform.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 import java.io.*;
 import java.net.*;
