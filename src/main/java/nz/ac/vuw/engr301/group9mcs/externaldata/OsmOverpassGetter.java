@@ -29,7 +29,7 @@ public class OsmOverpassGetter {
             overpassUrl = new URL("https://lz4.overpass-api.de/api/interpreter");
         } catch (MalformedURLException e) {
             // This should NEVER be thrown, as URL is hardcoded.
-            throw new RuntimeException("Error parsing URL.");
+            throw new RuntimeException("Error parsing URL: " + e);
         }
         OVERPASS_URL = overpassUrl;
     }
@@ -81,29 +81,28 @@ public class OsmOverpassGetter {
         connection.setDoInput(true);
 
         // Setup output stream and write query.
-        // We keep a reference to output stream so we can close it!
-        OutputStream out = connection.getOutputStream();
-        OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8);
-        outWriter.write(query);
-        outWriter.flush();
-        outWriter.close();
-        out.close();
+        try (
+        		OutputStream out = connection.getOutputStream();
+        	 	OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
 
-        // Setup the input stream and a buffer to store the response.
-        BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        // Reading response byte by byte.
-        int nextByte = in.read();
-        while (nextByte != -1) {
-            buffer.write((byte) nextByte);
-            nextByte = in.read();
+	        outWriter.write(query);
+	        outWriter.flush();
         }
 
-        String response = buffer.toString();
-        buffer.close();
-        in.close();
-        return response;
+        // Setup the input stream and a buffer to store the response.
+
+        try (
+		        BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
+		        ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+
+	        // Reading response byte by byte.
+	        int nextByte = in.read();
+	        while (nextByte != -1) {
+	            buffer.write((byte) nextByte);
+	            nextByte = in.read();
+	        }
+	        return buffer.toString();
+        }
     }
 
     /**
