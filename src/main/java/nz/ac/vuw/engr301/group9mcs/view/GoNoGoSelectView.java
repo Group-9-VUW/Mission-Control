@@ -17,6 +17,7 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -58,7 +59,7 @@ public class GoNoGoSelectView extends JPanel{
 	 * @param o
 	 * @param map
 	 */
-	public GoNoGoSelectView(Object parameters, Observer o, MapImage map) {
+	public GoNoGoSelectView(Object parameters, String fileName, double lat, double lon, Observer o, MapImage map) {
 		this.obs = new ViewObservable(o);
 
 		this.setPreferredSize(new Dimension(300, 300));
@@ -75,7 +76,7 @@ public class GoNoGoSelectView extends JPanel{
 			}
 		};
 		this.sidePanel = new JPanel();
-		setupSidePanel();
+		setupSidePanel(fileName, lat, lon);
 		this.simulationResults.setName("Simulation Results");
 		this.add(this.simulationResults, BorderLayout.CENTER);
 		this.add(this.sidePanel, BorderLayout.WEST);
@@ -84,9 +85,12 @@ public class GoNoGoSelectView extends JPanel{
 	}
 
 	/**
+	 * @param fileName
+	 * @param lat
+	 * @param lon
 	 *
 	 */
-	private void setupSidePanel() {
+	private void setupSidePanel(String fileName, double lat, double lon) {
 		this.sidePanel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 1;
@@ -96,14 +100,33 @@ public class GoNoGoSelectView extends JPanel{
 		gbc.insets = new Insets(3, 3, 3, 3);
 		gbc.fill = GridBagConstraints.BOTH;
 
+		JLabel para = new JLabel("Parameters", SwingConstants.CENTER);
+		para.setFont(new Font("Dialog", Font.BOLD, 25));
+		JLabel fileNameLabel = new JLabel("Rocket File: " + fileName, SwingConstants.CENTER);
+		JLabel latLabel = new JLabel("Latitude: " + lat, SwingConstants.CENTER);
+		JLabel longLabel = new JLabel("Longitude: " + lon, SwingConstants.CENTER);
+
 		JLabel percen = new JLabel("50%", SwingConstants.CENTER);
-		System.out.println(percen.getFont().toString());
-		percen.setFont(new Font("Dialog", Font.BOLD, 30));
+		percen.setFont(new Font("Dialog", Font.BOLD, 25));
 		JLabel percen2 = new JLabel("Probability of Landing Safely", SwingConstants.CENTER);
 		JLabel percen3 = new JLabel("(Not on someone's head)", SwingConstants.CENTER);
 		JLabel length = new JLabel("2-20m", SwingConstants.CENTER);
-		length.setFont(new Font("Dialog", Font.BOLD, 30));
-		JLabel length2 = new JLabel("Prediced Landing from Launch Site", SwingConstants.CENTER);
+		length.setFont(new Font("Dialog", Font.BOLD, 25));
+		JLabel length2 = new JLabel("Predicted Landing from Launch Site", SwingConstants.CENTER);
+
+		gbc.weighty = 1;
+		this.sidePanel.add(new JPanel(), gbc);
+		gbc.weighty = 0;
+		gbc.gridy++;
+
+		this.sidePanel.add(para, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(fileNameLabel, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(latLabel, gbc);
+		gbc.gridy++;
+		this.sidePanel.add(longLabel, gbc);
+		gbc.gridy++;
 
 		gbc.weighty = 1;
 		this.sidePanel.add(new JPanel(), gbc);
@@ -147,6 +170,7 @@ public class GoNoGoSelectView extends JPanel{
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
+				JOptionPane.showMessageDialog(GoNoGoSelectView.this, "WARNING: Please double check the location before launching", "WARNING", JOptionPane.ERROR_MESSAGE);
 				String args = "save and quit";
 				GoNoGoSelectView.this.obs.notify(args);
 			}
