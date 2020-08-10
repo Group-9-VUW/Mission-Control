@@ -53,9 +53,23 @@ public class TestBaseStationParser {
     	try {
             String testData = "invalid_double,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
             this.parser.parse(testData);
-            fail("Number format exception should be thrown.");
+            fail("NumberFormatException should be thrown.");
     	} catch(NumberFormatException e) {
     		assertEquals("invalid_double is not a double.", e.getMessage());
+    	}
+    }
+    
+    /**
+     * Checks if the parser throws an error when passed an invalid rocket state. 
+     */
+    @Test
+    public void checkInvalidState() {
+    	try {
+    		String testData = "192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,invalid_state";
+    		this.parser.parse(testData);
+    		fail("IllegalArguementException should be thrown");
+    	} catch(IllegalArgumentException e) {
+    		assertEquals("invalid_state is not a valid rocket state.", e.getMessage());
     	}
     }
     

@@ -43,7 +43,7 @@ public class BaseStationParser {
 	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1])); 
         } catch(IllegalArgumentException e) {
         	DefaultLogger.logger.error("Invalid rocket state");
-        	throw new IllegalArgumentException("Invalid rocket state: " + separated[separated.length-1]);
+        	throw new IllegalArgumentException(separated[separated.length-1] + " is not a valid rocket state.");
         }
 
         return new RocketData(converted[0], converted[1], converted[2], converted[3], converted[4], converted[5],
