@@ -5,10 +5,26 @@ import java.util.function.Function;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+/**
+ * A helper class for managing function conditions.
+ * 
+ * @author Claire
+ */
 public enum Condition {
 	
+	/**
+	 * Preconditions, used for when method parameters are incorrect
+	 */
 	PRE((s) -> { return new PreconditionViolationException(s); }), 
+	
+	/**
+	 * Postcondition, used for when method returns do not satisfy contracts.
+	 */
 	POST((s) -> { return new PostconditionViolationException(s); }), 
+	
+	/**
+	 * Invariants, used for when method internal state does not satisfy contracts
+	 */
 	INVARIANT((s) -> { return new InvariantViolationException(s); });
 	
 	private final Function<String, Error> function;
@@ -74,7 +90,7 @@ public enum Condition {
 	 * Checks the collection <code>i</code> is empty. If it isn't, it throws an exception.
 	 * 
 	 * @param name The name of the object
-	 * @param i the collection
+	 * @param collection the collection
 	 */
 	public void empty(String name, Collection<Object> collection)
 	{
@@ -87,7 +103,7 @@ public enum Condition {
 	 * Checks the collection <code>i</code> is empty. If it is, it throws an exception.
 	 * 
 	 * @param name The name of the object
-	 * @param i the collection
+	 * @param collection the collection
 	 */
 	public void notEmpty(String name, Collection<Object> collection)
 	{
@@ -100,7 +116,7 @@ public enum Condition {
 	 * Checks the collection <code>i</code> is contains an object. If it doesn't, it throws an exception.
 	 * 
 	 * @param name The name of the object
-	 * @param i the collection
+	 * @param collection the collection
 	 * @param o the object we're looking for
 	 */
 	public void contains(String name, Collection<Object> collection, Object o)
@@ -111,3 +127,4 @@ public enum Condition {
 	}
 
 }
+
