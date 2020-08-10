@@ -133,4 +133,145 @@ public class RocketData {
         this.airPressure = airPressure;
         this.state = state;
     }
+
+    /**
+     * Get the timestamp.
+     * @return the timestamp of the clock on the rocket.
+     */
+    public double getTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Get the latitude.
+     * @return the latitude of the rocket.
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * Get the longitude.
+     * @return the longtitude of the rocket.
+     */
+    public double getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * Get the gimbal x.
+     * @return the x value of the gimbal.
+     */
+    public double getGimbalX() {
+        return gimbalX;
+    }
+
+    /**
+     * Get the gimbal y.
+     * @return the y value of the gimbal.
+     */
+    public double getGimbalY() {
+        return gimbalY;
+    }
+
+    /**
+     * Get the acceleration for the x axis.
+     * @return the acceleration for the x axis.
+     */
+    public double getAccelerationX() {
+        return accelerationX;
+    }
+
+    /**
+     * Get the acceleration for the y axis.
+     * @return the acceleration for the y axis.
+     */
+    public double getAccelerationY() {
+        return accelerationY;
+    }
+
+    /**
+     * Get the acceleration for the z axis.
+     * @return the acceleration for the z axis.
+     */
+    public double getAccelerationZ() {
+        return accelerationZ;
+    }
+
+    /**
+     * Get the rotation about the x axis.
+     * @return the rotation about the x axis.
+     */
+    public double getRotationX() {
+        return rotationX;
+    }
+
+    /**
+     * Get the rotation about the y axis.
+     * @return the rotation about the y axis.
+     */
+    public double getRotationY() {
+        return rotationY;
+    }
+
+    /**
+     * Get the rotation about the z axis.
+     * @return the rotation about the z axis.
+     */
+    public double getRotationZ() {
+        return rotationZ;
+    }
+
+    /**
+     * Get the humidity outside the rocket.
+     * @return the humidity outside the rocket.
+     */
+    public double getHumidity() {
+        return humidity;
+    }
+
+    /**
+     * Get the temperature outside the rocket.
+     * @return the temperature outside the rocket.
+     */
+    public double getTemperature() {
+        return temperature;
+    }
+
+    /**
+     * Get the air pressure outside the rocket.
+     * @return the air pressure outside the rocket.
+     */
+    public double getAirPressure() {
+        return airPressure;
+    }
+
+    /**
+     * Get the state of the rocket.
+     * @return the state of the rocket.
+     */
+    public ROCKET_STATE getState() {
+        return state;
+    }
+
+    @Override
+    public String toString() {
+        return "RocketData{" +
+                "timestamp=" + timestamp +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", gimbalX=" + gimbalX +
+                ", gimbalY=" + gimbalY +
+                ", accelerationX=" + accelerationX +
+                ", accelerationY=" + accelerationY +
+                ", accelerationZ=" + accelerationZ +
+                ", rotationX=" + rotationX +
+                ", rotationY=" + rotationY +
+                ", rotationZ=" + rotationZ +
+                ", humidity=" + humidity +
+                ", temperature=" + temperature +
+                ", airPressure=" + airPressure +
+                ", state=" + state +
+                '}';
+    }
 }

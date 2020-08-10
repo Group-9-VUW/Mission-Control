@@ -26,17 +26,11 @@ public class BaseStationParser {
         double[] converted = new double[separated.length-1];
         for(int i = 0; i < converted.length; i++){
             converted[i] = Double.parseDouble(separated[i]);
-            System.out.println(i + " " + converted[i]);
         }
         RocketData.ROCKET_STATE state = RocketData.ROCKET_STATE.valueOf(separated[separated.length-1]);
 
         return new RocketData(converted[0], converted[1], converted[2], converted[3], converted[4], converted[5],
                 converted[6], converted[7], converted[8], converted[9], converted[10], converted[11], converted[12],
-                converted[13],state);
-    }
-
-    public static void main(String[] args) {
-        BaseStationParser b = new BaseStationParser();
-        b.parse("192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED");
+                converted[13], state);
     }
 }
