@@ -13,6 +13,14 @@ import org.eclipse.jdt.annotation.Nullable;
  */
 public class Null {
 	
+	/**
+	 * Asserts an object as non null.
+	 * 
+	 * @param <T> The type of the object
+	 * @param t The object
+	 * @throws PreconditionViolationException if object is null
+	 * @return The object, if it is non null
+	 */
 	@NonNull
 	public static <T> T nonNull(@Nullable T t)
 	{
