@@ -2,6 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 import java.io.*;
 import java.net.*;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
  *
  * @author Bailey Jewell (jewellbail)
  */
-@SuppressWarnings("null")
 public class OsmOverpassGetter {
 
+    /**
+     * URL for OSM Overpass interpreter.
+     */
     private static final URL OVERPASS_URL;
 
     static {
@@ -25,8 +28,8 @@ public class OsmOverpassGetter {
         try {
             overpassUrl = new URL("https://lz4.overpass-api.de/api/interpreter");
         } catch (MalformedURLException e) {
-            overpassUrl = null;
-            e.printStackTrace();
+            // This should NEVER be thrown, as URL is hardcoded.
+            throw new RuntimeException("Error parsing URL: " + e);
         }
         OVERPASS_URL = overpassUrl;
     }
@@ -39,8 +42,10 @@ public class OsmOverpassGetter {
      * @param latBot Latitude of southernmost point.
      * @param lonRight Longitude of easternmost point.
      * @return Returns an OsmOverpassData object created from the JSON response from Overpass.
+     * @throws IOException Throws IOException on network/disk error.
      */
-    public static OsmOverpassData getAreasInBox(double latTop, double lonLeft, double latBot, double lonRight) {
+    public static OsmOverpassData getAreasInBox(double latTop, double lonLeft, double latBot, double lonRight)
+            throws IOException {
         // Order of parameters is switched to suit API call.
         return parseData(getAreasInBoxJson(latBot, lonLeft, latTop, lonRight));
     }
@@ -53,8 +58,9 @@ public class OsmOverpassGetter {
      * @param north Latitude of northernmost point.
      * @param east Longitude of easternmost point.
      * @return Returns the JSON response from Overpass.
+     * @throws IOException Throws IOException on network/disk error.
      */
-    private static String getAreasInBoxJson(double south, double west, double north, double east) {
+    private static String getAreasInBoxJson(double south, double west, double north, double east) throws IOException {
         // Firstly, we must generate the query.
         String queryBase = "data=" +
                 "[out:json][timeout:25];\n" +
@@ -67,51 +73,35 @@ public class OsmOverpassGetter {
         String query = String.format(queryBase, new Double(south), new Double(west),
         		new Double(north), new Double(east));
 
-        try {
-            // Setup connection.
-            HttpURLConnection connection = (HttpURLConnection) OVERPASS_URL.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact jewellbail@ecs.vuw.ac.nz");
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
+        // Setup connection.
+        HttpURLConnection connection = (HttpURLConnection) OVERPASS_URL.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("User-Agent", "Mission Control 0.1 contact jewellbail@ecs.vuw.ac.nz");
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
 
-            // Setup output stream and write query.
-            try (
-            		// We keep a reference to output stream so we can close it!
-            		OutputStream out = connection.getOutputStream();
-            		OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
-	            outWriter.write(query);
-	            outWriter.flush();
-	            outWriter.close();
-	            out.close();
-            } catch (IOException e) {
-            	// Error on write.
-            	e.printStackTrace();
-            	return null;
-            }
+        // Setup output stream and write query.
+        try (
+        		OutputStream out = connection.getOutputStream();
+        	 	OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
 
-            try (
-		            // Setup the input stream and a buffer to store the response.
-		            BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
-		            ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+	        outWriter.write(query);
+	        outWriter.flush();
+        }
 
-	            // Reading response byte by byte.
-	            int nextByte = in.read();
-	            while(nextByte != -1) {
-	                buffer.write((byte) nextByte);
-	                nextByte = in.read();
-	            }
+        // Setup the input stream and a buffer to store the response.
 
-	            String response = buffer.toString();
-	            buffer.close();
-	            in.close();
-	            return response;
-            }
+        try (
+		        BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
+		        ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 
-        } catch (IOException e) {
-            // Connection issue.
-            e.printStackTrace();
-            return null;
+	        // Reading response byte by byte.
+	        int nextByte = in.read();
+	        while (nextByte != -1) {
+	            buffer.write((byte) nextByte);
+	            nextByte = in.read();
+	        }
+	        return buffer.toString();
         }
     }
 
@@ -152,8 +142,8 @@ public class OsmOverpassGetter {
                     ));
                     break;
 			default:
-				// Encountered malformed object.
-				return null; // TODO: Throw error here (make appropriate exception).
+				// Encountered malformed object - precondition requires valid map object.
+                throw new PreconditionViolationException("Malformed map object received.");
             }
         }
         // Return the OSM data with nodes reduced to a list.
