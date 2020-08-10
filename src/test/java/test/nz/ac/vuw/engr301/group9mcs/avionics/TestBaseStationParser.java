@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests the BaseStationParser. Particularly the correctness of the data. 
+ */
 public class TestBaseStationParser {
 
     private BaseStationParser parser = new BaseStationParser();
@@ -16,7 +19,7 @@ public class TestBaseStationParser {
     @Test
     public void checkCorrectness(){
         String testData = "192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
-        RocketData parsedData = parser.parse(testData);
+        RocketData parsedData = this.parser.parse(testData);
 
         assertEquals(192872, parsedData.getTimestamp());
 
@@ -39,6 +42,6 @@ public class TestBaseStationParser {
         assertEquals(6.53, parsedData.getAirPressure());
 
         assertEquals(RocketData.ROCKET_STATE.ARMED, parsedData.getState());
-
     }
+    
 }
