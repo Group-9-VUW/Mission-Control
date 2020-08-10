@@ -8,6 +8,9 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  */
 public class InvariantViolationException extends Error {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 764236203625490841L;
 
 	/**

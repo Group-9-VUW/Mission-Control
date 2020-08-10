@@ -27,8 +27,14 @@ public enum Condition {
 	 */
 	INVARIANT((s) -> { return new InvariantViolationException(s); });
 	
+	/**
+	 * A function to turn a string into an exception of the correct type
+	 */
 	private final Function<String, Error> function;
 	
+	/**
+	 * @param func 
+	 */
 	Condition(Function<String, Error> func)
 	{
 		this.function = func;
