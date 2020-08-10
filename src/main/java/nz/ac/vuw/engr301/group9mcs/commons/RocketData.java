@@ -90,11 +90,6 @@ public class RocketData {
     private final double airPressure;
 
     /**
-     * Battery status (need to confirm exact meaning of this).
-     */
-    private final double batteryStatus;
-
-    /**
      * The state of the rocket.
      */
     private final ROCKET_STATE state;
@@ -115,10 +110,12 @@ public class RocketData {
      * @param humidity humidty outside the rocket.
      * @param temperature temperature outside the rocket.
      * @param airPressure air pressure outside the rocket.
-     * @param batteryStatus battery status of the rocket.
      * @param state state of the rocket.
      */
-    public RocketData(double timestamp, double latitude, double longitude, double gimbalX, double gimbalY, double accelerationX, double accelerationY, double accelerationZ, double rotationX, double rotationY, double rotationZ, double humidity, double temperature, double airPressure, double batteryStatus, ROCKET_STATE state){
+    public RocketData(double timestamp, double latitude, double longitude, double gimbalX, double gimbalY,
+                      double accelerationX, double accelerationY, double accelerationZ,
+                      double rotationX, double rotationY, double rotationZ,
+                      double humidity, double temperature, double airPressure, ROCKET_STATE state){
         this.timestamp = timestamp;
         this.latitude = latitude;
 
@@ -134,7 +131,6 @@ public class RocketData {
         this.humidity = humidity;
         this.temperature = temperature;
         this.airPressure = airPressure;
-        this.batteryStatus = batteryStatus;
         this.state = state;
     }
 }
