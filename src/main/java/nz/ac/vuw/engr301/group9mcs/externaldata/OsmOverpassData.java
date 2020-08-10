@@ -1,5 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -58,11 +60,11 @@ public class OsmOverpassData {
          * @param lon Longitude of the node.
          * @param tags Tags associated with the node, describing the node's purpose.
          */
-        Node(long id, double lat, double lon, Map<String, String> tags) {
+        Node(long id, double lat, double lon, @Nullable Map<String, String> tags) {
             this.ID = id;
             this.LAT = lat;
             this.LON = lon;
-            this.TAGS = tags;
+            this.TAGS = tags != null ? tags : Collections.emptyMap();
         }
 
         /**
@@ -92,10 +94,10 @@ public class OsmOverpassData {
 		 * @param nodes List of nodes composing the way.
          * @param tags Tags associated with the node, describing the node's purpose.
          */
-        Way(long id, List<Node> nodes, Map<String, String> tags) {
+        Way(long id, List<Node> nodes, @Nullable Map<String, String> tags) {
             this.ID = id;
             this.NODES = nodes;
-            this.TAGS = tags;
+            this.TAGS = tags != null ? tags : Collections.emptyMap();
         }
 
         /**
