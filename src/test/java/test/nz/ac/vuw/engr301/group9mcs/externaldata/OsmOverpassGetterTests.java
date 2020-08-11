@@ -3,17 +3,16 @@ package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.externaldata.OsmOverpassData;
 import org.junit.jupiter.api.Test;
+import java.io.IOException;
 
 import static nz.ac.vuw.engr301.group9mcs.externaldata.OsmOverpassGetter.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-
 /**
  * Tests for Overpass API.
  *
- * Note that I have kept the number of test cases and query size here small to prevent undue load on the Overpass
- * endpoints.
+ * Note that I have kept the number of test cases and query size
+ * here small to prevent undue load on the Overpass endpoints.
  *
  * @author jewellbail
  * @editor hindlejosh
