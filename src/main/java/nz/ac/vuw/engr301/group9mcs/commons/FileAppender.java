@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import org.apache.log4j.*;
+import org.apache.log4j.AppenderSkeleton;
 
 /**
  * A log4j appender which appends the details of the log to a file. Each time the program is run the logs will be

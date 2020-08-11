@@ -3,7 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 import java.time.Instant;
 
 import org.apache.log4j.spi.LoggingEvent;
-import org.apache.log4j.*;
+import org.apache.log4j.Layout;
 
 /**
  * The layout for the logger. 
