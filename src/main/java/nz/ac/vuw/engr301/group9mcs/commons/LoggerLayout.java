@@ -3,6 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 import java.time.Instant;
 
 import org.apache.log4j.spi.LoggingEvent;
+import org.apache.log4j.*;
 
 /**
  * The layout for the logger. 
@@ -10,7 +11,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * @author August Bolter
  *
  */
-public class LoggerLayout extends org.apache.log4j.Layout {
+public class LoggerLayout extends Layout {
 
 	@Override
 	public void activateOptions() {}

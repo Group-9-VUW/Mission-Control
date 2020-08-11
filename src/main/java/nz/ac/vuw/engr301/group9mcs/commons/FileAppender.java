@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import org.apache.log4j.*;
 
 /**
  * A log4j appender which appends the details of the log to a file. Each time the program is run the logs will be
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * @author August Bolter
  *
  */
-public class FileAppender extends org.apache.log4j.AppenderSkeleton {
+public class FileAppender extends AppenderSkeleton {
 	
 	private LoggerLayout layout; //The layout the appender will use
 	private FileWriter writer;
