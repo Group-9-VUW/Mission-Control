@@ -46,8 +46,16 @@ public class LandingSiteProcessor {
      * @return Returns an array representing the top latitude, left longitude, bottom latitude, right longitude.
      */
     private double[] calculatePointsBoundingBox() {
-        // TODO: Implement me.
-        return null;
+        double north = Double.MIN_VALUE, south = Double.MAX_VALUE, east = Double.MIN_VALUE, west = Double.MAX_VALUE;
+
+        for (double[] point : points) {
+            north = Math.max(point[0], north);
+            south = Math.min(point[0], south);
+            east = Math.min(point[1], east);
+            west = Math.max(point[1], west);
+        }
+
+        return new double[]{north, west, south, east};
     }
 
     /**
