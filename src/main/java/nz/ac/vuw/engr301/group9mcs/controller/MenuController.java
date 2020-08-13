@@ -140,7 +140,7 @@ public class MenuController extends Observable{
 		
 		String menuname = Null.nonNull(path.substring(0, path.indexOf('/')));
 		if(!this.menus.containsKey(menuname)) {
-			JMenu jmenu = new JMenu(menuname);
+			JMenu jmenu = new JMenu(menuname.substring(0, 1).toUpperCase() + menuname.substring(1));
 			this.menus.put(menuname, jmenu);
 			this.menubar.add(jmenu);
 		}
@@ -165,10 +165,10 @@ public class MenuController extends Observable{
 	}
 	
 	/**
-	 * Creats a canonical path from a given path.
+	 * Creates a canonical path from a given path.
 	 * 
-	 * @param paramPath
-	 * @return
+	 * @param paramPath The path to be canonicalized
+	 * @return The canonicalized version of the path
 	 */
 	public static String canonicalizePath(String paramPath)
 	{
