@@ -56,7 +56,7 @@ class TestPerspectiveController {
 		this.m = new MenuController(Null.nonNull(this.frame));
 		this.p = new PerspectiveController(Null.nonNull(this.m));
 		this.fp = new FakePerspective("FakePerspective", null);
-		this.fp.add("File/Start", "Start", this.fakeListen);
+		this.fp.add("File/Start", "Start", Null.nonNull(this.fakeListen));
 		this.p.addPerspective("start", Null.nonNull(this.fp));
 		this.p.changePerspective("start");
 	}
@@ -160,8 +160,8 @@ class TestPerspectiveController {
 	void testCheckAddedMenuItemsAreDisabledWhenOutOfPersepective() {
 		setUpPerspective();
 		FakePerspective second = new FakePerspective("second", null);
-		second.add("File/Second", "Second", this.fakeListen);
-		second.add("Julius/Null", "Null", this.fakeListen);
+		second.add("File/Second", "Second", Null.nonNull(this.fakeListen));
+		second.add("Julius/Null", "Null", Null.nonNull(this.fakeListen));
 		this.p.addPerspective("second", second);
 		this.p.changePerspective("start");
 		assertFalse(this.m.isEnabled("File/Second"));
