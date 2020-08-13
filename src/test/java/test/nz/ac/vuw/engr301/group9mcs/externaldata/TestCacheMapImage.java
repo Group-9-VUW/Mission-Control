@@ -21,6 +21,9 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
  */
 public final class TestCacheMapImage {
 
+	/**
+	 * Tests that writing an then reading from cache matches data from the network.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testReadWrite()
@@ -54,7 +57,7 @@ public final class TestCacheMapImage {
 				for(int j = 0; j < height; j++)
 					assertEquals(bimage1.getRGB(i, j), bimage2.getRGB(i, j));
 		} catch (IOException | NullPointerException e) {
-			fail(e.getMessage()); //TODO handle
+			fail(e); 
 		}
 	}
 }
