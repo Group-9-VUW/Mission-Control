@@ -13,6 +13,9 @@ import javax.swing.JFrame;
  */
 public class MainController extends JFrame {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -6186153488874946242L;
 	
 	/**
@@ -60,7 +63,7 @@ public class MainController extends JFrame {
 	/**
 	 * Changes the active perspective. Should only be called once
 	 * 
-	 * @param name
+	 * @param name The name of the perspective to set
 	 */
 	public void setPerspective(String name)
 	{
