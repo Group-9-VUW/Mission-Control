@@ -106,6 +106,7 @@ public class CachedMapImage implements MapImage {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
 			}
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
+			dat.createNewFile();
 			try (BufferedWriter out = new BufferedWriter(new FileWriter(dat));) {
 				//save image
 				RenderedImage renderedImg = this.img;
