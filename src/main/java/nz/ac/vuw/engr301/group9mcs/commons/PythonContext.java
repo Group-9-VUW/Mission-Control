@@ -7,10 +7,26 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * This class is responsible for checking the version of Python the user has installed. 
+ * This will be passed into the NOAAGetter so that the correct python command can be ran. 
+ * @author Sai
+ */
 public class PythonContext {
+	/**
+	 * This is the python command to run python on the users machine. 
+	 * It will default to "python" but this could be platform dependant so it can be 
+	 * "py" aswell. 
+	 */
     private String pythonCommand = "python";
 
-    public boolean hasValidPython() throws IOException{
+    /**
+     * Checks if the user has the required python version (> 3).
+     * @return true if the user has python version greater than 3, else false.
+     * @throws IOException if the command cannot be ran. 
+     */
+    @SuppressWarnings("static-method")
+	public boolean hasValidPython() throws IOException{
         try {
             Process process = Runtime.getRuntime().exec("python --version");
             InputStream is = process.getInputStream();
@@ -37,4 +53,12 @@ public class PythonContext {
             throw e;
         }
     }
+
+	/**
+	 * @return the pythonCommand
+	 */
+	public String getPythonCommand() {
+		return this.pythonCommand;
+	}
+
 }
