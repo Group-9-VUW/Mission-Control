@@ -21,6 +21,14 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	private JPanel panel;
 	
+	// GO NO GO PANEL : simulation
+	// ARM BUTTON : popup to ask user "are you sure?" -> Disclaimer: You are responsible for checking the surroundings are really clear before firing. Don't trust our maps which don't know about people.
+	// BIG FAT WARNING PANEL : do not launch, we know where you are
+	// PANEL TO CONNECT TO ROCKET : should be first thing
+	// CACHED MAP
+	// INPUT FOR WEATHER : User should gather weather data in the field
+	// BUTTON TO RUN SIMULATION : sends weather data, displays output
+	
 	/**
 	 * Construct the Panel
 	 */
