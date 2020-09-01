@@ -21,6 +21,9 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 */
 	private JPanel panel;
 	
+	// WARNING PANEL : armed and dangerous, do not touch rocket -> close when rocket is fired
+	// ROCKET DATA PANEL : text output from rocket?
+	
 	/**
 	 * Construct the Panel
 	 */
