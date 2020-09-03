@@ -45,7 +45,7 @@ public class TestLogger {
 	@Test
 	public void testLoggerLayoutNull() {
 		LoggerLayout layout = new LoggerLayout();
-		assertNull(layout.format(null));
+		assertEquals("", layout.format(null));
 	}
 	
 	/**
