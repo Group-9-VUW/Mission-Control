@@ -15,10 +15,10 @@ import java.util.Scanner;
 public class PythonContext {
 	/**
 	 * This is the python command to run python on the users machine. 
-	 * It will default to "python" but this could be platform dependant so it can be 
-	 * "py" aswell. 
+	 * If the python3 command runs, then the user should be able to successfully
+     * run the NOAA python script (provided that they have the required libraries).
 	 */
-    private static String pythonCommand = "python";
+    public static final String PYTHON_COMMAND = "python3";
 
     /**
      * Checks if the user has the required python version (> 3).
@@ -41,9 +41,13 @@ public class PythonContext {
             }
 
             String[] split = pythonVersion.split(" ");
+            // Sample output here is
+            // Python x.y.z
+            // Checking the value of 'x' is sufficient enough to check if the user
+            // has a python version >= 3 installed.
             if(Character.getNumericValue(split[1].charAt(0)) < 3){
                 DefaultLogger.logger.error("User has python version " + split[1] + ". Minimum python version" +
-                        "needed to run pyrocket is Python 3.");
+                        "needed to run rocketpyalpha is Python 3.");
                 return false;
             }
 
@@ -53,12 +57,5 @@ public class PythonContext {
             throw e;
         }
     }
-
-	/**
-	 * @return the pythonCommand
-	 */
-	public static String getPythonCommand() {
-		return this.pythonCommand;
-	}
 
 }
