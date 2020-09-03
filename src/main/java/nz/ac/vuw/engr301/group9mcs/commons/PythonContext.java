@@ -18,7 +18,7 @@ public class PythonContext {
 	 * If the python3 command runs, then the user should be able to successfully
      * run the NOAA python script (provided that they have the required libraries).
 	 */
-    public static final String PYTHON_COMMAND = "python3";
+    public static String pythonCommand = "python3";
 
     /**
      * Checks if the user has the required python version (> 3).
@@ -61,9 +61,10 @@ public class PythonContext {
                     DefaultLogger.logger.error("User has python version " + split[1] + ". Minimum python version" +
                             "needed to run rocketpyalpha is Python 3.");
                     return false;
+                } else {
+                    pythonCommand = "python";
+                    return true;
                 }
-
-                return true;
             }
         } catch (IOException e) {
             DefaultLogger.logger.error("Error running 'python --version'");
