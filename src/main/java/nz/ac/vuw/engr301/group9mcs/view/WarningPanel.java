@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
+
 /**
  * Shows a warning.
  * 
@@ -37,7 +39,7 @@ public class WarningPanel extends JPanel{
 	/**
 	 * Warning.
 	 */
-	private String warning;
+	private String[] warnings;
 	
 	/**
 	 * Creates the Panel, adds Observer, adds warning message.
@@ -45,9 +47,9 @@ public class WarningPanel extends JPanel{
 	 * @param o
 	 * @param w
 	 */
-	public WarningPanel(Observer o, String w) {
-		//this.obs = new ViewObservable(o);
-		this.warning = w;
+	public WarningPanel(Observer o, String[] w) {
+		this.obs = new ViewObservable(o);
+		this.warnings = w;
 		
 		this.setPreferredSize(new Dimension(300, 300));
 		this.setLayout(new BorderLayout());
@@ -63,71 +65,32 @@ public class WarningPanel extends JPanel{
 		g.setColor(Color.red);
 		g.fillRect(0, 0, width, height);
 		
+		String longest = getLongest(this.warnings);
+		
 		FontMetrics largeFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize("WARNING", (Graphics2D) g, width)));
 		Rectangle2D largeRect = largeFont.getStringBounds("WARNING", g);
-		FontMetrics smallFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize(this.warning, (Graphics2D) g, width)));
-		Rectangle2D smallRect = smallFont.getStringBounds(this.warning, g);
-		int fontHeight = (int)(largeRect.getHeight() + (largeFont.getAscent() / 4) + smallRect.getHeight());
+		FontMetrics smallFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize(longest, (Graphics2D) g, width)));
+		Rectangle2D smallRect = smallFont.getStringBounds(longest, g);
+		int fontHeight = (int)(largeRect.getHeight() + (largeFont.getAscent() / 4) 
+				+ (smallRect.getHeight() * this.warnings.length) + ((smallFont.getAscent() / 4) * (this.warnings.length - 1)));
 		int y = (height / 2) - (fontHeight / 2);
 		
 		g.setColor(Color.yellow);
 		g.fillRect(0, y, width, fontHeight);
 		g.setColor(Color.black);
 		
-		int smallX = (int)((width - smallRect.getWidth()) / 2);
 		int largeX = (int)((width - largeRect.getWidth()) / 2);
 		g.setFont(largeFont.getFont());
 		g.drawString("WARNING", largeX, y + (int)largeRect.getHeight() - (largeFont.getAscent() / 4));
 		g.setFont(smallFont.getFont());
-		g.drawString(this.warning, smallX, y + (int)largeRect.getHeight() + (int)smallRect.getHeight());
+		for(int i = 0; i < this.warnings.length; i++) {
+			smallRect = smallFont.getStringBounds(this.warnings[i], g);
+			g.drawString(this.warnings[i], (int)((width - smallRect.getWidth()) / 2), 
+					y + (int)largeRect.getHeight() + (int)smallRect.getHeight() + (((int)smallRect.getHeight() + (smallFont.getAscent() / 4)) * i));
+		}
 		
 		//fitStringTop("WARNING", (Graphics2D) g, 0, y, width, fontHeight, largeFont);
 		//fitStringBottom(this.warning, (Graphics2D) g, 0, y + largeFont.getHeight(), width, fontHeight, smallFont);
-	}
-	
-	/**
-	 * Display the String in the rectangle (x, y, width, height).
-	 * 
-	 * Should be centered on the y axis.
-	 * Should be close to the bottom of the rectangle.
-	 * Should fill the width of the rectangle.
-	 * @param s 
-	 * @param g 
-	 * @param x 
-	 * @param y 
-	 * @param width 
-	 * @param height 
-	 * @param fm 
-	 */
-	private static void fitStringTop(String s, Graphics2D g, int x, int y, int width, int height, FontMetrics fm) {
-		g.setFont(fm.getFont());
-		Rectangle2D rect = fm.getStringBounds(s, g);
-		int xString = (int)((width - rect.getWidth()) / 2);
-		int yString = 0;
-		g.drawString(s, x + xString, y + yString);
-	}
-	
-	/**
-	 * Display the String in the rectangle (x, y, width, height).
-	 * 
-	 * Should be centered on the y axis.
-	 * Should be close to the top of the rectangle.
-	 * Should fill the width of the rectangle.
-	 * 
-	 * @param s
-	 * @param g
-	 * @param width
-	 * @param x
-	 * @param y
-	 * @param height
-	 * @param fm 
-	 */
-	private static void fitStringBottom(String s, Graphics2D g, int x, int y, int width, int height, FontMetrics fm) {
-		g.setFont(fm.getFont());
-		Rectangle2D rect = fm.getStringBounds(s, g);
-		int xString = (int)((width - rect.getWidth()) / 2);
-		int yString = 0;
-		g.drawString(s, x + xString, y + yString);
 	}
 	
 	/**
@@ -147,11 +110,26 @@ public class WarningPanel extends JPanel{
 			f = new Font("Serif", Font.PLAIN, font);
 			fm = g.getFontMetrics(f);
 		}
-		if (fm.stringWidth(s) > width) {
+		if (fm.stringWidth(s) > width - 4) {
 			font --;
 		}
-		System.out.println(s + " " + font);
 		return font;
+	}
+	
+	/**
+	 * Return the longest String from an array.
+	 * 
+	 * @param s
+	 * @return Return the longest String from an array.
+	 */
+	private static String getLongest(String[] s) {
+		String longest = "";
+		for(int i = 0; i < s.length; i++) {
+			if (s[i].length() > longest.length()) {
+				longest = s[i];
+			}
+		}
+		return Null.nonNull(longest);
 	}
 	
 }
