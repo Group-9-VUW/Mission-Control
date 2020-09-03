@@ -1,5 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
+import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +36,7 @@ public class PythonContext {
             Process process = Runtime.getRuntime().exec(currentCommand);
             InputStream is = process.getInputStream();
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is));) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
                 String pythonThreeOutput = reader.readLine();
 
                 if (pythonThreeOutput != null) {
@@ -74,7 +76,7 @@ public class PythonContext {
         Process process = Runtime.getRuntime().exec("python --version");
         InputStream is = process.getInputStream();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String pythonVersion = reader.readLine();
 
             if (pythonVersion == null || !pythonVersion.contains("Python")) {
@@ -95,5 +97,33 @@ public class PythonContext {
             pythonCommand = "python";
             return true;
         }
+    }
+
+    public static boolean hasRequiredModules() throws IOException{
+        if (!hasValidPython()){
+            return false;
+        }
+
+        try {
+            Process process = Runtime.getRuntime().exec(pythonCommand + " src/main/java/nz/ac/vuw/engr301/group9mcs" +
+                    "/externaldata/check_has_modules.py");
+            InputStream is = process.getInputStream();
+            String output;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
+                output = reader.readLine();
+            }
+            if (output.equals("modules are missing")){
+                return false;
+            }
+        } catch (IOException e) {
+            DefaultLogger.logger.error("Error running check_has_modules.py");
+            throw e;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(hasRequiredModules());
     }
 }
