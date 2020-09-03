@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * This class is responsible for checking the version of Python the user has installed. 
@@ -98,10 +96,5 @@ public class PythonContext {
             pythonCommand = "python";
             return true;
         }
-    }
-
-
-    public static void main(String[] args) throws IOException{
-        System.out.println(hasValidPython());
     }
 }
