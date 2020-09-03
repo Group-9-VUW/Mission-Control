@@ -28,34 +28,46 @@ public class PythonContext {
 
 	public static boolean hasValidPython() throws IOException{
         try {
-            Process process = Runtime.getRuntime().exec("python --version");
+
+            Process process = Runtime.getRuntime().exec("python3 --version");
             InputStream is = process.getInputStream();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-            String pythonVersion = reader.readLine();
+            String pythonThreeOutput = reader.readLine();
 
-            if(pythonVersion == null || !pythonVersion.contains("Python")){
-                DefaultLogger.logger.error("User does not have python installed.");
-                return false;
+            if (pythonThreeOutput != null){
+                //If python3 gives output, then the user has python 3 installed.
+                return true;
+            } else {
+                //The normal "python" command can also be used to check the python version,
+                //so we check with that command aswell and verify if the version is python three.
+                process = Runtime.getRuntime().exec("python --version");
+                is = process.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is));
+                String pythonVersion = reader.readLine();
+
+                if(pythonVersion == null || !pythonVersion.contains("Python")){
+                    DefaultLogger.logger.error("User does not have python installed.");
+                    return false;
+                }
+
+                String[] split = pythonVersion.split(" ");
+                // Sample output here is
+                // Python x.y.z
+                // Checking the value of 'x' is sufficient enough to check if the user
+                // has a python version >= 3 installed.
+                if(Character.getNumericValue(split[1].charAt(0)) < 3){
+                    DefaultLogger.logger.error("User has python version " + split[1] + ". Minimum python version" +
+                            "needed to run rocketpyalpha is Python 3.");
+                    return false;
+                }
+
+                return true;
             }
-
-            String[] split = pythonVersion.split(" ");
-            // Sample output here is
-            // Python x.y.z
-            // Checking the value of 'x' is sufficient enough to check if the user
-            // has a python version >= 3 installed.
-            if(Character.getNumericValue(split[1].charAt(0)) < 3){
-                DefaultLogger.logger.error("User has python version " + split[1] + ". Minimum python version" +
-                        "needed to run rocketpyalpha is Python 3.");
-                return false;
-            }
-
-            return true;
         } catch (IOException e) {
             DefaultLogger.logger.error("Error running 'python --version'");
             throw e;
         }
     }
-
 }
