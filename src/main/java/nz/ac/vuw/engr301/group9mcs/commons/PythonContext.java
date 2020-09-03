@@ -27,9 +27,9 @@ public class PythonContext {
      */
 
 	public static boolean hasValidPython() throws IOException{
+        String currentCommand = "python3 --version";
         try {
-
-            Process process = Runtime.getRuntime().exec("python3 --version");
+            Process process = Runtime.getRuntime().exec(currentCommand);
             InputStream is = process.getInputStream();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -66,9 +66,26 @@ public class PythonContext {
                     return true;
                 }
             }
-        } catch (IOException e) {
-            DefaultLogger.logger.error("Error running 'python --version'");
-            throw e;
+        } catch (IOException pythonThreeException) {
+            DefaultLogger.logger.error("Error running " + currentCommand);
+
+            //throw new IOException("Error running " + currentCommand);
+            currentCommand = "python --version";
+            try{
+                return checkNormalPython();
+            } catch (IOException normalPythonException){
+                DefaultLogger.logger.error("Error running " + currentCommand);
+                throw new IOException("Could not run both 'python3' and 'python'");
+            }
         }
+    }
+
+    private static boolean checkNormalPython() throws IOException{
+
+    }
+
+
+    public static void main(String[] args) throws IOException{
+        System.out.println(checkPythonThree());
     }
 }
