@@ -18,15 +18,15 @@ public class PythonContext {
 	 * It will default to "python" but this could be platform dependant so it can be 
 	 * "py" aswell. 
 	 */
-    private String pythonCommand = "python";
+    private static String pythonCommand = "python";
 
     /**
      * Checks if the user has the required python version (> 3).
      * @return true if the user has python version greater than 3, else false.
      * @throws IOException if the command cannot be ran. 
      */
-    @SuppressWarnings("static-method")
-	public boolean hasValidPython() throws IOException{
+
+	public static boolean hasValidPython() throws IOException{
         try {
             Process process = Runtime.getRuntime().exec("python --version");
             InputStream is = process.getInputStream();
@@ -57,7 +57,7 @@ public class PythonContext {
 	/**
 	 * @return the pythonCommand
 	 */
-	public String getPythonCommand() {
+	public static String getPythonCommand() {
 		return this.pythonCommand;
 	}
 
