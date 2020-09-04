@@ -2,7 +2,6 @@ package test.nz.ac.vuw.engr301.group9mcs.commons;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -26,12 +25,14 @@ import nz.ac.vuw.engr301.group9mcs.commons.LoggerLayout;
  * Test cases for testing the default logger, logger layout and appenders.
  * 
  * @author August Bolter
+ * @editor Joshua Hindley
  */
 public class TestLogger {
 
 	/**
 	 * Testing that the default logger exists by default.
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testDefaultLogger() {
 		assertNotNull(DefaultLogger.logger); //Testing that it holds a static logger
@@ -40,6 +41,7 @@ public class TestLogger {
 	/**
 	 * Testing that the logger layout doesn't work if the event is null
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLoggerLayoutNull() {
 		LoggerLayout layout = new LoggerLayout();
@@ -49,6 +51,7 @@ public class TestLogger {
 	/**
 	 * Testing that the logger layout formats the logging event correctly (log includes throwable).
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testLoggerLayoutCorrect() {
 		LoggerLayout layout = new LoggerLayout();
@@ -73,6 +76,7 @@ public class TestLogger {
 	 * Testing that the file appender can be added to the logger and that it appends the formatted 
 	 * log events (log includes throwable).
 	 */
+	@SuppressWarnings("static-method")
 	@Test 
 	public void testFileAppender() {
 		LoggerLayout layout = new LoggerLayout();
@@ -110,6 +114,7 @@ public class TestLogger {
 	/**
 	 * Testing that the console appender prints/outputs the formatted log to console (log doesn't include throwable)
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void testConsoleAppender() {
 		try {
