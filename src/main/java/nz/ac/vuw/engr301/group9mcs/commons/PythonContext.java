@@ -105,15 +105,15 @@ public class PythonContext {
         }
 
         try {
-            Process process = Runtime.getRuntime().exec(pythonCommand + " src/main/java/nz/ac/vuw/engr301/group9mcs" +
-                    "/externaldata/check_has_modules.py");
+            Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/check_has_modules.py");
             InputStream is = process.getInputStream();
-            String output;
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
-                output = reader.readLine();
-            }
-            if (output.equals("modules are missing")){
-                return false;
+                for (String output = reader.readLine(); output != null; output = reader.readLine()){
+                    System.out.println(output);
+                    if(output.equals("Modules are missing.")){
+                        return false;
+                    }
+                }
             }
         } catch (IOException e) {
             DefaultLogger.logger.error("Error running check_has_modules.py");
@@ -123,7 +123,42 @@ public class PythonContext {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(hasRequiredModules());
+    public static boolean installRequiredModules() {
+        if (!hasValidPython()){
+            return false;
+        }
+
+        try {
+            Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/install_modules.py");
+            InputStream is = process.getInputStream();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
+                for (String output = reader.readLine(); output != null; output = reader.readLine()){
+                    System.out.println(output);
+                }
+            }
+        } catch (IOException e) {
+            DefaultLogger.logger.error("Error running install_modules.py");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        if(!hasRequiredModules()) {
+            installRequiredModules();
+        }
+
+        System.out.println("Retrieving weather...");
+
+        Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py");
+        InputStream is = process.getInputStream();
+        //String output;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
+            for (String output = reader.readLine(); output != null; output = reader.readLine()){
+                System.out.println(output);
+            }
+        }
     }
 }

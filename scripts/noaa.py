@@ -2,6 +2,7 @@ from rocketpy import Environment
 
 import datetime
 
+
 Env = Environment(railLength=5, latitude=float(30), longitude=float(-30))
 forecast = datetime.date.today() + datetime.timedelta(int(7))
 Env.setDate((forecast.year, forecast.month, forecast.day, 00))
