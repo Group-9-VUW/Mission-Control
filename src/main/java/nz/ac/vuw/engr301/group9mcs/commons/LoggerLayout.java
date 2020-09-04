@@ -15,7 +15,9 @@ import org.apache.log4j.Layout;
 public class LoggerLayout extends Layout {
 
 	@Override
-	public void activateOptions() {}
+	public void activateOptions() {
+		//There are no options that can be activated
+	}
 
 	@Override
 	public String format(@Nullable LoggingEvent event) {
@@ -36,7 +38,7 @@ public class LoggerLayout extends Layout {
             output.append("Throwable Info: " + errorInfo[0] + "\n");
 		}
 		output.append("\n");
-		return output.toString();
+		return output.toString() + "";
 	}
 
 	@Override
