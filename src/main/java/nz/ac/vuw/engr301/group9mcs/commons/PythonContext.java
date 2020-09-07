@@ -167,7 +167,7 @@ public class PythonContext {
 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py "
-                    +  latitude + " ");
+                    +  latitude + " " + longitude + " " + daysAhead);
             InputStream is = process.getInputStream();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
@@ -175,7 +175,7 @@ public class PythonContext {
                 }
             }
         } catch (IOException e) {
-            DefaultLogger.logger.error("Error while trying to run scripts/noaa.py");
+            DefaultLogger.logger.error("Error while trying to run noaa.py");
             throw e;
         }
 

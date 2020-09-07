@@ -7,14 +7,14 @@ import sys
 # Command line arguments should follow this format:
 # python3 scripts/noaa.py <latitude> <longitude> <daysAhead>
 
-if(len(sys.argv) < 3):
-    print("Invalid Arguements\n")
+if(len(sys.argv) != 4):
+    print("Invalid Arguments\n")
     print("Command line arguments should follow this format:\n")
     print("python3 scripts/noaa.py <latitude> <longitude> <daysAhead>\n")
     exit()
 
-Env = Environment(railLength=5, latitude=float(30), longitude=float(-30))
-forecast = datetime.date.today() + datetime.timedelta(int(7))
+Env = Environment(railLength=5, latitude=float(sys.argv[1]), longitude=float(sys.argv[2]))
+forecast = datetime.date.today() + datetime.timedelta(int(sys.argv[3]))
 Env.setDate((forecast.year, forecast.month, forecast.day, 00))
 Env.setElevation(876)
 Env.setAtmosphericModel(type='Forecast', file='GFS')
