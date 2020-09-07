@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
+
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
@@ -103,10 +104,10 @@ public class CachedMapImage implements MapImage {
 		try {
 			String fileName = this.file.getName();
 			if (fileName == "" || fileName.length() < 5) {
-				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
+				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for a .png file.");
 			}
 			File folder = new File(IMG_CACHE_FOLDER);
-			if(!folder.exists()) folder.mkdir();
+			if (!folder.exists()) folder.mkdir();
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
 			dat.createNewFile();
 			try (BufferedWriter out = new BufferedWriter(new FileWriter(dat));) {
@@ -139,16 +140,17 @@ public class CachedMapImage implements MapImage {
 			//get data file
 			String fileName = this.file.getName();
 			if (fileName == "" || fileName.length() < 5 || !fileName.endsWith(".png")) {
-				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for an .png file.");
+				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for a .png file.");
+			}
+			if (!this.file.getPath().startsWith(IMG_CACHE_FOLDER.substring(0, IMG_CACHE_FOLDER.length() - 1))) {
+				throw new NullPointerException("The image file must be in the " + IMG_CACHE_FOLDER + " folder.");	
 			}
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
 			try (Scanner sc = new Scanner(dat);) {
 				//get image
+				//previous checks should prevent this from returning null
 				@Nullable BufferedImage image = ImageIO.read(this.file);
-				if (image == null) {
-					sc.close();
-					throw new NullPointerException("No image could be loaded from \"" + fileName + "\"");
-				}
+				assert image != null;
 				this.img = image;
 				//get the data
 				this.topLeftLat = sc.nextDouble();
