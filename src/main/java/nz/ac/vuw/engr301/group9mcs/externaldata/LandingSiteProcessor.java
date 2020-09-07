@@ -30,7 +30,6 @@ public class LandingSiteProcessor {
         this.points = points;
         double[] boundingBox = calculatePointsBoundingBox();
         assert boundingBox != null;
-        System.out.println(boundingBox[0]);
         try {
             data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
         } catch (IOException e) {
@@ -53,7 +52,8 @@ public class LandingSiteProcessor {
      * @return Returns an array representing the top latitude, left longitude, bottom latitude, right longitude.
      */
     private double[] calculatePointsBoundingBox() {
-        // Note the use of -Double.MAX_VALUE to determine the minimum float value.
+        // Note the use of -Double.MAX_VALUE to determine the minimum float value. This is because Double.MIN_VALUE
+        // represents the smallest magnitude of a double (a very small positive number), not the lowest value.
         double north = -Double.MAX_VALUE, south = Double.MAX_VALUE, east = -Double.MAX_VALUE, west = Double.MAX_VALUE;
 
         for (double[] point : points) {
@@ -98,10 +98,5 @@ public class LandingSiteProcessor {
         }
         // If we get here, then the point is not within any polygons.
         return true;
-    }
-
-    public static void main(String args[]) {
-        LandingSiteProcessor lsp = new LandingSiteProcessor(new double[][]{{-41.29015, 174.76829}, {-41.29050, 174.76792}});
-        System.out.println(lsp.rayCast(new double[]{-41.29072, 174.76850}));
     }
 }
