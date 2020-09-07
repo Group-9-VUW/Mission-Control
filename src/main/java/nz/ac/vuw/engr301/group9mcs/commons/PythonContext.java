@@ -167,11 +167,11 @@ public class PythonContext {
 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py "
-                    +  latitude + " " + longitude + " " + daysAhead);
+                    +  latitude + " ");
             InputStream is = process.getInputStream();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
-                    output.append(forecastReading);
+                    output.append(forecastReading + "\n");
                 }
             }
         } catch (IOException e) {

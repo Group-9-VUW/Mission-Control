@@ -4,8 +4,14 @@ import datetime
 import sys
 
 
-# Command arguements should follow this format:
-# python3 noaa.py <latitude> <longitude> <daysAhead>
+# Command line arguments should follow this format:
+# python3 scripts/noaa.py <latitude> <longitude> <daysAhead>
+
+if(len(sys.argv) < 3):
+    print("Invalid Arguements\n")
+    print("Command line arguments should follow this format:\n")
+    print("python3 scripts/noaa.py <latitude> <longitude> <daysAhead>\n")
+    exit()
 
 Env = Environment(railLength=5, latitude=float(30), longitude=float(-30))
 forecast = datetime.date.today() + datetime.timedelta(int(7))
