@@ -58,7 +58,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * When the rocket will be flown HH:mm
 	 */
-	private Date time;
+	//private Date time; TODO use this
 
 	/**
 	 * Create the Perspective and construct the Panel.

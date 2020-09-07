@@ -612,4 +612,13 @@ One page glossary as required
 
 ## 7. Contributions
 
+| Name | Contributions | 
+| ------ | ------ | 
+| August Bolter |  |
+| Bailey Jewell |  |
+| Bryony Gatehouse |  |
+| Claire Chambers | |
+| Joshua Hindley |  |
+| Sai Panda |   Section 3.1<br>Section 3.2  |
+
 An one page statement of contributions, including a list of each member of the group and what they contributed to this document.
