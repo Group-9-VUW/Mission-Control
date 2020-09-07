@@ -16,4 +16,5 @@ unittest:
     - Shell
   script:
     - mvn clean verify
+	- cat target/site/jacoco/index.html
   allow_failure: true
