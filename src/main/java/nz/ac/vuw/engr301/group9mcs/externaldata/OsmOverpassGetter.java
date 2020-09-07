@@ -76,9 +76,7 @@ public class OsmOverpassGetter {
             connection.setDoInput(true);
 
             // Setup output stream and write query.
-            try (
-            		// We keep a reference to output stream so we can close it!
-            		OutputStream out = connection.getOutputStream();
+            try (   OutputStream out = connection.getOutputStream();
             		OutputStreamWriter outWriter = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
 	            outWriter.write(query);
 	            outWriter.flush();
@@ -90,9 +88,8 @@ public class OsmOverpassGetter {
             	return null;
             }
 
-            try (
-		            // Setup the input stream and a buffer to store the response.
-		            BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
+            // Setup the input stream and a buffer to store the response.
+            try (   BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
 		            ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 
 	            // Reading response byte by byte.

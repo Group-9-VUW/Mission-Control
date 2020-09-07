@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import java.awt.geom.Line2D;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +71,30 @@ public class LandingSiteProcessor {
      * @return Returns false if the point is within a polygon, true otherwise.
      */
     private boolean rayCast(double[] point) {
-        // TODO: Implement me.
+        assert data.getWays().size() > 0;
+        Line2D ray = new Line2D.Double(point[1], point[0], point[1] + 1, point[0]);
+
+        // Each building is represented by a way.
+        for (OsmOverpassData.Way w : data.getWays()) {
+            List<OsmOverpassData.Node> nodes = w.getNodes();
+            int intersections = 0;
+            for (int i = 0; i < nodes.size() - 1; ++i) {
+                Line2D edge = new Line2D.Double(nodes.get(i).LON, nodes.get(i).LAT, nodes.get(i + 1).LON, nodes.get(i + 1).LAT);
+                if (ray.intersectsLine(edge)) {
+                    intersections++;
+                }
+            }
+            // If inside a polygon, we can return false, as this point does not represent a suitable landing location.
+            if (intersections % 2 != 0) {
+                return false;
+            }
+        }
+        // If we get here, then the point is not within any polygons.
         return true;
+    }
+
+    public static void main(String args[]) {
+        LandingSiteProcessor lsp = new LandingSiteProcessor(new double[][]{{-41.29015, 174.76829}});
+        System.out.println(lsp.rayCast(new double[]{-41.29015, 174.76829}));
     }
 }
