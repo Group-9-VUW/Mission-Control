@@ -110,7 +110,9 @@ public class PythonContext {
         if (!hasValidPython()){
             return false;
         }
-
+        
+        // Run and check the output of the script, if it says "Modules are missing." then return false as the user
+        // does not have the required modules. 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/check_has_modules.py");
             InputStream is = process.getInputStream();
@@ -140,14 +142,16 @@ public class PythonContext {
         if (!hasValidPython()){
             return false;
         }
-
+        
+        // Run the pythons script to install the modules. 
+        // If the script cannot be ran, then throw an IOException. 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/install_modules.py");
             InputStream is = process.getInputStream();
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String output = reader.readLine(); output != null; output = reader.readLine()){
-                    System.out.println(output);
+                    System.out.println(output); // Printing to System out for now, should be displaying on corresponding View/Panel. 
                 }
             }
         } catch (IOException e) {
@@ -171,6 +175,7 @@ public class PythonContext {
      * @throws IOException if the noaa script could not be ran.
      */
     public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
+    	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             NOAAGetter.checkValidLatAndLon(latitude, longitude);
         } catch (InvalidParameterException e){
@@ -178,12 +183,14 @@ public class PythonContext {
             throw e;
         }
 
+        // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0. 
         if(daysAhead <= 0){
             String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
             DefaultLogger.logger.error(errorMessage);
             throw new InvalidParameterException(errorMessage);
         }
-
+        
+        // Printing out to system for now, this will be displaying on the corresponding View/Panel. 
         System.out.println("Retrieving weather...");
 
         StringBuilder output = new StringBuilder();
@@ -203,14 +210,5 @@ public class PythonContext {
         }
 
         return output.toString();
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        if(!hasRequiredModules()) {
-            installRequiredModules();
-        }
-
-        System.out.println(runNOAA(41, 175, 2));
-
     }
 }
