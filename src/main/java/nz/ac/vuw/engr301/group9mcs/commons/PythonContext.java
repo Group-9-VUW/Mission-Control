@@ -147,7 +147,7 @@ public class PythonContext {
         return true;
     }
 
-    public static String runNOAA(double latitude, double longitude, double daysAhead) throws InvalidParameterException{
+    public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
         try{
             NOAAGetter.checkValidLatAndLon(latitude, longitude);
         } catch (InvalidParameterException e){
@@ -155,20 +155,31 @@ public class PythonContext {
             throw e;
         }
 
+        if(daysAhead <= 0){
+            String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
+            DefaultLogger.logger.error(errorMessage);
+            throw new InvalidParameterException(errorMessage);
+        }
+
         System.out.println("Retrieving weather...");
 
+        StringBuilder output = new StringBuilder();
+
         try {
-            Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py");
+            Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py "
+                    +  latitude + " " + longitude + " " + daysAhead);
             InputStream is = process.getInputStream();
-            //String output;
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
-                for (String output = reader.readLine(); output != null; output = reader.readLine()){
-                    System.out.println(output);
+                for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
+                    output.append(forecastReading);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            DefaultLogger.logger.error("Error while trying to run scripts/noaa.py");
+            throw e;
         }
+
+        return output.toString();
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -176,7 +187,7 @@ public class PythonContext {
             installRequiredModules();
         }
 
-
+        System.out.println(runNOAA(41, 175, 2));
 
     }
 }
