@@ -1,6 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import java.awt.geom.Line2D;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class LandingSiteProcessor {
     /**
      * Map data retrieved from OSM Overpass.
      */
-    private final OsmOverpassData data;
+    private OsmOverpassData data;
 
     /**
      * Array of possible landing locations - [point][lat, lon].
@@ -29,7 +30,12 @@ public class LandingSiteProcessor {
         this.points = points;
         double[] boundingBox = calculatePointsBoundingBox();
         assert boundingBox != null;
-        data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
+        System.out.println(boundingBox[0]);
+        try {
+            data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -47,13 +53,14 @@ public class LandingSiteProcessor {
      * @return Returns an array representing the top latitude, left longitude, bottom latitude, right longitude.
      */
     private double[] calculatePointsBoundingBox() {
-        double north = Double.MIN_VALUE, south = Double.MAX_VALUE, east = Double.MIN_VALUE, west = Double.MAX_VALUE;
+        // Note the use of -Double.MAX_VALUE to determine the minimum float value.
+        double north = -Double.MAX_VALUE, south = Double.MAX_VALUE, east = -Double.MAX_VALUE, west = Double.MAX_VALUE;
 
         for (double[] point : points) {
             north = Math.max(point[0], north);
             south = Math.min(point[0], south);
-            east = Math.min(point[1], east);
-            west = Math.max(point[1], west);
+            east = Math.max(point[1], east);
+            west = Math.min(point[1], west);
         }
 
         return new double[]{north, west, south, east};
@@ -94,7 +101,7 @@ public class LandingSiteProcessor {
     }
 
     public static void main(String args[]) {
-        LandingSiteProcessor lsp = new LandingSiteProcessor(new double[][]{{-41.29015, 174.76829}});
-        System.out.println(lsp.rayCast(new double[]{-41.29015, 174.76829}));
+        LandingSiteProcessor lsp = new LandingSiteProcessor(new double[][]{{-41.29015, 174.76829}, {-41.29050, 174.76792}});
+        System.out.println(lsp.rayCast(new double[]{-41.29072, 174.76850}));
     }
 }
