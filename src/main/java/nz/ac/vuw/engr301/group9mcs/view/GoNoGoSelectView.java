@@ -53,9 +53,12 @@ public class GoNoGoSelectView extends JPanel{
 	private JPanel sidePanel;
 
 	/**
-	 * Sets the View up, and saves the Observer.
+	 * Sets the View up, and saves the Observer. Uses the data from previous views.
 	 *
 	 * @param parameters
+	 * @param fileName 
+	 * @param lat 
+	 * @param lon 
 	 * @param o
 	 * @param map
 	 */
@@ -206,7 +209,7 @@ public class GoNoGoSelectView extends JPanel{
 		    Image img = ImageIO.read(pathToFile);
 			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 		} catch (IOException ex) {
-			// TODO: this isn't important
+			System.out.println("Failed to load spike image. " + ex.getMessage());
 		}
 	}
 
