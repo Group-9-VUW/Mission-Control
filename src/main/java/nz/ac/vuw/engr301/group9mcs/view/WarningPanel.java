@@ -10,8 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Observer;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -68,11 +66,16 @@ public class WarningPanel extends JPanel{
 		String longest = getLongest(this.warnings);
 		
 		FontMetrics largeFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize("WARNING", (Graphics2D) g, width)));
-		Rectangle2D largeRect = largeFont.getStringBounds("WARNING", g);
 		FontMetrics smallFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize(longest, (Graphics2D) g, width)));
+		
+		Font[] fonts = fitToScreen(Null.nonNull(largeFont.getFont()), Null.nonNull(smallFont.getFont()), this.warnings.length, longest, (Graphics2D)g, height);
+		largeFont = g.getFontMetrics(fonts[1]);
+		Rectangle2D largeRect = largeFont.getStringBounds("WARNING", g);
+		smallFont = g.getFontMetrics(fonts[0]);
 		Rectangle2D smallRect = smallFont.getStringBounds(longest, g);
-		int fontHeight = (int)(largeRect.getHeight() + (largeFont.getAscent() / 4) 
-				+ (smallRect.getHeight() * this.warnings.length) + ((smallFont.getAscent() / 4) * (this.warnings.length - 1)));
+		
+		
+		int fontHeight = fontHeight(largeFont, Null.nonNull(largeRect), smallFont, Null.nonNull(smallRect), this.warnings.length, longest);
 		int y = (height / 2) - (fontHeight / 2);
 		
 		g.setColor(Color.yellow);
@@ -88,9 +91,23 @@ public class WarningPanel extends JPanel{
 			g.drawString(this.warnings[i], (int)((width - smallRect.getWidth()) / 2), 
 					y + (int)largeRect.getHeight() + (int)smallRect.getHeight() + (((int)smallRect.getHeight() + (smallFont.getAscent() / 4)) * i));
 		}
-		
-		//fitStringTop("WARNING", (Graphics2D) g, 0, y, width, fontHeight, largeFont);
-		//fitStringBottom(this.warning, (Graphics2D) g, 0, y + largeFont.getHeight(), width, fontHeight, smallFont);
+	}
+	
+	/**
+	 * The total height of the combined strings based on the StringBounds and FontMetrics
+	 * 
+	 * @param large FontMetrics of the larger font
+	 * @param largeRect	StringBounds of "WARNING" in the larger font
+	 * @param small FontMetrics of the smaller font
+	 * @param smallRect StringBounds of longest in the smaller font
+	 * @param smallNumber Number of lines to be displayed in the smaller font
+	 * @param longest The longest of the lines to be displayed in the smaller font
+	 * @return The total height of the lines in various fonts.
+	 */
+	private static int fontHeight(FontMetrics large, Rectangle2D largeRect, FontMetrics small, Rectangle2D smallRect, int smallNumber, String longest) {
+		int fontHeight = (int)(largeRect.getHeight() + (large.getAscent() / 4) 
+				+ (smallRect.getHeight() * smallNumber) + ((small.getAscent() / 4) * (smallNumber - 1)));
+		return fontHeight;
 	}
 	
 	/**
@@ -130,6 +147,40 @@ public class WarningPanel extends JPanel{
 			}
 		}
 		return Null.nonNull(longest);
+	}
+	
+	/**
+	 * Return two font sizes so that the Larger font "WARNING" and all lines of the smaller font can fit in the height of the screen.
+	 * @param largeFont Larger Font
+	 * @param smallFont Smaller Font
+	 * @param smallNumber Number of Lines in the Smaller Font
+	 * @param longest Longest line to be displayed in the smaller font
+	 * @param g 
+	 * @param height Height of the screen or rectangle to display lines in
+	 * @return [new small font, new large font]
+	 */
+	private static Font[] fitToScreen(Font largeFont, Font smallFont, int smallNumber, String longest, Graphics2D g, int height) {
+		Font small = smallFont;
+		Font large = largeFont;
+		FontMetrics fmS = g.getFontMetrics(small);
+		FontMetrics fmL = g.getFontMetrics(large);
+		Rectangle2D rectS = fmS.getStringBounds(longest, g);
+		Rectangle2D rectL = fmL.getStringBounds("WARNING", g);
+		int ratio = large.getSize() / small.getSize();
+		int i = 0;
+		while (height - 10 < fontHeight(fmL, Null.nonNull(rectL), fmS, Null.nonNull(rectS), smallNumber, longest)) {
+			if (i % ratio == 0) {
+				small = new Font(small.getFontName(), small.getStyle(), small.getSize() - 1);
+				fmS = g.getFontMetrics(small);
+			}
+			large = new Font(large.getFontName(), large.getStyle(), large.getSize() - 1);
+			fmL = g.getFontMetrics(large);
+			rectS = fmS.getStringBounds(longest, g);
+			rectL = fmL.getStringBounds("WARNING", g);
+			i++;
+		}
+		Font[] fonts = {small, large};
+		return fonts;
 	}
 	
 }
