@@ -101,6 +101,11 @@ public class PythonContext {
         }
     }
 
+    /**
+     * Checks if the user has the required python modules installed.
+     * @return true if they do have them installed, false otherwise.
+     * @throws IOException if the python script to check if they have the modules cannot run.
+     */
     public static boolean hasRequiredModules() throws IOException{
         if (!hasValidPython()){
             return false;
@@ -125,6 +130,12 @@ public class PythonContext {
         return true;
     }
 
+    /**
+     * Installs the required modules for the user to run noaa.py
+     * Main modules are rocketpyalpha and netCDF4, rocketpyalpha will also install its dependencies
+     * such as numpy.
+     * @return true if the modules were sucessfully installed, false otherwise.
+     */
     public static boolean installRequiredModules() {
         if (!hasValidPython()){
             return false;
@@ -147,6 +158,18 @@ public class PythonContext {
         return true;
     }
 
+    /**
+     * Runs the NOAA forecast python script.
+     * NOTE: User *must* pass the hasValidPython() and intallRequiredModules() checks
+     * (i.e the user must have a python >= 3 and must have rocketpyalpha and netCDF4 installed on their machine.
+     * @param latitude the latitude of the launch site
+     * @param longitude the longitude of the launch site
+     * @param daysAhead how far ahead the user wants the forecast (i.e provide 2 for daysAhead if they want the
+     *                  forecast for two days from now.
+     * @return a string with the forecast information.
+     * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
+     * @throws IOException if the noaa script could not be ran.
+     */
     public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
         try{
             NOAAGetter.checkValidLatAndLon(latitude, longitude);
