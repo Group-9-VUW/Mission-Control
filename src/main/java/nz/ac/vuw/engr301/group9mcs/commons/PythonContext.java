@@ -102,7 +102,7 @@ public class PythonContext {
     }
 
     /**
-     * Checks if the user has the required python modules installed.
+     * Checks if the user has the required python modules (rocketpyalpha and all of its dependencies) installed.
      * @return true if they do have them installed, false otherwise.
      * @throws IOException if the python script to check if they have the modules cannot run.
      */
