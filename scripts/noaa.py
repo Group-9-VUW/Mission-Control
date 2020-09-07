@@ -1,7 +1,11 @@
 from rocketpy import Environment
 
 import datetime
+import sys
 
+
+# Command arguements should follow this format:
+# python3 noaa.py <latitude> <longitude> <daysAhead>
 
 Env = Environment(railLength=5, latitude=float(30), longitude=float(-30))
 forecast = datetime.date.today() + datetime.timedelta(int(7))

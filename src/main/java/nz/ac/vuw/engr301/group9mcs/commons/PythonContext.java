@@ -1,11 +1,13 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.InvalidParameterException;
 
 /**
  * This class is responsible for checking the version of Python the user has installed.
@@ -145,20 +147,36 @@ public class PythonContext {
         return true;
     }
 
+    public static String runNOAA(double latitude, double longitude, double daysAhead) throws InvalidParameterException{
+        try{
+            NOAAGetter.checkValidLatAndLon(latitude, longitude);
+        } catch (InvalidParameterException e){
+            DefaultLogger.logger.error(e.getMessage());
+            throw e;
+        }
+
+        System.out.println("Retrieving weather...");
+
+        try {
+            Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py");
+            InputStream is = process.getInputStream();
+            //String output;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
+                for (String output = reader.readLine(); output != null; output = reader.readLine()){
+                    System.out.println(output);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException {
         if(!hasRequiredModules()) {
             installRequiredModules();
         }
 
-        System.out.println("Retrieving weather...");
 
-        Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py");
-        InputStream is = process.getInputStream();
-        //String output;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
-            for (String output = reader.readLine(); output != null; output = reader.readLine()){
-                System.out.println(output);
-            }
-        }
+
     }
 }

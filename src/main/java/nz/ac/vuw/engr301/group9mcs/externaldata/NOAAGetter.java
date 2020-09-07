@@ -43,7 +43,7 @@ public class NOAAGetter {
 	 * @param latitude - the latitude to validate
 	 * @param longitude - the longitude to validate
 	 */
-	private static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
+	public static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
 		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
 		} else if(latitude < -90 || latitude > 90){
