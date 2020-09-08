@@ -25,7 +25,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
  * @author Joshua Hindley
  * @editor Joshua Hindley
  */
-public final class TestCacheMapImage {
+public final class TestCachedMapImage {
 
 	/**
 	 * Tests that writing and then reading from cache matches data from the network.
