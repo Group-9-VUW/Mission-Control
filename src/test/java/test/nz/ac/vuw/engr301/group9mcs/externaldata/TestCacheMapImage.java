@@ -1,23 +1,28 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
  * Tests for CacheMapImage
  *
  * @author Claire
+ * @author Joshua Hindley
  * @editor Joshua Hindley
  */
 public final class TestCacheMapImage {
@@ -62,6 +67,92 @@ public final class TestCacheMapImage {
 					assertEquals(bimage1.getRGB(i, j), bimage2.getRGB(i, j));
 		} catch (IOException | NullPointerException e) {
 			fail(e); 
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testLoadingNoNameFile() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File(""));
+			img.toString();
+			fail("Expected a NullPointerException to be thrown.");
+		} catch (IOException e) {
+			fail(e);
+		} catch (NullPointerException e) {
+			assertEquals("\"\" is not a valid file name for a .png file.", e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testLoadingTooShortNameFile() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File("test"));
+			img.toString();
+			fail("Expected a NullPointerException to be thrown.");
+		} catch (IOException e) {
+			fail(e);
+		} catch (NullPointerException e) {
+			assertEquals("\"test\" is not a valid file name for a .png file.", e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testLoadingNonPNGFile() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File("file.jpg"));
+			img.toString();
+			fail("Expected a NullPointerException to be thrown.");
+		} catch (IOException e) {
+			fail(e);
+		} catch (NullPointerException e) {
+			assertEquals("\"file.jpg\" is not a valid file name for a .png file.", e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testLoadingImageWithNoCorrespondingData() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "thisfileshouldnotexist.png"));
+			img.toString();
+			fail("Expected an IOException to be thrown.");
+		} catch (IOException e) {
+			assertEquals("img_cache\\thisfileshouldnotexist.dat (The system cannot find the file specified)", e.getMessage());
+		} catch (NullPointerException e) {
+			fail(e);
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testLoadingMissingImageWithValidData() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "testData.png"));
+			img.toString();
+			fail("Expected an IOException to be thrown.");
+		} catch (IOException e) {
+			assertEquals("Can't read input file!", e.getMessage());
+		} catch (NullPointerException e) {
+			fail(e);
+		}
+	}
+	
+	@SuppressWarnings("static-method")
+	@Test
+	public void testGettingHashCode() {
+		try {
+			MapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
+			CachedMapImage cached = (CachedMapImage) img;
+			assertNotEquals(new BufferedImage(1, 1, 1), cached.getImage());
+			Color centrePixel = new Color(cached.hashCode());			
+			assertEquals(1, centrePixel.getRed());
+			assertEquals(1, centrePixel.getGreen());
+			assertEquals(1, centrePixel.getBlue());
+		} catch (IOException | NullPointerException e) {
+			fail(e);
 		}
 	}
 }
