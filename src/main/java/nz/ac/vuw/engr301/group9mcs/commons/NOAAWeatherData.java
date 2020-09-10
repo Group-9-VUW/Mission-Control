@@ -5,15 +5,30 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  * @author Sai
  */
 public class NOAAWeatherData {
-
+	
+	/**
+	 * The altitude of the reading. 
+	 */
     private double altitude;
 
+    /**
+     * The wind speed of the reading.
+     */
     private double windSpeed;
-
+    
+    /**
+     * The wind direction of the reading.
+     */
     private double windDirection;
 
+    /**
+     * The temperature of the reading. 
+     */
     private double temperature;
 
+    /**
+     * The pressure of the reading. 
+     */
     private double pressure;
 
 
