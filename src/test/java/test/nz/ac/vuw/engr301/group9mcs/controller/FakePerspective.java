@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.NonNull;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Perspective;
 import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
@@ -79,6 +80,16 @@ public class FakePerspective extends Observable implements Perspective{
 	@Override
 	public @NonNull String name() {
 		return "Fake Perspective";
+	}
+
+	@Override
+	public void addResources(@NonNull Resources resource) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public @NonNull Resources removeResource() {
+		return new Resources();
 	}
 
 }
