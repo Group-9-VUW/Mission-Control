@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
@@ -19,7 +18,6 @@ import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 
 /**
  * Tests for CacheMapImage
@@ -38,6 +36,7 @@ public final class TestCachedMapImage {
 	public void testReadWrite() {
 		try {
 			//the latitudes and longitudes of the map image to get
+			long time = System.currentTimeMillis();
 			double latUL = -41.291257 + 0.01;
 			double lonUL = 174.776879 - 0.01;
 			double latBR = -41.291257 - 0.01;
@@ -51,23 +50,13 @@ public final class TestCachedMapImage {
 			assertTrue(Math.abs(fromfile.centerLat() - (-41.291257)) < 0.000001);
 			assertTrue(Math.abs(fromfile.centerLon() - (174.776879)) < 0.000001);
 			//tests that the cached and non-cached images are the same
-			Image image1 = mapdata.get(latUL, lonUL, latBR, lonBR);
-			Image image2 = fromfile.get(latUL, lonUL, latBR, lonBR);
+			BufferedImage image1 = mapdata.get(latUL, lonUL, latBR, lonBR);
+			BufferedImage image2 = fromfile.getImage();
 			assertEquals(image1.getWidth(null), image2.getWidth(null));
 			assertEquals(image1.getHeight(null), image2.getHeight(null));
-			final int width = image1.getWidth(null);
-			final int height = image1.getWidth(null);
-			BufferedImage bimage1 = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			BufferedImage bimage2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D graph1 = bimage1.createGraphics();
-			graph1.drawImage(image1, 0, 0, null);
-			graph1.dispose();
-			Graphics2D graph2 = bimage2.createGraphics();
-			graph2.drawImage(image2, 0, 0, null);
-			graph2.dispose();
-			for (int i = 0; i < width; i++) {
-				for (int j = 0; j < height; j++) {
-					assertEquals(bimage1.getRGB(i, j), bimage2.getRGB(i, j));
+			for (int i = 0; i < image1.getWidth(null); i++) {
+				for (int j = 0; j < image1.getHeight(null); j++) {
+					assertEquals(image1.getRGB(i, j), image2.getRGB(i, j));
 				}
 			}
 		} catch (IOException | NullPointerException e) {
@@ -216,7 +205,7 @@ public final class TestCachedMapImage {
 			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.305, 174.761));
 			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.311, 174.755));
 
-			BufferedImage bufImg = (BufferedImage) img.getImage();
+			BufferedImage bufImg = img.getImage();
 			//the base latitudes and longitudes of the image
 			double topLeftLat = -41.3;
 			double topLeftLong = 174.75;
