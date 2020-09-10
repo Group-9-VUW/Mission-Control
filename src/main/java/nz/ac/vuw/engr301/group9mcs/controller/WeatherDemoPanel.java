@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import nz.ac.vuw.engr301.group9mcs.commons.OWWeatherData;
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
 
 /**
@@ -86,7 +86,7 @@ public class WeatherDemoPanel extends JPanel implements ActionListener {
 				try {
 					double latitude = Double.parseDouble(this.lat.getText());
 					double longitude = Double.parseDouble(this.lon.getText());
-					WeatherData data = this.getter.getWeatherData(latitude, longitude);
+					OWWeatherData data = this.getter.getWeatherData(latitude, longitude);
 					this.temperature.setText(Double.toString(data.getTemperature()));
 					this.windspeed.setText(Double.toString(data.getWindSpeed()));
 					this.pressure.setText(Double.toString(data.getPressure()));
