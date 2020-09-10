@@ -1,6 +1,7 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -9,11 +10,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
-
 import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
@@ -69,7 +72,7 @@ public final class TestCachedMapImage {
 			fail(e); 
 		}
 	}
-	
+
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingNoNameFile() {
@@ -83,7 +86,7 @@ public final class TestCachedMapImage {
 			assertEquals("\"\" is not a valid file name for a .png file.", e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingTooShortNameFile() {
@@ -97,7 +100,7 @@ public final class TestCachedMapImage {
 			assertEquals("\"test\" is not a valid file name for a .png file.", e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingNonPNGFile() {
@@ -111,7 +114,7 @@ public final class TestCachedMapImage {
 			assertEquals("\"file.jpg\" is not a valid file name for a .png file.", e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingImageWithNoCorrespondingData() {
@@ -125,7 +128,7 @@ public final class TestCachedMapImage {
 			fail(e);
 		}
 	}
-	
+
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingMissingImageWithValidData() {
@@ -142,6 +145,20 @@ public final class TestCachedMapImage {
 	
 	@SuppressWarnings("static-method")
 	@Test
+	public void testLoadingWithInvalidPath() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File("invalidPath.png"));
+			img.toString();
+			fail("Expected an IOException to be thrown.");
+		} catch (IOException e) {
+			fail(e);
+		} catch (NullPointerException e) {
+			assertEquals("The image file must be in the " + CachedMapImage.IMG_CACHE_FOLDER + " folder.", e.getMessage());
+		}
+	}
+
+	@SuppressWarnings("static-method")
+	@Test
 	public void testGettingHashCode() {
 		try {
 			MapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
@@ -155,4 +172,51 @@ public final class TestCachedMapImage {
 			fail(e);
 		}
 	}
+
+	@SuppressWarnings("static-method")
+	@Test
+	public void testImageEquals() {
+		try {
+			CachedMapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
+			CachedMapImage img2 = new CachedMapImage(img.getFile());
+			assertFalse(img.equals(null));
+			assertFalse(img.equals(new Object()));
+			assertTrue(img.equals(img2));
+			//tests that invalid get() calls return the original image
+			assertEquals(img.getImage(), img.get(-41.3, 174.74, -41.31, 174.76));
+			assertEquals(img.getImage(), img.get(-41.2, 174.75, -41.31, 174.76));
+			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.305, 174.761));
+			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.311, 174.755));
+
+			BufferedImage bufImg = (BufferedImage) img.getImage();
+
+			double topLeftLat = -41.3;
+			double topLeftLong = 174.75;
+			double bottomRightLat = -41.31;
+			double bottomRightLong = 174.76;
+			File blackDotImg = new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot-2.png");
+			File blackDotDat = new File(CachedMapImage.IMG_CACHE_FOLDER + blackDotImg.getName().substring(0, blackDotImg.getName().length() - 4) + ".dat");
+			blackDotDat.createNewFile();
+			for (int i = 1; i < 7; i++) {
+				
+				try (BufferedWriter out = new BufferedWriter(new FileWriter(blackDotDat));) {
+					//save image
+					RenderedImage renderedImg = bufImg.getSubimage(0, 0, (i % 6 == 5 ? 499 : 500), (i % 6 == 0 ? 499 : 500));
+					ImageIO.write(renderedImg, "png", blackDotImg);
+					//save data
+					out.write("" + topLeftLat + (i % 6 == 1 ? 1 : 0));
+					out.newLine();
+					out.write("" + topLeftLong + (i % 6 == 2 ? 1 : 0));
+					out.newLine();
+					out.write("" + bottomRightLat + (i % 6 == 3 ? 1 : 0));
+					out.newLine();
+					out.write("" + bottomRightLong + (i % 6 == 4 ? 1 : 0));
+					out.close();
+					//test that images do not match
+					CachedMapImage nonEqualImg = new CachedMapImage(blackDotImg);
+					assertFalse(img.equals(nonEqualImg));
+				}}} catch (IOException | NullPointerException e) {
+					fail(e);
+				}
+	}	
 }
