@@ -27,7 +27,6 @@ public class PythonContext {
      * Checks if the user has the required python version (>= 3).
      *
      * @return true if the user has python version greater than or equal to 3, else false.
-     * @throws IOException if the command cannot be ran.
      */
 
     public static boolean hasValidPython() {
@@ -49,7 +48,7 @@ public class PythonContext {
                 currentCommand = "python --version";
                 return checkNormalPython();
             }
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
             DefaultLogger.logger.error("Error running " + currentCommand);
 
             // If we have already checked both 'python3' and 'python', then return false.
@@ -59,7 +58,7 @@ public class PythonContext {
             // Otherwise, try to run the normal 'python' command.
             try {
                 return checkNormalPython();
-            } catch (IOException normalPythonExeception) {
+            } catch (@SuppressWarnings("unused") IOException normalPythonExeception) {
                 DefaultLogger.logger.error("Could not run both 'python3 --version' and 'python --version'");
                 return false;
             }
@@ -154,7 +153,7 @@ public class PythonContext {
                     System.out.println(output); // Printing to System out for now, should be displaying on corresponding View/Panel. 
                 }
             }
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
             DefaultLogger.logger.error("Error running install_modules.py");
             return false;
         }
@@ -174,7 +173,8 @@ public class PythonContext {
      * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
      * @throws IOException if the noaa script could not be ran.
      */
-    public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
+    @SuppressWarnings("null")
+	public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             NOAAGetter.checkValidLatAndLon(latitude, longitude);
