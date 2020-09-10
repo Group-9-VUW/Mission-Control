@@ -4,6 +4,8 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
+
 /**
  * An Interface for the Perspectives.
  * Contains methods that all Perspectives should follow.
@@ -40,5 +42,16 @@ public interface Perspective{
 	 * @return The default name.
 	 */
 	public String name();
+	/**
+	 * Add a Resources object which can carry information from the outside!
+	 * 
+	 * @param resource
+	 */
+	public void addResources(Resources resource);
+	/**
+	 * Return the Resource
+	 * @return The Perpective's Resources (with all new saved information)
+	 */
+	public Resources removeResource();
 
 }
