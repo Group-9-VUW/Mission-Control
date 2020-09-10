@@ -19,15 +19,20 @@ import org.apache.log4j.AppenderSkeleton;
  */
 public class FileAppender extends AppenderSkeleton {
 
-	private LoggerLayout loggerLayout; //The layout the appender will use
+	/** The layout the appender will use */
+	private LoggerLayout loggerLayout;
+	/** The file writer. Used for appending log events to the file */
 	private FileWriter writer;
+	/** Stores the time of when the FileAppender was created */
 	private final String currentTime;
 
 	/**
 	 * Creates the appender and sets it's layout and (AppenderSkeleton) name.
+	 * @param layout The Appender's Layout
+	 * @param name The Appender's name
+	 * @throws IOException Thrown when creating the FileWriter if an issue occurs
 	 */
-	@SuppressWarnings("null") //TODO fix this
-	public FileAppender(LoggerLayout layout, String name) {
+	public FileAppender(LoggerLayout layout, String name) throws IOException {
 		/* Formatting the current time to the specified date format */
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 		LocalDateTime now = LocalDateTime.now();
@@ -35,12 +40,8 @@ public class FileAppender extends AppenderSkeleton {
 		this.currentTime = time == null ? "" : time;
 		this.loggerLayout = layout;
 		super.name = name;
-		try {
-			//Creating a file and its writer
-			this.writer = new FileWriter(new File("log_" + this.currentTime + ".log")); 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//Creating a file and its writer
+		this.writer = new FileWriter(new File("log_" + this.currentTime + ".log")); 
 	}
 
 	@Override
