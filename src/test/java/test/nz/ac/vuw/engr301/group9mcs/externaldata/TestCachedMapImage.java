@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
@@ -36,7 +35,6 @@ public final class TestCachedMapImage {
 	public void testReadWrite() {
 		try {
 			//the latitudes and longitudes of the map image to get
-			long time = System.currentTimeMillis();
 			double latUL = -41.291257 + 0.01;
 			double lonUL = 174.776879 - 0.01;
 			double latBR = -41.291257 - 0.01;
