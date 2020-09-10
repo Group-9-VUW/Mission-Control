@@ -211,8 +211,4 @@ public class PythonContext {
 
         return output.toString();
     }
-
-    public static void main(String[] args) throws IOException {
-        System.out.println(PythonContext.runNOAA(-41.286461, 174.776230, 2));
-    }
 }
