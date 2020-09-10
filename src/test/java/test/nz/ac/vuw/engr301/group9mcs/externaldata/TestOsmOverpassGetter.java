@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @editor hindlejosh
  */
 @SuppressWarnings("static-method")
-class OsmOverpassGetterTests {
+class TestOsmOverpassGetter {
 
 	/**
 	 * This test retrieves a small area around VUW and

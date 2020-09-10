@@ -10,11 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * This class tests the implementation of the NOAAGetter class. More specifically, it tests the responses from the 
  * weather API and also tests if the weather methods reject invalid inputs. 
  * @author pandasai
+ * @editor Joshua Hindley
  */
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
@@ -24,10 +26,10 @@ public class TestNOAAGetter {
     }
 
     /**
-     * Tests if the appID is correctly set within the class
+     * Tests if the appID is correctly set within the class.
      */
     @Test
-    public static void testAppID(){
+    public static void testAppID() {
         NOAAGetter testGetter = new NOAAGetter("");
         testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
         assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
@@ -41,7 +43,7 @@ public class TestNOAAGetter {
      */
     
     /**
-     * Tests that getWeatherData does not accept invalid latitude values
+     * Tests that getWeatherData does not accept invalid latitude values.
      */
     @Test
     public void testInvalidLatitude() {
@@ -54,14 +56,15 @@ public class TestNOAAGetter {
         } catch (IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
+        	assumeTrue(false); //skips the test
 		}
     }
 
     /**
-     * Tests that getWeatherData does not accept invalid longitude values
+     * Tests that getWeatherData does not accept invalid longitude values.
      */
     @Test
-    public void testInvalidLongitude(){
+    public void testInvalidLongitude() {
         assertTrue(canConnect());
         try{
             this.getter.getWeatherData(20, -181);
@@ -71,14 +74,15 @@ public class TestNOAAGetter {
         } catch (IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
+        	assumeTrue(false); //skips the test
 		}
     }
 
     /**
-     * Tests that getWeatherData returns weather data with valid latitude and longitude
+     * Tests that getWeatherData returns weather data with valid latitude and longitude.
      */
     @Test
-    public void testCorrectResponse(){
+    public void testCorrectResponse() {
         assertTrue(canConnect());
         try {
 			assertNotNull(this.getter.getWeatherData(41, 175));
@@ -90,10 +94,10 @@ public class TestNOAAGetter {
     }
 
     /**
-     * Tests that getForecast returns weather data with valid latitude and longitude
+     * Tests that getForecast returns weather data with valid latitude and longitude.
      */
     @Test
-    public void testCorrectForecastResponse(){
+    public void testCorrectForecastResponse() {
         assertTrue(canConnect());
         try {
 			assertNotNull(this.getter.getForecast(41, 175));

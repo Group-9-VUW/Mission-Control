@@ -3,6 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 import java.time.Instant;
 
 import org.apache.log4j.spi.LoggingEvent;
+import org.eclipse.jdt.annotation.Nullable;
 import org.apache.log4j.Layout;
 
 /**
@@ -14,12 +15,14 @@ import org.apache.log4j.Layout;
 public class LoggerLayout extends Layout {
 
 	@Override
-	public void activateOptions() {}
+	public void activateOptions() {
+		//There are no options that can be activated
+	}
 
 	@Override
-	public String format(LoggingEvent event) {
+	public String format(@Nullable LoggingEvent event) {
 		if (event == null) {
-			return null;
+			return "";
 		}
 		
 		Instant time = Instant.ofEpochMilli(event.getTimeStamp()); //Converts the time stamp into a date.
@@ -35,7 +38,7 @@ public class LoggerLayout extends Layout {
             output.append("Throwable Info: " + errorInfo[0] + "\n");
 		}
 		output.append("\n");
-		return output.toString();
+		return output.toString() + "";
 	}
 
 	@Override

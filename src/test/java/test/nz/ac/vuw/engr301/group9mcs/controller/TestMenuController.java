@@ -16,9 +16,10 @@ import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 
 /**
- * Tests for MenuController
+ * Tests for MenuController.
  * 
  * @author Claire
+ * @editor Joshua Hindley
  */
 public final class TestMenuController {
 	
@@ -27,14 +28,16 @@ public final class TestMenuController {
 	 */
 	@SuppressWarnings("static-method")
 	@Test
-	public void testPathCanonicalization()
-	{
+	public void testPathCanonicalization() {
+		//tests canonicalizing paths that should be the same, but whose pre-canonicalized paths
+		//include different valid numbers slashes and capitalisations.
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("some/path with spaces"));
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("some/path with spaces/"));
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/path with spaces"));
-		assertEquals("some/path with spaces", MenuController.canonicalizePath("some/path with spaces/"));
+		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/path with spaces/"));
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/PaTh WiTh SpAcES/"));
 		
+		//tests that invalid paths result in PreconditionViolation exceptions being thrown
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some/invalid/path"); });
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some/"); });
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("/invalid"); });
@@ -53,8 +56,7 @@ public final class TestMenuController {
 	 */
 	@SuppressWarnings("static-method")
 	@Test
-	public void testMenuItem()
-	{
+	public void testMenuItem() {
 		try {
 			JFrame frame = new JFrame();
 			MenuController controller = new MenuController(frame);
