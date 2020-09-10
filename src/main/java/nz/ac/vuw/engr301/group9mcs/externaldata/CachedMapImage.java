@@ -173,7 +173,7 @@ public class CachedMapImage implements MapImage {
 	 * Gets the image stored in this CachedMapData's file.
 	 * @return the image.
 	 */
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return this.img;
 	}
 
@@ -186,7 +186,7 @@ public class CachedMapImage implements MapImage {
 	 * @return the subimage.
 	 */
 	@Override
-	public Image get(double latUL, double lonUL,
+	public BufferedImage get(double latUL, double lonUL,
 			double latBR, double lonBR) {
 
 		double pixelsPerDegreeX = (this.bottomRightLong - this.topLeftLong) / this.img.getWidth();
