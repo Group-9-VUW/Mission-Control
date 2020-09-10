@@ -251,11 +251,7 @@ public class CachedMapImage implements MapImage {
 
 		//compare this and cmd's latitudes and longitudes
 		if (cmd.topLeftLat != this.topLeftLat || cmd.topLeftLong != this.topLeftLong
-				|| cmd.bottomRightLat != this.bottomRightLat || this.bottomRightLong != this.bottomRightLong) {
-			return false;
-		}
-		//compare this and cmd's files
-		if (!cmd.file.getName().equals(this.file.getName())) {
+				|| cmd.bottomRightLat != this.bottomRightLat || cmd.bottomRightLong != this.bottomRightLong) {
 			return false;
 		}
 		//compare this and cmd's images
