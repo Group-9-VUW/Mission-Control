@@ -69,8 +69,12 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	}
 
 	@Override
-	public JPanel enable(MenuController menu) {
+	public JPanel enable(MenuController menu, @Nullable Resources resource) {
 		this.switchTo(this.fileGet);
+		// TODO: does this perspective actually need resources?
+		// What about passing the MapImage class?
+		// Parameters from a simulation
+		// Access to a simulation
 		return this.panel;
 	}
 
@@ -82,7 +86,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	@Override
 	public String name() {
-		return "select";
+		return "site";
 	}
 
 	@Override
@@ -144,8 +148,8 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	}
 	
 	@Override
-	public Resources removeResource() {
-		return new Resources();
+	public @Nullable Resources removeResource() {
+		return null;
 	}
 
 }
