@@ -41,7 +41,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new GoNoGoSelectView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage());
+	private JPanel resultsShow;
 
 	/**
 	 * The filename from SelectFileView.
@@ -128,12 +128,31 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 *
 	 * @param newPanel
 	 */
-	private void switchTo(JPanel newPanel)
-	{
+	private void switchTo(JPanel newPanel) {
 		this.panel.removeAll();
-		this.panel.add(newPanel, BorderLayout.CENTER);
+		if (newPanel == this.resultsShow) {
+			// GoNoGo needs dynamic data passed into its constructor
+			this.resultsShow = new GoNoGoSelectView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage());
+			this.panel.add(this.resultsShow, BorderLayout.CENTER);
+		} else {
+			this.panel.add(newPanel, BorderLayout.CENTER);
+		}
 		this.panel.revalidate();
 		this.panel.repaint();
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
