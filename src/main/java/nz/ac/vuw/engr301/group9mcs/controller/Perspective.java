@@ -4,6 +4,8 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 
 /**
@@ -22,11 +24,13 @@ public interface Perspective{
 	 * Enables all required menu items (through the passed menu controller).
 	 * Returns back its default JFrame - this will be populated by the Perspective.
 	 * JFrame won't be passed again until the Perspective is switched to again.
+	 * Resource passed holds information from outside (eg from different perspectives)
 	 *
 	 * @param menu
+	 * @param resource 
 	 * @return Returns the Perspective's Panel
 	 */
-	public JPanel enable(MenuController menu);
+	public JPanel enable(MenuController menu, @Nullable Resources resource);
 	/**
 	 * Called when the Perspective is first made (or passed into the controller).
 	 * Adds all required menu items (through the passed menu controller).
@@ -52,6 +56,6 @@ public interface Perspective{
 	 * Return the Resource
 	 * @return The Perpective's Resources (with all new saved information)
 	 */
-	public Resources removeResource();
+	public @Nullable Resources removeResource();
 
 }
