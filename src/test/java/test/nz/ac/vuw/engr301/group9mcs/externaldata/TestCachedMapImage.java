@@ -138,7 +138,7 @@ public final class TestCachedMapImage {
 			img.toString();
 			fail("Expected an IOException to be thrown.");
 		} catch (IOException e) {
-			assertEquals("img_cache\\thisfileshouldnotexist.dat (The system cannot find the file specified)", e.getMessage());
+			assertTrue(e.getMessage().contains("No such file or directory") || e.getMessage().contains("The system cannot find the file specified"));
 		} catch (NullPointerException e) {
 			fail(e);
 		}
