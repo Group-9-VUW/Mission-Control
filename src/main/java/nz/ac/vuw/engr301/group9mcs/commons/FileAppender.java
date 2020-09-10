@@ -32,7 +32,6 @@ public class FileAppender extends AppenderSkeleton {
 	 * @param name The Appender's name
 	 * @throws IOException Thrown when creating the FileWriter if an issue occurs
 	 */
-	@SuppressWarnings("null") //TODO fix this
 	public FileAppender(LoggerLayout layout, String name) throws IOException {
 		/* Formatting the current time to the specified date format */
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
