@@ -65,14 +65,19 @@ public final class TestCachedMapImage {
 			Graphics2D graph2 = bimage2.createGraphics();
 			graph2.drawImage(image2, 0, 0, null);
 			graph2.dispose();
-			for(int i = 0; i < width; i++)
-				for(int j = 0; j < height; j++)
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < height; j++) {
 					assertEquals(bimage1.getRGB(i, j), bimage2.getRGB(i, j));
+				}
+			}
 		} catch (IOException | NullPointerException e) {
 			fail(e); 
 		}
 	}
 
+	/**
+	 * Tests trying to load a file with no name (i.e. a blank string).
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingNoNameFile() {
@@ -87,6 +92,10 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests trying to load a file with a name that is too short.
+	 * (i.e. less than 5 characters as the file should end with ".png").
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingTooShortNameFile() {
@@ -101,6 +110,9 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests trying to load a non-PNG file.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingNonPNGFile() {
@@ -115,6 +127,9 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests trying to load an image with no corresponding .dat file.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingImageWithNoCorrespondingData() {
@@ -129,6 +144,9 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests trying to load an image file that does not exist, but its data file does.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingMissingImageWithValidData() {
@@ -142,7 +160,11 @@ public final class TestCachedMapImage {
 			fail(e);
 		}
 	}
-	
+
+	/**
+	 * Tests trying to load an image with an invalid path.
+	 * (i.e. the image should be within CachedMapImage.IMG_CACHE_FOLDER).
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testLoadingWithInvalidPath() {
@@ -157,14 +179,18 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests loading a valid image and checking its hashcode.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testGettingHashCode() {
 		try {
-			MapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
-			CachedMapImage cached = (CachedMapImage) img;
-			assertNotEquals(new BufferedImage(1, 1, 1), cached.getImage());
-			Color centrePixel = new Color(cached.hashCode());			
+			CachedMapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
+			//was the image loaded
+			assertNotEquals(new BufferedImage(1, 1, 1), img.getImage());
+			//checks the hashcode
+			Color centrePixel = new Color(img.hashCode());			
 			assertEquals(1, centrePixel.getRed());
 			assertEquals(1, centrePixel.getGreen());
 			assertEquals(1, centrePixel.getBlue());
@@ -173,15 +199,17 @@ public final class TestCachedMapImage {
 		}
 	}
 
+	/**
+	 * Tests the equals method on a number of different images and .dat files.
+	 */
 	@SuppressWarnings("static-method")
 	@Test
 	public void testImageEquals() {
 		try {
 			CachedMapImage img = new CachedMapImage(new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot.png"));
-			CachedMapImage img2 = new CachedMapImage(img.getFile());
 			assertFalse(img.equals(null));
 			assertFalse(img.equals(new Object()));
-			assertTrue(img.equals(img2));
+			assertTrue(img.equals(new CachedMapImage(img.getFile())));
 			//tests that invalid get() calls return the original image
 			assertEquals(img.getImage(), img.get(-41.3, 174.74, -41.31, 174.76));
 			assertEquals(img.getImage(), img.get(-41.2, 174.75, -41.31, 174.76));
@@ -189,16 +217,16 @@ public final class TestCachedMapImage {
 			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.311, 174.755));
 
 			BufferedImage bufImg = (BufferedImage) img.getImage();
-
+			//the base latitudes and longitudes of the image
 			double topLeftLat = -41.3;
 			double topLeftLong = 174.75;
 			double bottomRightLat = -41.31;
 			double bottomRightLong = 174.76;
+			//the image and data files to save to
 			File blackDotImg = new File(CachedMapImage.IMG_CACHE_FOLDER + "black-dot-2.png");
 			File blackDotDat = new File(CachedMapImage.IMG_CACHE_FOLDER + blackDotImg.getName().substring(0, blackDotImg.getName().length() - 4) + ".dat");
 			blackDotDat.createNewFile();
 			for (int i = 1; i < 7; i++) {
-				
 				try (BufferedWriter out = new BufferedWriter(new FileWriter(blackDotDat));) {
 					//save image
 					RenderedImage renderedImg = bufImg.getSubimage(0, 0, (i % 6 == 5 ? 499 : 500), (i % 6 == 0 ? 499 : 500));
