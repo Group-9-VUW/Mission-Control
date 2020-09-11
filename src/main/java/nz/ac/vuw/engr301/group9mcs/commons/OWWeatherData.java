@@ -3,7 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 /**
  * Holds one instance of Weather Data. 
  */
-public class WeatherData {
+public class OWWeatherData {
 	/**
 	 * The temperature reading in celsius. 
 	 */
@@ -47,8 +47,8 @@ public class WeatherData {
 	 * @param humidity - the amount of humidity in %. 
 	 * @param cloudiness - the amount of cloudiness in %. 
 	 */
-	public WeatherData(double temperature, double windSpeed, double windDegrees, double pressure, double precipitation,
-			double humidity, double cloudiness) {
+	public OWWeatherData(double temperature, double windSpeed, double windDegrees, double pressure, double precipitation,
+						 double humidity, double cloudiness) {
 		this.temperature = temperature; 
 		this.windSpeed = windSpeed;
 		this.windDegrees = windDegrees; 
