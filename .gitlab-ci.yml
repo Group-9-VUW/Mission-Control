@@ -1,22 +1,13 @@
 stages:
-  - Clean
   - Compile
   - Test
-
-clean:
-  stage: Clean
-  tags:
-    - Shell
-  script:
-    - mvn clean
-  allow_failure: false
 
 build:
   stage: Compile
   tags:
     - Shell
   script:
-    - mvn compile
+    - mvn clean compile
   allow_failure: false
 
 unittest:
@@ -24,5 +15,6 @@ unittest:
   tags:
     - Shell
   script:
-    - mvn test
+    - mvn clean verify
+    - cat target/site/jacoco/index.html
   allow_failure: true

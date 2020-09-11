@@ -18,27 +18,31 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
  * Tests for CacheMapImage
  *
  * @author Claire
+ * @editor Joshua Hindley
  */
 public final class TestCacheMapImage {
 
 	/**
-	 * Tests that writing an then reading from cache matches data from the network.
+	 * Tests that writing and then reading from cache matches data from the network.
 	 */
 	@SuppressWarnings("static-method")
 	@Test
-	public void testReadWrite()
-	{
+	public void testReadWrite() {
 		try {
+			//the latitudes and longitudes of the map image to get
 			double latUL = -41.291257 + 0.01;
 			double lonUL = 174.776879 - 0.01;
 			double latBR = -41.291257 - 0.01;
 			double lonBR = 174.776879 + 0.01;
+			//gets the map image
 			InternetMapImage mapdata = new InternetMapImage();
 			CachedMapImage cache = new CachedMapImage(mapdata, latUL, lonUL, latBR, lonBR);
 			CachedMapImage fromfile = new CachedMapImage(cache.getFile());
+			//removes the cached map image from memory
 			cache = null;
 			assertTrue(Math.abs(fromfile.centerLat() - (-41.291257)) < 0.000001);
 			assertTrue(Math.abs(fromfile.centerLon() - (174.776879)) < 0.000001);
+			//tests that the cached and non-cached images are the same
 			Image image1 = mapdata.get(latUL, lonUL, latBR, lonBR);
 			Image image2 = fromfile.get(latUL, lonUL, latBR, lonBR);
 			assertEquals(image1.getWidth(null), image2.getWidth(null));
