@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
+import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
 
 /**
  * Perspective that holds the Panels for the when the rocket is Unarmed.
@@ -32,7 +34,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	/** 
 	 * GO NO GO PANEL : simulation
 	 */
-	private JPanel goNoGoPanel;
 
 	/** 
 	 * ARM BUTTON : pop-up to ask user "are you sure?" 
@@ -111,18 +112,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
 		
 		// TODO: real weather details panel
-		this.goNoGoPanel = new JPanel() {
-			/***/
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				g.setColor(Color.yellow);
-				g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
-		this.goNoGoPanel.setPreferredSize(new Dimension(300, 300));
-		
-		// TODO: real weather details panel
 		this.armButton = new ArmedButtonPanel(this);
 		
 		switchTo(viewDetails());
@@ -170,7 +159,10 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	JPanel viewDetails() {
 		JPanel details = new JPanel(new BorderLayout());
 		details.add(this.warningPanel, BorderLayout.NORTH);
-		details.add(this.goNoGoPanel, BorderLayout.CENTER);
+		// Create GoNoGoPanel now to get data from enterDetails. -> parameters (simulation), filename, coordinates, map image
+		GoNoGoView go = new GoNoGoView(new Object(), "unknown.txt", 0, 0, this, new InternetMapImage(), this.name());
+		go.setPreferredSize(new Dimension(300, 300));
+		details.add(go, BorderLayout.CENTER);
 		details.add(this.armButton, BorderLayout.EAST);
 		details.setSize(new Dimension(400, 400));
 		return details;
