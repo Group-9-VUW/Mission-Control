@@ -1,7 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,7 +12,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.GoNoGoSelectView;
+import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 
@@ -41,7 +40,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private JPanel resultsShow;
+	private @Nullable JPanel resultsShow;
 
 	/**
 	 * The filename from SelectFileView.
@@ -128,11 +127,11 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 *
 	 * @param newPanel
 	 */
-	private void switchTo(JPanel newPanel) {
+	private void switchTo(@Nullable JPanel newPanel) {
 		this.panel.removeAll();
-		if (newPanel == this.resultsShow) {
+		if (newPanel == this.resultsShow || newPanel == null) {
 			// GoNoGo needs dynamic data passed into its constructor
-			this.resultsShow = new GoNoGoSelectView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage());
+			this.resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
 			this.panel.add(this.resultsShow, BorderLayout.CENTER);
 		} else {
 			this.panel.add(newPanel, BorderLayout.CENTER);
