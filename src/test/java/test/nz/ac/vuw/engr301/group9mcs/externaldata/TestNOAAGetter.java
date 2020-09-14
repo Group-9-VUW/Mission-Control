@@ -19,6 +19,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @editor Joshua Hindley
  */
 public class TestNOAAGetter {
+	
+	/**
+	 * The default NOAAGetter.
+	 */
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
 
     /**
