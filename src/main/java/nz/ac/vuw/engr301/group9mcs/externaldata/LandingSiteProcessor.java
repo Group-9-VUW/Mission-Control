@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+
 /**
  * Determines acceptability of landing points.
  *
@@ -33,7 +36,7 @@ public class LandingSiteProcessor {
         try {
             this.data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PreconditionViolationException(e);
         }
     }
 
@@ -41,10 +44,11 @@ public class LandingSiteProcessor {
      * Filters the array of all points to a list of valid landing points.
      * @return Returns a list of valid landing points.
      */
+    @SuppressWarnings("null")
     public List<double[]> getValidPoints() {
-        return Arrays.stream(this.points)
+        return Null.nonNull(Arrays.stream(this.points)
                 .filter(this::rayCast)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     /**
