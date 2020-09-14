@@ -28,11 +28,6 @@ public class WarningPanel extends JPanel{
 	 * UID.
 	 */
 	private static final long serialVersionUID = 1236212273802691908L;
-
-	/**
-	 * The observable that speaks to Parent.
-	 */
-	private ViewObservable obs;
 	
 	/**
 	 * Warning.
@@ -45,8 +40,7 @@ public class WarningPanel extends JPanel{
 	 * @param o
 	 * @param w
 	 */
-	public WarningPanel(Observer o, String[] w) {
-		this.obs = new ViewObservable(o);
+	public WarningPanel(String[] w) {
 		this.warnings = w;
 		
 		this.setPreferredSize(new Dimension(300, 300));
