@@ -17,6 +17,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
  * A MapImage that doesn't block while retrieving data from file.
  * 
  * @author Claire
+ * @editor Joshua Hindley
  */
 public class SmoothMapImage implements MapImage {
 
@@ -70,8 +71,7 @@ public class SmoothMapImage implements MapImage {
 	 * @param parent The parent MapImage
 	 * @param loadListener The listener for asynchronous loading
 	 */
-	public SmoothMapImage(MapImage parent, SimpleEventListener loadListener)
-	{
+	public SmoothMapImage(MapImage parent, SimpleEventListener loadListener) { 
 		this.loadListener = loadListener;
 		this.parentImage = parent;
 	}
@@ -80,7 +80,7 @@ public class SmoothMapImage implements MapImage {
 	@Override
 	public Image get(double latUL, double lonUL, double latBR, double lonBR) {
 		PlanetaryArea getArea = PlanetaryArea.fromCorners(latUL, lonUL, latBR, lonBR);
-		if(this.area == null || !this.area.containsArea(getArea)) {
+		if (this.area == null || !this.area.containsArea(getArea)) {
 			this.startBackgroundLoadIfIdle(getArea.scale(OVERREACH));
 		} 
 		
@@ -90,7 +90,7 @@ public class SmoothMapImage implements MapImage {
 		double newPixelsPerLon = image.getWidth(null) / (getArea.getRadLon() * 2);
 		double newPixelsPerLat = image.getHeight(null) / (getArea.getRadLat() * 2);
 		
-		if(this.area != null && this.area.overlapsWithArea(getArea)) {
+		if (this.area != null && this.area.overlapsWithArea(getArea)) {
 			PlanetaryArea clipped = this.area.clip(getArea);
 			int xStartFrom = (int) Math.round((clipped.getUpperLeftLongitude() - this.area.getUpperLeftLongitude()) * this.pixelsPerLon);
 			int yStartFrom = (int) Math.round((this.area.getUpperLeftLatitude() - clipped.getUpperLeftLatitude()) * this.pixelsPerLat);
@@ -115,9 +115,8 @@ public class SmoothMapImage implements MapImage {
 	 * 
 	 * @param toLoad The area to load
 	 */
-	private void startBackgroundLoadIfIdle(PlanetaryArea toLoad)
-	{
-		if(!this.loadingAlready) {
+	private void startBackgroundLoadIfIdle(PlanetaryArea toLoad) {
+		if (!this.loadingAlready) {
 			this.loadingAlready = true;
 			new GetImage(toLoad).start();
 		}
@@ -130,8 +129,7 @@ public class SmoothMapImage implements MapImage {
 	 * @param height The height of the image in pixels
 	 * @return The image
 	 */
-	private static BufferedImage loadingImage(int width, int height)
-	{
+	private static BufferedImage loadingImage(int width, int height) {
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics graph = image.getGraphics();
 		graph.setColor(Color.GRAY);
@@ -156,8 +154,7 @@ public class SmoothMapImage implements MapImage {
 	 * 
 	 * @author Claire
 	 */
-	private class GetImage extends Thread
-	{
+	private class GetImage extends Thread {
 		/**
 		 * Area to load
 		 */
@@ -166,13 +163,12 @@ public class SmoothMapImage implements MapImage {
 		/**
 		 * @param toLoad
 		 */
-		public GetImage(PlanetaryArea toLoad)
-		{
+		public GetImage(PlanetaryArea toLoad) {
 			this.toLoad = toLoad;
 		}
 		
-		public void run()
-		{
+		@Override
+		public void run() {
 			Image image = SmoothMapImage.this.parentImage.get(this.toLoad.getUpperLeftLatitude(), this.toLoad.getUpperLeftLongitude(), this.toLoad.getBottomRightLatitude(), this.toLoad.getBottomRightLongitude());
 			SmoothMapImage.this.cur = image;
 			SmoothMapImage.this.area = this.toLoad;
