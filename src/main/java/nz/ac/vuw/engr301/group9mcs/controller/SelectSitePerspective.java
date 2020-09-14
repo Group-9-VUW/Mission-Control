@@ -13,7 +13,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.GoNoGoSelectView;
+import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 
@@ -41,7 +41,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new GoNoGoSelectView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage());
+	private final JPanel resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
 	/**
 	 * The filename from SelectFileView.
 	 */
