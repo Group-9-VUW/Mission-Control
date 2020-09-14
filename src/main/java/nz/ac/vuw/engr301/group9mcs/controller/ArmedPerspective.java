@@ -93,19 +93,6 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	@Override
 	public void update(@Nullable Observable o, @Nullable Object arg) {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	/**
-	 * Switch to the given View Panel.
-	 * 
-	 * @param newPanel
-	 */
-	private void switchTo(JPanel newPanel) {
-		this.panel.removeAll();
-		this.panel.add(newPanel, BorderLayout.CENTER);
-		this.panel.revalidate();
-		this.panel.repaint();
 	}
 
 }
