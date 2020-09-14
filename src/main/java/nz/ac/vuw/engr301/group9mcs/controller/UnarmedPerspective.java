@@ -14,9 +14,11 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
+import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
  * Perspective that holds the Panels for the when the rocket is Unarmed.
@@ -64,17 +66,8 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	public UnarmedPerspective() {
 		this.panel = new JPanel(new BorderLayout());
 
-		// TODO: real warning panel
-		this.warningPanel = new JPanel() {
-			/***/
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				g.setColor(Color.red);
-				g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
-		this.warningPanel.setPreferredSize(new Dimension(400, 100));
+		String[] args = {"Do not Launch until Armed", "The Rocket is Still Dangerous"};
+		this.warningPanel = new WarningPanel(args);
 
 		// TODO: real rocket details panel
 		this.rocketDetailsPanel = new JPanel() {
@@ -111,11 +104,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.armButton = new ArmedButtonPanel(this);
 		
 		switchTo(viewDetails());
-	}
-
-	@Override
-	public JPanel enable(MenuController menu) {
-		return this.panel;
 	}
 
 	@Override
@@ -188,6 +176,24 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.panel.add(newPanel, BorderLayout.CENTER);
 		this.panel.revalidate();
 		this.panel.repaint();
+	}
+
+	@Override
+	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+		// TODO Auto-generated method stub
+		return this.panel;
+	}
+
+	@Override
+	public void addResources(Resources resource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public @Nullable Resources removeResource() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
