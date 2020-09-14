@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
+
 /**
  * Controller class.
  * Creates the screen.
@@ -67,7 +69,7 @@ public class MainController extends JFrame {
 	 */
 	public void setPerspective(String name)
 	{
-		this.persp.changePerspective(name);
+		this.persp.changePerspective(name, new Resources());
 	}
 
 

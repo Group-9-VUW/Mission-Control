@@ -10,6 +10,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 
 /**
  * Controls what view elements are shown on the screen for the different perspectives.
@@ -32,6 +33,10 @@ public class PerspectiveController implements Observer{
 	 * The Panel.
 	 */
 	private JPanel panel;
+	/**
+	 * The Current Perspective's name.
+	 */
+	private String currentPerspective = "";
 
 	/**
 	 * Constructor.
@@ -69,13 +74,15 @@ public class PerspectiveController implements Observer{
 	 * If name isn't connected to a perspective (doesn't exist in list) an Error is thrown.
 	 *
 	 * @param name
+	 * @param res 
 	 */
-	public void changePerspective(String name) {
+	public void changePerspective(String name, @Nullable Resources res) {
 		if(!this.perspectives.containsKey(name.toLowerCase())) {
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu), BorderLayout.CENTER);
+		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu, res), BorderLayout.CENTER);
+		this.currentPerspective = Null.nonNull(name.toLowerCase());
 		this.panel.revalidate();
 	}
 
@@ -90,7 +97,11 @@ public class PerspectiveController implements Observer{
 			if(args[0].toLowerCase().equals("switch view") && args.length == 2) {
 				@Nullable String s = args[1];
 				if(s != null) {
-					changePerspective(s);
+					Resources r = Null.nonNull(this.perspectives.get(this.currentPerspective)).removeResource();
+					if (r == null) {
+						r = new Resources();
+					}
+					changePerspective(s, r);
 				}
 			}
 		}
