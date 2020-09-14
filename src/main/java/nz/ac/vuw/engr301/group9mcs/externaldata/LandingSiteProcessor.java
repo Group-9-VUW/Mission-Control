@@ -31,7 +31,7 @@ public class LandingSiteProcessor {
         double[] boundingBox = calculatePointsBoundingBox();
         assert boundingBox != null;
         try {
-            data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
+            this.data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class LandingSiteProcessor {
      * @return Returns a list of valid landing points.
      */
     public List<double[]> getValidPoints() {
-        return Arrays.stream(points)
+        return Arrays.stream(this.points)
                 .filter(this::rayCast)
                 .collect(Collectors.toList());
     }
@@ -56,7 +56,7 @@ public class LandingSiteProcessor {
         // represents the smallest magnitude of a double (a very small positive number), not the lowest value.
         double north = -Double.MAX_VALUE, south = Double.MAX_VALUE, east = -Double.MAX_VALUE, west = Double.MAX_VALUE;
 
-        for (double[] point : points) {
+        for (double[] point : this.points) {
             north = Math.max(point[0], north);
             south = Math.min(point[0], south);
             east = Math.max(point[1], east);
@@ -78,11 +78,11 @@ public class LandingSiteProcessor {
      * @return Returns false if the point is within a polygon, true otherwise.
      */
     private boolean rayCast(double[] point) {
-        assert data.getWays().size() > 0;
+        assert this.data.getWays().size() > 0;
         Line2D ray = new Line2D.Double(point[1], point[0], point[1] + 1, point[0]);
 
         // Each building is represented by a way.
-        for (OsmOverpassData.Way w : data.getWays()) {
+        for (OsmOverpassData.Way w : this.data.getWays()) {
             List<OsmOverpassData.Node> nodes = w.getNodes();
             int intersections = 0;
             for (int i = 0; i < nodes.size() - 1; ++i) {
