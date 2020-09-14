@@ -34,9 +34,8 @@ public class WarningPanel extends JPanel{
 	private String[] warnings;
 	
 	/**
-	 * Creates the Panel, adds Observer, adds warning message.
+	 * Creates the Panel, adds warning message.
 	 * 
-	 * @param o
 	 * @param w
 	 */
 	public WarningPanel(String[] w) {
