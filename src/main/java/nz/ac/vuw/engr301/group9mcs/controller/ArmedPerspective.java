@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
+import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
  * Perspective that holds the Panels for the View while the rocket is Armed.
@@ -57,26 +59,15 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		};
 		this.rocketDataPanel.setPreferredSize(new Dimension(400, 300));
 		// TODO: A proper Warning Panel : "Armed and Dangerous", "Do not touch while armed"
-		this.warningPanel = new JPanel() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2650026648197700627L;
-			
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				Null.nonNull(g).setColor(Color.red);
-				Null.nonNull(g).fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
-		this.warningPanel.setPreferredSize(new Dimension(400, 100));
+		String[] args = {"Armed and Dangerous", "Do not touch while Armed"};
+		this.warningPanel = new WarningPanel(args);
 		this.panel.add(this.rocketDataPanel, BorderLayout.CENTER);
 		this.panel.add(this.warningPanel, BorderLayout.NORTH);
 	}
 
 	@Override
-	public JPanel enable(MenuController menu) {
+	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+		// TODO Use Resources
 		return this.panel;
 	}
 
@@ -93,6 +84,17 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	@Override
 	public void update(@Nullable Observable o, @Nullable Object arg) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addResources(Resources resource) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public @Nullable Resources removeResource() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
