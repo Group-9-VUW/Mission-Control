@@ -32,10 +32,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	private JPanel panel;
 
 	/** 
-	 * GO NO GO PANEL : simulation
-	 */
-
-	/** 
 	 * ARM BUTTON : pop-up to ask user "are you sure?" 
 	 * -> Disclaimer: You are responsible for checking the surroundings are really clear before firing. 
 	 * Don't trust our maps which don't know about people.
@@ -64,6 +60,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	/**
 	 * Construct the Panel
 	 */
+	@SuppressWarnings("null")
 	public UnarmedPerspective() {
 		this.panel = new JPanel(new BorderLayout());
 
@@ -111,7 +108,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.weatherDetailsPanel.add(run);
 		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
 		
-		// TODO: real weather details panel
 		this.armButton = new ArmedButtonPanel(this);
 		
 		switchTo(viewDetails());
