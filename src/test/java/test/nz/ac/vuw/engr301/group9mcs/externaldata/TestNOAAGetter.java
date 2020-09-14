@@ -21,6 +21,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 public class TestNOAAGetter {
     private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
 
+    /**
+     * Determines whether the NOAAGetter can connect to NOAA.
+     * @return whether NOAA can be reached or not
+     */
     private static boolean canConnect() {
         return NOAAGetter.isAvailable();
     }
@@ -43,7 +47,7 @@ public class TestNOAAGetter {
      */
     
     /**
-     * Tests that getWeatherData does not accept invalid latitude values.
+     * Tests that getWeatherData does not accept latitude values that are too low.
      */
     @Test
     public void testInvalidLatitude1() {
@@ -61,6 +65,9 @@ public class TestNOAAGetter {
 		}
     }
     
+    /**
+     * Tests that getWeatherData does not accept latitude values that are too high.
+     */
     @Test
     public void testInvalidLatitude2() {
         assertTrue(canConnect());
@@ -78,7 +85,7 @@ public class TestNOAAGetter {
     }
 
     /**
-     * Tests that getWeatherData does not accept invalid longitude values.
+     * Tests that getWeatherData does not accept longitude values that are too low.
      */
     @Test
     public void testInvalidLongitude1() {
@@ -96,6 +103,9 @@ public class TestNOAAGetter {
 		}
     }
     
+    /**
+     * Tests that getWeatherData does not accept longitude values that are too high.
+     */
     @Test
     public void testInvalidLongitude2() {
         assertTrue(canConnect());
@@ -113,7 +123,7 @@ public class TestNOAAGetter {
     }
     
     /**
-     * Tests that getWeatherData does not accept invalid longitude and longitude values.
+     * Tests that getWeatherData does not accept latitude and longitude values that are too low.
      */
     @Test
     public void testInvalidLatAndLong1() {
@@ -132,6 +142,9 @@ public class TestNOAAGetter {
 		}
     }
     
+    /**
+     * Tests that getWeatherData does not accept latitude and longitude values that are too high.
+     */
     @Test
     public void testInvalidLatAndLong2() {
         assertTrue(canConnect());
