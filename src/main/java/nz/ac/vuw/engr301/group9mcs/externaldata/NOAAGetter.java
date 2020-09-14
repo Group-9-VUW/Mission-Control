@@ -25,7 +25,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
  * @author pandasai
  */
 public class NOAAGetter {
-	/*
+	/**
 	 * The appid for the OpenWeatherMap API. The user will supply their own token that will be used.
 	 */
 	private String appid = "ead647e24776f26ed6f63af5f1bbf68c";
