@@ -21,10 +21,11 @@ import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
  * The weather data is returned in the JSON format.
  * The JSON will be parsed and the info will be pushed to all other packages that need it.
+ * 
  * @author pandasai
  */
 public class NOAAGetter {
-	/*
+	/**
 	 * The appid for the OpenWeatherMap API. The user will supply their own token that will be used.
 	 */
 	private String appid = "ead647e24776f26ed6f63af5f1bbf68c";
@@ -45,9 +46,9 @@ public class NOAAGetter {
 	 * @throws InvalidParameterException if the supplied parameters are not valid
 	 */
 	public static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
-		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
+		if ((latitude < -90 || latitude > 90) && (longitude < -180 || longitude > 180)) {
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
-		} else if(latitude < -90 || latitude > 90){
+		} else if (latitude < -90 || latitude > 90) {
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
 		} else if (longitude < -180 || longitude > 180) {
 			throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
@@ -73,7 +74,7 @@ public class NOAAGetter {
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
 
-			try(BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));){
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
 
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 
@@ -81,7 +82,7 @@ public class NOAAGetter {
 
 				reader.close();
 				return parseWeatherJSON(currentData);
-			} catch(JSONException e) {
+			} catch (JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
@@ -114,7 +115,7 @@ public class NOAAGetter {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 				JSONArray hourlyForecasts = weatherJSON.getJSONArray("hourly");
 
-				for(int i = 0; i < hourlyForecasts.length(); i++){
+				for (int i = 0; i < hourlyForecasts.length(); i++) {
 					JSONObject forecast = hourlyForecasts.getJSONObject(i);
 
 					long unixTime = forecast.getLong("dt");
@@ -125,11 +126,11 @@ public class NOAAGetter {
 					forecasts.put(date, parseWeatherJSON(forecast));
 				}
 
-			} catch(JSONException e) {
+			} catch (JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
-		} catch (IOException | InvalidParameterException  e) {
+		} catch (IOException | InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
 			throw e;
 		} 
@@ -141,11 +142,11 @@ public class NOAAGetter {
 	 * @param weatherJSON the JSON object containing all weather info from the API
 	 * @return OWWeatherData with all needed weather attributes
 	 */
-	private static OWWeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException{
+	private static OWWeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException {
 		JSONObject rainData = null;
 		
 		try {
-			if(weatherJSON.has("rain")) {
+			if (weatherJSON.has("rain")) {
 				rainData = weatherJSON.getJSONObject("rain");
 			}
 	
@@ -171,7 +172,7 @@ public class NOAAGetter {
 			double cloudiness = weatherJSON.getDouble("clouds");
 			
 			return new OWWeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
-		} catch(JSONException e) {
+		} catch (JSONException e) {
 			throw new JSONException("JSON returned by the API could be parsed properly: " + e.getMessage());
 		}
 
@@ -207,5 +208,4 @@ public class NOAAGetter {
 	      }
 		return true;
 	}
-
 }

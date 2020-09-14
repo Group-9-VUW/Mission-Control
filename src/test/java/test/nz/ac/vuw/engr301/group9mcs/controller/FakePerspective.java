@@ -7,8 +7,10 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Perspective;
 import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
@@ -29,6 +31,10 @@ public class FakePerspective extends Observable implements Perspective{
 	 * The Default Panel.
 	 */
 	private @NonNull JPanel panel = new JPanel();
+	/**
+	 * Resources.
+	 */
+	private Resources res;
 
 	/**
 	 * If Panel isn't null, Default Panel will be replaced.
@@ -46,7 +52,7 @@ public class FakePerspective extends Observable implements Perspective{
 	}
 
 	@Override
-	public @NonNull JPanel enable(@NonNull MenuController menu) {
+	public @NonNull JPanel enable(@NonNull MenuController menu, @Nullable Resources resource) {
 		String[] a = new String[this.menuItems.size()];
 		int i = 0;
 		for(ViewMenuItem v : this.menuItems) {
@@ -54,6 +60,7 @@ public class FakePerspective extends Observable implements Perspective{
 			i++;
 		}
 		menu.enableItems(a);
+		this.res = resource;
 		return this.panel;
 	}
 
@@ -79,6 +86,19 @@ public class FakePerspective extends Observable implements Perspective{
 	@Override
 	public @NonNull String name() {
 		return "Fake Perspective";
+	}
+
+	@Override
+	public void addResources(@NonNull Resources resource) {
+		this.res = resource;
+	}
+
+	@Override
+	public @Nullable Resources removeResource() {
+		if (this.res == null) {
+			return new Resources();
+		}
+		return Null.nonNull(this.res);
 	}
 
 }
