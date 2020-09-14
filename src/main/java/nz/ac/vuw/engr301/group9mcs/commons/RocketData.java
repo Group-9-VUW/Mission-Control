@@ -10,7 +10,14 @@ public class RocketData {
      * Possible values for the rocket state value returned from the base station.
      */
     public static enum ROCKET_STATE {
+        /**
+         * The rocket is armed
+         */
         ARMED,
+        
+        /**
+         * The rocket is in flight
+         */
         FLIGHT
     }
 
@@ -140,7 +147,7 @@ public class RocketData {
      * @return the timestamp of the clock on the rocket.
      */
     public double getTimestamp() {
-        return timestamp;
+        return this.timestamp;
     }
 
     /**
@@ -148,7 +155,7 @@ public class RocketData {
      * @return the latitude of the rocket.
      */
     public double getLatitude() {
-        return latitude;
+        return this.latitude;
     }
 
     /**
@@ -156,7 +163,7 @@ public class RocketData {
      * @return the longtitude of the rocket.
      */
     public double getLongitude() {
-        return longitude;
+        return this.longitude;
     }
 
     /**
@@ -164,7 +171,7 @@ public class RocketData {
      * @return the x value of the gimbal.
      */
     public double getGimbalX() {
-        return gimbalX;
+        return this.gimbalX;
     }
 
     /**
@@ -172,7 +179,7 @@ public class RocketData {
      * @return the y value of the gimbal.
      */
     public double getGimbalY() {
-        return gimbalY;
+        return this.gimbalY;
     }
 
     /**
@@ -180,7 +187,7 @@ public class RocketData {
      * @return the acceleration for the x axis.
      */
     public double getAccelerationX() {
-        return accelerationX;
+        return this.accelerationX;
     }
 
     /**
@@ -188,7 +195,7 @@ public class RocketData {
      * @return the acceleration for the y axis.
      */
     public double getAccelerationY() {
-        return accelerationY;
+        return this.accelerationY;
     }
 
     /**
@@ -196,7 +203,7 @@ public class RocketData {
      * @return the acceleration for the z axis.
      */
     public double getAccelerationZ() {
-        return accelerationZ;
+        return this.accelerationZ;
     }
 
     /**
@@ -204,7 +211,7 @@ public class RocketData {
      * @return the rotation about the x axis.
      */
     public double getRotationX() {
-        return rotationX;
+        return this.rotationX;
     }
 
     /**
@@ -212,7 +219,7 @@ public class RocketData {
      * @return the rotation about the y axis.
      */
     public double getRotationY() {
-        return rotationY;
+        return this.rotationY;
     }
 
     /**
@@ -220,7 +227,7 @@ public class RocketData {
      * @return the rotation about the z axis.
      */
     public double getRotationZ() {
-        return rotationZ;
+        return this.rotationZ;
     }
 
     /**
@@ -228,7 +235,7 @@ public class RocketData {
      * @return the humidity outside the rocket.
      */
     public double getHumidity() {
-        return humidity;
+        return this.humidity;
     }
 
     /**
@@ -236,7 +243,7 @@ public class RocketData {
      * @return the temperature outside the rocket.
      */
     public double getTemperature() {
-        return temperature;
+        return this.temperature;
     }
 
     /**
@@ -244,7 +251,7 @@ public class RocketData {
      * @return the air pressure outside the rocket.
      */
     public double getAirPressure() {
-        return airPressure;
+        return this.airPressure;
     }
 
     /**
@@ -252,27 +259,27 @@ public class RocketData {
      * @return the state of the rocket.
      */
     public ROCKET_STATE getState() {
-        return state;
+        return this.state;
     }
 
     @Override
     public String toString() {
         return "RocketData{" +
-                "timestamp=" + timestamp +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", gimbalX=" + gimbalX +
-                ", gimbalY=" + gimbalY +
-                ", accelerationX=" + accelerationX +
-                ", accelerationY=" + accelerationY +
-                ", accelerationZ=" + accelerationZ +
-                ", rotationX=" + rotationX +
-                ", rotationY=" + rotationY +
-                ", rotationZ=" + rotationZ +
-                ", humidity=" + humidity +
-                ", temperature=" + temperature +
-                ", airPressure=" + airPressure +
-                ", state=" + state +
+                "timestamp=" + this.timestamp +
+                ", latitude=" + this.latitude +
+                ", longitude=" + this.longitude +
+                ", gimbalX=" + this.gimbalX +
+                ", gimbalY=" + this.gimbalY +
+                ", accelerationX=" + this.accelerationX +
+                ", accelerationY=" + this.accelerationY +
+                ", accelerationZ=" + this.accelerationZ +
+                ", rotationX=" + this.rotationX +
+                ", rotationY=" + this.rotationY +
+                ", rotationZ=" + this.rotationZ +
+                ", humidity=" + this.humidity +
+                ", temperature=" + this.temperature +
+                ", airPressure=" + this.airPressure +
+                ", state=" + this.state +
                 '}';
     }
 }
