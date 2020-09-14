@@ -35,7 +35,7 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 	/**
 	 * The LORA Driver to config
 	 */
-	//private final LORADriver driver;
+	private final LORADriver driver;
 	
 	/**
 	 * The panel containing all the COM ports to select.
@@ -71,11 +71,12 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 	
 	/**
 	 * @param root The window this dialog should block
+	 * @param driver The driver to configure
 	 */
-	public LORAConfigPanel(Window root/*, LORADriver driver */)
+	public LORAConfigPanel(Window root, LORADriver driver)
 	{
 		super(root, "Set rocket COM port", Dialog.ModalityType.APPLICATION_MODAL);
-		//this.driver = driver;
+		this.driver = driver;
 		this.setLayout(new BorderLayout());
 		
 		this.add(new JLabel("Select serial COM port."), BorderLayout.NORTH);
@@ -110,8 +111,7 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 	 */
 	private void populate()
 	{
-		String[] portlist = { "COM1", "COM9000" };
-		//Call to COMHelper would go here.
+		String[] portlist = COMHelper.getAvailablePorts();
 		
 		this.COMSelect.removeAll();
 		this.ports.clear();
@@ -155,7 +155,7 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 			} else if(e.getSource() == this.confirm) {
 				if(this.selected != null) {
 					try {
-						//Initiate COMS
+						this.driver.init(this.selected);
 						this.setVisible(false);
 						this.dispose();
 					} catch(Exception ex) {
