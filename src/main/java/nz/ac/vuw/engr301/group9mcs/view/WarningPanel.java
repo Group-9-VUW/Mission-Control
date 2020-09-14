@@ -53,30 +53,35 @@ public class WarningPanel extends JPanel{
 		int height = this.getHeight();
 		
 		g.setColor(Color.red);
+		// red background
 		g.fillRect(0, 0, width, height);
 		
 		String longest = getLongest(this.warnings);
-		
+		// Retrieve the fonts (metrics) for the two sizes of font
 		FontMetrics largeFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize("WARNING", (Graphics2D) g, width)));
 		FontMetrics smallFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize(longest, (Graphics2D) g, width)));
-		
+		// Resize font to fit within screen (not just width)
 		Font[] fonts = fitToScreen(Null.nonNull(largeFont.getFont()), Null.nonNull(smallFont.getFont()), this.warnings.length, longest, (Graphics2D)g, height);
+		
 		largeFont = g.getFontMetrics(fonts[1]);
 		Rectangle2D largeRect = largeFont.getStringBounds("WARNING", g);
 		smallFont = g.getFontMetrics(fonts[0]);
 		Rectangle2D smallRect = smallFont.getStringBounds(longest, g);
-		
-		
+		// Get the total height of all the printed strings (should be)
 		int fontHeight = fontHeight(largeFont, Null.nonNull(largeRect), smallFont, Null.nonNull(smallRect), this.warnings.length, longest);
 		int y = (height / 2) - (fontHeight / 2);
 		
 		g.setColor(Color.yellow);
+		// highlight text in yellow
 		g.fillRect(0, y, width, fontHeight);
 		g.setColor(Color.black);
 		
+		// Print warning in Large font at top
 		int largeX = (int)((width - largeRect.getWidth()) / 2);
 		g.setFont(largeFont.getFont());
 		g.drawString("WARNING", largeX, y + (int)largeRect.getHeight() - (largeFont.getAscent() / 4));
+		
+		// Print all warning messages in Small font at bottom
 		g.setFont(smallFont.getFont());
 		for(int i = 0; i < this.warnings.length; i++) {
 			smallRect = smallFont.getStringBounds(this.warnings[i], g);
@@ -114,11 +119,13 @@ public class WarningPanel extends JPanel{
 		int font = 1;
 		Font f = new Font("Serif", Font.PLAIN, font);
 		FontMetrics fm = g.getFontMetrics(f);
+		// Get the largest font size that fits the width
 		while(fm.stringWidth(s) < width - 10) {
 			font ++;
 			f = new Font("Serif", Font.PLAIN, font);
 			fm = g.getFontMetrics(f);
 		}
+		// Go back down if too big!
 		if (fm.stringWidth(s) > width - 4) {
 			font --;
 		}
@@ -160,6 +167,7 @@ public class WarningPanel extends JPanel{
 		Rectangle2D rectL = fmL.getStringBounds("WARNING", g);
 		int ratio = large.getSize() / small.getSize();
 		int i = 0;
+		// Reduce font sizes until fontHeight fits screen height
 		while (height - 10 < fontHeight(fmL, Null.nonNull(rectL), fmS, Null.nonNull(rectS), smallNumber, longest)) {
 			if (i % ratio == 0) {
 				small = new Font(small.getFontName(), small.getStyle(), small.getSize() - 1);
