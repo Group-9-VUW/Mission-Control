@@ -36,7 +36,7 @@ public class WarningPanel extends JPanel{
 	/**
 	 * Creates the Panel, adds warning message.
 	 * 
-	 * @param w
+	 * @param w The String placed under the warning detailing the message.
 	 */
 	public WarningPanel(String[] w) {
 		this.warnings = w;
@@ -105,9 +105,9 @@ public class WarningPanel extends JPanel{
 	/**
 	 * Return a font size for the String that fills the width.
 	 * 
-	 * @param s
-	 * @param g
-	 * @param width
+	 * @param s String to fit to width
+	 * @param g Graphics to display in
+	 * @param width Width to be fitted to
 	 * @return Returns a font size.
 	 */
 	private static int getFontSize(String s, Graphics2D g, int width) {
@@ -128,7 +128,7 @@ public class WarningPanel extends JPanel{
 	/**
 	 * Return the longest String from an array.
 	 * 
-	 * @param s
+	 * @param s List of Strings to find the longest of.
 	 * @return Return the longest String from an array.
 	 */
 	private static String getLongest(String[] s) {
@@ -147,7 +147,7 @@ public class WarningPanel extends JPanel{
 	 * @param smallFont Smaller Font
 	 * @param smallNumber Number of Lines in the Smaller Font
 	 * @param longest Longest line to be displayed in the smaller font
-	 * @param g 
+	 * @param g Graphics to be displayed in
 	 * @param height Height of the screen or rectangle to display lines in
 	 * @return [new small font, new large font]
 	 */
