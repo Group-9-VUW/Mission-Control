@@ -32,6 +32,11 @@ public class NOAA {
         return convertToMap(array);
     }
 
+    
+    /** Converts the supplied JSON weather readings into a Map
+     * @param jsonWeatherReadings the weather readings in JSON format 
+     * @return a map with the same data as jsonWeatherReadings, where the keys are the alitudes and values are NOAAWeatherData objects.  
+     */
     public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings){
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();
 
