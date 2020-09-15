@@ -5,11 +5,6 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  * @author Sai
  */
 public class NOAAWeatherData {
-	
-	/**
-	 * The altitude of the reading. 
-	 */
-    private double altitude;
 
     /**
      * The wind speed of the reading.
@@ -33,26 +28,18 @@ public class NOAAWeatherData {
 
 
     /**
-     * @param altitude the height above sea level of the reading. 
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
      * @param pressure at the corresponding altitude.
      */
-    public NOAAWeatherData(double altitude, double windSpeed, double windDirection, double temperature, double pressure){
-        this.altitude = altitude;
+    public NOAAWeatherData(double windSpeed, double windDirection, double temperature, double pressure){
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.temperature = temperature;
         this.pressure = pressure;
     }
 
-    /**
-     * @return the altidude from the reading.
-     */
-    public double getAltitude() {
-        return this.altitude;
-    }
 
     /**
      * @return the wind speed from the reading.
@@ -80,5 +67,15 @@ public class NOAAWeatherData {
      */
     public double getPressure() {
         return this.pressure;
+    }
+
+    @Override
+    public String toString() {
+        return "NOAAWeatherData{" +
+                "windSpeed=" + windSpeed +
+                ", windDirection=" + windDirection +
+                ", temperature=" + temperature +
+                ", pressure=" + pressure +
+                '}';
     }
 }
