@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestNOAA {
     /**
@@ -108,5 +107,29 @@ public class TestNOAA {
         altitudes.add(48156.625);
 
         assertEquals(altitudes, forecast.keySet());
+    }
+
+    /**
+     * Check the data correctly matches up with the corresponding altitude value.
+     */
+    @Test
+    public void checkDataCorrectness(){
+        Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(testArray);
+
+        for(int i = 0; i < testArray.length(); i++){
+            JSONObject currentReading = testArray.getJSONObject(i);
+
+            assertEquals(currentReading.getDouble("windSpeed"),
+                        forecast.get(currentReading.getDouble("altitude")).getWindSpeed());
+
+            assertEquals(currentReading.getDouble("windDirection"),
+                    forecast.get(currentReading.getDouble("altitude")).getWindDirection());
+
+            assertEquals(currentReading.getDouble("temperature"),
+                    forecast.get(currentReading.getDouble("altitude")).getTemperature());
+
+            assertEquals(currentReading.getDouble("pressure"),
+                    forecast.get(currentReading.getDouble("altitude")).getPressure());
+        }
     }
 }
