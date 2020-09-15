@@ -32,7 +32,7 @@ public class NOAA {
         return convertToMap(array);
     }
 
-    private static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings){
+    public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings){
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();
 
         for(int i = 0; i < jsonWeatherReadings.length(); i++){
@@ -43,6 +43,8 @@ public class NOAA {
                             currentReading.getDouble("temperature"),
                             currentReading.getDouble("pressure")));
         }
+
+        return weatherReadings;
     }
 
 }
