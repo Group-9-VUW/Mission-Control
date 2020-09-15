@@ -29,17 +29,20 @@ public class NOAA {
 
         JSONArray array = new JSONArray(output);
 
+        return convertToMap(array);
+    }
+
+    private static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings){
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();
 
-        for(int i = 0; i < array.length(); i++){
-            JSONObject currentReading = array.getJSONObject(i);
+        for(int i = 0; i < jsonWeatherReadings.length(); i++){
+            JSONObject currentReading = jsonWeatherReadings.getJSONObject(i);
             weatherReadings.put(new Double(currentReading.getDouble("altitude")),
                     new NOAAWeatherData(currentReading.getDouble("windSpeed"),
-                                        currentReading.getDouble("windDirection"),
-                                        currentReading.getDouble("temperature"),
-                                        currentReading.getDouble("pressure")));
+                            currentReading.getDouble("windDirection"),
+                            currentReading.getDouble("temperature"),
+                            currentReading.getDouble("pressure")));
         }
-        return weatherReadings;
     }
 
 }
