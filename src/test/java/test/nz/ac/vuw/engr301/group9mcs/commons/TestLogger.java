@@ -95,7 +95,7 @@ public class TestLogger {
 			LoggingEvent event = new LoggingEvent("foo", DefaultLogger.logger, time, Level.ERROR, "Error has occured", "main", throwable, null, null, null); //Creating the event
 			DefaultLogger.logger.getAppender("file_appender").doAppend(event); //Append the log to the event
 			DefaultLogger.logger.getAppender("file_appender").close(); //Close the appender
-			File file = new File("log_" + appender.getCurrentTime() + ".log");
+			File file = new File("logs/log_" + appender.getCurrentTime() + ".log");
 			assertTrue(file.exists()); //Checking the file exists
 			try (Scanner reader = new Scanner(file);) {
 				/* Checking the content of the file is correct */

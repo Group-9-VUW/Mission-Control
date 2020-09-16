@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import org.apache.log4j.AppenderSkeleton;
 
@@ -40,8 +43,12 @@ public class FileAppender extends AppenderSkeleton {
 		this.currentTime = time == null ? "" : time;
 		this.loggerLayout = layout;
 		super.name = name;
+		Path path = Paths.get("logs");
+		if (!Files.exists(path)) {
+			Files.createDirectories(path);
+		}
 		//Creating a file and its writer
-		this.writer = new FileWriter(new File("log_" + this.currentTime + ".log")); 
+		this.writer = new FileWriter(new File("logs/log_" + this.currentTime + ".log")); 
 	}
 
 	@Override
