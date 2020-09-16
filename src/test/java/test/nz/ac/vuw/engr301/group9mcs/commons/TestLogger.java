@@ -16,7 +16,6 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
-import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
