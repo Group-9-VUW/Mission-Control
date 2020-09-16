@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
@@ -80,35 +82,39 @@ public class TestLogger {
 	@Test 
 	public void testFileAppender() {
 		LoggerLayout layout = new LoggerLayout();
-		FileAppender appender = new FileAppender(layout, "file_appender"); //Creating the appender with a layout and name
-		assertNotNull(appender);
-		assertTrue(appender.requiresLayout()); //The appender always requires a layout
-		DefaultLogger.logger.addAppender(appender); //Add the appender to the logger
-		assertNotNull(DefaultLogger.logger.getAppender("file_appender")); //Check it exists
-		/* Creating the throwable information */
-		String[] info = new String[1];
-		info[0] = "An exception has occured";
-		ThrowableInformation throwable = new ThrowableInformation(info);
-		long time = 5000; //Creating the time stamp
-		LoggingEvent event = new LoggingEvent("foo", DefaultLogger.logger, time, Level.ERROR, "Error has occured", "main", throwable, null, null, null); //Creating the event
-		DefaultLogger.logger.getAppender("file_appender").doAppend(event); //Append the log to the event
-		DefaultLogger.logger.getAppender("file_appender").close(); //Close the appender
-		File file = new File("log_" + appender.getCurrentTime() + ".log");
-		assertTrue(file.exists()); //Checking the file exists
-		try (Scanner reader = new Scanner(file);) {
-			/* Checking the content of the file is correct */
-			assertEquals("Logger: foo", reader.nextLine());
-			assertEquals("Date: 1970-01-01T00:00:05Z", reader.nextLine());
-			assertEquals("Level: ERROR", reader.nextLine());
-			assertEquals("Thread: main", reader.nextLine());
-			assertEquals("Message: Error has occured", reader.nextLine());
-			assertEquals("Throwable Info: An exception has occured", reader.nextLine());
-			assertEquals("", reader.nextLine());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			DefaultLogger.logger.removeAllAppenders();
-		}
+		try {
+			FileAppender appender = new FileAppender(layout, "file_appender"); //Creating the appender with a layout and name
+			assertNotNull(appender);
+			assertTrue(appender.requiresLayout()); //The appender always requires a layout
+			DefaultLogger.logger.addAppender(appender); //Add the appender to the logger
+			assertNotNull(DefaultLogger.logger.getAppender("file_appender")); //Check it exists
+			/* Creating the throwable information */
+			String[] info = new String[1];
+			info[0] = "An exception has occured";
+			ThrowableInformation throwable = new ThrowableInformation(info);
+			long time = 5000; //Creating the time stamp
+			LoggingEvent event = new LoggingEvent("foo", DefaultLogger.logger, time, Level.ERROR, "Error has occured", "main", throwable, null, null, null); //Creating the event
+			DefaultLogger.logger.getAppender("file_appender").doAppend(event); //Append the log to the event
+			DefaultLogger.logger.getAppender("file_appender").close(); //Close the appender
+			File file = new File("log_" + appender.getCurrentTime() + ".log");
+			assertTrue(file.exists()); //Checking the file exists
+			try (Scanner reader = new Scanner(file);) {
+				/* Checking the content of the file is correct */
+				assertEquals("Logger: foo", reader.nextLine());
+				assertEquals("Date: 1970-01-01T00:00:05Z", reader.nextLine());
+				assertEquals("Level: ERROR", reader.nextLine());
+				assertEquals("Thread: main", reader.nextLine());
+				assertEquals("Message: Error has occured", reader.nextLine());
+				assertEquals("Throwable Info: An exception has occured", reader.nextLine());
+				assertEquals("", reader.nextLine());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				DefaultLogger.logger.removeAllAppenders();
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
 	}
 
 	/**
