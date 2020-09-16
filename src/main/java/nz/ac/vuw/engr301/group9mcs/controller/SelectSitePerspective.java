@@ -1,7 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,8 +11,9 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.GoNoGoSelectView;
+import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 
@@ -41,8 +41,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new GoNoGoSelectView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage());
-
+	private final JPanel resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
 	/**
 	 * The filename from SelectFileView.
 	 */
@@ -70,8 +69,12 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	}
 
 	@Override
-	public JPanel enable(MenuController menu) {
+	public JPanel enable(MenuController menu, @Nullable Resources resource) {
 		this.switchTo(this.fileGet);
+		// TODO: does this perspective actually need resources?
+		// What about passing the MapImage class?
+		// Parameters from a simulation
+		// Access to a simulation
 		return this.panel;
 	}
 
@@ -83,7 +86,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	@Override
 	public String name() {
-		return "select";
+		return "site";
 	}
 
 	@Override
@@ -134,6 +137,19 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		this.panel.add(newPanel, BorderLayout.CENTER);
 		this.panel.revalidate();
 		this.panel.repaint();
+	}
+
+	@Override
+	public void addResources(Resources resource) {
+		// TODO: does this perspective actually need resources?
+		// What about passing the MapImage class?
+		// Parameters from a simulation
+		// Access to a simulation
+	}
+	
+	@Override
+	public @Nullable Resources removeResource() {
+		return null;
 	}
 
 }

@@ -10,21 +10,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.ac.vuw.engr301.group9mcs.commons.OWWeatherData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.WeatherData;
 
 /**
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
  * The weather data is returned in the JSON format.
  * The JSON will be parsed and the info will be pushed to all other packages that need it.
+ * 
  * @author pandasai
  */
 public class NOAAGetter {
-	/*
+	/**
 	 * The appid for the OpenWeatherMap API. The user will supply their own token that will be used.
 	 */
 	private String appid = "ead647e24776f26ed6f63af5f1bbf68c";
@@ -42,11 +43,12 @@ public class NOAAGetter {
 	 * Validates the supplied latitiude and longitude to see if they fit within the required range
 	 * @param latitude - the latitude to validate
 	 * @param longitude - the longitude to validate
+	 * @throws InvalidParameterException if the supplied parameters are not valid
 	 */
-	private static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
-		if ((latitude < -90 || latitude > 90) &&  (longitude < -181 || longitude > 180)){
+	public static void checkValidLatAndLon(double latitude, double longitude) throws InvalidParameterException{
+		if ((latitude < -90 || latitude > 90) && (longitude < -180 || longitude > 180)) {
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90] and Longitude must be within the range [-180, 180]");
-		} else if(latitude < -90 || latitude > 90){
+		} else if (latitude < -90 || latitude > 90) {
 			throw new InvalidParameterException("Latitude must be within the range [-90, 90]");
 		} else if (longitude < -180 || longitude > 180) {
 			throw new InvalidParameterException("Longitude must be within the range [-180, 180]");
@@ -59,10 +61,10 @@ public class NOAAGetter {
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @throws IOException - if the API does not output correctly.
 	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
-	 * @return WeatherData - the parsed version of the data returned by the API call.
+	 * @return OWWeatherData - the parsed version of the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
-	public WeatherData getWeatherData(double latitude, double longitude) throws IOException, InvalidParameterException {
+	public OWWeatherData getWeatherData(double latitude, double longitude) throws IOException, InvalidParameterException {
 		try {
 			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
@@ -72,7 +74,7 @@ public class NOAAGetter {
 			URL url = new URL(urlString);
 			URLConnection connection = url.openConnection();
 
-			try(BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));){
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));) {
 
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 
@@ -80,7 +82,7 @@ public class NOAAGetter {
 
 				reader.close();
 				return parseWeatherJSON(currentData);
-			} catch(JSONException e) {
+			} catch (JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
@@ -96,10 +98,10 @@ public class NOAAGetter {
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @throws IOException - if the API does not output correctly.
 	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
-	 * @return WeatherData - the parsed version of the data returned by the API call.
+	 * @return OWWeatherData - the parsed version of the data returned by the API call.
 	 */
-	public Map<Date, WeatherData> getForecast(double latitude, double longitude)  throws IOException, InvalidParameterException {
-		Map<Date, WeatherData> forecasts = new HashMap<>();
+	public Map<Date, OWWeatherData> getForecast(double latitude, double longitude)  throws IOException, InvalidParameterException {
+		Map<Date, OWWeatherData> forecasts = new HashMap<>();
 		try {
 			checkValidLatAndLon(latitude, longitude);
 			String units = "metric";
@@ -113,7 +115,7 @@ public class NOAAGetter {
 				JSONObject weatherJSON = new JSONObject(reader.readLine());
 				JSONArray hourlyForecasts = weatherJSON.getJSONArray("hourly");
 
-				for(int i = 0; i < hourlyForecasts.length(); i++){
+				for (int i = 0; i < hourlyForecasts.length(); i++) {
 					JSONObject forecast = hourlyForecasts.getJSONObject(i);
 
 					long unixTime = forecast.getLong("dt");
@@ -124,11 +126,11 @@ public class NOAAGetter {
 					forecasts.put(date, parseWeatherJSON(forecast));
 				}
 
-			} catch(JSONException e) {
+			} catch (JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
-		} catch (IOException | InvalidParameterException  e) {
+		} catch (IOException | InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
 			throw e;
 		} 
@@ -138,13 +140,13 @@ public class NOAAGetter {
 	/**
 	 * Parses and returns the appropriate weather data from the supplied JSON
 	 * @param weatherJSON the JSON object containing all weather info from the API
-	 * @return WeatherData with all needed weather attributes
+	 * @return OWWeatherData with all needed weather attributes
 	 */
-	private static WeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException{
+	private static OWWeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException {
 		JSONObject rainData = null;
 		
 		try {
-			if(weatherJSON.has("rain")) {
+			if (weatherJSON.has("rain")) {
 				rainData = weatherJSON.getJSONObject("rain");
 			}
 	
@@ -169,8 +171,8 @@ public class NOAAGetter {
 			// Cloudiness percentage
 			double cloudiness = weatherJSON.getDouble("clouds");
 			
-			return new WeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
-		} catch(JSONException e) {
+			return new OWWeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
+		} catch (JSONException e) {
 			throw new JSONException("JSON returned by the API could be parsed properly: " + e.getMessage());
 		}
 
@@ -206,5 +208,4 @@ public class NOAAGetter {
 	      }
 		return true;
 	}
-
 }
