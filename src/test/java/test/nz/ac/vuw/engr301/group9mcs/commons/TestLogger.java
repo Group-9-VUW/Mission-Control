@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -16,6 +17,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
+import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
@@ -82,8 +84,7 @@ public class TestLogger {
 	public void testFileAppender() {
 		LoggerLayout layout = new LoggerLayout();
 		try {
-			//Creating the appender with a layout and name
-			FileAppender appender = new FileAppender(layout, "file_appender");
+			FileAppender appender = new FileAppender(layout, "file_appender"); //Creating the appender with a layout and name
 			assertNotNull(appender);
 			assertTrue(appender.requiresLayout()); //The appender always requires a layout
 			DefaultLogger.logger.addAppender(appender); //Add the appender to the logger
@@ -98,7 +99,6 @@ public class TestLogger {
 			DefaultLogger.logger.getAppender("file_appender").close(); //Close the appender
 			File file = new File("log_" + appender.getCurrentTime() + ".log");
 			assertTrue(file.exists()); //Checking the file exists
-			
 			try (Scanner reader = new Scanner(file);) {
 				/* Checking the content of the file is correct */
 				assertEquals("Logger: foo", reader.nextLine());
@@ -108,12 +108,14 @@ public class TestLogger {
 				assertEquals("Message: Error has occured", reader.nextLine());
 				assertEquals("Throwable Info: An exception has occured", reader.nextLine());
 				assertEquals("", reader.nextLine());
-		}} catch (IOException e) {
-			fail(e);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} finally {
+				DefaultLogger.logger.removeAllAppenders();
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		} 
-		 finally {
-			DefaultLogger.logger.removeAllAppenders();
-		}
 	}
 
 	/**
