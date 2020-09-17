@@ -104,7 +104,16 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	
 	@Override
 	public void update(@Nullable Observable o, @Nullable Object arg) {
-		// TODO Auto-generated method stub
+		if (arg instanceof String[]) {
+			String[] args = (String[]) arg;
+			if (args.length == 1) {
+				if (args[0].equals("DISARM")) {
+					// TODO: Disarm
+					String[] newArgs = {"switch view", "unarmed"};
+					notify(newArgs);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -117,5 +126,17 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * Notifies the Observer that there is an Object they can view.
+	 * Can be passed any type of Object.
+	 * 
+	 * @param o
+	 */
+	private void notify(Object o) {
+		this.setChanged();
+		this.notifyObservers(o);
+	}
+
 
 }
