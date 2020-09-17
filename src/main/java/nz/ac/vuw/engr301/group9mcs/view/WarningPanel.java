@@ -165,11 +165,10 @@ public class WarningPanel extends JPanel{
 		FontMetrics fmL = g.getFontMetrics(large);
 		Rectangle2D rectS = fmS.getStringBounds(longest, g);
 		Rectangle2D rectL = fmL.getStringBounds("WARNING", g);
-		int ratio = large.getSize() / small.getSize();
-		int i = 0;
+		
 		// Reduce font sizes until fontHeight fits screen height
 		while (height - 10 < fontHeight(fmL, Null.nonNull(rectL), fmS, Null.nonNull(rectS), smallNumber, longest)) {
-			if (i % ratio == 0) {
+			if (fmS.stringWidth(longest) > fmL.stringWidth("WARNING")) {
 				small = new Font(small.getFontName(), small.getStyle(), small.getSize() - 1);
 				fmS = g.getFontMetrics(small);
 			}
@@ -177,7 +176,6 @@ public class WarningPanel extends JPanel{
 			fmL = g.getFontMetrics(large);
 			rectS = fmS.getStringBounds(longest, g);
 			rectL = fmL.getStringBounds("WARNING", g);
-			i++;
 		}
 		Font[] fonts = {small, large};
 		return fonts;
