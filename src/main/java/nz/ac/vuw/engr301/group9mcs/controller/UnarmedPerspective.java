@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +19,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
+import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
@@ -27,6 +29,11 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  *
  */
 public class UnarmedPerspective  extends Observable implements Perspective, Observer {
+
+	/**
+	 * Menu Items to be added and enabled in the Main Menu
+	 */
+	private HashSet<ViewMenuItem> menuItems;
 
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
@@ -69,6 +76,14 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	@SuppressWarnings("null")
 	public UnarmedPerspective() {
+		this.menuItems = new HashSet<>();
+		this.menuItems.add(new ViewMenuItem("Unarmed/XXX", "XXX", new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		}));
+
 		this.panel = new JPanel(new BorderLayout());
 
 		this.topPanel = new JPanel(new BorderLayout());
@@ -121,6 +136,9 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	@Override
 	public void init(MenuController menu, Observer o) {
 		this.addObserver(o);
+		for(ViewMenuItem i : this.menuItems) {
+			menu.addMenuItem(i.getPath(), i.getName(), i.getListener());
+		}
 	}
 
 	@Override
@@ -198,7 +216,13 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
-		// TODO Auto-generated method stub
+		String[] a = new String[this.menuItems.size()];
+		int i = 0;
+		for(ViewMenuItem v : this.menuItems) {
+			a[i] = v.getPath();
+			i++;
+		}
+		menu.enableItems(a);
 		return this.panel;
 	}
 
@@ -213,7 +237,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * Notifies the Observer that there is an Object they can view.
 	 * Can be passed any type of Object.
