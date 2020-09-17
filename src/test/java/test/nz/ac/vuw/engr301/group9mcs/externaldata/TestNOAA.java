@@ -122,7 +122,7 @@ public class TestNOAA {
         @SuppressWarnings("null")
 		Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(this.testArray);
 
-        for(int i = 0; i < this.testArray.length(); i++) {
+        for (int i = 0; i < this.testArray.length(); i++) {
             JSONObject currentReading = this.testArray.getJSONObject(i);
 
             assertEquals(currentReading.getDouble("windSpeed"),

@@ -40,7 +40,7 @@ public class NOAA {
     public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings) {
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();
 
-        for(int i = 0; i < jsonWeatherReadings.length(); i++) {
+        for (int i = 0; i < jsonWeatherReadings.length(); i++) {
             JSONObject currentReading = jsonWeatherReadings.getJSONObject(i);
             weatherReadings.put(new Double(currentReading.getDouble("altitude")),
                     new NOAAWeatherData(currentReading.getDouble("windSpeed"),
