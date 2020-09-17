@@ -1,4 +1,4 @@
-package test.nz.ac.vuw.engr301.group9mcs.commons;
+package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
