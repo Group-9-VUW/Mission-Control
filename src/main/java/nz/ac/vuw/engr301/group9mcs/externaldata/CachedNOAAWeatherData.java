@@ -40,6 +40,8 @@ public class CachedNOAAWeatherData {
 
 	/**
 	 * Creates a new CachedNOAAWeatherData instance to load the NOAAWeatherData.
+	 * @throws FileNotFoundException if the file is not found.
+	 * @throws JSONException if the JSON in the file is not syntactically correct.
 	 */
 	public CachedNOAAWeatherData() throws FileNotFoundException, JSONException {
 		loadData();
