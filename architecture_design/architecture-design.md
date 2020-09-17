@@ -614,11 +614,11 @@ One page glossary as required
 
 | Name | Contributions | 
 | ------ | ------ | 
-| August Bolter |  |
-| Bailey Jewell |  |
-| Bryony Gatehouse |  |
-| Claire Chambers | |
-| Joshua Hindley |  |
+| August Bolter | Section 4.5  |
+| Bailey Jewell | Section 4.4  |
+| Bryony Gatehouse | Section 4.2<br>Section 5.3<br>Section 5.4  |
+| Claire Chambers | Section 4.1 |
+| Joshua Hindley | Section 1<br>Section 4.3<br>Section 5.1<br>Section 5.2.2<br>Section 5.4.1  |
 | Sai Panda |   Section 3.1<br>Section 3.2  |
 
 An one page statement of contributions, including a list of each member of the group and what they contributed to this document.
