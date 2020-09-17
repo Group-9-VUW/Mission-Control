@@ -1,7 +1,5 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
-//import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
@@ -10,9 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
-
 import org.eclipse.jdt.annotation.Nullable;
-
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 
 /**
