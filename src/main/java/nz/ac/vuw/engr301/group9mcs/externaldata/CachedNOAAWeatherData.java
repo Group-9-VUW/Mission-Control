@@ -28,12 +28,11 @@ public class CachedNOAAWeatherData {
 	 */
 	public static final String fileName = "cached_data/weatherData.json";
 
-
 	/**
 	 * Saves a weather data JSONArray to a file.
-	 * @param data the weather data to cache, as a JSONArray
-	 * @throws IOException if there is a problem saving the JSONArray to a file
-	 * @throws NullPointerException if the provided JSONArray is not syntactically correct
+	 * @param data the weather data to cache, as a JSONArray.
+	 * @throws IOException if there is a problem saving the JSONArray to a file.
+	 * @throws NullPointerException if the provided JSONArray is not syntactically correct.
 	 */
 	public CachedNOAAWeatherData(JSONArray data) throws IOException, NullPointerException {
 		//TODO perform checks on data
@@ -50,8 +49,8 @@ public class CachedNOAAWeatherData {
 
 	/**
 	 * Saves the weather data to the designated file.
-	 * @throws IOException if there is a problem saving the JSONArray to a file
-	 * @throws NullPointerException if the provided JSONArray is not syntactically correct
+	 * @throws IOException if there is a problem saving the JSONArray to a file.
+	 * @throws NullPointerException if the provided JSONArray is not syntactically correct.
 	 */
 	private void saveData() throws IOException, NullPointerException {
 		try {
@@ -74,8 +73,8 @@ public class CachedNOAAWeatherData {
 
 	/**
 	 * Loads the cached weather data from the file, and converts it to a JSONArray.
-	 * @throws FileNotFoundException if the file is not found
-	 * @throws JSONException if the JSON in the file is not syntactically correct
+	 * @throws FileNotFoundException if the file is not found.
+	 * @throws JSONException if the JSON in the file is not syntactically correct.
 	 */
 	private void loadData() throws FileNotFoundException, JSONException {
 		//loads the weather data from the file and converts to a JSONArray
