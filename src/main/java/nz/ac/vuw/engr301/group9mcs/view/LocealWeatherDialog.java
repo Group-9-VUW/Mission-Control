@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -52,6 +54,26 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 	private final JButton confirm = new JButton("Confirm");
 	
 	/**
+	 * Field for windspeed
+	 */
+	private final JTextField windspeed = new JTextField();
+	
+	/**
+	 * Field for wind direction
+	 */
+	private final JTextField winddirection = new JTextField();
+	
+	/**
+	 * Field for barometric pressure
+	 */
+	private final JTextField pressure = new JTextField();
+	
+	/**
+	 * Field for temperature
+	 */
+	private final JTextField temp = new JTextField();
+	
+	/**
 	 * The data object (if one exists) that was collected by this dialg
 	 */
 	@Nullable private LocalWeatherData data;
@@ -69,7 +91,55 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		this.add(this.bottomButtons, BorderLayout.SOUTH);
 		
 		this.initBottom();
-		//this.initFields();
+		this.initFields();
+	}
+	
+	/**
+	 * Populates the list of fields
+	 */
+	private void initFields()
+	{		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 0.1;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		this.dataEntry.add(new JLabel("Data"), gbc);
+		gbc.gridx = 1;
+		this.dataEntry.add(new JLabel("Entry"), gbc);
+		gbc.gridx = 2;
+		this.dataEntry.add(new JLabel("Unit"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		this.dataEntry.add(new JLabel("Wind Speed"), gbc);
+		gbc.gridx = 1;
+		this.dataEntry.add(this.windspeed, gbc);
+		gbc.gridx = 2;
+		this.dataEntry.add(new JLabel("ms-1"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		this.dataEntry.add(new JLabel("Wind Direction"), gbc);
+		gbc.gridx = 1;
+		this.dataEntry.add(this.winddirection, gbc);
+		gbc.gridx = 2;
+		this.dataEntry.add(new JLabel("degrees"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		this.dataEntry.add(new JLabel("Barometric Pressure"), gbc);
+		gbc.gridx = 1;
+		this.dataEntry.add(this.pressure, gbc);
+		gbc.gridx = 2;
+		this.dataEntry.add(new JLabel("bar"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		this.dataEntry.add(new JLabel("Temperature"), gbc);
+		gbc.gridx = 1;
+		this.dataEntry.add(this.temp, gbc);
+		gbc.gridx = 2;
+		this.dataEntry.add(new JLabel("C"), gbc);
 	}
 	
 	/**
@@ -90,6 +160,14 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		this.bottomButtons.add(this.cancel);
 	}
 
+	/**
+	 * @return The weather data, if the user correctly entered it.
+	 */
+	public @Nullable LocalWeatherData getData()
+	{
+		return this.data;
+	}
+	
 	@Override
 	public void actionPerformed(@Nullable ActionEvent e) {
 		if(e != null) {
@@ -97,7 +175,15 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 				this.setVisible(false);
 				this.dispose();
 			} else if(e.getSource() == this.confirm) {
-				
+				try {
+					double nSpeed = Double.parseDouble(this.windspeed.getText());
+					double nDirection = Double.parseDouble(this.winddirection.getText());
+					double nPressure = Double.parseDouble(this.pressure.getText());
+					double nTemp = Double.parseDouble(this.temp.getText());
+					this.data = new LocalWeatherData(nSpeed, nDirection, nPressure, nTemp);
+				} catch(@SuppressWarnings("unused") NumberFormatException ex) {
+					JOptionPane.showMessageDialog(this, "Error", "One of the values you inputted was not a number", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	}
