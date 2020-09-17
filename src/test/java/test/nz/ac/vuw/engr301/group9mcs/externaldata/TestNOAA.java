@@ -1,7 +1,8 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAA;
+import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

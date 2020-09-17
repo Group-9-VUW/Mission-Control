@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import nz.ac.vuw.engr301.group9mcs.commons.NOAAWeatherData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
 
 /**
  * Tests the implementation of NOAAWeatherData. 

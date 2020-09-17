@@ -1,6 +1,5 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
