@@ -31,9 +31,9 @@ public class CachedNOAAWeatherData {
 	 * Saves a weather data JSONArray to a file.
 	 * @param data the weather data to cache, as a JSONArray.
 	 * @throws IOException if there is a problem saving the JSONArray to a file.
-	 * @throws NullPointerException if the provided JSONArray is not syntactically correct.
+	 * @throws JSONException if the provided JSONArray is not syntactically correct.
 	 */
-	public CachedNOAAWeatherData(JSONArray data) throws IOException, NullPointerException {
+	public CachedNOAAWeatherData(JSONArray data) throws IOException, JSONException {
 		this.weatherData = data;
 		saveData();
 	}
@@ -48,9 +48,9 @@ public class CachedNOAAWeatherData {
 	/**
 	 * Saves the weather data to the designated file.
 	 * @throws IOException if there is a problem saving the JSONArray to a file.
-	 * @throws NullPointerException if the provided JSONArray is not syntactically correct.
+	 * @throws JSONException if the provided JSONArray is not syntactically correct.
 	 */
-	private void saveData() throws IOException, NullPointerException {
+	private void saveData() throws IOException, JSONException {
 		try {
 			//gets the name of the folder and creates it if it doesn't exist
 			File folder = new File(fileName.split("/")[0]);
@@ -60,10 +60,10 @@ public class CachedNOAAWeatherData {
 			jsonFile.createNewFile();
 			try (BufferedWriter out = new BufferedWriter(new FileWriter(jsonFile));) {
 				if (this.weatherData.toString() == null) {
-					throw new NullPointerException("The provided JSON array is not syntactically correct.");
+					throw new JSONException("The provided JSON array is not syntactically correct.");
 				}
 				out.write(this.weatherData.toString());
-			}} catch (IOException | NullPointerException e) {
+			}} catch (IOException | JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
 				throw e;
 			}
