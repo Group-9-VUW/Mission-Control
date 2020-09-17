@@ -37,10 +37,10 @@ public class NOAA {
      * @param jsonWeatherReadings the weather readings in JSON format 
      * @return a map with the same data as jsonWeatherReadings, where the keys are the alitudes and values are NOAAWeatherData objects.  
      */
-    public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings){
+    public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings) {
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();
 
-        for(int i = 0; i < jsonWeatherReadings.length(); i++){
+        for(int i = 0; i < jsonWeatherReadings.length(); i++) {
             JSONObject currentReading = jsonWeatherReadings.getJSONObject(i);
             weatherReadings.put(new Double(currentReading.getDouble("altitude")),
                     new NOAAWeatherData(currentReading.getDouble("windSpeed"),

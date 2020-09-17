@@ -74,7 +74,7 @@ public class TestNOAA {
      * Checks that the altitudes inputted into the map are correct.
      */
     @Test
-    public void checkKeyCorrectness(){
+    public void checkKeyCorrectness() {
         @SuppressWarnings("null")
 		Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(this.testArray);
 
@@ -118,11 +118,11 @@ public class TestNOAA {
      * Check the data correctly matches up with the corresponding altitude value.
      */
     @Test
-    public void checkDataCorrectness(){
+    public void checkDataCorrectness() {
         @SuppressWarnings("null")
 		Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(this.testArray);
 
-        for(int i = 0; i < this.testArray.length(); i++){
+        for(int i = 0; i < this.testArray.length(); i++) {
             JSONObject currentReading = this.testArray.getJSONObject(i);
 
             assertEquals(currentReading.getDouble("windSpeed"),

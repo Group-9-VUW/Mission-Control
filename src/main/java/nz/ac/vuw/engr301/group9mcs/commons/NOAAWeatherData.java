@@ -33,7 +33,7 @@ public class NOAAWeatherData {
      * @param temperature at the corresponding altitude.
      * @param pressure at the corresponding altitude.
      */
-    public NOAAWeatherData(double windSpeed, double windDirection, double temperature, double pressure){
+    public NOAAWeatherData(double windSpeed, double windDirection, double temperature, double pressure) {
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.temperature = temperature;
