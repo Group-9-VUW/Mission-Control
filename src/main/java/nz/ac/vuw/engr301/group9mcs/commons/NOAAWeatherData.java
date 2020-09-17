@@ -72,10 +72,10 @@ public class NOAAWeatherData {
     @Override
     public String toString() {
         return "NOAAWeatherData{" +
-                "windSpeed=" + windSpeed +
-                ", windDirection=" + windDirection +
-                ", temperature=" + temperature +
-                ", pressure=" + pressure +
+                "windSpeed=" + this.windSpeed +
+                ", windDirection=" + this.windDirection +
+                ", temperature=" + this.temperature +
+                ", pressure=" + this.pressure +
                 '}';
     }
 }
