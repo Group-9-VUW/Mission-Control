@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -28,11 +29,25 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  */
 public class UnarmedPerspective  extends Observable implements Perspective, Observer {
 
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Test");
+		frame.add(new UnarmedPerspective().enable(null, null));
+		frame.setPreferredSize(new Dimension(300, 300));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
 
+	/**
+	 * Holds the Warning Panel and Arm Button.
+	 */
+	private JPanel topPanel;
+	
 	/** 
 	 * ARM BUTTON : pop-up to ask user "are you sure?" 
 	 * -> Disclaimer: You are responsible for checking the surroundings are really clear before firing. 
@@ -66,8 +81,17 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	public UnarmedPerspective() {
 		this.panel = new JPanel(new BorderLayout());
 
+		this.topPanel = new JPanel(new BorderLayout());
+		
 		String[] args = {"Do not Launch until Armed", "The Rocket is Still Dangerous"};
 		this.warningPanel = new WarningPanel(args);
+		this.warningPanel.setPreferredSize(new Dimension(200, 100));
+		
+		this.armButton = new ArmedButtonPanel(this);
+		this.armButton.setPreferredSize(new Dimension(100, 100));
+		
+		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
+		this.topPanel.add(this.armButton, BorderLayout.EAST);
 
 		// TODO: real rocket details panel
 		this.rocketDetailsPanel = new JPanel() {
@@ -100,8 +124,6 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		});
 		this.weatherDetailsPanel.add(run);
 		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
-		
-		this.armButton = new ArmedButtonPanel(this);
 		
 		switchTo(viewDetails());
 	}
@@ -142,12 +164,11 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	JPanel viewDetails() {
 		JPanel details = new JPanel(new BorderLayout());
-		details.add(this.warningPanel, BorderLayout.NORTH);
+		details.add(this.topPanel, BorderLayout.NORTH);
 		// Create GoNoGoPanel now to get data from enterDetails. -> parameters (simulation), filename, coordinates, map image
 		GoNoGoView go = new GoNoGoView(new Object(), "unknown.txt", 0, 0, this, new InternetMapImage(), this.name());
 		go.setPreferredSize(new Dimension(300, 300));
 		details.add(go, BorderLayout.CENTER);
-		details.add(this.armButton, BorderLayout.EAST);
 		details.setSize(new Dimension(400, 400));
 		return details;
 	}
