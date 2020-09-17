@@ -77,7 +77,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.warningPanel = new WarningPanel(args);
 		this.warningPanel.setPreferredSize(new Dimension(200, 100));
 		
-		this.armButton = new ArmedButtonPanel(this);
+		this.armButton = new ArmedButtonPanel(this, "ARM");
 		this.armButton.setPreferredSize(new Dimension(100, 100));
 		
 		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
