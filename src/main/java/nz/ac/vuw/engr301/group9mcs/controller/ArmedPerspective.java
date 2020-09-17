@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -24,15 +23,6 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  *
  */
 public class ArmedPerspective extends Observable implements Perspective, Observer {
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Test");
-		frame.add(new ArmedPerspective().enable(null, null));
-		frame.setPreferredSize(new Dimension(300, 300));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
 	
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
