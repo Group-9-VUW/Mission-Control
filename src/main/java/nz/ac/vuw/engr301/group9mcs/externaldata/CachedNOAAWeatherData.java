@@ -7,9 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import org.json.JSONArray;
-
+import org.json.JSONException;
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
 
 /**
@@ -22,13 +21,13 @@ public class CachedNOAAWeatherData {
 	/**
 	 * The weather data to save or load as a JSON array.
 	 */
-	private JSONArray weatherData;
+	private JSONArray weatherData = new JSONArray();
 
 	/**
 	 * The name of the file that weatherData should be saved in.
 	 */
 	public static final String fileName = "cached_data/weatherData.json";
-	
+
 
 	/**
 	 * Saves a weather data JSONArray to a file.
@@ -43,6 +42,13 @@ public class CachedNOAAWeatherData {
 	}
 
 	/**
+	 * Creates a new CachedNOAAWeatherData instance to load the NOAAWeatherData.
+	 */
+	public CachedNOAAWeatherData() throws FileNotFoundException, JSONException {
+		loadData();
+	}
+
+	/**
 	 * Saves the weather data to the designated file.
 	 * @throws IOException if there is a problem saving the JSONArray to a file
 	 * @throws NullPointerException if the provided JSONArray is not syntactically correct
@@ -52,7 +58,6 @@ public class CachedNOAAWeatherData {
 			//gets the name of the folder and creates it if it doesn't exist
 			File folder = new File(fileName.split("/")[0]);
 			if (!folder.exists()) folder.mkdir();
-
 			File jsonFile = new File(fileName);
 			//creates the file if it does not exist
 			jsonFile.createNewFile();
@@ -67,12 +72,30 @@ public class CachedNOAAWeatherData {
 			}
 	}
 
+	/**
+	 * Loads the cached weather data from the file, and converts it to a JSONArray.
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws JSONException if the JSON in the file is not syntactically correct
+	 */
+	private void loadData() throws FileNotFoundException, JSONException {
+		//loads the weather data from the file and converts to a JSONArray
+		try (Scanner sc = new Scanner(new File(fileName));) {
+			this.weatherData = new JSONArray(sc.nextLine());
+		} catch (FileNotFoundException | JSONException e) {
+			DefaultLogger.logger.error(e.getMessage());
+			throw e;
+		}
+	}
+
 	public static void main(String[] args) throws NullPointerException, IOException {
 		ArrayList<NOAAWeatherData> dat = new ArrayList<>();
 		dat.add(new NOAAWeatherData(2.61, 21, 24.44, 1010));
 		dat.add(new NOAAWeatherData(14.95, 12, 8.39, 994));
 		dat.add(new NOAAWeatherData(4.38, 107, 14.8, 1015));
 		CachedNOAAWeatherData noaaDat = new CachedNOAAWeatherData(new JSONArray(dat));
+
+		System.out.println(dat);
+
 	}
 
 }
