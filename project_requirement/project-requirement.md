@@ -809,12 +809,12 @@ API = Application Program Interface
 
 | Name | Contributions | 
 | ------ | ------ | 
-| August Bolter |  |
-| Bailey Jewell |  |
+| August Bolter | Section 1.3.4<br>Section 3.3<br>Section 3.6|
+| Bailey Jewell | Section 3.1<br>Section 3.2.6<br>Section 3.2.7<br>Section 5.4.1  |
 | Bryony Gatehouse |  |
-| Claire Chambers | |
+| Claire Chambers | Section 1.1<br>Section1.2<br>Section 1.3.1<br>Section 1.3.2 |
 | Joshua Hindley |  |
-| Sai Panda |   Section 3.4<br>Section 3.7<br>Section 4  |
+| Sai Panda |   Section 1.3.3<br>Section 3.4<br>Section 3.7<br>Section 4  |
 
 A one page statement of contributions, including a list of each member of the group and what they contributed to this document.
 
