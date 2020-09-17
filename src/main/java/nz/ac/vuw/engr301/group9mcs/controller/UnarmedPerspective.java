@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +19,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
+import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
@@ -29,9 +31,19 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 public class UnarmedPerspective  extends Observable implements Perspective, Observer {
 
 	/**
+	 * Menu Items to be added and enabled in the Main Menu
+	 */
+	private HashSet<ViewMenuItem> menuItems;
+
+	/**
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
+
+	/**
+	 * Holds the Warning Panel and Arm Button.
+	 */
+	private JPanel topPanel;
 
 	/** 
 	 * ARM BUTTON : pop-up to ask user "are you sure?" 
@@ -64,10 +76,27 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	@SuppressWarnings("null")
 	public UnarmedPerspective() {
+		this.menuItems = new HashSet<>();
+		this.menuItems.add(new ViewMenuItem("Unarmed/XXX", "XXX", new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+			}
+		}));
+
 		this.panel = new JPanel(new BorderLayout());
+
+		this.topPanel = new JPanel(new BorderLayout());
 
 		String[] args = {"Do not Launch until Armed", "The Rocket is Still Dangerous"};
 		this.warningPanel = new WarningPanel(args);
+		this.warningPanel.setPreferredSize(new Dimension(200, 100));
+
+		this.armButton = new ArmedButtonPanel(this, "ARM");
+		this.armButton.setPreferredSize(new Dimension(100, 100));
+
+		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
+		this.topPanel.add(this.armButton, BorderLayout.EAST);
 
 		// TODO: real rocket details panel
 		this.rocketDetailsPanel = new JPanel() {
@@ -100,22 +129,23 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		});
 		this.weatherDetailsPanel.add(run);
 		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
-		
-		this.armButton = new ArmedButtonPanel(this);
-		
+
 		switchTo(viewDetails());
 	}
 
 	@Override
 	public void init(MenuController menu, Observer o) {
 		this.addObserver(o);
+		for(ViewMenuItem i : this.menuItems) {
+			menu.addMenuItem(i.getPath(), i.getName(), i.getListener());
+		}
 	}
 
 	@Override
 	public String name() {
-		return "armed";
+		return "unarmed";
 	}
-	
+
 	/**
 	 * Returns a Panel containing the panels for entering details.
 	 * Warning Panel at the top.
@@ -132,7 +162,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		details.setSize(new Dimension(400, 400));
 		return details;
 	}
-	
+
 	/**
 	 * Returns a Panel containing the panels for viewing details.
 	 * Warning Panel at the top.
@@ -142,12 +172,11 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	JPanel viewDetails() {
 		JPanel details = new JPanel(new BorderLayout());
-		details.add(this.warningPanel, BorderLayout.NORTH);
+		details.add(this.topPanel, BorderLayout.NORTH);
 		// Create GoNoGoPanel now to get data from enterDetails. -> parameters (simulation), filename, coordinates, map image
 		GoNoGoView go = new GoNoGoView(new Object(), "unknown.txt", 0, 0, this, new InternetMapImage(), this.name());
 		go.setPreferredSize(new Dimension(300, 300));
 		details.add(go, BorderLayout.CENTER);
-		details.add(this.armButton, BorderLayout.EAST);
 		details.setSize(new Dimension(400, 400));
 		return details;
 	}
@@ -161,6 +190,13 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 					if (args[1].equals("enterDetails")) {
 						switchTo(enterDetails());
 					}
+				}
+			} else if (args.length == 1) {
+				if (args[0].equals("ARM")) {
+					// TODO: Arm Rocket
+					String[] newArgs = {"switch view", "armed"};
+					notify(newArgs);
+					switchTo(enterDetails());
 				}
 			}
 		}
@@ -180,20 +216,37 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
-		// TODO Auto-generated method stub
+		String[] a = new String[this.menuItems.size()];
+		int i = 0;
+		for(ViewMenuItem v : this.menuItems) {
+			a[i] = v.getPath();
+			i++;
+		}
+		menu.enableItems(a);
 		return this.panel;
 	}
 
 	@Override
 	public void addResources(Resources resource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public @Nullable Resources removeResource() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Notifies the Observer that there is an Object they can view.
+	 * Can be passed any type of Object.
+	 * 
+	 * @param o
+	 */
+	private void notify(Object o) {
+		this.setChanged();
+		this.notifyObservers(o);
 	}
 
 }
