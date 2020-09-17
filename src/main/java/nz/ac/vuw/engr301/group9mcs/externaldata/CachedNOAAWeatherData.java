@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +34,6 @@ public class CachedNOAAWeatherData {
 	 * @throws NullPointerException if the provided JSONArray is not syntactically correct.
 	 */
 	public CachedNOAAWeatherData(JSONArray data) throws IOException, NullPointerException {
-		//TODO perform checks on data
 		this.weatherData = data;
 		saveData();
 	}
@@ -85,16 +83,12 @@ public class CachedNOAAWeatherData {
 			throw e;
 		}
 	}
-
-	public static void main(String[] args) throws NullPointerException, IOException {
-		ArrayList<NOAAWeatherData> dat = new ArrayList<>();
-		dat.add(new NOAAWeatherData(2.61, 21, 24.44, 1010));
-		dat.add(new NOAAWeatherData(14.95, 12, 8.39, 994));
-		dat.add(new NOAAWeatherData(4.38, 107, 14.8, 1015));
-		CachedNOAAWeatherData noaaDat = new CachedNOAAWeatherData(new JSONArray(dat));
-
-		System.out.println(dat);
-
+	
+	/**
+	 * Gets the weather data JSONArray that was saved or loaded by this instance.
+	 * @return the weather data as a JSONArray.
+	 */
+	public JSONArray getData() {
+		return this.weatherData;
 	}
-
 }
