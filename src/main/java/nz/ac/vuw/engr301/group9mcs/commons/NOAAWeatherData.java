@@ -5,11 +5,6 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  * @author Sai
  */
 public class NOAAWeatherData {
-	
-	/**
-	 * The altitude of the reading. 
-	 */
-    private double altitude;
 
     /**
      * The wind speed of the reading.
@@ -33,28 +28,22 @@ public class NOAAWeatherData {
 
 
     /**
-     * @param altitude the height above sea level of the reading. 
+     * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude. 
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
      * @param pressure at the corresponding altitude.
      */
-    public NOAAWeatherData(double altitude, double windSpeed, double windDirection, double temperature, double pressure){
-        this.altitude = altitude;
+    public NOAAWeatherData(double windSpeed, double windDirection, double temperature, double pressure) {
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.temperature = temperature;
         this.pressure = pressure;
     }
 
-    /**
-     * @return the altidude from the reading.
-     */
-    public double getAltitude() {
-        return this.altitude;
-    }
 
     /**
+     * Get the wind speed reading at this altitude. 
      * @return the wind speed from the reading.
      */
     public double getWindSpeed() {
@@ -62,6 +51,7 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the wind direction reading at this altitude. 
      * @return the wind direction from the reading.
      */
     public double getWindDirection() {
@@ -69,6 +59,7 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the temperature reading at this altitude. 
      * @return the temperature from the reading.
      */
     public double getTemperature() {
@@ -76,9 +67,20 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the pressure reading at this altitude. 
      * @return the pressure from the reading. 
      */
     public double getPressure() {
         return this.pressure;
+    }
+
+    @Override
+    public String toString() {
+        return "NOAAWeatherData{" +
+                "windSpeed=" + this.windSpeed +
+                ", windDirection=" + this.windDirection +
+                ", temperature=" + this.temperature +
+                ", pressure=" + this.pressure +
+                '}';
     }
 }
