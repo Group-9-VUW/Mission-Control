@@ -37,7 +37,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 * Holds the Warning Panel and Arm Button.
 	 */
 	private JPanel topPanel;
-	
+
 	/** 
 	 * ARM BUTTON : pop-up to ask user "are you sure?" 
 	 * -> Disclaimer: You are responsible for checking the surroundings are really clear before firing. 
@@ -72,14 +72,14 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.panel = new JPanel(new BorderLayout());
 
 		this.topPanel = new JPanel(new BorderLayout());
-		
+
 		String[] args = {"Do not Launch until Armed", "The Rocket is Still Dangerous"};
 		this.warningPanel = new WarningPanel(args);
 		this.warningPanel.setPreferredSize(new Dimension(200, 100));
-		
+
 		this.armButton = new ArmedButtonPanel(this, "ARM");
 		this.armButton.setPreferredSize(new Dimension(100, 100));
-		
+
 		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
 		this.topPanel.add(this.armButton, BorderLayout.EAST);
 
@@ -114,7 +114,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		});
 		this.weatherDetailsPanel.add(run);
 		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
-		
+
 		switchTo(viewDetails());
 	}
 
@@ -125,9 +125,9 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 
 	@Override
 	public String name() {
-		return "armed";
+		return "unarmed";
 	}
-	
+
 	/**
 	 * Returns a Panel containing the panels for entering details.
 	 * Warning Panel at the top.
@@ -144,7 +144,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		details.setSize(new Dimension(400, 400));
 		return details;
 	}
-	
+
 	/**
 	 * Returns a Panel containing the panels for viewing details.
 	 * Warning Panel at the top.
@@ -173,6 +173,13 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 						switchTo(enterDetails());
 					}
 				}
+			} else if (args.length == 1) {
+				if (args[0].equals("ARM")) {
+					// TODO: Arm Rocket
+					String[] newArgs = {"switch view", "armed"};
+					notify(newArgs);
+					switchTo(enterDetails());
+				}
 			}
 		}
 	}
@@ -198,13 +205,24 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	@Override
 	public void addResources(Resources resource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public @Nullable Resources removeResource() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * Notifies the Observer that there is an Object they can view.
+	 * Can be passed any type of Object.
+	 * 
+	 * @param o
+	 */
+	private void notify(Object o) {
+		this.setChanged();
+		this.notifyObservers(o);
 	}
 
 }
