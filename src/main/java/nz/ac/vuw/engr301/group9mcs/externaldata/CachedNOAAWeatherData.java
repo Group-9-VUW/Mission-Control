@@ -1,0 +1,67 @@
+package nz.ac.vuw.engr301.group9mcs.externaldata;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.json.JSONArray;
+
+import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
+
+/**
+ * A class to save and load the NOAAWeather data to a JSON file.
+ * 
+ * @author Joshua Hindley
+ */
+public class CachedNOAAWeatherData {
+
+	/**
+	 * The weather data to save or load as a JSON array.
+	 */
+	private JSONArray weatherData;
+
+	/**
+	 * The name of the file that weatherData should be saved in.
+	 */
+	public static final String fileName = "cached_data/weatherData.json";
+	
+
+	public CachedNOAAWeatherData(JSONArray data) throws IOException, NullPointerException {
+		//TODO perform checks on data
+		this.weatherData = data;
+		saveData();
+	}
+
+	private void saveData() throws IOException, NullPointerException {
+		try {
+			//gets the name of the folder and creates it if it doesn't exist
+			File folder = new File(fileName.split("/")[0]);
+			if (!folder.exists()) folder.mkdir();
+
+			File jsonFile = new File(fileName);
+			//creates the file if it does not exist
+			jsonFile.createNewFile();
+			try (BufferedWriter out = new BufferedWriter(new FileWriter(jsonFile));) {
+				if (this.weatherData.toString() == null) {
+					throw new NullPointerException("The provided JSON array is not syntactically correct.");
+				}
+				out.write(this.weatherData.toString());
+			}} catch (IOException | NullPointerException e) {
+				DefaultLogger.logger.error(e.getMessage());
+				throw e;
+			}
+	}
+
+	public static void main(String[] args) throws NullPointerException, IOException {
+		ArrayList<NOAAWeatherData> dat = new ArrayList<>();
+		dat.add(new NOAAWeatherData(2.61, 21, 24.44, 1010));
+		dat.add(new NOAAWeatherData(14.95, 12, 8.39, 994));
+		dat.add(new NOAAWeatherData(4.38, 107, 14.8, 1015));
+		CachedNOAAWeatherData noaaDat = new CachedNOAAWeatherData(new JSONArray(dat));
+	}
+
+}
