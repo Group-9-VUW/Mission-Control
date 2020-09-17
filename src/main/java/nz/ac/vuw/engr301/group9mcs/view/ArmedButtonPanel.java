@@ -33,14 +33,22 @@ public class ArmedButtonPanel extends JPanel{
 	 * The Observable that speaks to Parent.
 	 */
 	ViewObservable obs;
+	
+	/**
+	 * String displayed on Button
+	 */
+	private String text;
 
 	/**
 	 * Creates the panel that holds the arm button.
+	 * Given Text is displayed on Button.
 	 * 
 	 * @param o
+	 * @param text 
 	 */
-	public ArmedButtonPanel(Observer o) {
+	public ArmedButtonPanel(Observer o, String text) {
 		this.obs = new ViewObservable(o);
+		this.text = text;
 		setPreferredSize(new Dimension(100, 300));
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -62,7 +70,7 @@ public class ArmedButtonPanel extends JPanel{
 	 * @return A Rounded Button
 	 */
 	private JButton armButton() {
-		RoundButton arm = new RoundButton("ARM");
+		RoundButton arm = new RoundButton(this.text);
 		arm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
