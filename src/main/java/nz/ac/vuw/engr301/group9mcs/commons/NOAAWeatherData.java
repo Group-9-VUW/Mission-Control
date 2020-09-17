@@ -28,6 +28,7 @@ public class NOAAWeatherData {
 
 
     /**
+     * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude. 
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
@@ -42,6 +43,7 @@ public class NOAAWeatherData {
 
 
     /**
+     * Get the wind speed reading at this altitude. 
      * @return the wind speed from the reading.
      */
     public double getWindSpeed() {
@@ -49,6 +51,7 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the wind direction reading at this altitude. 
      * @return the wind direction from the reading.
      */
     public double getWindDirection() {
@@ -56,6 +59,7 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the temperature reading at this altitude. 
      * @return the temperature from the reading.
      */
     public double getTemperature() {
@@ -63,6 +67,7 @@ public class NOAAWeatherData {
     }
 
     /**
+     * Get the pressure reading at this altitude. 
      * @return the pressure from the reading. 
      */
     public double getPressure() {
