@@ -15,6 +15,7 @@ public class TestNOAAWeatherData {
 	/**
 	 * Checks if the toString method for NOAAWeatherData outputs the correct info. 
 	 */
+	@SuppressWarnings("static-method")
 	@Test
 	public void checkToString() {
 		NOAAWeatherData data = new NOAAWeatherData(3.4823615550994873, 85.77337646484375, 287.0677185058594, 100000.0);
@@ -25,5 +26,19 @@ public class TestNOAAWeatherData {
                 ", pressure=100000.0" +
                 '}', 
                 data.toString());
+	}
+	
+	/**
+	 * Checks the correctness of the data stored in the NOAAWeatherData object. 
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void checkCorrectness() {
+		NOAAWeatherData data = new NOAAWeatherData(3.4823615550994873, 85.77337646484375, 287.0677185058594, 100000.0);
+		assertEquals(3.4823615550994873, data.getWindSpeed());
+		assertEquals(85.77337646484375, data.getWindDirection());
+		assertEquals(287.0677185058594, data.getTemperature());
+		assertEquals( 100000.0, data.getPressure());
+		
 	}
 }
