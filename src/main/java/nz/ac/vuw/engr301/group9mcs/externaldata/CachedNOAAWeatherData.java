@@ -30,12 +30,23 @@ public class CachedNOAAWeatherData {
 	public static final String fileName = "cached_data/weatherData.json";
 	
 
+	/**
+	 * Saves a weather data JSONArray to a file.
+	 * @param data the weather data to cache, as a JSONArray
+	 * @throws IOException if there is a problem saving the JSONArray to a file
+	 * @throws NullPointerException if the provided JSONArray is not syntactically correct
+	 */
 	public CachedNOAAWeatherData(JSONArray data) throws IOException, NullPointerException {
 		//TODO perform checks on data
 		this.weatherData = data;
 		saveData();
 	}
 
+	/**
+	 * Saves the weather data to the designated file.
+	 * @throws IOException if there is a problem saving the JSONArray to a file
+	 * @throws NullPointerException if the provided JSONArray is not syntactically correct
+	 */
 	private void saveData() throws IOException, NullPointerException {
 		try {
 			//gets the name of the folder and creates it if it doesn't exist
