@@ -1,9 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,8 +9,10 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.RocketData;
+import nz.ac.vuw.engr301.group9mcs.commons.RocketDataListener;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
+import nz.ac.vuw.engr301.group9mcs.view.RocketOutputPanel;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
@@ -21,7 +21,7 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  * @author Bryony
  *
  */
-public class ArmedPerspective extends Observable implements Perspective, Observer {
+public class ArmedPerspective extends Observable implements Perspective, Observer, RocketDataListener {
 	
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
@@ -46,27 +46,21 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	/** 
 	 * ROCKET DATA PANEL : text output from rocket?
 	 */
-	private JPanel rocketDataPanel;
+	private RocketOutputPanel rocketDataPanel;
+	
+	/**
+	 * Resources for Perspective
+	 */
+	private @Nullable Resources resources;
 	
 	/**
 	 * Construct the Panel
 	 */
 	public ArmedPerspective() {
+		
 		this.panel = new JPanel(new BorderLayout());
 		
-		// TODO: A proper Rocket Data Panel
-		this.rocketDataPanel = new JPanel() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1254759273362687813L;
-			
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				Null.nonNull(g).setColor(Color.green);
-				Null.nonNull(g).fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
+		this.rocketDataPanel = new RocketOutputPanel();
 		this.rocketDataPanel.setPreferredSize(new Dimension(400, 300));
 		
 		String[] args = {"Armed and Dangerous", "Do not touch while Armed"};
@@ -86,8 +80,9 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	}
 
 	@Override
-	public JPanel enable(MenuController menu, @Nullable Resources resource) {
-		// TODO Use Resources
+	public JPanel enable(MenuController menu, Resources resource) {
+		this.resources = resource;
+		this.resources.getDriver().addRocketDataListener(this);
 		return this.panel;
 	}
 
@@ -128,9 +123,14 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 
 	@Override
 	public void releaseResources() {
-		// TODO Auto-generated method stub
-		
+		if (this.resources != null) {
+			this.resources.getDriver().removeRocketDataListener(this);
+		}
 	}
 
+	@Override
+	public void receiveRocketData(RocketData data) {
+		this.rocketDataPanel.passRocketData(data);
+	}
 
 }
