@@ -1,16 +1,12 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -29,9 +25,9 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  * Perspective that holds the Panels for the when the rocket is Unarmed.
  * 
  * @author Bryony
- *
+ * @editor Claire
  */
-public class UnarmedPerspective  extends Observable implements Perspective, Observer {
+public class UnarmedPerspective extends Observable implements Perspective, Observer {
 
 	/**
 	 * Menu Items to be added and enabled in the Main Menu
@@ -46,7 +42,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	/**
 	 * The go no go panel
 	 */
-	@Nullable private GoNoGoView goNoGoView;
+	private GoNoGoView goNoGoView;
 
 	/**
 	 * Holds the Warning Panel and Arm Button.
@@ -65,19 +61,8 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	private JPanel warningPanel;
 
-	/**
-	 *  PANEL TO CONNECT TO ROCKET : should be first thing
-	 */
-	private JPanel rocketDetailsPanel;
-
 	// CACHED MAP
 	// TODO: What to do with this?
-
-	/** 
-	 * INPUT FOR WEATHER : User should gather weather data in the field
-	 * BUTTON TO RUN SIMULATION : sends weather data, displays output
-	 */
-	private JPanel weatherDetailsPanel;
 	
 	/**
 	 * The resources for this perspective
@@ -108,39 +93,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
 		this.topPanel.add(this.armButton, BorderLayout.EAST);
 
-		// TODO: real rocket details panel
-		this.rocketDetailsPanel = new JPanel() {
-			/***/
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				g.setColor(Color.orange);
-				g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
-		this.rocketDetailsPanel.setPreferredSize(new Dimension(200, 300));
-
-		// TODO: real weather details panel
-		this.weatherDetailsPanel = new JPanel() {
-			/***/
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				g.setColor(Color.blue);
-				g.fillRect(0, 0, this.getWidth(), this.getHeight());
-			}
-		};
-		JButton run = new JButton("Run Simulation");
-		run.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(@Nullable ActionEvent e) {
-				switchTo(viewDetails());
-			}
-		});
-		this.weatherDetailsPanel.add(run);
-		this.weatherDetailsPanel.setPreferredSize(new Dimension(200, 300));
-
-		switchTo(viewDetails());
+		this.viewDetails();
 	}
 
 	@Override
@@ -193,7 +146,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 */
 	public void runSimulation(ActionEvent e)
 	{
-		if(this.resources != null && this.goNoGoView != null) {
+		if(this.resources != null) {
 			this.goNoGoView.giveData(80.0, 125.55);
 		} else {
 			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
@@ -201,30 +154,12 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	}
 
 	/**
-	 * Returns a Panel containing the panels for entering details.
-	 * Warning Panel at the top.
-	 * Rocket Details panel to the left (for connecting to the rocket).
-	 * Weather Details panel to the right (for entering weather and starting simulation).
-	 * 
-	 * @return A Panel
-	 */
-	JPanel enterDetails() {
-		JPanel details = new JPanel(new BorderLayout());
-		details.add(this.warningPanel, BorderLayout.NORTH);
-		details.add(this.rocketDetailsPanel, BorderLayout.WEST);
-		details.add(this.weatherDetailsPanel, BorderLayout.CENTER);
-		details.setSize(new Dimension(400, 400));
-		return details;
-	}
-
-	/**
 	 * Returns a Panel containing the panels for viewing details.
 	 * Warning Panel at the top.
 	 * GoNoGo Panel to the left (shows simulation results).
 	 * Arm Button Panel to the right (button to arm rocket).
-	 * @return A Panel
 	 */
-	JPanel viewDetails() {
+	void viewDetails() {
 		JPanel details = new JPanel(new BorderLayout());
 		details.add(this.topPanel, BorderLayout.NORTH);
 		// Create GoNoGoPanel now to get data from enterDetails. -> parameters (simulation), filename, coordinates, map image
@@ -233,40 +168,21 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		details.add(go, BorderLayout.CENTER);
 		details.setSize(new Dimension(400, 400));
 		this.goNoGoView = go;
-		return details;
+		this.panel.add(details, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void update(@Nullable Observable o, @Nullable Object arg) {
 		if (arg instanceof String[]) {
 			String[] args = (String[]) arg;
-			if (args.length == 2) {
-				if (args[0].equals("switch")) {
-					if (args[1].equals("enterDetails")) {
-						switchTo(enterDetails());
-					}
-				}
-			} else if (args.length == 1) {
-				if (args[0].equals("ARM")) {
+			if(args.length == 1) {
+				if(args[0].equals("ARM")) {
 					// TODO: Arm Rocket
 					String[] newArgs = {"switch view", "armed"};
 					notify(newArgs);
-					switchTo(enterDetails());
 				}
 			}
 		}
-	}
-
-	/**
-	 * Switch to the given View Panel.
-	 * 
-	 * @param newPanel
-	 */
-	void switchTo(JPanel newPanel) {
-		this.panel.removeAll();
-		this.panel.add(newPanel, BorderLayout.CENTER);
-		this.panel.revalidate();
-		this.panel.repaint();
 	}
 
 	@Override
