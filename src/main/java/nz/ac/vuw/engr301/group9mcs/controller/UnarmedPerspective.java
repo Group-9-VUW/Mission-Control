@@ -293,4 +293,10 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		this.notifyObservers(o);
 	}
 
+	@Override
+	public void releaseResources() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

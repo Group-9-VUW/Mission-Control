@@ -138,4 +138,10 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		this.panel.repaint();
 	}
 
+	@Override
+	public void releaseResources() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

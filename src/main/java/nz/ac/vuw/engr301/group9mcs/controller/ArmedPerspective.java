@@ -126,5 +126,11 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		this.notifyObservers(o);
 	}
 
+	@Override
+	public void releaseResources() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

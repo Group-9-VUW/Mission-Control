@@ -37,11 +37,17 @@ public interface Perspective{
 	 * @param o
 	 */
 	public void init(MenuController menu, Observer o);
+	
 	/**
 	 * The default name for this Perspective, to use when passing.
 	 * 
 	 * @return The default name.
 	 */
 	public String name();
+	
+	/**
+	 * Releases any resources bound to this perpsective
+	 */
+	public void releaseResources();
 
 }
