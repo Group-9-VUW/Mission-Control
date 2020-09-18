@@ -1,11 +1,17 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import org.junit.jupiter.api.Test;
+
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
@@ -41,6 +47,11 @@ class TestPerspectiveController {
 	private JFrame frame;
 	
 	/**
+	 * A resources object
+	 */
+	private Resources resources;
+	
+	/**
 	 * A Menu Controller.
 	 */
 	private MenuController m;
@@ -58,11 +69,12 @@ class TestPerspectiveController {
 	private void setupPerspective() {
 		this.frame = new JFrame();
 		this.m = new MenuController(Null.nonNull(this.frame));
-		this.p = new PerspectiveController(Null.nonNull(this.m));
+		this.resources = new Resources(Null.nonNull(this.frame));
+		this.p = new PerspectiveController(Null.nonNull(this.m), Null.nonNull(this.resources));
 		this.fp = new FakePerspective("FakePerspective", null);
 		this.fp.add("File/Start", "Start", Null.nonNull(this.fakeListen));
 		this.p.addPerspective("start", Null.nonNull(this.fp));
-		this.p.changePerspective("start", null);
+		this.p.changePerspective("start");
 	}
 
 	/**
@@ -93,7 +105,7 @@ class TestPerspectiveController {
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
-		this.p.changePerspective("second", null);
+		this.p.changePerspective("second");
 		assertTrue(this.p.getPanel().getComponents().length == 1);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
@@ -105,7 +117,7 @@ class TestPerspectiveController {
 	void testCantChangeToNonExistantPerspective() {
 		setupPerspective();
 		try {
-			this.p.changePerspective("second", null);
+			this.p.changePerspective("second");
 			fail("Changing perspective to a non-existant perspective should result"
 					+ "in a PreconditionViolationException being thrown.");
 		} catch (PreconditionViolationException e) {
@@ -122,7 +134,7 @@ class TestPerspectiveController {
 		this.panel = new JPanel();
 		FakePerspective second = new FakePerspective("second", this.panel);
 		this.p.addPerspective("second", second);
-		this.p.changePerspective("second", null);
+		this.p.changePerspective("second");
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 		this.panel.setName("This is not a drill");
 		assertTrue(!this.p.getPanel().getComponent(0).getName().equals("second"));
@@ -137,7 +149,7 @@ class TestPerspectiveController {
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
 		try {
-			this.p.changePerspective("SECOND", null);
+			this.p.changePerspective("SECOND");
 		} catch (PreconditionViolationException e) {
 			fail("Name not in list: " + e.getMessage());
 		}
@@ -153,7 +165,7 @@ class TestPerspectiveController {
 		JPanel before = this.p.getPanel();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
-		this.p.changePerspective("second", null);
+		this.p.changePerspective("second");
 		JPanel after = this.p.getPanel();
 		assertEquals(before, after);
 	}
@@ -169,10 +181,10 @@ class TestPerspectiveController {
 		second.add("File/Second", "Second", Null.nonNull(this.fakeListen));
 		second.add("Julius/Null", "Null", Null.nonNull(this.fakeListen));
 		this.p.addPerspective("second", second);
-		this.p.changePerspective("start", null);
+		this.p.changePerspective("start");
 		assertFalse(this.m.isEnabled("File/Second"));
 		assertFalse(this.m.isEnabled("Julius/Null"));
-		this.p.changePerspective("second", null);
+		this.p.changePerspective("second");
 		assertTrue(this.m.isEnabled("File/Second"));
 		assertTrue(this.m.isEnabled("Julius/Null"));
 	}
@@ -255,53 +267,6 @@ class TestPerspectiveController {
 		String[] args = {"switch view", null};
 		this.p.update(null, args);
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
-	}
-	
-	/**
-	 * Check that the Resource object is added to the Perspective correctly.
-	 */
-	@Test
-	void testAddResource() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		Resources res = new Resources();
-		res.setLongitude(2000);
-		res.setLatitude(3.4);
-		this.p.changePerspective("second", res);
-		assertTrue(second.removeResource() != null);
-		assertEquals(Null.nonNull(second.removeResource()).getLatitude(), res.getLatitude());
-		assertEquals(Null.nonNull(second.removeResource()).getLongitude(), res.getLongitude());
-	}
-	
-	/**
-	 * Check that the Perspective uses a new Resource if none is given to them.
-	 */
-	@Test
-	void testAddNoResource() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		this.p.changePerspective("second", null);
-		assertTrue(second.removeResource() != null);
-	}
-	
-	/**
-	 * Check that a resource is handed over when Perspectives are changed.
-	 * Also checks that current perspective is saved correctly.
-	 */
-	@Test
-	void testHandingOverResource() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		Resources res = new Resources();
-		res.setLongitude(2000);
-		res.setLatitude(3.4);
-		this.fp.addResources(res);
-		String[] args = {"switch view", "second"};
-		this.p.update(null, args);
-		assertTrue(second.removeResource() == res);
 	}
 	
 }

@@ -27,13 +27,16 @@ public class FakePerspective extends Observable implements Perspective{
 	 * List of Required Menu Items.
 	 */
 	private HashSet<ViewMenuItem> menuItems;
+	
 	/**
 	 * The Default Panel.
 	 */
 	private @NonNull JPanel panel = new JPanel();
+	
 	/**
 	 * Resources.
 	 */
+	@SuppressWarnings("unused")
 	private Resources res;
 
 	/**
@@ -89,16 +92,6 @@ public class FakePerspective extends Observable implements Perspective{
 	}
 
 	@Override
-	public void addResources(@NonNull Resources resource) {
-		this.res = resource;
-	}
-
-	@Override
-	public @Nullable Resources removeResource() {
-		if (this.res == null) {
-			return new Resources();
-		}
-		return Null.nonNull(this.res);
-	}
+	public void releaseResources() { /**/ }
 
 }
