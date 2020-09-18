@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import org.junit.jupiter.api.Test;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.PerspectiveController;
+import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 
 /**
  * Test the Perspective Controller class.

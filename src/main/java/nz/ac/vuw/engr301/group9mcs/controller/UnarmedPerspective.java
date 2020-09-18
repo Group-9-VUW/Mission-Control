@@ -15,10 +15,13 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
+import nz.ac.vuw.engr301.group9mcs.avionics.LORAConfigPanel;
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
+import nz.ac.vuw.engr301.group9mcs.view.LocalWeatherDialog;
 import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
@@ -39,6 +42,11 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
+	
+	/**
+	 * The go no go panel
+	 */
+	@Nullable private GoNoGoView goNoGoView;
 
 	/**
 	 * Holds the Warning Panel and Arm Button.
@@ -70,6 +78,11 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	 * BUTTON TO RUN SIMULATION : sends weather data, displays output
 	 */
 	private JPanel weatherDetailsPanel;
+	
+	/**
+	 * The resources for this perspective
+	 */
+	@Nullable private Resources resources;
 
 	/**
 	 * Construct the Panel
@@ -77,13 +90,10 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	@SuppressWarnings("null")
 	public UnarmedPerspective() {
 		this.menuItems = new HashSet<>();
-		this.menuItems.add(new ViewMenuItem("Unarmed/XXX", "XXX", new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//TODO
-			}
-		}));
-
+		this.menuItems.add(new ViewMenuItem("Simulation/Get Local Data", "Get Local Data", this::getWeatherDetails));
+		this.menuItems.add(new ViewMenuItem("Simulation/Run Simuation", "Run Simulation", this::runSimulation));
+		this.menuItems.add(new ViewMenuItem("Avionics/Connect to Rocket", "Connect to Rocket", this::configureRocket));
+		
 		this.panel = new JPanel(new BorderLayout());
 
 		this.topPanel = new JPanel(new BorderLayout());
@@ -145,6 +155,50 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 	public String name() {
 		return "unarmed";
 	}
+	
+	/**
+	 * Gets the local weather data from the user
+	 * 
+	 * @param e unused
+	 */
+	public void getWeatherDetails(ActionEvent e)
+	{
+		if(this.resources != null) {
+			LocalWeatherDialog dialog = new LocalWeatherDialog(this.resources.getFrame());
+			System.out.println(dialog.getData());
+		} else {
+			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
+		}
+	}
+	
+	/**
+	 * Configures the rocket to use a serial COM port
+	 * 
+	 * @param e unused
+	 */
+	@SuppressWarnings("unused")
+	public void configureRocket(ActionEvent e)
+	{
+		if(this.resources != null) {
+			new LORAConfigPanel(this.resources.getFrame(), Null.nonNull(this.resources).getDriver());
+		} else {
+			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
+		}
+	}
+	
+	/**
+	 * Run simulation
+	 * 
+	 * @param e unused
+	 */
+	public void runSimulation(ActionEvent e)
+	{
+		if(this.resources != null && this.goNoGoView != null) {
+			this.goNoGoView.giveData(80.0, 125.55);
+		} else {
+			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
+		}
+	}
 
 	/**
 	 * Returns a Panel containing the panels for entering details.
@@ -178,6 +232,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		go.setPreferredSize(new Dimension(300, 300));
 		details.add(go, BorderLayout.CENTER);
 		details.setSize(new Dimension(400, 400));
+		this.goNoGoView = go;
 		return details;
 	}
 
@@ -216,6 +271,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+		this.resources = resource;
 		String[] a = new String[this.menuItems.size()];
 		int i = 0;
 		for(ViewMenuItem v : this.menuItems) {
@@ -225,19 +281,7 @@ public class UnarmedPerspective  extends Observable implements Perspective, Obse
 		menu.enableItems(a);
 		return this.panel;
 	}
-
-	@Override
-	public void addResources(Resources resource) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public @Nullable Resources removeResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	/**
 	 * Notifies the Observer that there is an Object they can view.
 	 * Can be passed any type of Object.

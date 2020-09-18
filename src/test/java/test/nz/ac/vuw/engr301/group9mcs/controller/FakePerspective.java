@@ -10,9 +10,9 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Perspective;
+import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 
 /**

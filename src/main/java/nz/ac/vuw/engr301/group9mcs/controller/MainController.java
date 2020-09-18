@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
-
 /**
  * Controller class.
  * Creates the screen.
@@ -42,11 +40,11 @@ public class MainController extends JFrame {
 			this.dispose();
 		});
 		
-		this.persp = new PerspectiveController(this.menu);
+		this.persp = new PerspectiveController(this.menu, new Resources(this));
 		this.setLayout(new BorderLayout());
 		this.add(this.persp.getPanel(), BorderLayout.CENTER);
 
-		this.setSize(300, 300);
+		this.setSize(1080, 690);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -69,7 +67,7 @@ public class MainController extends JFrame {
 	 */
 	public void setPerspective(String name)
 	{
-		this.persp.changePerspective(name, new Resources());
+		this.persp.changePerspective(name);
 	}
 
 

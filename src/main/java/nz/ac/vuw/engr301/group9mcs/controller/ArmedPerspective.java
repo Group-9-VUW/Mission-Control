@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
@@ -114,17 +113,6 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 				}
 			}
 		}
-	}
-
-	@Override
-	public void addResources(Resources resource) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public @Nullable Resources removeResource() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	/**
