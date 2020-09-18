@@ -1,4 +1,4 @@
-package nz.ac.vuw.engr301.group9mcs.commons;
+package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 /**
  * Holds one instance of NOAA weather data (one reading at a corresponding altitude). 
