@@ -1,4 +1,8 @@
-package nz.ac.vuw.engr301.group9mcs.commons;
+package nz.ac.vuw.engr301.group9mcs.controller;
+
+import javax.swing.JFrame;
+
+import nz.ac.vuw.engr301.group9mcs.avionics.LORADriver;
 
 /**
  * Holds resources needed to pass to Perspectives
@@ -8,6 +12,16 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  */
 public class Resources {
 
+	/**
+	 * The root JFrame
+	 */
+	private final JFrame frame;
+	
+	/**
+	 * The LoRA driver
+	 */
+	private final LORADriver driver;
+	
 	/**
 	 * The Longitude (launch site?)
 	 */
@@ -35,6 +49,15 @@ public class Resources {
 	/**
 	 * TODO: rocket data
 	 */
+	
+	/**
+	 * @param frame The root JFrame
+	 */
+	public Resources(JFrame frame)
+	{
+		this.frame = frame;
+		this.driver = new LORADriver();
+	}
 	
 	/**
 	 * Returns the Longitude (typically launch site position).
@@ -76,6 +99,22 @@ public class Resources {
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+
+	/**
+	 * @return the frame
+	 */
+	public JFrame getFrame() 
+	{
+		return this.frame;
+	}
+
+	/**
+	 * @return the driver
+	 */
+	public LORADriver getDriver() 
+	{
+		return this.driver;
 	}
 	
 }

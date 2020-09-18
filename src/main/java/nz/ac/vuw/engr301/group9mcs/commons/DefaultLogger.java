@@ -8,12 +8,11 @@ import org.apache.log4j.Logger;
  *
  * @author Joshua Hindley (hindlejosh)
  */
-@SuppressWarnings("null")
 public class DefaultLogger {
 
 	/**
 	 * The default logger.
 	 */
-	public static final Logger logger = Logger.getLogger(DefaultLogger.class); //TODO fix null warning
+	public static final Logger logger = Null.nonNull(Logger.getLogger(DefaultLogger.class));
 
 }

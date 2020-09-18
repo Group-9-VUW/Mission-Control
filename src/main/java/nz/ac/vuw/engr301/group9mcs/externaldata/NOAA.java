@@ -1,10 +1,8 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +18,7 @@ public class NOAA {
      * The keys for the map are the altitudes and the values are NOAAWeatherData objects.
      * @param latitude the latitude of the launch site
      * @param longitude the longitude of the launch site
-     * @param daysAhead how far ahead (in days from the current time) the user would like their forecase
+     * @param daysAhead how far ahead (in days from the current time) the user would like their forecast
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
@@ -33,9 +31,9 @@ public class NOAA {
     }
 
     
-    /** Converts the supplied JSON weather readings into a Map
+    /** Converts the supplied JSON weather readings into a Map.
      * @param jsonWeatherReadings the weather readings in JSON format 
-     * @return a map with the same data as jsonWeatherReadings, where the keys are the alitudes and values are NOAAWeatherData objects.  
+     * @return a map with the same data as jsonWeatherReadings, where the keys are the altitudes and values are NOAAWeatherData objects.  
      */
     public static Map<Double, NOAAWeatherData> convertToMap(JSONArray jsonWeatherReadings) {
         Map<Double, NOAAWeatherData> weatherReadings = new HashMap<>();

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
+import nz.ac.vuw.engr301.group9mcs.view.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
@@ -22,7 +22,7 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
  *
  */
 public class ArmedPerspective extends Observable implements Perspective, Observer {
-
+	
 	/**
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
@@ -32,6 +32,16 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 * WARNING PANEL : armed and dangerous, do not touch rocket -> close when rocket is fired
 	 */
 	private JPanel warningPanel;
+	
+	/**
+	 * DISARM BUTTON : return to unarmed state
+	 */
+	private JPanel disarmButton;
+	
+	/**
+	 * Holds the Warning Panel and Disarm Button at the top of the page.
+	 */
+	private JPanel topPanel;
 	
 	/** 
 	 * ROCKET DATA PANEL : text output from rocket?
@@ -43,9 +53,9 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 */
 	public ArmedPerspective() {
 		this.panel = new JPanel(new BorderLayout());
+		
 		// TODO: A proper Rocket Data Panel
 		this.rocketDataPanel = new JPanel() {
-
 			/**
 			 * 
 			 */
@@ -58,11 +68,21 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 			}
 		};
 		this.rocketDataPanel.setPreferredSize(new Dimension(400, 300));
-		// TODO: A proper Warning Panel : "Armed and Dangerous", "Do not touch while armed"
+		
 		String[] args = {"Armed and Dangerous", "Do not touch while Armed"};
 		this.warningPanel = new WarningPanel(args);
+		this.warningPanel.setPreferredSize(new Dimension(300, 100));
+		
+		this.disarmButton = new ArmedButtonPanel(this, "DISARM");
+		this.disarmButton.setPreferredSize(new Dimension(100, 100));
+		
+		this.topPanel = new JPanel(new BorderLayout());
+		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
+		this.topPanel.add(this.disarmButton, BorderLayout.EAST);
+		this.topPanel.setPreferredSize(new Dimension(400, 100));
+		
 		this.panel.add(this.rocketDataPanel, BorderLayout.CENTER);
-		this.panel.add(this.warningPanel, BorderLayout.NORTH);
+		this.panel.add(this.topPanel, BorderLayout.NORTH);
 	}
 
 	@Override
@@ -83,18 +103,34 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	
 	@Override
 	public void update(@Nullable Observable o, @Nullable Object arg) {
-		// TODO Auto-generated method stub
+		if (arg instanceof String[]) {
+			String[] args = (String[]) arg;
+			if (args.length == 1) {
+				if (args[0].equals("DISARM")) {
+					// TODO: Disarm
+					String[] newArgs = {"switch view", "unarmed"};
+					notify(newArgs);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Notifies the Observer that there is an Object they can view.
+	 * Can be passed any type of Object.
+	 * 
+	 * @param o
+	 */
+	private void notify(Object o) {
+		this.setChanged();
+		this.notifyObservers(o);
 	}
 
 	@Override
-	public void addResources(Resources resource) {
+	public void releaseResources() {
 		// TODO Auto-generated method stub
+		
 	}
 
-	@Override
-	public @Nullable Resources removeResource() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

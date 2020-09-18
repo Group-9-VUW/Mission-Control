@@ -38,10 +38,11 @@ public class GoNoGoView extends JPanel implements Observer{
 	 * The Panel that shows the results of the simulation.
 	 */
 	private JPanel simulationResults;
+	
 	/**
 	 *
 	 */
-	private JPanel sidePanel;
+	private GoNoGoSidePanelAtSite sidePanel;
 
 	/**
 	 * Sets the View up, and saves the Observer. Uses the data from previous views.
@@ -70,12 +71,13 @@ public class GoNoGoView extends JPanel implements Observer{
 				paintResults(parameters, map, g);
 			}
 		};
-		if (sidePanel.equals("site")) {
-			this.sidePanel = new GoNoGoSidePanelSelectSite(fileName, lat, lon, this);
-		} else {
-			this.sidePanel = new GoNoGoSidePanelAtSite(this);
-		}
-		this.sidePanel.setPreferredSize(new Dimension(67, 300));
+//		if (sidePanel.equals("site")) {
+//			this.sidePanel = new GoNoGoSidePanelSelectSite(fileName, lat, lon, this);
+//		} else {
+//			this.sidePanel = new GoNoGoSidePanelAtSite(this);
+//		}
+		this.sidePanel = new GoNoGoSidePanelAtSite(this);
+		this.sidePanel.setPreferredSize(new Dimension(120, 300));
 		this.simulationResults.setName("Simulation Results");
 		this.add(this.simulationResults, BorderLayout.CENTER);
 		this.add(this.sidePanel, BorderLayout.WEST);
@@ -126,4 +128,14 @@ public class GoNoGoView extends JPanel implements Observer{
 		}
 	}
 
+	/**
+	 * Informs this view that a simulation has been run so that it can display the results.
+	 * 
+	 * @param nSafeProbability The probability that we'll land safely
+	 * @param nPredictedDist The estimated average distance from the launch site
+	 */
+	public void giveData(double nSafeProbability, double nPredictedDist)
+	{
+		this.sidePanel.giveData(nSafeProbability, nPredictedDist);
+	}
 }

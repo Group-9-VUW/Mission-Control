@@ -20,16 +20,32 @@ import nz.ac.vuw.engr301.group9mcs.commons.Null;
  * @author Bryony
  *
  */
-public class GoNoGoSidePanelAtSite extends JPanel{
+public class GoNoGoSidePanelAtSite extends JPanel {
 
 	/**
 	 * UID
 	 */
 	private static final long serialVersionUID = 1687182642676145786L;
+	
 	/**
 	 * Observable to speak backwards
 	 */
 	ViewObservable obs;
+	
+	/**
+	 * Whether or not we've received simulation data
+	 */
+	private boolean hasData = false;
+	
+	/**
+	 * The probability that we'll land safely [0-100]%
+	 */
+	private double safeProbability = -1.0;
+	
+	/**
+	 * The estimated distance from the launch site in meters
+	 */
+	private double predictedDist = -1.0;
 
 	/**
 	 * Save passed parameters (information about simulation)
@@ -40,18 +56,40 @@ public class GoNoGoSidePanelAtSite extends JPanel{
 		this.obs = new ViewObservable(o);
 	}
 	
+	/**
+	 * Informs this panel that a simulation has been run so that it can display the results.
+	 * 
+	 * @param nSafeProbability The probability that we'll land safely
+	 * @param nPredictedDist The estimated average distance from the launch site
+	 */
+	public void giveData(double nSafeProbability, double nPredictedDist)
+	{
+		this.hasData = true;
+		this.safeProbability = nSafeProbability;
+		this.predictedDist = nPredictedDist;
+		this.repaint();
+	}
+	
 	@Override
 	protected void paintComponent(@Nullable Graphics g) {
 		int height = this.getHeight() / 2 - this.getHeight() / 8;
 		int startGap = this.getHeight() / 16;
 		
-		String[] large1 = {"50%"};
-		String[] small1 = {"Probability of Landing Safely", "(Not on someone's head)"};
-		printSection(large1, small1, startGap, height, g);
-		
-		String[] large2 = {"2-20m"};
-		String[] small2 = {"Predicted Landing from Launch Site", ""};
-		printSection(large2, small2, this.getHeight() / 2 + startGap, height, g);
+		if(this.hasData) {
+			String[] large1 = { this.safeProbability + "%"};
+			String[] small1 = {"Probability of Landing Safely", "(Not on someone's head)"};
+			printSection(large1, small1, startGap, height, g);
+			
+			String[] large2 = { this.predictedDist + "m"};
+			String[] small2 = {"Predicted Landing from Launch Site", ""};
+			printSection(large2, small2, this.getHeight() / 2 + startGap, height, g);
+			
+			//TODO: Print recommendation
+		} else {
+			String[] large1 = { "Don't Launch" };
+			String[] small1 = { "You're one simulation short of", "actually having run a simulation." };
+			printSection(large1, small1, startGap, height, g);
+		}
 	}
 
 	/**

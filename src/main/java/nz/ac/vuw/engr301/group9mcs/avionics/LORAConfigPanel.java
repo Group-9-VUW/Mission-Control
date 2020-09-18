@@ -52,12 +52,12 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 	/**
 	 * Button to populate()
 	 */
-	private final JButton repopulate = new JButton();
+	private final JButton repopulate = new JButton("Populate");
 	
 	/**
 	 * Button to confirm selection and close
 	 */
-	private final JButton confirm = new JButton();
+	private final JButton confirm = new JButton("Confirm");
 	
 	/**
 	 * List of all buttons that represent COM ports
@@ -83,8 +83,14 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 		this.add(this.COMSelect, BorderLayout.CENTER);
 		this.add(this.bottomButtons, BorderLayout.SOUTH);
 		
+		this.confirm.addActionListener(this);
+		this.repopulate.addActionListener(this);
+		
 		this.initBottom();
 		this.populate();
+		
+		this.setSize(350, 150);
+		this.setVisible(true);
 	}
 	
 	/**
@@ -130,16 +136,18 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 			for(String port : portlist) {
 				JButton button = new JButton("Select");
 				button.setActionCommand(port);
+				button.addActionListener(this);
 				this.ports.add(button);
 				
 				gbc.gridx = 0;
-				gbc.gridy++;
-				this.COMSelect.add(new JLabel("Port Name"), gbc);
+				gbc.gridy = gbc.gridy + 1;
+				this.COMSelect.add(new JLabel(port), gbc);
 				gbc.gridx = 1;
 				this.COMSelect.add(button, gbc);
 			}
 		} else {
 			gbc.gridx = 0;
+			gbc.gridy = 1;
 			gbc.gridwidth = 2;
 			gbc.weightx = 1.0;
 			this.COMSelect.add(new JLabel("No available COM Ports."), gbc);

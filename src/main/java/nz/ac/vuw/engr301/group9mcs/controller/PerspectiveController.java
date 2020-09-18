@@ -10,7 +10,6 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 
 /**
  * Controls what view elements are shown on the screen for the different perspectives.
@@ -25,28 +24,34 @@ public class PerspectiveController implements Observer{
 	 * Perspectives can be looked up by their name.
 	 */
 	private Map<String, Perspective> perspectives;
+	
 	/**
 	 * The menu controller.
 	 */
 	private MenuController menu;
+	
+	/**
+	 * The resources object for all perspectives
+	 */
+	private Resources resources;
+	
 	/**
 	 * The Panel.
 	 */
 	private JPanel panel;
-	/**
-	 * The Current Perspective's name.
-	 */
-	private String currentPerspective = "";
 
 	/**
 	 * Constructor.
 	 * Updates the Menu through the passed MenuController over lifetime.
-	 * @param menu
+	 * 
+	 * @param menu The menu controller
+	 * @param resources The initial resources object
 	 */
-	public PerspectiveController(MenuController menu) {
+	public PerspectiveController(MenuController menu, Resources resources) {
 		this.menu = menu;
 		this.panel = new JPanel(new BorderLayout());
 		this.perspectives = new HashMap<>();
+		this.resources = resources;
 	}
 
 	/**
@@ -73,16 +78,14 @@ public class PerspectiveController implements Observer{
 	 * Changes the Perspective to the one indicated by the passed name.
 	 * If name isn't connected to a perspective (doesn't exist in list) an Error is thrown.
 	 *
-	 * @param name
-	 * @param res 
+	 * @param name The name of the perspective
 	 */
-	public void changePerspective(String name, @Nullable Resources res) {
+	public void changePerspective(String name) {
 		if(!this.perspectives.containsKey(name.toLowerCase())) {
 			throw new PreconditionViolationException(name + " isn't a valid Perspective");
 		}
 		this.panel.removeAll();
-		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu, res), BorderLayout.CENTER);
-		this.currentPerspective = Null.nonNull(name.toLowerCase());
+		this.panel.add(Null.nonNull(this.perspectives.get(name.toLowerCase())).enable(this.menu, this.resources), BorderLayout.CENTER);
 		this.panel.revalidate();
 	}
 
@@ -97,11 +100,7 @@ public class PerspectiveController implements Observer{
 			if(args[0].toLowerCase().equals("switch view") && args.length == 2) {
 				@Nullable String s = args[1];
 				if(s != null) {
-					Resources r = Null.nonNull(this.perspectives.get(this.currentPerspective)).removeResource();
-					if (r == null) {
-						r = new Resources();
-					}
-					changePerspective(s, r);
+					changePerspective(s);
 				}
 			}
 		}
