@@ -24,7 +24,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.LocalWeatherData;
  * 
  * @author Claire
  */
-public class LocealWeatherDialog extends JDialog implements ActionListener {
+public class LocalWeatherDialog extends JDialog implements ActionListener {
 
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 	 * 
 	 * Populated with populate()
 	 */
-	private final JPanel dataEntry = new JPanel();
+	private final JPanel dataEntry = new JPanel(new GridBagLayout());
 	
 	/**
 	 * The control buttons at the bottom
@@ -81,7 +81,7 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 	/**
 	 * @param root The window this dialog should block
 	 */
-	public LocealWeatherDialog(Window root)
+	public LocalWeatherDialog(Window root)
 	{
 		super(root, "Enter local weather data", Dialog.ModalityType.APPLICATION_MODAL);
 		this.setLayout(new BorderLayout());
@@ -92,6 +92,12 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		
 		this.initBottom();
 		this.initFields();
+		
+		this.confirm.addActionListener(this);
+		this.cancel.addActionListener(this);
+		
+		this.setSize(470, 220);
+		this.setVisible(true);
 	}
 	
 	/**
@@ -110,7 +116,7 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(new JLabel("Unit"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridy += 1;
 		this.dataEntry.add(new JLabel("Wind Speed"), gbc);
 		gbc.gridx = 1;
 		this.dataEntry.add(this.windspeed, gbc);
@@ -118,7 +124,7 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(new JLabel("ms-1"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridy += 1;
 		this.dataEntry.add(new JLabel("Wind Direction"), gbc);
 		gbc.gridx = 1;
 		this.dataEntry.add(this.winddirection, gbc);
@@ -140,6 +146,11 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(this.temp, gbc);
 		gbc.gridx = 2;
 		this.dataEntry.add(new JLabel("C"), gbc);
+		
+		this.windspeed.setColumns(10);
+		this.winddirection.setColumns(10);
+		this.pressure.setColumns(10);
+		this.temp.setColumns(10);
 	}
 	
 	/**
@@ -181,6 +192,8 @@ public class LocealWeatherDialog extends JDialog implements ActionListener {
 					double nPressure = Double.parseDouble(this.pressure.getText());
 					double nTemp = Double.parseDouble(this.temp.getText());
 					this.data = new LocalWeatherData(nSpeed, nDirection, nPressure, nTemp);
+					this.setVisible(false);
+					this.dispose();
 				} catch(@SuppressWarnings("unused") NumberFormatException ex) {
 					JOptionPane.showMessageDialog(this, "Error", "One of the values you inputted was not a number", JOptionPane.ERROR_MESSAGE);
 				}
