@@ -7,22 +7,22 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 public class NOAAWeatherData {
 
     /**
-     * The wind speed of the reading.
+     * The wind speed of the reading in M/s.
      */
     private double windSpeed;
     
     /**
-     * The wind direction of the reading.
+     * The wind direction of the reading in degrees.
      */
     private double windDirection;
 
     /**
-     * The temperature of the reading. 
+     * The temperature of the reading in Kelvin.
      */
     private double temperature;
 
     /**
-     * The pressure of the reading. 
+     * The pressure of the reading in Bars (1 Bar = 100000 Pascals).
      */
     private double pressure;
 

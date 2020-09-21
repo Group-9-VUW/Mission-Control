@@ -25,9 +25,21 @@ import nz.ac.vuw.engr301.group9mcs.commons.Null;
  *
  */
 public class SelectFileView extends JPanel {
+	/**
+	 * File Chooser screen.
+	 */
 	private JFileChooser fileChooser;
+	/**
+	 * Button to open File Chooser.
+	 */
 	private final JButton chooseFileButton;
+	/**
+	 * Shows the current file or 'No File Selected'
+	 */
 	private JLabel fileNameLabel;
+	/**
+	 * Observable holding Parent Observer. Used to communicate with Parent.
+	 */
 	private ViewObservable observer;
 
 	/**
