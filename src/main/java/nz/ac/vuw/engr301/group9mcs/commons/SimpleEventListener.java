@@ -7,6 +7,11 @@ package nz.ac.vuw.engr301.group9mcs.commons;
  */
 public interface SimpleEventListener {
 	
+	/**
+	 * Generic Event.
+	 * 
+	 * @param type Representative of type of Event
+	 */
 	void event(String type);
 
 }
