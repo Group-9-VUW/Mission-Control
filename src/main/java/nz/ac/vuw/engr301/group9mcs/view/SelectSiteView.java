@@ -25,15 +25,36 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
  */
 public class SelectSiteView extends JPanel implements PostionSelectedListener {
 
+	/**
+	 * UID
+	 */
 	private static final long serialVersionUID = -1685376173755130952L;
 	
+	/**
+	 * Observable used to communicate with Parent
+	 */
 	private final ViewObservable observable;
-	private final SelectMapView selectPanel;
+	/**
+	 * Panel that holds Selectable Map
+	 */
+	private final SelectMapPanel selectPanel;
 	
+	/**
+	 * Display for Latitude
+	 */
 	private final JTextField lat = new JTextField(20);
+	/**
+	 * Display for Longitude
+	 */
 	private final JTextField lon = new JTextField(20);
 	
+	/**
+	 * Spinner to Choose time
+	 */
 	private final JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
+	/**
+	 * Spinner to choose date
+	 */
 	private final JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(this.timeSpinner, "HH:mm");
 	
 	/**
@@ -42,20 +63,21 @@ public class SelectSiteView extends JPanel implements PostionSelectedListener {
 	 * @param observer An observer object to send commands to
 	 * @param image An internet enabled MapImage for display purposes
 	 */
-	public SelectSiteView(Observer observer, MapImage image)
-	{
+	public SelectSiteView(Observer observer, MapImage image) {
 		this.setLayout(new BorderLayout());
 		
 		this.observable = new ViewObservable(observer);
-		this.selectPanel = new SelectMapView(image);
+		this.selectPanel = new SelectMapPanel(image);
 		this.selectPanel.addListener(this);
 		
 		this.add(this.selectPanel, BorderLayout.CENTER);
 		this.add(this.getSidePanel(), BorderLayout.WEST);
 	}
 	
-	private final JPanel getSidePanel()
-	{
+	/**
+	 * @return The Displayed Side Panel holding Position and Date/Time choosers
+	 */
+	private final JPanel getSidePanel(){
 		JPanel side = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 1;
