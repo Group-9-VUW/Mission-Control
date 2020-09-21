@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 public class TestBaseStationParser {
 
+    /**
+     * Base Station Parser to parse data
+     */
     private BaseStationParser parser = new BaseStationParser();
 
     /**
