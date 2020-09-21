@@ -68,4 +68,12 @@ public class LocalWeatherData {
 		return this.temp;
 	}
 
+	@Override
+	public String toString() {
+		return "LocalWeatherData [windSpeed=" + this.windSpeed + ", windDirection=" + this.windDirection + ", pressure="
+				+ this.pressure + ", temp=" + this.temp + "]";
+	}
+	
+	
+
 }

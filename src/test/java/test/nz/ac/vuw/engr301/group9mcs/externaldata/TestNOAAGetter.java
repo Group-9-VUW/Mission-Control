@@ -1,5 +1,6 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.OWWeatherData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
@@ -44,11 +45,33 @@ public class TestNOAAGetter {
         assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
     }
     
+    
     /**
-     * These tests are commented out for now as we need to have a centralised logger for testing. The tests used to
-     * catch an exception being thrown, but now they need to check if the logger is logging properly. This will 
-     * be implemented at a later date. 
+     * Tests if the OWWeatherData objects created are correct.
      */
+    @SuppressWarnings("static-method")
+	@Test
+    public void testCorrectness() {
+    	try {
+			OWWeatherData data = new OWWeatherData(20, 50, 80,
+					112, 20, 8, 0);
+			
+			assertEquals(20, data.getTemperature());
+			assertEquals(50, data.getWindSpeed());
+			assertEquals(80, data.getWindDegrees());
+			assertEquals(112,data.getPressure());
+			assertEquals(20, data.getPrecipitation());
+			assertEquals(8, data.getHumidity());
+			assertEquals(0, data.getCloudiness());
+			assertEquals("OWWeatherData [temperature=" + 20.0 + ", windSpeed=" + 50.0 + ", windDegrees=" + 80.0
+				+ ", pressure=" + 112.0 + ", precipitation=" + 20.0 + ", humidity=" + 8.0
+				+ ", cloudiness=" + 0.0 + "]",
+				data.toString());
+		} catch (@SuppressWarnings("unused") InvalidParameterException e) {
+			fail("Exception should not be thrown, either OpenWeatherMap "
+					+ "is down or there is a bug in the program.");
+		}
+    }
     
     /**
      * Tests that getWeatherData does not accept latitude values that are too low.
