@@ -14,14 +14,17 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author pandasai
  */
 public class TestBaseStationParser {
-
+	
+	/*
+	 * The parser to be used for the test(s). 
+	 */
     private BaseStationParser parser = new BaseStationParser();
 
     /**
      * Checks if the parsed data holds the correct values.
      */
     @Test
-    public void checkCorrectness(){
+    public void checkCorrectness() {
         String testData = "192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
         RocketData parsedData = this.parser.parse(testData);
 
