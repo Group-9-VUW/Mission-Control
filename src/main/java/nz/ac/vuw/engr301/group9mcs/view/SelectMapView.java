@@ -33,26 +33,74 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
  */
 public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
 
+	/**
+	 * UID.
+	 */
 	private static final long serialVersionUID = 438543895484881L;
 	
-	private static final int DOT_SIZE = 20; //Size of highlighted location
+	/**
+	 * Size of highlighted location
+	 */
+	private static final int DOT_SIZE = 20;
 
-	private @Nullable Image image; //Current image (current map) being displayed
+	/**
+	 * Current image (current map) being displayed
+	 */
+	private @Nullable Image image; 
 	
-	private int sizeX; //Total size (in x pixels) of the map
-	private int sizeY; //Total size (in y pixels) of the map
-	private double pixelToLat; //How many latitudes in a pixel
-	private double pixelToLon; //How many longitudes in a pixel
-	private int initialX; //Initial (first) x pixel of mouse drag
-	private int initialY; //Initial (first) y pixel of mouse drag
-	private int locationX; //x pixel of highlighted location
-	private int locationY; //y pixel of highlighted location
-	private boolean locationSelected; //Has the user selected a location (launch site)
+	/**
+	 * Total size (in x pixels) of the map
+	 */
+	private int sizeX;
+	/**
+	 * Total size (in y pixels) of the map
+	 */
+	private int sizeY; 
+	/**
+	 * How many latitudes in a pixel
+	 */
+	private double pixelToLat;
+	/**
+	 * How many longitudes in a pixel
+	 */
+	private double pixelToLon; 
+	/**
+	 * Initial (first) x pixel of mouse drag
+	 */
+	private int initialX; 
+	/**
+	 * Initial (first) y pixel of mouse drag
+	 */
+	private int initialY; 
+	/**
+	 * x pixel of highlighted location
+	 */
+	private int locationX; 
+	/**
+	 * y pixel of highlighted location
+	 */
+	private int locationY; 
+	/**
+	 * Has the user selected a location (launch site)
+	 */
+	private boolean locationSelected; 
 	
-	private final MapImage mapData; //Used to get the map images
+	/**
+	 * Used to get the map images
+	 */
+	private final MapImage mapData; 
+	/**
+	 * Listener for Position Selection
+	 */
 	private final List<PostionSelectedListener> launchListener = new ArrayList<>();
 
+	/**
+	 * Latitude
+	 */
 	private double lat = -41.291257;
+	/**
+	 * Longitude
+	 */
 	private double lon = 174.776879;
 
 	/**
@@ -76,31 +124,49 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		this.addComponentListener(this);
 	}
 
+	/**
+	 * @return Return Radius for the Y Axis
+	 */
 	protected double getRadY()
 	{
 		return this.radY;
 	}
 
+	/**
+	 * @return Return Radius for the X Axis
+	 */
 	protected double getRadX()
 	{
 		return (this.radY / this.sizeY) * this.sizeX;
 	}
 
+	/**
+	 * @return Return Upper Latitude Position
+	 */
 	protected double getUpperLat()
 	{
 		return LongLatHelper.latitudeNKilometersNorth(this.lat, this.getRadY());
 	}
 
+	/**
+	 * @return Return Lower Latitude Position
+	 */
 	protected double getLowerLat()
 	{
 		return LongLatHelper.latitudeNKilometersSouth(this.lat, this.getRadY());
 	}
 
+	/**
+	 * @return Return Left Longitude
+	 */
 	protected double getLeftLon()
 	{
 		return LongLatHelper.longditudeNKilometersWest(this.lat, this.lon, this.getRadX());
 	}
 
+	/**
+	 * @return Return Right Longitude
+	 */
 	protected double getRightLon()
 	{
 		return LongLatHelper.longditudeNKilometersEast(this.lat, this.lon, this.getRadX());
@@ -200,10 +266,18 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		repaint(); //Repaint (show new) map
 	}
 
+	/**
+	 * Add a Position Listener
+	 * @param listener Position Listener
+	 */
 	public void addListener(PostionSelectedListener listener) {
 		this.launchListener.add(listener);
 	}
 	
+	/**
+	 * Removes and Returns the Position Listener
+	 * @param listener Position Listener
+	 */
 	public void removeListener(PostionSelectedListener listener) {
 		this.launchListener.remove(listener);
 	}
