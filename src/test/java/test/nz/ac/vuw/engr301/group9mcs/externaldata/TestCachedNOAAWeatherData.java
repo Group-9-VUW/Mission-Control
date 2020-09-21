@@ -16,7 +16,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
 /**
  * Tests saving and loading NOAAWeatherData using the
  * CachedNOAAWeatherData class.
- * 
+ *
  * @author Joshua Hindley
  */
 public class TestCachedNOAAWeatherData {
@@ -29,7 +29,7 @@ public class TestCachedNOAAWeatherData {
 			new NOAAWeatherData(14.95, 12, 8.39, 994),
 			new NOAAWeatherData(4.38, 107, 14.8, 1015)
 	};
-	
+
 	/**
 	 * Tests caching NOAAWeatherData.
 	 */
@@ -85,7 +85,10 @@ public class TestCachedNOAAWeatherData {
 			load.toString();
 			fail("Expected a FileNotFoundException to be thrown.");
 		} catch (FileNotFoundException e) {
-			assertTrue(e.getMessage().contains("The system cannot find the file specified"));
+			//windows exception
+			assertTrue(e.getMessage().contains("The system cannot find the file specified") ||
+					//unix exception
+					e.getMessage().contains("No such file or directory"));
 		} catch (IOException | JSONException e) {
 			fail(e);
 		}
