@@ -56,7 +56,7 @@ public final class LongLatHelper {
 	 * @param N The number of kilometers to go east
 	 * @return The longitude N kilometers east
 	 */
-	public static double longditudeNKilometersEast(double latitude, double longitude, double N)	{
+	public static double longitudeNKilometersEast(double latitude, double longitude, double N)	{
 		return longitude + (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 
@@ -67,7 +67,7 @@ public final class LongLatHelper {
 	 * @param N The number of kilometers to go west
 	 * @return The longitude N kilometers west
 	 */
-	public static double longditudeNKilometersWest(double latitude, double longitude, double N)	{
+	public static double longitudeNKilometersWest(double latitude, double longitude, double N)	{
 		return longitude - (N / kilometeresPerDegreeOfLongitude(latitude));
 	}
 }
