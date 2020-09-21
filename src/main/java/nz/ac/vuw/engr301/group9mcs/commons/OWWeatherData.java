@@ -71,6 +71,13 @@ public class OWWeatherData {
 	public double getWindSpeed() {
 		return this.windSpeed;
 	}
+	
+	/**
+	 * @return the windDirection.
+	 */
+	public double getWindDegrees() {
+		return this.windDegrees;
+	}
 
 	/**
 	 * @return the pressure.
@@ -99,12 +106,13 @@ public class OWWeatherData {
 	public double getCloudiness() {
 		return this.cloudiness;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Temperature: " + this.temperature + "°C \n" + "Wind Speed: " + this.windSpeed + "km/h \n" 
-		+ "Wind Degrees: " + this.windDegrees + "° \n" + "Atmospheric Pressure (at sea level): " 
-		+ this.pressure + "hPa \n" + "Precipitation (last hour): " + this.precipitation + "mm \n"
-		+ "Humidity: " + this.humidity + "% \n" + "Cloudiness: " + this.cloudiness + "%";			
+		return "OWWeatherData [temperature=" + this.temperature + ", windSpeed=" + this.windSpeed + ", windDegrees=" + this.windDegrees
+				+ ", pressure=" + this.pressure + ", precipitation=" + this.precipitation + ", humidity=" + this.humidity
+				+ ", cloudiness=" + this.cloudiness + "]";
 	}
+	
+
 }
