@@ -209,6 +209,23 @@ public class PythonContext {
             throw e;
         }
 
+        // If the output is empty or if the output does not contains a '[' (showing that the output
+        // does not contain an array) then there was an error retrieving the output.
+        if (output.toString().isEmpty() || output.toString().contains("[")) {
+            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
+            throw new IOException("Could not retrieve weather from NOAA.");
+        }
+
         return output.toString();
     }
+    
+    public static void main(String[] args) {
+		PythonContext.installRequiredModules();
+		try {
+			PythonContext.runNOAA(47, 174, 2);
+		} catch (InvalidParameterException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
