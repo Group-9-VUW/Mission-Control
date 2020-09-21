@@ -54,6 +54,10 @@ public class CachedNOAAWeatherData {
 	 */
 	private void saveData() throws IOException, JSONException {
 		try {
+			//tests that the provided weatherData is valid
+			if (this.weatherData.length() == 0 || this.weatherData.toString() == null) {
+				throw new JSONException("The provided JSON array is empty or not syntactically correct.");
+			}
 			//gets the name of the folder and creates it if it doesn't exist
 			File folder = new File(fileName.split("/")[0]);
 			if (!folder.exists()) folder.mkdir();
@@ -61,9 +65,6 @@ public class CachedNOAAWeatherData {
 			//creates the file if it does not exist
 			jsonFile.createNewFile();
 			try (BufferedWriter out = new BufferedWriter(new FileWriter(jsonFile));) {
-				if (this.weatherData.toString() == null) {
-					throw new JSONException("The provided JSON array is not syntactically correct.");
-				}
 				out.write(this.weatherData.toString());
 			}} catch (IOException | JSONException e) {
 				DefaultLogger.logger.error(e.getMessage());
