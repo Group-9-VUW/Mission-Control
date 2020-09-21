@@ -1,6 +1,3 @@
-/**
- *
- */
 package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
@@ -17,16 +14,16 @@ public final class LongLatHelper {
 	 * @param latitude The latitude you're measuring from
 	 * @return The number of kilometers for every degree of latitude
 	 */
-	public static double kilometersPerDegreeOfLatitude(double latitude)	{
+	public static double kilometersPerDegreeOfLatitude() {
 		return 110.567;
 	}
 
 	/**
-	 * Returns how many kilometers exist between degrees of longditude (Distance between east and west)
+	 * Returns how many kilometers exist between degrees of longitude (Distance between east and west)
 	 * at the specific latitude given.
 	 *
 	 * @param latitude The latitude you're measuring from
-	 * @return The number of kilometers for every degree of longditude
+	 * @return The number of kilometers for every degree of longitude
 	 */
 	public static double kilometeresPerDegreeOfLongitude(double latitude) {
 		return 111.3215 * Math.cos(Math.toRadians(Math.abs(latitude)));
@@ -39,7 +36,7 @@ public final class LongLatHelper {
 	 * @return The latitude N kilometers north
 	 */
 	public static double latitudeNKilometersNorth(double latitude, double N) {
-		return latitude + (N / kilometersPerDegreeOfLatitude(latitude));
+		return latitude + (N / kilometersPerDegreeOfLatitude());
 	}
 
 	/**
@@ -49,7 +46,7 @@ public final class LongLatHelper {
 	 * @return The latitude N kilometers south
 	 */
 	public static double latitudeNKilometersSouth(double latitude, double N) {
-		return latitude - (N / kilometersPerDegreeOfLatitude(latitude));
+		return latitude - (N / kilometersPerDegreeOfLatitude());
 	}
 
 	/**
