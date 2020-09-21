@@ -44,8 +44,26 @@ public class TestBaseStationParser {
         assertEquals(26.23, parsedData.getHumidity());
         assertEquals(0, parsedData.getTemperature());
         assertEquals(6.53, parsedData.getAirPressure());
-
+        
         assertEquals(RocketData.ROCKET_STATE.ARMED, parsedData.getState());
+        
+        assertEquals("RocketData{" +
+                "timestamp=" + 192872.0 +
+                ", latitude=" + -41.335 +
+                ", longitude=" + 174.705 +
+                ", gimbalX=" + 4.0 +
+                ", gimbalY=" + 3.0 +
+                ", accelerationX=" + 3.60 +
+                ", accelerationY=" + -0.16 +
+                ", accelerationZ=" + 8.11 +
+                ", rotationX=" + -0.03 +
+                ", rotationY=" + -0.89 +
+                ", rotationZ=" + 0.12 +
+                ", humidity=" + 26.23 +
+                ", temperature=" + 0.0 +
+                ", airPressure=" + 6.53 +
+                ", state=" + "ARMED" +
+                '}', parsedData.toString());
     }
     
     /**
