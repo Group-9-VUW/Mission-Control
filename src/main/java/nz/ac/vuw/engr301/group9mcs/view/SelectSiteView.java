@@ -23,7 +23,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
 /**
  * @author Claire
  */
-public class SelectSiteView extends JPanel implements LaunchSelectedListener {
+public class SelectSiteView extends JPanel implements PostionSelectedListener {
 
 	private static final long serialVersionUID = -1685376173755130952L;
 	

@@ -50,7 +50,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private boolean locationSelected; //Has the user selected a location (launch site)
 	
 	private final MapImage mapData; //Used to get the map images
-	private final List<LaunchSelectedListener> launchListener = new ArrayList<>();
+	private final List<PostionSelectedListener> launchListener = new ArrayList<>();
 
 	private double lat = -41.291257;
 	private double lon = 174.776879;
@@ -163,7 +163,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 			this.getGraphics().setColor(Color.RED); //Then location will be marked red
 			this.getGraphics().fillOval(this.locationX-(DOT_SIZE/2), this.locationY-(DOT_SIZE/2), DOT_SIZE, DOT_SIZE); //Marking the location
 			this.locationSelected = !this.locationSelected;
-			for(LaunchSelectedListener listener : this.launchListener)
+			for(PostionSelectedListener listener : this.launchListener)
 				listener.onLaunchSelected((this.getUpperLat() - (this.locationY * this.pixelToLat)), (this.getLeftLon() + (this.locationX * this.pixelToLon)));
 		}
 	}
@@ -200,11 +200,11 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 		repaint(); //Repaint (show new) map
 	}
 
-	public void addListener(LaunchSelectedListener listener) {
+	public void addListener(PostionSelectedListener listener) {
 		this.launchListener.add(listener);
 	}
 	
-	public void removeListener(LaunchSelectedListener listener) {
+	public void removeListener(PostionSelectedListener listener) {
 		this.launchListener.remove(listener);
 	}
 
