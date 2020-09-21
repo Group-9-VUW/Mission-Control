@@ -14,7 +14,7 @@ public final class LongLatHelper {
 	 * @param latitude The latitude you're measuring from
 	 * @return The number of kilometers for every degree of latitude
 	 */
-	public static double kilometersPerDegreeOfLatitude() {
+	public static double kilometersPerDegreeOfLatitude(double latitude)	{
 		return 110.567;
 	}
 
@@ -30,27 +30,27 @@ public final class LongLatHelper {
 	}
 
 	/**
-	 * Returns the latitude N kilometers north of a given latitude
+	 * Returns the latitude N kilometers north of a given latitude.
 	 * @param latitude The current latitude
 	 * @param N The number of kilometers to go north
 	 * @return The latitude N kilometers north
 	 */
 	public static double latitudeNKilometersNorth(double latitude, double N) {
-		return latitude + (N / kilometersPerDegreeOfLatitude());
+		return latitude + (N / kilometersPerDegreeOfLatitude(latitude));
 	}
 
 	/**
-	 * Returns the latitude N kilometers south of a given latitude
+	 * Returns the latitude N kilometers south of a given latitude.
 	 * @param latitude The current latitude
 	 * @param N The number of kilometers to go south
 	 * @return The latitude N kilometers south
 	 */
 	public static double latitudeNKilometersSouth(double latitude, double N) {
-		return latitude - (N / kilometersPerDegreeOfLatitude());
+		return latitude - (N / kilometersPerDegreeOfLatitude(latitude));
 	}
 
 	/**
-	 * Returns the longitude N kilometers east of a given longitude
+	 * Returns the longitude N kilometers east of a given longitude.
 	 * @param latitude The current latitude
 	 * @param longitude The current longitude
 	 * @param N The number of kilometers to go east
@@ -61,7 +61,7 @@ public final class LongLatHelper {
 	}
 
 	/**
-	 * Returns the longitude N kilometers west of a given longitude
+	 * Returns the longitude N kilometers west of a given longitude.
 	 * @param latitude The current latitude
 	 * @param longitude The current longitude
 	 * @param N The number of kilometers to go west
