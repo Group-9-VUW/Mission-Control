@@ -209,6 +209,13 @@ public class PythonContext {
             throw e;
         }
 
+        // If the output is empty or if the output does not contains a '[' (showing that the output
+        // does not contain an array) then there was an error retrieving the output.
+        if (output.toString().isEmpty() || output.toString().contains("[")) {
+            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
+            throw new NOAAException("Could not retrieve weather from NOAA.");
+        }
+
         return output.toString();
     }
 }
