@@ -31,7 +31,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
  * @editor Claire
  * @formatter Joshua
  */
-public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
+public class SelectMapPanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
 
 	/**
 	 * UID.
@@ -113,7 +113,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	 * This sets up fields, draws the initial map and determines longitude/latitude to pixel ratios
 	 * @param data A map image to source the images
 	 */
-	public SelectMapView(final MapImage data) {
+	public SelectMapPanel(final MapImage data) {
 		this.mapData = new SmoothMapImage(data, this);
 		this.locationSelected = false;
 		this.sizeX = this.getWidth();
