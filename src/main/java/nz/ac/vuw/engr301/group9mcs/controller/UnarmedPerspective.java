@@ -23,7 +23,7 @@ import nz.ac.vuw.engr301.group9mcs.view.WarningPanel;
 
 /**
  * Perspective that holds the Panels for the when the rocket is Unarmed.
- * 
+ *
  * @author Bryony
  * @editor Claire
  */
@@ -38,7 +38,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	 * The Panel displayed on the screen that holds all other panels.
 	 */
 	private JPanel panel;
-	
+
 	/**
 	 * The go no go panel
 	 */
@@ -49,21 +49,21 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	 */
 	private JPanel topPanel;
 
-	/** 
-	 * ARM BUTTON : pop-up to ask user "are you sure?" 
-	 * -> Disclaimer: You are responsible for checking the surroundings are really clear before firing. 
+	/**
+	 * ARM BUTTON : pop-up to ask user "are you sure?"
+	 * -> Disclaimer: You are responsible for checking the surroundings are really clear before firing.
 	 * Don't trust our maps which don't know about people.
 	 */
 	private JPanel armButton;
 
-	/** 
+	/**
 	 * BIG FAT WARNING PANEL : do not launch, we know where you are
 	 */
 	private JPanel warningPanel;
 
 	// CACHED MAP
 	// TODO: What to do with this?
-	
+
 	/**
 	 * The resources for this perspective
 	 */
@@ -78,7 +78,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 		this.menuItems.add(new ViewMenuItem("Simulation/Get Local Data", "Get Local Data", this::getWeatherDetails));
 		this.menuItems.add(new ViewMenuItem("Simulation/Run Simuation", "Run Simulation", this::runSimulation));
 		this.menuItems.add(new ViewMenuItem("Avionics/Connect to Rocket", "Connect to Rocket", this::configureRocket));
-		
+
 		this.panel = new JPanel(new BorderLayout());
 
 		this.topPanel = new JPanel(new BorderLayout());
@@ -108,40 +108,40 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	public String name() {
 		return "unarmed";
 	}
-	
+
 	/**
 	 * Gets the local weather data from the user
-	 * 
+	 *
 	 * @param e unused
 	 */
 	public void getWeatherDetails(ActionEvent e)
 	{
 		if(this.resources != null) {
-			LocalWeatherDialog dialog = new LocalWeatherDialog(this.resources.getFrame());
+			LocalWeatherDialog dialog = new LocalWeatherDialog(Null.nonNull(this.resources).getFrame());
 			System.out.println(dialog.getData());
 		} else {
 			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
 		}
 	}
-	
+
 	/**
 	 * Configures the rocket to use a serial COM port
-	 * 
+	 *
 	 * @param e unused
 	 */
 	@SuppressWarnings("unused")
 	public void configureRocket(ActionEvent e)
 	{
 		if(this.resources != null) {
-			new LORAConfigPanel(this.resources.getFrame(), Null.nonNull(this.resources).getDriver());
+			new LORAConfigPanel(Null.nonNull(this.resources).getFrame(), Null.nonNull(this.resources).getDriver());
 		} else {
 			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
 		}
 	}
-	
+
 	/**
 	 * Run simulation
-	 * 
+	 *
 	 * @param e unused
 	 */
 	public void runSimulation(ActionEvent e)
@@ -197,11 +197,11 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 		menu.enableItems(a);
 		return this.panel;
 	}
-	
+
 	/**
 	 * Notifies the Observer that there is an Object they can view.
 	 * Can be passed any type of Object.
-	 * 
+	 *
 	 * @param o
 	 */
 	private void notify(Object o) {
@@ -212,7 +212,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	@Override
 	public void releaseResources() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
