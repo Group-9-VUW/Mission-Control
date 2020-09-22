@@ -48,7 +48,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private int locationX; //x pixel of highlighted location
 	private int locationY; //y pixel of highlighted location
 	private boolean locationSelected; //Has the user selected a location (launch site)
-
+	
 	private final MapImage mapData; //Used to get the map images
 	private final List<LaunchSelectedListener> launchListener = new ArrayList<>();
 
@@ -98,12 +98,12 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 
 	protected double getLeftLon()
 	{
-		return LongLatHelper.longitudeNKilometersWest(this.lat, this.lon, this.getRadX());
+		return LongLatHelper.longditudeNKilometersWest(this.lat, this.lon, this.getRadX());
 	}
 
 	protected double getRightLon()
 	{
-		return LongLatHelper.longitudeNKilometersEast(this.lat, this.lon, this.getRadX());
+		return LongLatHelper.longditudeNKilometersEast(this.lat, this.lon, this.getRadX());
 	}
 
 	/**
