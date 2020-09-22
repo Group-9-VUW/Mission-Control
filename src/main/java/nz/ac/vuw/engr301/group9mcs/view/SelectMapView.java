@@ -34,7 +34,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
 public class SelectMapView extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
 
 	private static final long serialVersionUID = 438543895484881L;
-
+	
 	private static final int DOT_SIZE = 20; //Size of highlighted location
 
 	private @Nullable Image image; //Current image (current map) being displayed
