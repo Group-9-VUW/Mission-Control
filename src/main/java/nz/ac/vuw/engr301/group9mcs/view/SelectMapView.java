@@ -38,7 +38,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	private static final int DOT_SIZE = 20; //Size of highlighted location
 
 	private @Nullable Image image; //Current image (current map) being displayed
-
+	
 	private int sizeX; //Total size (in x pixels) of the map
 	private int sizeY; //Total size (in y pixels) of the map
 	private double pixelToLat; //How many latitudes in a pixel
