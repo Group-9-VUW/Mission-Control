@@ -37,7 +37,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	 * UID.
 	 */
 	private static final long serialVersionUID = 438543895484881L;
-	
+
 	/**
 	 * Size of highlighted location
 	 */
@@ -46,8 +46,8 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	/**
 	 * Current image (current map) being displayed
 	 */
-	private @Nullable Image image; 
-	
+	private @Nullable Image image;
+
 	/**
 	 * Total size (in x pixels) of the map
 	 */
@@ -55,7 +55,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	/**
 	 * Total size (in y pixels) of the map
 	 */
-	private int sizeY; 
+	private int sizeY;
 	/**
 	 * How many latitudes in a pixel
 	 */
@@ -63,32 +63,32 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	/**
 	 * How many longitudes in a pixel
 	 */
-	private double pixelToLon; 
+	private double pixelToLon;
 	/**
 	 * Initial (first) x pixel of mouse drag
 	 */
-	private int initialX; 
+	private int initialX;
 	/**
 	 * Initial (first) y pixel of mouse drag
 	 */
-	private int initialY; 
+	private int initialY;
 	/**
 	 * x pixel of highlighted location
 	 */
-	private int locationX; 
+	private int locationX;
 	/**
 	 * y pixel of highlighted location
 	 */
-	private int locationY; 
+	private int locationY;
 	/**
 	 * Has the user selected a location (launch site)
 	 */
-	private boolean locationSelected; 
-	
+	private boolean locationSelected;
+
 	/**
 	 * Used to get the map images
 	 */
-	private final MapImage mapData; 
+	private final MapImage mapData;
 	/**
 	 * Listener for Position Selection
 	 */
@@ -161,7 +161,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	 */
 	protected double getLeftLon()
 	{
-		return LongLatHelper.longditudeNKilometersWest(this.lat, this.lon, this.getRadX());
+		return LongLatHelper.longitudeNKilometersWest(this.lat, this.lon, this.getRadX());
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	 */
 	protected double getRightLon()
 	{
-		return LongLatHelper.longditudeNKilometersEast(this.lat, this.lon, this.getRadX());
+		return LongLatHelper.longitudeNKilometersEast(this.lat, this.lon, this.getRadX());
 	}
 
 	/**
@@ -273,7 +273,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	public void addListener(PostionSelectedListener listener) {
 		this.launchListener.add(listener);
 	}
-	
+
 	/**
 	 * Removes and Returns the Position Listener
 	 * @param listener Position Listener
