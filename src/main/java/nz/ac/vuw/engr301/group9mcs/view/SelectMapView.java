@@ -203,7 +203,7 @@ public class SelectMapView extends JPanel implements MouseListener, MouseMotionL
 	public void addListener(LaunchSelectedListener listener) {
 		this.launchListener.add(listener);
 	}
-
+	
 	public void removeListener(LaunchSelectedListener listener) {
 		this.launchListener.remove(listener);
 	}
