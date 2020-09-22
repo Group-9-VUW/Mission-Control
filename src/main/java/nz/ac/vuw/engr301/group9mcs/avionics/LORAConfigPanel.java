@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 
 /**
  * A configuration panel for the LORA driver
@@ -163,7 +164,7 @@ public class LORAConfigPanel extends JDialog implements ActionListener {
 			} else if(e.getSource() == this.confirm) {
 				if(this.selected != null) {
 					try {
-						this.driver.init(this.selected);
+						this.driver.init(Null.nonNull(this.selected));
 						this.setVisible(false);
 						this.dispose();
 					} catch(Exception ex) {
