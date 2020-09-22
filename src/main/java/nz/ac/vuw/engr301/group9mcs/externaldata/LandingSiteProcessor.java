@@ -67,7 +67,7 @@ public class LandingSiteProcessor {
             west = Math.min(point[1], west);
         }
 
-        return new double[]{north, west, south, east};
+        return new double[]{north+0.0005, west-0.0005, south-0.0005, east+0.0005};
     }
 
     /**
@@ -82,15 +82,25 @@ public class LandingSiteProcessor {
      * @return Returns false if the point is within a polygon, true otherwise.
      */
     private boolean rayCast(double[] point) {
-        assert this.data.getWays().size() > 0;
-        Line2D ray = new Line2D.Double(point[1], point[0], point[1] + 1, point[0]);
+        // Return true if no polygons in data - this means there are no buildings in the area to check against.
+        if (this.data.getWays().size() == 0) return true;
+        Line2D ray = new Line2D.Double(point[1], point[0], point[1] + 0.05, point[0]-0.05);
 
         // Each building is represented by a way.
         for (OsmOverpassData.Way w : this.data.getWays()) {
             List<OsmOverpassData.Node> nodes = w.getNodes();
             int intersections = 0;
-            for (int i = 0; i < nodes.size() - 1; ++i) {
-                Line2D edge = new Line2D.Double(nodes.get(i).LON, nodes.get(i).LAT, nodes.get(i + 1).LON, nodes.get(i + 1).LAT);
+            for (int i = 0; i < nodes.size(); ++i) {
+                Line2D edge = new Line2D.Double(
+                        nodes.get(i).LON,
+                        nodes.get(i).LAT,
+                        // We must check against the first node again here.
+                        nodes.get(i < nodes.size() - 1
+                                ? i + 1
+                                : 0).LON,
+                        nodes.get(i < nodes.size() - 1
+                                ? i + 1
+                                : 0).LAT);
                 if (ray.intersectsLine(edge)) {
                     intersections++;
                 }

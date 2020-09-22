@@ -115,16 +115,17 @@ public class OsmOverpassGetter {
         JSONArray data = new JSONObject(json).getJSONArray("elements");
 
         // We map to the node ID here to simplify adding node references to ways later on.
-        Map<Integer, OsmOverpassData.Node> nodes = new HashMap<>();
+        Map<Long, OsmOverpassData.Node> nodes = new HashMap<>();
         List<OsmOverpassData.Way> ways = new ArrayList<>();
 
         for (int i = 0; i < data.length(); ++i) {
             JSONObject elem = data.getJSONObject(i);
+            List<Long> wayNodeIds = new ArrayList<>();
 
             switch (elem.getString("type")) {
                 case "node":
-                    nodes.put(new Integer(elem.getInt("id")), new OsmOverpassData.Node(
-                            elem.getInt("id"),
+                    nodes.put(elem.getLong("id"), new OsmOverpassData.Node(
+                            elem.getLong("id"),
                             elem.getDouble("lat"),
                             elem.getDouble("lon"),
                             elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
@@ -132,12 +133,14 @@ public class OsmOverpassGetter {
 
                     break;
                 case "way":
+                    // Store node IDs first, to preserve order and ensure that all references will be present.
+                    for (int j = 0; j < elem.getJSONArray("nodes").length(); ++j) {
+                        wayNodeIds.add(elem.getJSONArray("nodes").getLong(j));
+                    }
+
                     ways.add(new OsmOverpassData.Way(
                             elem.getInt("id"),
-                            elem.getJSONArray("nodes").toList().stream()
-                                    .map(nodes::get)
-                                    .filter(Objects::nonNull)
-                                    .collect(Collectors.toList()),
+                            wayNodeIds,
                             elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
                     ));
                     break;
@@ -146,6 +149,10 @@ public class OsmOverpassGetter {
                 throw new PreconditionViolationException("Malformed map object received.");
             }
         }
+
+        // Set proper node references to ways after all elements are parsed.
+        ways.forEach(way -> way.setNodeRefs(nodes));
+
         // Return the OSM data with nodes reduced to a list.
         return new OsmOverpassData(new ArrayList<>(nodes.values()), ways);
     }

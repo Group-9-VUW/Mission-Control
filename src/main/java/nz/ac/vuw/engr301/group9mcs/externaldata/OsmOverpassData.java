@@ -2,6 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -86,18 +87,26 @@ public class OsmOverpassData {
         final long ID;
         private final List<Node> NODES;
         private final Map<String, String> TAGS;
+        private final List<Long> NODE_IDS;
 
         /**
          * Creates a single way object from the given OSM data.
          *
          * @param id Way ID. This is the way's global OSM ID.
-		 * @param nodes List of nodes composing the way.
+		 * @param nodeIds List of IDs of nodes comprising the way.
          * @param tags Tags associated with the node, describing the node's purpose.
          */
-        Way(long id, List<Node> nodes, @Nullable Map<String, String> tags) {
+        Way(long id, List<Long> nodeIds, @Nullable Map<String, String> tags) {
             this.ID = id;
-            this.NODES = nodes;
+            this.NODE_IDS = nodeIds;
+            this.NODES = new ArrayList<>();
             this.TAGS = tags != null ? tags : Collections.emptyMap();
+        }
+
+        void setNodeRefs(Map<Long, Node> nodes) {
+            for (Long id : NODE_IDS) {
+                NODES.add(nodes.get(id));
+            }
         }
 
         /**
