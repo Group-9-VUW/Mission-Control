@@ -85,7 +85,7 @@ public class TestNOAAGetter {
         } catch (InvalidParameterException e) {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Latitude must be within the range [-90, 90]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test
@@ -104,7 +104,7 @@ public class TestNOAAGetter {
         } catch (InvalidParameterException e) {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Latitude must be within the range [-90, 90]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test
@@ -123,7 +123,7 @@ public class TestNOAAGetter {
         } catch (InvalidParameterException e) {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Longitude must be within the range [-180, 180]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test
@@ -142,7 +142,7 @@ public class TestNOAAGetter {
         } catch (InvalidParameterException e) {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Longitude must be within the range [-180, 180]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test
@@ -162,7 +162,7 @@ public class TestNOAAGetter {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Latitude must be within the range [-90, 90] and "
         			+ "Longitude must be within the range [-180, 180]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test
@@ -182,7 +182,7 @@ public class TestNOAAGetter {
         	// Correct exception as the supplied parameters are invalid. 
         	assertEquals("Latitude must be within the range [-90, 90] and "
         			+ "Longitude must be within the range [-180, 180]", e.getMessage());
-        } catch (IOException e) {
+        } catch (@SuppressWarnings("unused") IOException e) {
         	// This exception should not be thrown, unless the machine running the tests has no 
         	// internet connection, or the weather API is down. 
         	assumeTrue(false); //skips the test

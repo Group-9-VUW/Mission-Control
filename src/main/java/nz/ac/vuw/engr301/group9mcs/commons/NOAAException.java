@@ -1,5 +1,11 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
+/**
+ * Thrown if NOAA not avaliable
+ * 
+ * @author Sai
+ *
+ */
 public class NOAAException extends Error{
 
     /**
