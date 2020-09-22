@@ -1,12 +1,12 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
- * Thrown if NOAA not avaliable
+ * Thrown if NOAA not available
  * 
  * @author Sai
  *
  */
-public class NOAAException extends Error{
+public class NOAAException extends Error {
 
     /**
      * Serial ID
@@ -14,7 +14,7 @@ public class NOAAException extends Error{
     private static final long serialVersionUID = 1;
 
     /**
-     * Empty constuctor.
+     * Empty constructor.
      */
     public NOAAException() {}
 
