@@ -173,6 +173,7 @@ public class InternetMapImage implements MapImage {
 
     /**
      * Checks if the user can succesfully connect to the given URL.
+     * @param URL URL to connect to
      * @return Returns true if the user can connect to the URL, false otherwise.
      */
     private static boolean doIsAvailable(@Nullable String URL) {

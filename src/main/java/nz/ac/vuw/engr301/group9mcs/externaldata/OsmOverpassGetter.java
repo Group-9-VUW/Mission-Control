@@ -2,6 +2,8 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 
 import java.io.*;
@@ -101,7 +103,7 @@ public class OsmOverpassGetter {
 	            buffer.write((byte) nextByte);
 	            nextByte = in.read();
 	        }
-	        return buffer.toString();
+	        return Null.nonNull(buffer.toString());
         }
     }
 
@@ -111,7 +113,8 @@ public class OsmOverpassGetter {
      * @param json Result of Overpass API call.
      * @return Returns a complete OsmOverpassData object.
      */
-    private static OsmOverpassData parseData(String json) {
+    @SuppressWarnings("null") // Used to suppress a null warning Null.nonNull() can't handle
+		private static OsmOverpassData parseData(String json) {
         JSONArray data = new JSONObject(json).getJSONArray("elements");
 
         // We map to the node ID here to simplify adding node references to ways later on.
@@ -127,18 +130,18 @@ public class OsmOverpassGetter {
                             elem.getInt("id"),
                             elem.getDouble("lat"),
                             elem.getDouble("lon"),
-                            elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
+                            elem.has("tags") ? parseTags(Null.nonNull(elem.getJSONObject("tags"))) : null
                     ));
 
                     break;
                 case "way":
                     ways.add(new OsmOverpassData.Way(
                             elem.getInt("id"),
-                            elem.getJSONArray("nodes").toList().stream()
+                            Null.nonNull(Null.nonNull(elem.getJSONArray("nodes").toList()).stream()
                                     .map(nodes::get)
                                     .filter(Objects::nonNull)
-                                    .collect(Collectors.toList()),
-                            elem.has("tags") ? parseTags(elem.getJSONObject("tags")) : null
+                                    .collect(Collectors.toList())),
+                            elem.has("tags") ? parseTags(Null.nonNull(elem.getJSONObject("tags"))) : null
                     ));
                     break;
 			default:
@@ -158,7 +161,7 @@ public class OsmOverpassGetter {
     private static Map<String, String> parseTags(JSONObject tags) {
         Map<String, String> tagMap = new HashMap<>();
         for (String key : JSONObject.getNames(tags)) {
-            tagMap.put(key, tags.getString(key));
+            tagMap.put(Null.nonNull(key), Null.nonNull(tags.getString(key)));
         }
         return tagMap;
     }
