@@ -13,9 +13,10 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the NOAA class for correctness of the data produced by it (the NOAA weather readings parsed into a Map). 
+ * Tests the NOAA class for correctness of the data produced by it (the NOAA weather readings parsed into a List).
  * @author Sai
  */
 public class TestNOAA {
@@ -73,6 +74,17 @@ public class TestNOAA {
             "'pressure': 100.0}]");
 
 
+    /**
+     * Checks if each entry in the list has an altitude smaller than the next entry.
+     */
+    @Test
+    public void checkIsSorted() {
+        List<NOAAWeatherData> forecast = NOAA.getSortedList(testArray);
+
+        for (int i = 0; i < forecast.size() - 1; i++) {
+            assertTrue(forecast.get(i).getAltitude() < forecast.get(i+1).getAltitude());
+        }
+    }
 
     /**
      * Check the data correctly matches up with the corresponding altitude value.
@@ -105,7 +117,7 @@ public class TestNOAA {
             assertEquals(currentReading.getDouble("pressure"),
                     currentWeatherData.getPressure());
 
-            forecast.remove(currentWeatherData);
+            forecast.remove(currentWeatherData); // Remove it from the list as it has already ben checked.
         }
     }
 }
