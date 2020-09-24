@@ -4,7 +4,11 @@ package nz.ac.vuw.engr301.group9mcs.externaldata;
  * Holds one instance of NOAA weather data (one reading at a corresponding altitude). 
  * @author Sai
  */
-public class NOAAWeatherData {
+public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
+    /**
+     * The altitude of the reading.
+     */
+    private double altitude;
 
     /**
      * The wind speed of the reading in M/s.
@@ -29,18 +33,27 @@ public class NOAAWeatherData {
 
     /**
      * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude. 
+     * @param altitude of the reading. 
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
      * @param pressure at the corresponding altitude.
      */
-    public NOAAWeatherData(double windSpeed, double windDirection, double temperature, double pressure) {
+    public NOAAWeatherData(double altitude, double windSpeed, double windDirection, double temperature, double pressure) {
+        this.altitude = altitude;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
         this.temperature = temperature;
         this.pressure = pressure;
     }
 
+    /**
+     * Get the altitude of the reading.
+     * @return the altitude of the reading.
+     */
+    public double getAltitude() {
+        return this.altitude;
+    }
 
     /**
      * Get the wind speed reading at this altitude. 
@@ -77,10 +90,32 @@ public class NOAAWeatherData {
     @Override
     public String toString() {
         return "NOAAWeatherData{" +
-                "windSpeed=" + this.windSpeed +
+                "altitude=" + this.altitude +
+                ", windSpeed=" + this.windSpeed +
                 ", windDirection=" + this.windDirection +
                 ", temperature=" + this.temperature +
                 ", pressure=" + this.pressure +
                 '}';
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     *
+     * @param o the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     */
+    @Override
+    public int compareTo(NOAAWeatherData o) {
+        if (this.altitude < o.getAltitude()) {
+            return -1;
+        } else if (this.altitude > o.getAltitude()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
