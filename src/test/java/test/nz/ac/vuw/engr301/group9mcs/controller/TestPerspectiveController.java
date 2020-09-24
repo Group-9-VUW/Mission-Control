@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -30,32 +31,32 @@ public final class TestPerspectiveController {
 	 * A Perspective Controller.
 	 */
 	private PerspectiveController p;
-	
+
 	/**
 	 * A Fake Perspective to pass into the Controller.
 	 */
 	private FakePerspective fp;
-	
+
 	/**
 	 * A JPanel.
 	 */
 	private JPanel panel;
-	
+
 	/**
 	 * A JFrame.
 	 */
 	private JFrame frame;
-	
+
 	/**
 	 * A resources object
 	 */
 	private Resources resources;
-	
+
 	/**
 	 * A Menu Controller.
 	 */
 	private MenuController m;
-	
+
 	/**
 	 * A Fake ActionListener which does nothing.
 	 */
@@ -82,8 +83,12 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testCheckMenuEnabled() {
-		setupPerspective();
-		assertTrue(this.m.isEnabled("File/Start"));
+		try {
+			setupPerspective();
+			assertTrue(this.m.isEnabled("File/Start"));
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -91,8 +96,12 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testCheckPanelIsSet() {
-		setupPerspective();
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		try {
+			setupPerspective();
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -100,14 +109,18 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testPanelIsRemovedAndAdded() {
-		setupPerspective();
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
-		this.p.changePerspective("second");
-		assertTrue(this.p.getPanel().getComponents().length == 1);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		try {
+			setupPerspective();
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+			this.p.changePerspective("second");
+			assertTrue(this.p.getPanel().getComponents().length == 1);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -115,13 +128,17 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testCantChangeToNonExistantPerspective() {
-		setupPerspective();
 		try {
-			this.p.changePerspective("second");
-			fail("Changing perspective to a non-existant perspective should result"
-					+ "in a PreconditionViolationException being thrown.");
-		} catch (PreconditionViolationException e) {
-			assertTrue(e.getMessage().contains("second"));
+			setupPerspective();
+			try {
+				this.p.changePerspective("second");
+				fail("Changing perspective to a non-existant perspective should result"
+						+ "in a PreconditionViolationException being thrown.");
+			} catch (PreconditionViolationException e) {
+				assertTrue(e.getMessage().contains("second"));
+			}
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
 		}
 	}
 
@@ -130,14 +147,18 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testPanelCanBeChangedOutsidePerspectiveController() {
-		setupPerspective();
-		this.panel = new JPanel();
-		FakePerspective second = new FakePerspective("second", this.panel);
-		this.p.addPerspective("second", second);
-		this.p.changePerspective("second");
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
-		this.panel.setName("This is not a drill");
-		assertTrue(!this.p.getPanel().getComponent(0).getName().equals("second"));
+		try {
+			setupPerspective();
+			this.panel = new JPanel();
+			FakePerspective second = new FakePerspective("second", this.panel);
+			this.p.addPerspective("second", second);
+			this.p.changePerspective("second");
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+			this.panel.setName("This is not a drill");
+			assertTrue(!this.p.getPanel().getComponent(0).getName().equals("second"));
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -145,15 +166,19 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testIgnoresCapitalisation() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
 		try {
-			this.p.changePerspective("SECOND");
-		} catch (PreconditionViolationException e) {
-			fail("Name not in list: " + e.getMessage());
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			try {
+				this.p.changePerspective("SECOND");
+			} catch (PreconditionViolationException e) {
+				fail("Name not in list: " + e.getMessage());
+			}
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
 		}
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
 	}
 
 	/**
@@ -161,13 +186,17 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testPanelIsAlwaysSame() {
-		setupPerspective();
-		JPanel before = this.p.getPanel();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		this.p.changePerspective("second");
-		JPanel after = this.p.getPanel();
-		assertEquals(before, after);
+		try {
+			setupPerspective();
+			JPanel before = this.p.getPanel();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			this.p.changePerspective("second");
+			JPanel after = this.p.getPanel();
+			assertEquals(before, after);
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -176,17 +205,21 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testAddedMenuItemsAreDisabledWhenOutOfPersepective() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		second.add("File/Second", "Second", Null.nonNull(this.fakeListen));
-		second.add("Julius/Null", "Null", Null.nonNull(this.fakeListen));
-		this.p.addPerspective("second", second);
-		this.p.changePerspective("start");
-		assertFalse(this.m.isEnabled("File/Second"));
-		assertFalse(this.m.isEnabled("Julius/Null"));
-		this.p.changePerspective("second");
-		assertTrue(this.m.isEnabled("File/Second"));
-		assertTrue(this.m.isEnabled("Julius/Null"));
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			second.add("File/Second", "Second", Null.nonNull(this.fakeListen));
+			second.add("Julius/Null", "Null", Null.nonNull(this.fakeListen));
+			this.p.addPerspective("second", second);
+			this.p.changePerspective("start");
+			assertFalse(this.m.isEnabled("File/Second"));
+			assertFalse(this.m.isEnabled("Julius/Null"));
+			this.p.changePerspective("second");
+			assertTrue(this.m.isEnabled("File/Second"));
+			assertTrue(this.m.isEnabled("Julius/Null"));
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -194,12 +227,16 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateWorks() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String[] args = {"Switch view", "second"};
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String[] args = {"Switch view", "second"};
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -207,13 +244,17 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateRequiresSwitchView() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String[] args = {"second"};
-		//this should not change panels
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String[] args = {"second"};
+			//this should not change panels
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -221,12 +262,16 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateIgnoresCapitalisation() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String[] args = {"SWITCH VIEW", "SECOND"};
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String[] args = {"SWITCH VIEW", "SECOND"};
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "second");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -234,13 +279,17 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateRequiresPerspectiveName() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String[] args = {"switch view"};
-		//this should not change panels
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String[] args = {"switch view"};
+			//this should not change panels
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -248,12 +297,16 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateRequiresStringArray() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String args = "second";
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String args = "second";
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
 
 	/**
@@ -261,14 +314,18 @@ public final class TestPerspectiveController {
 	 */
 	@Test
 	public void testUpdateRequiresNonNull() {
-		setupPerspective();
-		FakePerspective second = new FakePerspective("second", null);
-		this.p.addPerspective("second", second);
-		String[] args = {"switch view", null};
-		this.p.update(null, args);
-		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		try {
+			setupPerspective();
+			FakePerspective second = new FakePerspective("second", null);
+			this.p.addPerspective("second", second);
+			String[] args = {"switch view", null};
+			this.p.update(null, args);
+			assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("No Screen connected");
+		}
 	}
-	
+
 }
 
 
