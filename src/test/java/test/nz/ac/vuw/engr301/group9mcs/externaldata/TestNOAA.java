@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -71,72 +72,40 @@ public class TestNOAA {
             "'windSpeed': 1.5089271068572998, 'windDirection': 173.79226684570312, 'temperature': 261.6031799316406, " +
             "'pressure': 100.0}]");
 
-//    /**
-//     * Checks that the altitudes inputted into the map are correct.
-//     */
-//    @Test
-//    public void checkKeyCorrectness() {
-//        @SuppressWarnings("null")
-//		Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(this.testArray);
-//
-//        Set<Double> altitudes = new HashSet<>();
-//        altitudes.add(new Double(228.1233367919922));
-//        altitudes.add(new Double(440.8855285644531));
-//        altitudes.add(new Double(657.5938110351562));
-//        altitudes.add(new Double(878.4491577148438));
-//        altitudes.add(new Double(1103.5794677734375));
-//        altitudes.add(new Double(1572.539306640625));
-//        altitudes.add(new Double(2071.9365234375));
-//        altitudes.add(new Double(2602.09912109375));
-//        altitudes.add(new Double(3164.79052734375));
-//        altitudes.add(new Double(3763.09326171875));
-//        altitudes.add(new Double(4402.09619140625));
-//        altitudes.add(new Double(5086.63818359375));
-//        altitudes.add(new Double(5823.9296875));
-//        altitudes.add(new Double(6622.9033203125));
-//        altitudes.add(new Double(7495.04052734375));
-//        altitudes.add(new Double(8456.3994140625));
-//        altitudes.add(new Double(9532.9404296875));
-//        altitudes.add(new Double(10762.251953125));
-//        altitudes.add(new Double(12216.8603515625));
-//        altitudes.add(new Double(14050.7177734375));
-//        altitudes.add(new Double(16567.611328125));
-//        altitudes.add(new Double(18767.291015625));
-//        altitudes.add(new Double(20874.7578125));
-//        altitudes.add(new Double(24156.044921875));
-//        altitudes.add(new Double(26809.779296875));
-//        altitudes.add(new Double(31398.142578125));
-//        altitudes.add(new Double(33811.1171875));
-//        altitudes.add(new Double(36138.734375));
-//        altitudes.add(new Double(39803.328125));
-//        altitudes.add(new Double(42821.99609375));
-//        altitudes.add(new Double(48156.625));
-//
-//        assertEquals(altitudes, forecast.keySet());
-//    }
-//
-//    /**
-//     * Check the data correctly matches up with the corresponding altitude value.
-//     */
-//    @Test
-//    public void checkDataCorrectness() {
-//        @SuppressWarnings("null")
-//		Map<Double, NOAAWeatherData> forecast = NOAA.convertToMap(this.testArray);
-//
-//        for (int i = 0; i < this.testArray.length(); i++) {
-//            JSONObject currentReading = this.testArray.getJSONObject(i);
-//
-//            assertEquals(currentReading.getDouble("windSpeed"),
-//                        forecast.get(new Double(currentReading.getDouble("altitude"))).getWindSpeed());
-//
-//            assertEquals(currentReading.getDouble("windDirection"),
-//                    forecast.get(new Double(currentReading.getDouble("altitude"))).getWindDirection());
-//
-//            assertEquals(currentReading.getDouble("temperature"),
-//                    forecast.get(new Double(currentReading.getDouble("altitude"))).getTemperature());
-//
-//            assertEquals(currentReading.getDouble("pressure"),
-//                    forecast.get(new Double(currentReading.getDouble("altitude"))).getPressure());
-//        }
-//    }
+
+
+    /**
+     * Check the data correctly matches up with the corresponding altitude value.
+     */
+    @Test
+    public void checkDataCorrectness() {
+
+        List<NOAAWeatherData> forecast = NOAA.getSortedList(testArray);
+
+        for (int i = 0; i < this.testArray.length(); i++) {
+            JSONObject currentReading = this.testArray.getJSONObject(i);
+            NOAAWeatherData currentWeatherData = forecast.get(0);
+
+            for (NOAAWeatherData data : forecast) {
+                if (data.getAltitude() == currentReading.getDouble("altitude")) {
+                    currentWeatherData = data;
+                    break;
+                }
+            }
+
+            assertEquals(currentReading.getDouble("windSpeed"),
+                    currentWeatherData.getWindSpeed());
+
+            assertEquals(currentReading.getDouble("windDirection"),
+                    currentWeatherData.getWindDirection());
+
+            assertEquals(currentReading.getDouble("temperature"),
+                    currentWeatherData.getTemperature());
+
+            assertEquals(currentReading.getDouble("pressure"),
+                    currentWeatherData.getPressure());
+
+            forecast.remove(currentWeatherData);
+        }
+    }
 }
