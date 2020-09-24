@@ -33,6 +33,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
 
     /**
      * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude. 
+     * @param altitude of the reading. 
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
@@ -51,7 +52,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
      * @return the altitude of the reading.
      */
     public double getAltitude() {
-        return altitude;
+        return this.altitude;
     }
 
     /**
@@ -106,8 +107,6 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
      * @return a negative integer, zero, or a positive integer as this object
      * is less than, equal to, or greater than the specified object.
      * @throws NullPointerException if the specified object is null
-     * @throws ClassCastException   if the specified object's type prevents it
-     *                              from being compared to this object.
      */
     @Override
     public int compareTo(NOAAWeatherData o) {

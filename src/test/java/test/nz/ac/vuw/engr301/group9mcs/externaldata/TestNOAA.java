@@ -1,5 +1,6 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAA;
 import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
 
@@ -79,7 +80,7 @@ public class TestNOAA {
      */
     @Test
     public void checkIsSorted() {
-        List<NOAAWeatherData> forecast = NOAA.getSortedList(testArray);
+        List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
 
         for (int i = 0; i < forecast.size() - 1; i++) {
             assertTrue(forecast.get(i).getAltitude() < forecast.get(i+1).getAltitude());
@@ -92,7 +93,7 @@ public class TestNOAA {
     @Test
     public void checkDataCorrectness() {
 
-        List<NOAAWeatherData> forecast = NOAA.getSortedList(testArray);
+        List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
 
         for (int i = 0; i < this.testArray.length(); i++) {
             JSONObject currentReading = this.testArray.getJSONObject(i);
