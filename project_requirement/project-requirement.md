@@ -35,7 +35,7 @@ Specifically:
 
 The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation Listeners with OpenRocket, respectively.
 
-![Semantic description of image](system_diagram.png)
+![Semantic description of image](Images/system_diagram.png)
 
 To interface with the Monte Carlo Simulation Package, the following software packages will be required:
 
@@ -96,7 +96,7 @@ https://www.facebook.com/groups/nzrocketry/
 The regulations our rocket needs to follow depends on the motor power range of the rocket.
 
 Source: [1]
-![Source: https://www.nzrocketry.org.nz/rocketry/rocket-safety](NZRA_Minimum_Personnel_Distances.png)
+![Source: https://www.nzrocketry.org.nz/rocketry/rocket-safety](Images/NZRA_Minimum_Personnel_Distances.png)
 
 Motor power range is determined by the minimum safe distance (in meters). Motor power range A-D can use the regulations as a guide, E-F need to follow the regulations and G+ need to follow additional regulations as well.
 
