@@ -200,4 +200,24 @@ public class TestPlanetaryArea {
 		//bottomRightLongitude is not contained
 		assertFalse(core.containsArea(PlanetaryArea.fromCorners(-20, 150, -40, 180)));
 	}
+
+	/**
+	 * Tests the overlapsWithArea method of the PlanetaryArea class.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testOverlapsWithArea() {
+		PlanetaryArea core = PlanetaryArea.fromCorners(-20, 150, -40, 170);
+		//no overlap
+		assertFalse(core.overlapsWithArea(PlanetaryArea.fromCorners(-10, 120, -15, 130)));
+		//overlap
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-45, 175, 10, 10)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-45, 145, 10, 10)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-15, 145, 10, 10)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-15, 175, 10, 10)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-15, 160, 20, 20)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-30, 180, 20, 20)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-45, 160, 20, 20)));
+		assertTrue(core.overlapsWithArea(PlanetaryArea.fromCenter(-30, 140, 20, 20)));
+	}
 }
