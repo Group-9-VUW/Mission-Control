@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package nz.ac.vuw.engr301.group9mcs.commons;
 
@@ -8,64 +8,63 @@ import org.eclipse.jdt.annotation.Nullable;
 /**
  * A class that represents an axis-aligned area of the planet,
  * coordinates are degrees of latitude and longitude.
- * 
+ *
  * @author Claire
+ * @editor Joshua
  */
 public class PlanetaryArea {
-	
+
 	/**
 	 * Center latitude
 	 */
 	private final double lat;
-	
+
 	/**
 	 * Center longitude
 	 */
 	private final double lon;
-	
+
 	/**
 	 * Degrees of latitude from center to top and bottom edges
 	 */
 	private final double radLat;
-	
+
 	/**
 	 * Degrees of longitude from center to left and right edges
 	 */
 	private final double radLon;
-	
+
 	/**
-	 * @param lat
-	 * @param lon
-	 * @param radLat
-	 * @param radLon
+	 * Creates a new PlanetaryArea using the center latitude and longitude and the radius of the area.
+	 * @param lat The center latitude of the area
+	 * @param lon The center longitude of the area
+	 * @param radLat The radius of this area in the latitudinal direction
+	 * @param radLon The radius of this area in the longitudinal direction
 	 */
-	private PlanetaryArea(double lat, double lon, double radLat, double radLon)
-	{
+	private PlanetaryArea(double lat, double lon, double radLat, double radLon) {
 		this.lat = lat;
 		this.lon = lon;
 		this.radLat = radLat;
 		this.radLon = radLon;
 	}
-	
+
 	/**
 	 * Returns a new PlanetaryArea scaled with the given factor.
-	 * Scaling is done from the center of the area 
-	 * 
+	 * Scaling is done from the center of the area.
+	 *
 	 * @param val The scale factor, where 1.0 is no scaling
-	 * @return The new PlanetaryArea object
+	 * @return The scaled PlanetaryArea object
 	 */
-	public PlanetaryArea scale(double val)
-	{
+	public PlanetaryArea scale(double val) {
 		return new PlanetaryArea(this.lat, this.lon, this.radLat * val, this.radLon * val);
 	}
-	
+
 	/**
-	 * Clips a given Area to be inside this area
+	 * Clips a given Area to be inside this area.
 	 * @param toClip Area to clip
 	 * @return The clipped area
 	 */
-	public PlanetaryArea clip(PlanetaryArea toClip)
-	{
+	public PlanetaryArea clip(PlanetaryArea toClip) {
 		PlanetaryArea newArea = fromCorners(Math.min(this.getUpperLeftLatitude(), toClip.getUpperLeftLatitude()),
 											Math.max(this.getUpperLeftLongitude(), toClip.getUpperLeftLongitude()),
 											Math.max(this.getBottomRightLatitude(), toClip.getBottomRightLatitude()),
@@ -74,33 +73,25 @@ public class PlanetaryArea {
 			throw new PostconditionViolationException("Algorithm didn't clip properly");
 		return newArea;
 	}
-	
+
 	/**
-	 * @return the lat
-	 */
-	public double getLat() 
-	{
-		return this.lat;
-	}
-	
-	/**
-	 * @param area The area
+	 * Checks whether an area is entirely contained by this one.
+	 * @param area The area to be checked
 	 * @return Whether the given area is entirely contained within this one
 	 */
-	public boolean containsArea(PlanetaryArea area)
-	{
+	public boolean containsArea(PlanetaryArea area) {
 		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
 		    && this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
 			&& this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
 			&& this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude());
 	}
-	
+
 	/**
-	 * @param area The area
+	 * Checks whether an area overlaps with this one.
+	 * @param area The area to check
 	 * @return Whether the given area overlaps with this one
 	 */
-	public boolean overlapsWithArea(PlanetaryArea area)
-	{
+	public boolean overlapsWithArea(PlanetaryArea area) {
 		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
 		    || this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
 			|| this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
@@ -110,72 +101,72 @@ public class PlanetaryArea {
 			|| area.containsPoint(this.getBottomRightLatitude(), this.getBottomRightLongitude())
 			|| area.containsPoint(this.getBottomRightLatitude(), this.getUpperLeftLongitude());
 	}
-	
-	
+
+
 	/**
+	 * Determines whether this planetary area contains a given point.
 	 * @param latitude The latitude of the point
 	 * @param longitude The longitude of the point
 	 * @return Whether the point is contained in this area
 	 */
-	public boolean containsPoint(double latitude, double longitude)
-	{
-		return (Math.abs(this.lat - latitude) - this.radLat)  < 0.000001 
+	public boolean containsPoint(double latitude, double longitude) {
+		return (Math.abs(this.lat - latitude) - this.radLat)  < 0.000001
 			&& (Math.abs(this.lon - longitude) - this.radLon) < 0.000001;
+	}
+
+	/**
+	 * @return the lat
+	 */
+	public double getLat() {
+		return this.lat;
 	}
 
 	/**
 	 * @return the lon
 	 */
-	public double getLon() 
-	{
+	public double getLon() {
 		return this.lon;
 	}
 
 	/**
 	 * @return the radLat
 	 */
-	public double getRadLat() 
-	{
+	public double getRadLat() {
 		return this.radLat;
 	}
 
 	/**
 	 * @return the radLon
 	 */
-	public double getRadLon() 
-	{
+	public double getRadLon() {
 		return this.radLon;
 	}
-	
+
 	/**
 	 * @return The upper left latitude
 	 */
-	public double getUpperLeftLatitude()
-	{
+	public double getUpperLeftLatitude() {
 		return this.lat + this.radLat;
 	}
-	
+
 	/**
 	 * @return The upper left latitude
 	 */
-	public double getBottomRightLatitude()
-	{
+	public double getBottomRightLatitude() {
 		return this.lat - this.radLat;
 	}
-	
+
 	/**
 	 * @return The upper left longitude
 	 */
-	public double getUpperLeftLongitude()
-	{
+	public double getUpperLeftLongitude() {
 		return this.lon - this.radLon;
 	}
-	
+
 	/**
 	 * @return The bottom right longitude
 	 */
-	public double getBottomRightLongitude()
-	{
+	public double getBottomRightLongitude() {
 		return this.lon + this.radLon;
 	}
 
@@ -223,16 +214,15 @@ public class PlanetaryArea {
 	}
 
 	/**
-	 * Creates a PlanetaryArea object from two corner coordinates
-	 * 
+	 * Creates a PlanetaryArea object from two corner coordinates.
+	 *
 	 * @param latUL Latitude of upper left corner
 	 * @param lonUL Longitude of upper left corner
 	 * @param latBR Latitude of bottom right corner
 	 * @param lonBR Longitude of bottom right corner
 	 * @return A PlanetaryArea object with this data
 	 */
-	public static final PlanetaryArea fromCorners(double latUL, double lonUL, double latBR, double lonBR)
-	{
+	public static final PlanetaryArea fromCorners(double latUL, double lonUL, double latBR, double lonBR) {
 		if(latUL < latBR) {
 			throw new PreconditionViolationException("Invalid planetary area specification, upper latitude should be larger than lower latitude");
 		}
@@ -245,21 +235,19 @@ public class PlanetaryArea {
 		double lonRadius = Math.abs(lonUL - lonBR) / 2;
 		return new PlanetaryArea(latCenter, lonCenter, latRadius, lonRadius);
 	}
-	
+
 	/**
 	 * Creates a PlanetaryArea object from a center coordinate and a X,Y radius
-	 * 
+	 *
 	 * @param latCenter Center latitude
 	 * @param lonCenter Center longitude
 	 * @param latRadius Radius, latitude-wise
 	 * @param lonRadius Radius, longitude-wise
 	 * @return A PlanetaryArea object with this data
 	 */
-	public static final PlanetaryArea fromCenter(double latCenter, double lonCenter, double latRadius, double lonRadius)
-	{
+	public static final PlanetaryArea fromCenter(double latCenter, double lonCenter, double latRadius, double lonRadius) {
 		Condition.PRE.positive("latRadius", (int) Math.ceil(latRadius));
 		Condition.PRE.positive("lonRadius", (int) Math.ceil(lonRadius));
 		return new PlanetaryArea(latCenter, lonCenter, latRadius, lonRadius);
 	}
-
 }
