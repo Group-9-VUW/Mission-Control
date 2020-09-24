@@ -69,6 +69,13 @@ public class MainController extends JFrame {
 	{
 		this.persp.changePerspective(name);
 	}
+	
+	/**
+	 * @return The Menu Path for the file/exit button.
+	 */
+	public static String getExitMenuPath() {
+		return "file/exit";
+	}
 
 
 }
