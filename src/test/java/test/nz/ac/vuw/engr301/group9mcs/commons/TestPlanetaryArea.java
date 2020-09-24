@@ -118,10 +118,12 @@ public class TestPlanetaryArea {
 	@SuppressWarnings("static-method")
 	@Test
 	public void testInvalidAreas() {
-		PreconditionViolationException e = Null.nonNull(assertThrows(PreconditionViolationException.class, 
+		//invalid creation of PlanetaryArea from corners
+		PreconditionViolationException e = Null.nonNull(assertThrows(PreconditionViolationException.class,
 				() -> {PlanetaryArea.fromCorners(-20, 140, -10, 150);}));
 		assertEquals("Invalid planetary area specification, upper latitude should be larger than lower latitude", e.getMessage());
 		e = Null.nonNull(assertThrows(PreconditionViolationException.class, () -> {PlanetaryArea.fromCorners(-20, 140, -30, 130);}));
+		//invalid creation of PlanetaryArea from center
 		assertEquals("Invalid planetary area specification, left longitude should be smaller than right longitude", e.getMessage());
 		e = Null.nonNull(assertThrows(PreconditionViolationException.class, () -> {PlanetaryArea.fromCenter(-20, 140, -20, 20);}));
 		assertEquals("Integer latRadius was less than or equal to zero, positive expected.", e.getMessage());
@@ -133,4 +135,69 @@ public class TestPlanetaryArea {
 		assertEquals("Integer lonRadius was less than or equal to zero, positive expected.", e.getMessage());
 	}
 
+	/**
+	 * Tests clipping PlanetaryAreas.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testClip() {
+		//clip the original area
+		PlanetaryArea core = PlanetaryArea.fromCorners(-20, 150, -40, 170);
+		PlanetaryArea toClip = PlanetaryArea.fromCorners(-10, 140, -50, 180);
+		PlanetaryArea result = core.clip(toClip);
+		assertEquals(-20, result.getUpperLeftLatitude());
+		assertEquals(150, result.getUpperLeftLongitude());
+		assertEquals(-40, result.getBottomRightLatitude());
+		assertEquals(170, result.getBottomRightLongitude());
+
+		//clip with lower upperLeftLatitude
+		toClip = PlanetaryArea.fromCorners(-30, 140, -50, 180);
+		result = core.clip(toClip);
+		assertEquals(-30, result.getUpperLeftLatitude());
+		assertEquals(150, result.getUpperLeftLongitude());
+		assertEquals(-40, result.getBottomRightLatitude());
+		assertEquals(170, result.getBottomRightLongitude());
+
+		//clip with lower upperLeftLongitude
+		toClip = PlanetaryArea.fromCorners(-10, 160, -50, 180);
+		result = core.clip(toClip);
+		assertEquals(-20, result.getUpperLeftLatitude());
+		assertEquals(160, result.getUpperLeftLongitude());
+		assertEquals(-40, result.getBottomRightLatitude());
+		assertEquals(170, result.getBottomRightLongitude());
+
+		//clip with lower bottomRightLatitude
+		toClip = PlanetaryArea.fromCorners(-10, 140, -30, 180);
+		result = core.clip(toClip);
+		assertEquals(-20, result.getUpperLeftLatitude());
+		assertEquals(150, result.getUpperLeftLongitude());
+		assertEquals(-30, result.getBottomRightLatitude());
+		assertEquals(170, result.getBottomRightLongitude());
+
+		//clip with lower bottomRightLongitude
+		toClip = PlanetaryArea.fromCorners(-10, 140, -50, 160);
+		result = core.clip(toClip);
+		assertEquals(-20, result.getUpperLeftLatitude());
+		assertEquals(150, result.getUpperLeftLongitude());
+		assertEquals(-40, result.getBottomRightLatitude());
+		assertEquals(160, result.getBottomRightLongitude());
+	}
+
+	/**
+	 * Tests the containsArea method of the PlanetaryArea class.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testContainsArea() {
+		PlanetaryArea core = PlanetaryArea.fromCorners(-20, 150, -40, 170);
+		assertTrue(core.containsArea(PlanetaryArea.fromCorners(-20, 150, -40, 170)));
+		//upperLeftLatitude is not contained
+		assertFalse(core.containsArea(PlanetaryArea.fromCorners(-10, 150, -40, 170)));
+		//upperLeftLongitude is not contained
+		assertFalse(core.containsArea(PlanetaryArea.fromCorners(-20, 140, -40, 170)));
+		//bottomRightLatitude is not contained
+		assertFalse(core.containsArea(PlanetaryArea.fromCorners(-20, 150, -50, 170)));
+		//bottomRightLongitude is not contained
+		assertFalse(core.containsArea(PlanetaryArea.fromCorners(-20, 150, -40, 180)));
+	}
 }
