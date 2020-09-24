@@ -24,7 +24,7 @@ import nz.ac.vuw.engr301.group9mcs.controller.Resources;
  * @author Bryony Gatehouse
  * @editor Joshua Hindley
  */
-class TestPerspectiveController {
+public final class TestPerspectiveController {
 
 	/**
 	 * A Perspective Controller.

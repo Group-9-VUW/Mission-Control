@@ -1,7 +1,5 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
-import java.awt.HeadlessException;
-
 import javax.swing.JFrame;
 
 /**
@@ -18,7 +16,7 @@ public class FakeJFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * @param name Name to place on Frame (used for identification)
 	 */
 	public FakeJFrame(String name) {
 		this.dispose();

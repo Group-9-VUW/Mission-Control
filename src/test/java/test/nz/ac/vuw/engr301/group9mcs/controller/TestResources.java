@@ -12,7 +12,7 @@ import nz.ac.vuw.engr301.group9mcs.controller.Resources;
  * @author Bryony
  *
  */
-class TestResources {
+public final class TestResources {
 
 	/**
 	 * Resource Object to test
