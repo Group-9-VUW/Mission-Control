@@ -25,9 +25,9 @@ public class TestCachedNOAAWeatherData {
 	 * The NOAAWeatherData to be cached.
 	 */
 	private final NOAAWeatherData[] dat = {
-			new NOAAWeatherData(2.61, 21, 24.44, 1010),
-			new NOAAWeatherData(14.95, 12, 8.39, 994),
-			new NOAAWeatherData(4.38, 107, 14.8, 1015)
+			new NOAAWeatherData(121, 2.61, 21, 24.44, 1010),
+			new NOAAWeatherData(200, 14.95, 12, 8.39, 994),
+			new NOAAWeatherData(280,4.38, 107, 14.8, 1015)
 	};
 
 	/**
