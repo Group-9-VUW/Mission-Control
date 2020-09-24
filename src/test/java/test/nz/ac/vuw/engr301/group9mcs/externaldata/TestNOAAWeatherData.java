@@ -20,7 +20,7 @@ public class TestNOAAWeatherData {
 	public void checkToString() {
 		NOAAWeatherData data = new NOAAWeatherData(200, 3.4823615550994873, 85.77337646484375, 287.0677185058594, 100000.0);
 		assertEquals("NOAAWeatherData{" +
-				"altitude=200" + 
+				"altitude=200.0" + 
                 ", windSpeed=3.4823615550994873" +
                 ", windDirection=85.77337646484375" +
                 ", temperature=287.0677185058594" +
