@@ -15,22 +15,22 @@ import org.eclipse.jdt.annotation.Nullable;
 public class PlanetaryArea {
 
 	/**
-	 * Center latitude
+	 * The center latitude.
 	 */
 	private final double lat;
 
 	/**
-	 * Center longitude
+	 * The center longitude.
 	 */
 	private final double lon;
 
 	/**
-	 * Degrees of latitude from center to top and bottom edges
+	 * Degrees of latitude from center to top and bottom edges.
 	 */
 	private final double radLat;
 
 	/**
-	 * Degrees of longitude from center to left and right edges
+	 * Degrees of longitude from center to left and right edges.
 	 */
 	private final double radLon;
 
@@ -115,28 +115,28 @@ public class PlanetaryArea {
 	}
 
 	/**
-	 * @return the lat
+	 * @return the center latitude
 	 */
 	public double getLat() {
 		return this.lat;
 	}
 
 	/**
-	 * @return the lon
+	 * @return the center longitude
 	 */
 	public double getLon() {
 		return this.lon;
 	}
 
 	/**
-	 * @return the radLat
+	 * @return the radius of the latitudes
 	 */
 	public double getRadLat() {
 		return this.radLat;
 	}
 
 	/**
-	 * @return the radLon
+	 * @return the radius of the longitudes
 	 */
 	public double getRadLon() {
 		return this.radLon;
@@ -150,7 +150,7 @@ public class PlanetaryArea {
 	}
 
 	/**
-	 * @return The upper left latitude
+	 * @return The bottom right latitude
 	 */
 	public double getBottomRightLatitude() {
 		return this.lat - this.radLat;
@@ -237,7 +237,7 @@ public class PlanetaryArea {
 	}
 
 	/**
-	 * Creates a PlanetaryArea object from a center coordinate and a X,Y radius
+	 * Creates a PlanetaryArea object from a center coordinate and a X,Y radius.
 	 *
 	 * @param latCenter Center latitude
 	 * @param lonCenter Center longitude
