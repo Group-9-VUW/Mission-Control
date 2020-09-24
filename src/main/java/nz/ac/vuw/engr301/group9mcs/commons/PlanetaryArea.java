@@ -77,9 +77,13 @@ public class PlanetaryArea {
 	 * @return Whether the given area is entirely contained within this one
 	 */
 	public boolean containsArea(PlanetaryArea area) {
+			//top left corner
 		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
-		    && this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
+			//top right corner
+			&& this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
+			//bottom right corner
 			&& this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
+			//bottom left corner
 			&& this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude());
 	}
 
@@ -90,11 +94,11 @@ public class PlanetaryArea {
 	 */
 	public boolean overlapsWithArea(PlanetaryArea area) {
 		return this.containsPoint(area.getUpperLeftLatitude(), area.getUpperLeftLongitude())
-		    || this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
+			|| this.containsPoint(area.getUpperLeftLatitude(), area.getBottomRightLongitude())
 			|| this.containsPoint(area.getBottomRightLatitude(), area.getBottomRightLongitude())
 			|| this.containsPoint(area.getBottomRightLatitude(), area.getUpperLeftLongitude())
 			|| area.containsPoint(this.getUpperLeftLatitude(), this.getUpperLeftLongitude())
-		    || area.containsPoint(this.getUpperLeftLatitude(), this.getBottomRightLongitude())
+			|| area.containsPoint(this.getUpperLeftLatitude(), this.getBottomRightLongitude())
 			|| area.containsPoint(this.getBottomRightLatitude(), this.getBottomRightLongitude())
 			|| area.containsPoint(this.getBottomRightLatitude(), this.getUpperLeftLongitude());
 	}
@@ -108,7 +112,7 @@ public class PlanetaryArea {
 	 */
 	public boolean containsPoint(double latitude, double longitude) {
 		return (Math.abs(this.lat - latitude) - this.radLat)  < 0.000001
-			&& (Math.abs(this.lon - longitude) - this.radLon) < 0.000001;
+				&& (Math.abs(this.lon - longitude) - this.radLon) < 0.000001;
 	}
 
 	/**
