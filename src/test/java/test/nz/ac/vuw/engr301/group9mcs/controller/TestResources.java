@@ -30,12 +30,10 @@ public final class TestResources {
 	/**
 	 * Check that frame is returned (passed as null).
 	 */
-	@SuppressWarnings("null")
 	@Test
 	public void test() {
 		setup();
-		assertTrue(this.res.getFrame() != null);
 		assertTrue(this.res.getFrame().getName().equals("frame"));
 	}
-
+	
 }

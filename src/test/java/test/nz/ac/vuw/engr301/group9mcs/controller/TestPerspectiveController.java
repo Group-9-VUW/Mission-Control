@@ -81,7 +81,7 @@ public final class TestPerspectiveController {
 	 * Check that when a perspective is chosen the required menu items are enabled/added.
 	 */
 	@Test
-	void testCheckMenuEnabled() {
+	public void testCheckMenuEnabled() {
 		setupPerspective();
 		assertTrue(this.m.isEnabled("File/Start"));
 	}
@@ -90,7 +90,7 @@ public final class TestPerspectiveController {
 	 * Check that when a perspective is chosen the correct panel is added to the frame.
 	 */
 	@Test
-	void testCheckPanelIsSet() {
+	public void testCheckPanelIsSet() {
 		setupPerspective();
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 	}
@@ -99,7 +99,7 @@ public final class TestPerspectiveController {
 	 * Check that when a perspective is changed, the panel is removed.
 	 */
 	@Test
-	void testPanelIsRemovedAndAdded() {
+	public void testPanelIsRemovedAndAdded() {
 		setupPerspective();
 		assertEquals(this.p.getPanel().getComponent(0).getName(), "FakePerspective");
 		FakePerspective second = new FakePerspective("second", null);
@@ -114,7 +114,7 @@ public final class TestPerspectiveController {
 	 * Check that an error is thrown when the program tries to switch to a non-existent perspective.
 	 */
 	@Test
-	void testCantChangeToNonExistantPerspective() {
+	public void testCantChangeToNonExistantPerspective() {
 		setupPerspective();
 		try {
 			this.p.changePerspective("second");
@@ -129,7 +129,7 @@ public final class TestPerspectiveController {
 	 * Check that the panel passed to the Perspective can be changed while on the JFrame.
 	 */
 	@Test
-	void testPanelCanBeChangedOutsidePerspectiveController() {
+	public void testPanelCanBeChangedOutsidePerspectiveController() {
 		setupPerspective();
 		this.panel = new JPanel();
 		FakePerspective second = new FakePerspective("second", this.panel);
@@ -144,7 +144,7 @@ public final class TestPerspectiveController {
 	 * Check that the perspective controller ignores capitalisation.
 	 */
 	@Test
-	void testIgnoresCapitalisation() {
+	public void testIgnoresCapitalisation() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -160,7 +160,7 @@ public final class TestPerspectiveController {
 	 * Check that the main panel in perspective controller doesn't change.
 	 */
 	@Test
-	void testPanelIsAlwaysSame() {
+	public void testPanelIsAlwaysSame() {
 		setupPerspective();
 		JPanel before = this.p.getPanel();
 		FakePerspective second = new FakePerspective("second", null);
@@ -175,7 +175,7 @@ public final class TestPerspectiveController {
 	 * NOTE: Perspectives shouldn't be added after startup - this makes the menu move around.
 	 */
 	@Test
-	void testAddedMenuItemsAreDisabledWhenOutOfPersepective() {
+	public void testAddedMenuItemsAreDisabledWhenOutOfPersepective() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		second.add("File/Second", "Second", Null.nonNull(this.fakeListen));
@@ -193,7 +193,7 @@ public final class TestPerspectiveController {
 	 * Check that the perspectives can change perspective through the update() method.
 	 */
 	@Test
-	void testUpdateWorks() {
+	public void testUpdateWorks() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -206,7 +206,7 @@ public final class TestPerspectiveController {
 	 * Check that the update() method requires the string "Switch View".
 	 */
 	@Test
-	void testUpdateRequiresSwitchView() {
+	public void testUpdateRequiresSwitchView() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -220,7 +220,7 @@ public final class TestPerspectiveController {
 	 * Check that the update() method ignores capitalisation.
 	 */
 	@Test
-	void testUpdateIgnoresCapitalisation() {
+	public void testUpdateIgnoresCapitalisation() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -233,7 +233,7 @@ public final class TestPerspectiveController {
 	 * Check that the update() method requires the perspective name.
 	 */
 	@Test
-	void testUpdateRequiresPerspectiveName() {
+	public void testUpdateRequiresPerspectiveName() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -247,7 +247,7 @@ public final class TestPerspectiveController {
 	 * Check that the update() method requires a string array.
 	 */
 	@Test
-	void testUpdateRequiresStringArray() {
+	public void testUpdateRequiresStringArray() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
@@ -260,7 +260,7 @@ public final class TestPerspectiveController {
 	 * Check that the update() method requires non-null arguments.
 	 */
 	@Test
-	void testUpdateRequiresNonNull() {
+	public void testUpdateRequiresNonNull() {
 		setupPerspective();
 		FakePerspective second = new FakePerspective("second", null);
 		this.p.addPerspective("second", second);
