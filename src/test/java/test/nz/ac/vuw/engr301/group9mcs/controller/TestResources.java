@@ -2,6 +2,10 @@ package test.nz.ac.vuw.engr301.group9mcs.controller;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
@@ -18,24 +22,30 @@ public final class TestResources {
 	 * Resource Object to test
 	 */
 	private Resources res;
-	
+
 	/**
 	 * Create new versions of variables
 	 */
+	@SuppressWarnings("null")
 	private void setup() {
-		FakeJFrame f = new FakeJFrame("frame");
-		this.res = new Resources(f);
+		this.res = new Resources(null);
 	}
-	
+
 	/**
 	 * Check that frame is returned (passed as null).
 	 */
 	@Test
 	public void testFrameAddedReturned() {
-		setup();
-		assertTrue(this.res.getFrame().getName().equals("frame"));
+		try {
+			JFrame f = new JFrame();
+			f.setName("frame");
+			this.res = new Resources(f);
+			assertTrue(this.res.getFrame().getName().equals("frame"));
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("Screen not Connected");
+		}
 	}
-	
+
 	/**
 	 * Test Longitude
 	 */
@@ -45,7 +55,7 @@ public final class TestResources {
 		this.res.setLongitude(2.00);
 		assertTrue(this.res.getLongitude() == 2.00);
 	}
-	
+
 	/**
 	 * Test Latitude
 	 */
@@ -55,7 +65,7 @@ public final class TestResources {
 		this.res.setLatitude(2.00);
 		assertTrue(this.res.getLatitude() == 2.00);
 	}
-	
+
 	/**
 	 * Test LORADriver ...??
 	 */
@@ -65,5 +75,5 @@ public final class TestResources {
 		setup();
 		assertTrue(this.res.getDriver() != null);
 	}
-	
+
 }
