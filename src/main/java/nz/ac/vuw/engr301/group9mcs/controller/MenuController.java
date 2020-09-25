@@ -175,8 +175,11 @@ public class MenuController extends Observable{
 		String path = Null.nonNull(paramPath.toLowerCase().replace('\\', '/'));
 		String[] split = path.split("/");
 		if( split.length <= 1 
-	    || (split.length == 2 && (split[0].length() == 0 || split[1].length() == 0)) 
-	    || (split.length == 3 && ((split[0].length() != 0 && split[2].length() != 0) || split[1].length() == 0))
+	    || (split.length == 2 && (
+	    		split[0].length() == 0)) 
+	    || (split.length == 3 && ((
+	    		split[0].length() != 0) || 
+	    		split[1].length() == 0))
 	    ||  split.length >= 4) {
 			throw new PreconditionViolationException("Invalid path, unrecognized format.");
 		}
