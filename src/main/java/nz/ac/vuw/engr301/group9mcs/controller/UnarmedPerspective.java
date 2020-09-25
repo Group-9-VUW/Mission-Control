@@ -195,6 +195,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			i++;
 		}
 		menu.enableItems(a);
+		menu.enableItem(MainController.getExitMenuPath());
 		return this.panel;
 	}
 
