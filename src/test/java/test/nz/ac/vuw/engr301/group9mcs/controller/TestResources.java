@@ -1,6 +1,6 @@
 package test.nz.ac.vuw.engr301.group9mcs.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,9 +31,39 @@ public final class TestResources {
 	 * Check that frame is returned (passed as null).
 	 */
 	@Test
-	public void test() {
+	public void testFrameAddedReturned() {
 		setup();
 		assertTrue(this.res.getFrame().getName().equals("frame"));
+	}
+	
+	/**
+	 * Test Longitude
+	 */
+	@Test
+	public void testLongitude() {
+		setup();
+		this.res.setLongitude(2.00);
+		assertTrue(this.res.getLongitude() == 2.00);
+	}
+	
+	/**
+	 * Test Latitude
+	 */
+	@Test
+	public void testLatitude() {
+		setup();
+		this.res.setLatitude(2.00);
+		assertTrue(this.res.getLatitude() == 2.00);
+	}
+	
+	/**
+	 * Test LORADriver ...??
+	 */
+	@SuppressWarnings("null")
+	@Test
+	public void testLora() {
+		setup();
+		assertTrue(this.res.getDriver() != null);
 	}
 	
 }
