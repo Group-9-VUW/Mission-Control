@@ -1,6 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +14,12 @@ import org.eclipse.jdt.annotation.Nullable;
  * 
  * @author Claire
  */
-public class CSVReader  {
+public class CSVReader implements Closeable {
+	
+	/**
+	 * The underlying reader for this reader
+	 */
+	private final BufferedReader reader;
 	
 	/**
 	 * An Iterator of all the lines in the file
@@ -41,9 +47,8 @@ public class CSVReader  {
 		if(!file.exists() || !file.isFile())
 			throw new PreconditionViolationException("File to read doesn't exist");
 		
-		try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
-			this.lines = reader.lines().iterator();
-		}
+		this.reader = new BufferedReader(new FileReader(file));
+		this.lines = this.reader.lines().iterator();
 	}
 	
 	/**
@@ -70,7 +75,8 @@ public class CSVReader  {
 	public void nextLine()
 	{
 		String str = this.lines.next();
-		this.currentLine = str.split(",", count(str, ','));
+		this.currentLine = str.split(",", count(str, ',') + (str.charAt(str.length() - 1) == ',' ? 0 : 1));
+		this.value = 0;
 	}
 	
 	/**
@@ -78,7 +84,7 @@ public class CSVReader  {
 	 */
 	public String nextValue()
 	{
-		if(this.currentLine == null || this.hasNextValue())
+		if(this.currentLine == null || !this.hasNextValue())
 			throw new PreconditionViolationException("No line in memory, or hasNextValue() is false");
 		return Null.nonNull(Null.nonNull(this.currentLine)[this.value++]);
 	}
@@ -100,6 +106,12 @@ public class CSVReader  {
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public void close() throws IOException 
+	{
+		this.reader.close();
 	}
 
 }
