@@ -104,8 +104,8 @@ public class OsmOverpassData {
         }
 
         void setNodeRefs(Map<Long, Node> nodes) {
-            for (Long id : NODE_IDS) {
-                NODES.add(nodes.get(id));
+            for (Long id : this.NODE_IDS) {
+                this.NODES.add(nodes.get(id));
             }
         }
 

@@ -3,9 +3,14 @@ package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 import nz.ac.vuw.engr301.group9mcs.externaldata.LandingSiteProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 
+/**
+ * Tests for determining whether a point lands within a building or not.
+ *
+ * @author jewellbail
+ */
+@SuppressWarnings("static-method")
 public class LandingSiteProcessorTests {
 
     @Test
@@ -24,6 +29,7 @@ public class LandingSiteProcessorTests {
     }
 
     @Test
+	static
     void testSingleNotClearPoint() {
         // Point on Cotton building.
         double[][] landingPoints = new double[][]{

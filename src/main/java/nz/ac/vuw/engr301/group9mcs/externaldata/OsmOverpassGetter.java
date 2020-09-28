@@ -8,7 +8,6 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class serves to retrieve pure map data for a specified region, including nodes, ways and the associated
@@ -124,7 +123,7 @@ public class OsmOverpassGetter {
 
             switch (elem.getString("type")) {
                 case "node":
-                    nodes.put(elem.getLong("id"), new OsmOverpassData.Node(
+                    nodes.put(new Long(elem.getLong("id")), new OsmOverpassData.Node(
                             elem.getLong("id"),
                             elem.getDouble("lat"),
                             elem.getDouble("lon"),
@@ -135,7 +134,7 @@ public class OsmOverpassGetter {
                 case "way":
                     // Store node IDs first, to preserve order and ensure that all references will be present.
                     for (int j = 0; j < elem.getJSONArray("nodes").length(); ++j) {
-                        wayNodeIds.add(elem.getJSONArray("nodes").getLong(j));
+                        wayNodeIds.add(new Long(elem.getJSONArray("nodes").getLong(j)));
                     }
 
                     ways.add(new OsmOverpassData.Way(
