@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -75,6 +76,37 @@ public final class TestMenuController {
 			System.out.println("!!! You're running this test on a headless build, unable to run tests the depend on JFrame !!!");
 		}
 		
+	}
+	
+	/**
+	 * Tests for catching exceptions thrown for adding, and using, menu items
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testExceptionMenuItem() {
+		try {
+			JFrame frame = new JFrame();
+			MenuController controller = new MenuController(frame);
+			// Catch exceptions thrown by searching for an unknown menu item.
+			assertThrows(PreconditionViolationException.class, () -> { controller.isEnabled("menu/item");});
+			assertThrows(PreconditionViolationException.class, () -> { controller.enableItem("menu/item");});
+			assertThrows(PreconditionViolationException.class, () -> { controller.setAlwaysEnabled("menu/item");});
+			ActionListener l1 = new ActionListener() {@Override public void actionPerformed(ActionEvent e) {/**/}};
+			controller.addMenuItem("menu", "item", "Item", l1 );
+			controller.addMenuItem("menu", "item2", "Item", l1 );
+			String[] args = {"menu/item", "menu/item2"};
+			// Check Enable Items through Array works
+			controller.enableItems(args);
+			assertTrue(controller.isEnabled("menu/item"));
+			assertTrue(controller.isEnabled("menu/item2"));
+			// Check Always Enabled is true
+			controller.setAlwaysEnabled("menu/item");
+			controller.disableAll();
+			assertTrue(controller.isEnabled("menu/item"));
+			
+		} catch (@SuppressWarnings("unused") HeadlessException e) {
+			System.out.println("!!! You're running this test on a headless build, unable to run tests the depend on JFrame !!!");
+		}
 	}
 
 }

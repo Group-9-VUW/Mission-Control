@@ -69,7 +69,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
-		menu.enableItem(MainController.getExitMenuPath());
 		this.switchTo(this.fileGet);
 		// TODO: does this perspective actually need resources?
 		// What about passing the MapImage class?

@@ -82,7 +82,6 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 
 	@Override
 	public JPanel enable(MenuController menu, Resources resource) {
-		menu.enableItem(MainController.getExitMenuPath());
 		this.resources = resource;
 		Null.nonNull(this.resources).getDriver().addRocketDataListener(this);
 		return this.panel;
