@@ -1,19 +1,27 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -21,6 +29,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
 import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.SmoothMapImage;
+import nz.ac.vuw.engr301.group9mcs.view.PostionSelectedListener;
 
 /**
  * This view displays the Map in a specified window. The user can zoom in/out of the map using a mouse scroll wheel
@@ -122,6 +131,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 		this.addMouseMotionListener(this);
 		this.addMouseWheelListener(this);
 		this.addComponentListener(this);
+		drawOSMLicense();
 	}
 
 	/**
@@ -179,6 +189,35 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 	{
 		this.pixelToLon = (2 * (this.getRadX() / LongLatHelper.kilometeresPerDegreeOfLongitude(this.lat))) / this.sizeX;
 		this.pixelToLat = (2 * (this.getRadY() / LongLatHelper.kilometersPerDegreeOfLatitude(this.lat))) / this.sizeY;
+	}
+	
+	/**
+	 * Draws the OSM License on the Panel.
+	 */
+	private void drawOSMLicense() {
+		String start = "© ";
+		String end = " Contributors";
+		JLabel hyperlink = new JLabel(start + "OpenStreetMap" + end);
+		hyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		hyperlink.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(@Nullable MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("https://www.openstreetmap.org/copyright"));
+				} catch (IOException | URISyntaxException e1) {
+					e1.printStackTrace();
+				}
+			}
+			@Override public void mouseEntered(@Nullable MouseEvent e) {/**/}
+			@Override public void mouseExited(@Nullable MouseEvent e) {/**/}
+		});
+		
+		SpringLayout springLayout = new SpringLayout();
+		this.setLayout(springLayout);
+		
+		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this);
+		this.add(hyperlink);
 	}
 
 	@Override

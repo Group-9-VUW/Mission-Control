@@ -14,9 +14,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 import nz.ac.vuw.engr301.group9mcs.view.launch.unarmed.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SelectSiteView;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
