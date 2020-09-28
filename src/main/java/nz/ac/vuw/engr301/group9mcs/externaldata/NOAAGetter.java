@@ -141,6 +141,7 @@ public class NOAAGetter {
 	 * Parses and returns the appropriate weather data from the supplied JSON
 	 * @param weatherJSON the JSON object containing all weather info from the API
 	 * @return OWWeatherData with all needed weather attributes
+	 * @throws JSONException Thrown if JSON can't be parse properly
 	 */
 	private static OWWeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException {
 		JSONObject rainData = null;
@@ -173,7 +174,7 @@ public class NOAAGetter {
 			
 			return new OWWeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
 		} catch (JSONException e) {
-			throw new JSONException("JSON returned by the API could be parsed properly: " + e.getMessage());
+			throw new JSONException("JSON returned by the API couldn't be parsed properly: " + e.getMessage());
 		}
 
 	}

@@ -35,7 +35,7 @@ public class BaseStationParser {
         for(int i = 0; i < converted.length; i++){
         	try {
         		converted[i] = Double.parseDouble(separated[i]);
-        	} catch(NumberFormatException e) {
+        	} catch(@SuppressWarnings("unused") NumberFormatException e) {
             	DefaultLogger.logger.error("Invalid input for RocketData: " + separated[i] + " is not a double.");
             	throw new NumberFormatException(separated[i] + " is not a double."); 
         	}
@@ -43,7 +43,7 @@ public class BaseStationParser {
         
 	    try {
 	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1])); 
-        } catch(IllegalArgumentException e) {
+        } catch(@SuppressWarnings("unused") IllegalArgumentException e) {
         	DefaultLogger.logger.error("Invalid rocket state");
         	throw new IllegalArgumentException(separated[separated.length-1] + " is not a valid rocket state.");
         }

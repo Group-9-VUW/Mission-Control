@@ -110,7 +110,7 @@ Finally, the scenarios viewpoint will describe important user stories that will 
 
 ### 4.1 Logical
 
-![Package Diagram](package_diagram.png)
+![Package Diagram](Images/package_diagram.png)
 
 The logical architecture of the Mission Control System is designed around its features, with each feature being incorporated into a package with one-way dependencies. This is to facilitate high cohesion and low coupling, which will make the design more maintainable in the long run. Maintainability is a critical point of this design, as it is intended to be open-source software that serves a large community.
 
@@ -318,7 +318,7 @@ Simulates the launch to check for probability of acceptable launch.
 Communicates information back to the Controller from the Model, follows the Observer Design Pattern.
 
 #### 4.2.3 Model v 1.2
-![](architecture_design/First_Draft.png "")
+![](Images/First_Draft.png "")
 
 ### 4.3 Process
 
@@ -326,13 +326,13 @@ The mission control program will contain swing UI elements. This means that the 
 <br><br>
 The processes of the mission control software can perhaps best be described by the following activity diagram:
 <br><br>
-![Activity Diagram](activity_diagram.png)
+![Activity Diagram](Images/activity_diagram.png)
 <br><br>
 As discussed in 4.1 Logical, the program can be broken down into three primary superstates: planning, pre-launch and post-launch. The activity diagram can be broken down in a similar fashion. All activities that happen after the program confirms that the user is not at the launch site can be considered as planning activities. That is, activities that occur when the user is deciding on a launch site before the user is at the launch site. Likewise, all activities that occur after the user is at the launch site can be considered pre-launch activities with activities that occur after the launch signal is sent to the rocket considered as launch or post-launch activities. As can be seen from the activity diagram, the planning processes are completely separate from the pre-launch and post-launch processes. This is quite significant as it will alter the team's strategy when it comes to implementing the design of the mission control software as Java code.
 
 ### 4.4 Physical 
 
-![Deployment diagram](PhysicalViews.png)
+![Deployment diagram](Images/PhysicalViews.png)
 
 The mission control software does not require a complex physical system. The application can run on a standalone machine, requiring no communication with other physical servers for basic operation.
 
@@ -353,7 +353,7 @@ These two use-cases were chosen because they are very essential as they are both
   
 **Scenarios**  
   
-![](Scenarios.jpg)
+![](Images/Scenarios.jpg)
 
 **How the scenarios relates to the Logical View:**   
 Throughout the scenarios the Launcher and system is interacting with the Controller package (the GUI), e.g. Launcher indicating to the system that they want to launch the rocket, the system updating the Controller package to show probable landing locations and the system updating the Controller package to tell the user if launching can commence.  
@@ -614,11 +614,10 @@ One page glossary as required
 
 | Name | Contributions | 
 | ------ | ------ | 
-| August Bolter |  |
-| Bailey Jewell |  |
-| Bryony Gatehouse |  |
-| Claire Chambers | |
-| Joshua Hindley |  |
+| August Bolter | Section 4.5  |
+| Bailey Jewell | Section 4.4  |
+| Bryony Gatehouse | Section 4.2<br>Section 5.3<br>Section 5.4  |
+| Claire Chambers | Section 1<br>Section 4.1<br>Section 5.4.1 |
+| Joshua Hindley | Section 4.3<br>Section 5.1<br>Section 5.2.2  |
 | Sai Panda |   Section 3.1<br>Section 3.2  |
 
-An one page statement of contributions, including a list of each member of the group and what they contributed to this document.

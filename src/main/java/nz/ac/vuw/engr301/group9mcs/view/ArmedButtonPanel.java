@@ -35,19 +35,27 @@ public class ArmedButtonPanel extends JPanel{
 	ViewObservable obs;
 
 	/**
+	 * String displayed on Button
+	 */
+	String text;
+
+	/**
 	 * Creates the panel that holds the arm button.
+	 * Given Text is displayed on Button.
 	 * 
 	 * @param o
+	 * @param text 
 	 */
-	public ArmedButtonPanel(Observer o) {
+	public ArmedButtonPanel(Observer o, String text) {
 		this.obs = new ViewObservable(o);
+		this.text = text;
 		setPreferredSize(new Dimension(100, 300));
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.CENTER;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
-    this.setLayout(new GridBagLayout());
-    this.add(armButton());
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		this.setLayout(new GridBagLayout());
+		this.add(armButton());
 	}
 
 	@Override
@@ -55,18 +63,18 @@ public class ArmedButtonPanel extends JPanel{
 		Null.nonNull(g).setColor(Color.magenta);
 		Null.nonNull(g).fillRect(0, 0, this.getWidth(), this.getHeight());
 	}
-	
+
 	/**
 	 * Returns a Rounded ARM button.
 	 * 
 	 * @return A Rounded Button
 	 */
 	private JButton armButton() {
-		RoundButton arm = new RoundButton("ARM");
+		RoundButton arm = new RoundButton(this.text);
 		arm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
-				String[] args = {"switch", "enterDetails"};
+				String[] args = {ArmedButtonPanel.this.text};
 				ArmedButtonPanel.this.obs.notify(args);
 			}
 		});

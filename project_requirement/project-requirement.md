@@ -35,7 +35,7 @@ Specifically:
 
 The Mission Control Software will integrate with the Rocket Avionics Package and the Monte Carlo Simulation Package using USB Serial over radio and Java Simulation Listeners with OpenRocket, respectively.
 
-![Semantic description of image](system_diagram.png)
+![Semantic description of image](Images/system_diagram.png)
 
 To interface with the Monte Carlo Simulation Package, the following software packages will be required:
 
@@ -96,7 +96,7 @@ https://www.facebook.com/groups/nzrocketry/
 The regulations our rocket needs to follow depends on the motor power range of the rocket.
 
 Source: [1]
-![Source: https://www.nzrocketry.org.nz/rocketry/rocket-safety](NZRA_Minimum_Personnel_Distances.png)
+![Source: https://www.nzrocketry.org.nz/rocketry/rocket-safety](Images/NZRA_Minimum_Personnel_Distances.png)
 
 Motor power range is determined by the minimum safe distance (in meters). Motor power range A-D can use the regulations as a guide, E-F need to follow the regulations and G+ need to follow additional regulations as well.
 
@@ -809,12 +809,12 @@ API = Application Program Interface
 
 | Name | Contributions | 
 | ------ | ------ | 
-| August Bolter |  |
-| Bailey Jewell |  |
-| Bryony Gatehouse |  |
-| Claire Chambers | |
-| Joshua Hindley |  |
-| Sai Panda |   Section 3.4<br>Section 3.7<br>Section 4  |
+| August Bolter | Section 1.3.4<br>Section 3.3<br>Section 3.6|
+| Bailey Jewell | Section 3.1<br>Section 3.2.6<br>Section 3.2.7<br>Section 5.4.1  |
+| Bryony Gatehouse | Section 3.8<br>Section 5.3<br>Section 5.4 |
+| Claire Chambers | Section 1.1<br>Section 1.2<br>Section 1.3.1<br>Section 1.3.2 |
+| Joshua Hindley | Section 3.2.3<br>Section 3.2.4<br>Section 5.1 |
+| Sai Panda |   Section 1.3.3<br>Section 3.4<br>Section 3.7<br>Section 4  |
 
 A one page statement of contributions, including a list of each member of the group and what they contributed to this document.
 

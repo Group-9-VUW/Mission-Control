@@ -11,7 +11,6 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.SelectFileView;
@@ -70,6 +69,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+		menu.enableItem(MainController.getExitMenuPath());
 		this.switchTo(this.fileGet);
 		// TODO: does this perspective actually need resources?
 		// What about passing the MapImage class?
@@ -140,16 +140,9 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	}
 
 	@Override
-	public void addResources(Resources resource) {
-		// TODO: does this perspective actually need resources?
-		// What about passing the MapImage class?
-		// Parameters from a simulation
-		// Access to a simulation
-	}
-	
-	@Override
-	public @Nullable Resources removeResource() {
-		return null;
+	public void releaseResources() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

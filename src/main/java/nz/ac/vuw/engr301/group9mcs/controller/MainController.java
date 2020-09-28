@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Resources;
-
 /**
  * Controller class.
  * Creates the screen.
@@ -37,16 +35,17 @@ public class MainController extends JFrame {
 		super("Mission Control");
 		
 		this.menu = new MenuController(this);
-		this.menu.addMenuItem("file/exit", "Exit", (e) -> {
+		this.menu.addMenuItem(getExitMenuPath(), "Exit", (e) -> {
 			this.setVisible(false);
 			this.dispose();
 		});
+		this.menu.enableItem(getExitMenuPath());
 		
-		this.persp = new PerspectiveController(this.menu);
+		this.persp = new PerspectiveController(this.menu, new Resources(this));
 		this.setLayout(new BorderLayout());
 		this.add(this.persp.getPanel(), BorderLayout.CENTER);
 
-		this.setSize(300, 300);
+		this.setSize(1080, 690);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -69,7 +68,14 @@ public class MainController extends JFrame {
 	 */
 	public void setPerspective(String name)
 	{
-		this.persp.changePerspective(name, new Resources());
+		this.persp.changePerspective(name);
+	}
+	
+	/**
+	 * @return The Menu Path for the file/exit button.
+	 */
+	public static String getExitMenuPath() {
+		return "file/exit";
 	}
 
 
