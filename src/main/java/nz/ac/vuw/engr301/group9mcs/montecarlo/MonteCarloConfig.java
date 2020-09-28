@@ -49,10 +49,10 @@ public class MonteCarloConfig {
 		try(CSVWriter writer = new CSVWriter(file))
 		{
 			for(int i = 0; i < entries.size(); i++) 
-				writer.writeValue(entries.get(0).getKey().getName());
+				writer.writeValue(entries.get(i).getKey().getName());
 			writer.nextRow();
 			for(int i = 0; i < entries.size(); i++) 
-				writer.writeValue(Double.toString(entries.get(0).getValue()));
+				writer.writeValue(entries.get(i).getKey().getToStringFunc().apply(entries.get(i).getValue()));
 		}
 	}
 	

@@ -83,9 +83,9 @@ public class MonteCarloConfigBuilder {
 	 */
 	public MonteCarloConfigBuilder addLaunchRodData(double angle, double direction, double length)
 	{
-		return this.addValue(MonteCarloConfigValue.LAUNCH_LATITUDE, angle)
-				   .addValue(MonteCarloConfigValue.LAUNCH_LONGITUDE, direction)
-				   .addValue(MonteCarloConfigValue.LAUNCH_LONGITUDE, length);
+		return this.addValue(MonteCarloConfigValue.LAUNCH_ROD_ANGLE, angle)
+				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_DIRECTION, direction)
+				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT, length);
 	}
 	
 	/**
