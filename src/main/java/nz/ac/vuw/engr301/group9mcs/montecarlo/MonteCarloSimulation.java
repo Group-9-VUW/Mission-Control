@@ -151,7 +151,7 @@ public class MonteCarloSimulation extends Thread {
 	}
 	
 	/**
-	 * Informas the listeners that the state has changed
+	 * Informs the listeners that the state has changed
 	 */
 	private void informListeners()
 	{
