@@ -31,13 +31,13 @@ public class FakePerspective extends Observable implements Perspective{
 	/**
 	 * The Default Panel.
 	 */
-	private @NonNull JPanel panel = new JPanel();
+	private JPanel panel = new JPanel();
 	
 	/**
 	 * Resources.
 	 */
 	@SuppressWarnings("unused")
-	private Resources res;
+	private @Nullable Resources res;
 
 	/**
 	 * If Panel isn't null, Default Panel will be replaced.
@@ -46,7 +46,7 @@ public class FakePerspective extends Observable implements Perspective{
 	 * @param name
 	 * @param panel
 	 */
-	public FakePerspective(String name, JPanel panel) {
+	public FakePerspective(String name, @Nullable JPanel panel) {
 		this.menuItems = new HashSet<>();
 		if(panel != null) {
 			this.panel = panel;
@@ -82,7 +82,7 @@ public class FakePerspective extends Observable implements Perspective{
 	 * @param name
 	 * @param a
 	 */
-	public void add(String path, String name, @NonNull ActionListener a) {
+	public void add(String path, String name, ActionListener a) {
 		this.menuItems.add(new ViewMenuItem(Null.nonNull(path), Null.nonNull(name), a));
 	}
 

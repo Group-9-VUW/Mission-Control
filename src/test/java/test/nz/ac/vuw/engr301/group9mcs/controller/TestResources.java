@@ -21,6 +21,7 @@ public final class TestResources {
 	/**
 	 * Resource Object to test
 	 */
+	@SuppressWarnings("null")
 	private Resources res;
 
 	/**

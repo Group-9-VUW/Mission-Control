@@ -30,31 +30,37 @@ public final class TestPerspectiveController {
 	/**
 	 * A Perspective Controller.
 	 */
+	@SuppressWarnings("null")
 	private PerspectiveController p;
 
 	/**
 	 * A Fake Perspective to pass into the Controller.
 	 */
+	@SuppressWarnings("null")
 	private FakePerspective fp;
 
 	/**
 	 * A JPanel.
 	 */
+	@SuppressWarnings("null")
 	private JPanel panel;
 
 	/**
 	 * A JFrame.
 	 */
+	@SuppressWarnings("null")
 	private JFrame frame;
 
 	/**
 	 * A resources object
 	 */
+	@SuppressWarnings("null")
 	private Resources resources;
 
 	/**
 	 * A Menu Controller.
 	 */
+	@SuppressWarnings("null")
 	private MenuController m;
 
 	/**

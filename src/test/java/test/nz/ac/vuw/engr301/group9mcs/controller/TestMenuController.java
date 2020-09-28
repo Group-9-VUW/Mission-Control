@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.junit.jupiter.api.Test;
 
 import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
@@ -91,7 +92,7 @@ public final class TestMenuController {
 			assertThrows(PreconditionViolationException.class, () -> { controller.isEnabled("menu/item");});
 			assertThrows(PreconditionViolationException.class, () -> { controller.enableItem("menu/item");});
 			assertThrows(PreconditionViolationException.class, () -> { controller.setAlwaysEnabled("menu/item");});
-			ActionListener l1 = new ActionListener() {@Override public void actionPerformed(ActionEvent e) {/**/}};
+			ActionListener l1 = new ActionListener() {@Override public void actionPerformed(@Nullable ActionEvent e) {/**/}};
 			controller.addMenuItem("menu", "item", "Item", l1 );
 			controller.addMenuItem("menu", "item2", "Item", l1 );
 			String[] args = {"menu/item", "menu/item2"};

@@ -30,14 +30,17 @@ public final class TestMainController {
 	/**
 	 * Perspective that can be trusted.
 	 */
+	@SuppressWarnings("null")
 	private FakePerspective fp;
 	/**
 	 * JPanel to pass to Perspective
 	 */
+	@SuppressWarnings("null")
 	private JPanel pa;
 	/**
 	 * MainController to Test.
 	 */
+	@SuppressWarnings("null")
 	private MainController m;
 
 	/**
@@ -55,7 +58,6 @@ public final class TestMainController {
 	/**
 	 * Checks that Panel is not added when Perspective added.
 	 */
-	@SuppressWarnings("null")
 	@Test
 	public void testPerspectiveAdd() {
 		try {
@@ -89,7 +91,6 @@ public final class TestMainController {
 	/**
 	 * Checks that Panel is added when Perspective set.
 	 */
-	@SuppressWarnings("null")
 	@Test
 	public void testPerspectiveSet() {
 		try {
