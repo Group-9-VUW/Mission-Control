@@ -69,6 +69,7 @@ public class MenuController extends Observable{
 		if(!this.items.containsKey(path))
 			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
 		this.globalItems.add(path);
+		this.enableItem(path);
 	}
 	
 	/**
@@ -190,7 +191,7 @@ public class MenuController extends Observable{
 			if(s.length() > 0) {
 				if(first.length() == 0) {
 					first = s;
-				} else if(second.length() == 0) {
+				} else { // if(second.length() == 0) {
 					second = s;
 				}
 			}
