@@ -1,9 +1,9 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -99,35 +99,40 @@ public class OsmOverpassData {
 		}
 	}
 
-	/**
-	 * Represents a single OpenStreetMap way. Ways comprise nodes.
-	 */
-	public static final class Way {
-		/**
-		 * Way ID. This is the way's global OSM ID.
-		 */
-		final long ID;
-		/**
-		 * List of nodes composing the way.
-		 */
-		private final List<Node> NODES;
-		/**
-		 * Tags associated with the node, describing the node's purpose.
-		 */
-		private final Map<String, String> TAGS;
+    /**
+     * Represents a single OpenStreetMap way. Ways comprise nodes.
+     */
+    public static final class Way {
+        /**
+         * Way ID. This is the way's global OSM ID.
+         */
+        final long ID;
+        /**
+         * List of nodes composing the way.
+         */
+        private final List<Node> NODES;
+        /**
+         * Tags associated with the node, describing the node's purpose.
+         */
+        private final Map<String, String> TAGS;
+        /**
+         * List of IDs of nodes composing the way. Used for populating node list.
+         */
+        private final List<Long> NODE_IDS;
 
-		/**
-		 * Creates a single way object from the given OSM data.
-		 *
-		 * @param id Way ID. This is the way's global OSM ID.
-		 * @param nodes List of nodes composing the way.
-		 * @param tags Tags associated with the node, describing the node's purpose.
-		 */
-		Way(long id, List<Node> nodes, @Nullable Map<String, String> tags) {
-			this.ID = id;
-			this.NODES = nodes;
-			this.TAGS = tags != null ? tags : Null.nonNull(Collections.emptyMap());
-		}
+        /**
+         * Creates a single way object from the given OSM data.
+         *
+         * @param id Way ID. This is the way's global OSM ID.
+		 * @param nodeIds List of IDs of nodes comprising the way.
+         * @param tags Tags associated with the node, describing the node's purpose.
+         */
+        Way(long id, List<Long> nodeIds, @Nullable Map<String, String> tags) {
+            this.ID = id;
+            this.NODE_IDS = nodeIds;
+            this.NODES = new ArrayList<>();
+            this.TAGS = tags != null ? tags : Null.nonNull(Collections.emptyMap());
+        }
 
 		/**
 		 * Gets an unmodifiable list of nodes composing the way.
@@ -136,6 +141,16 @@ public class OsmOverpassData {
 		public List<Node> getNodes() {
 			return Null.nonNull(Collections.unmodifiableList(this.NODES));
 		}
+
+        /**
+         * Sets the node refences from IDs.
+         * @param nodes Map of ID to node reference.
+         */
+        void setNodeRefs(Map<Long, Node> nodes) {
+            for (Long id : this.NODE_IDS) {
+                this.NODES.add(nodes.get(id));
+            }
+        }
 
 		/**
 		 * Gets an unmodifiable list of tags associated with the way.
