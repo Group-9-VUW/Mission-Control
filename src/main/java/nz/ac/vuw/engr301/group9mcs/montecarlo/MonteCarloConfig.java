@@ -4,13 +4,12 @@
 package nz.ac.vuw.engr301.group9mcs.montecarlo;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import nz.ac.vuw.engr301.group9mcs.commons.CSVWriter;
 import nz.ac.vuw.engr301.group9mcs.commons.Null;
 
 /**
@@ -47,19 +46,13 @@ public class MonteCarloConfig {
 		List<Map.Entry<MonteCarloConfigValue, Double>> entries = new ArrayList<>();
 		entries.addAll(Null.nonNull(this.values.entrySet()));
 		
-		try(PrintWriter writer = new PrintWriter(new FileWriter(file)))
+		try(CSVWriter writer = new CSVWriter(file))
 		{
 			for(int i = 0; i < entries.size(); i++) 
-			{
-				writer.write(entries.get(0).getKey().getName());
-				writer.write(',');
-			}
-			writer.write('\n');
+				writer.writeValue(entries.get(0).getKey().getName());
+			writer.nextRow();
 			for(int i = 0; i < entries.size(); i++) 
-			{
-				writer.write(Double.toString(entries.get(0).getValue()));
-				writer.write(',');
-			}
+				writer.writeValue(Double.toString(entries.get(0).getValue()));
 		}
 	}
 	
