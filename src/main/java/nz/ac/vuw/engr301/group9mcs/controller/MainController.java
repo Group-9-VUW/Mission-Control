@@ -35,11 +35,11 @@ public class MainController extends JFrame {
 		super("Mission Control");
 		
 		this.menu = new MenuController(this);
-		this.menu.addMenuItem(getExitMenuPath(), "Exit", (e) -> {
+		this.menu.addMenuItem("file/exit", "Exit", (e) -> {
 			this.setVisible(false);
 			this.dispose();
 		});
-		this.menu.enableItem(getExitMenuPath());
+		this.menu.setAlwaysEnabled("file/exit");
 		
 		this.persp = new PerspectiveController(this.menu, new Resources(this));
 		this.setLayout(new BorderLayout());
@@ -70,13 +70,5 @@ public class MainController extends JFrame {
 	{
 		this.persp.changePerspective(name);
 	}
-	
-	/**
-	 * @return The Menu Path for the file/exit button.
-	 */
-	public static String getExitMenuPath() {
-		return "file/exit";
-	}
-
 
 }
