@@ -80,3 +80,6 @@ img_cache/
 # IntelliJ
 .idea/
 *.iml
+
+simulations/input.csv
+simulations/points.csv
