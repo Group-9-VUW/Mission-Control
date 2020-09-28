@@ -17,8 +17,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
 /**
  * @author Claire

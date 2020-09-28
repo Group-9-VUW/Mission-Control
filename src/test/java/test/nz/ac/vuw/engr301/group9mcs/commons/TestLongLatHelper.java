@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
 
 /**
  * Tests the LongLatHelper class and the methods within.

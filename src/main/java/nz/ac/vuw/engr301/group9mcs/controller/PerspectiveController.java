@@ -8,8 +8,9 @@ import java.util.Observer;
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.controller.perspectives.Perspective;
 
 /**
  * Controls what view elements are shown on the screen for the different perspectives.

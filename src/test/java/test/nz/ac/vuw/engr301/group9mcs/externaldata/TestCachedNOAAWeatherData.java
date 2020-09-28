@@ -10,8 +10,9 @@ import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
-import nz.ac.vuw.engr301.group9mcs.externaldata.CachedNOAAWeatherData;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
+
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.CachedNOAAWeatherData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
 /**
  * Tests saving and loading NOAAWeatherData using the

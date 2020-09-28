@@ -1,8 +1,8 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAA;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

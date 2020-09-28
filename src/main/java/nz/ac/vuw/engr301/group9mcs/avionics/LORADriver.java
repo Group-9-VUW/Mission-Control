@@ -7,12 +7,12 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
-import nz.ac.vuw.engr301.group9mcs.commons.Condition;
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.commons.RocketData;
 import nz.ac.vuw.engr301.group9mcs.commons.RocketDataListener;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Condition;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
  * A driver for the USB LoRA receiver. 

@@ -1,8 +1,10 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.externaldata.LandingSiteProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteProcessor;
+
 import java.util.List;
 
 /**

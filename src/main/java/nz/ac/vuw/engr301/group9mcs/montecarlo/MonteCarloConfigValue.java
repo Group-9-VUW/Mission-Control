@@ -6,7 +6,7 @@ package nz.ac.vuw.engr301.group9mcs.montecarlo;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 /**
  * An enumeration for all the configurable values in the Monte Carlo program

@@ -7,8 +7,8 @@ import java.util.ArrayDeque;
 
 import jssc.SerialPort;
 import jssc.SerialPortException;
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
  * @author Claire

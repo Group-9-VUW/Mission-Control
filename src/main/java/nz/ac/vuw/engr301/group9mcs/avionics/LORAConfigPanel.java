@@ -18,8 +18,8 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
  * A configuration panel for the LORA driver

@@ -1,7 +1,8 @@
 package nz.ac.vuw.engr301.group9mcs.commons;
 
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.OWMGetter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -177,7 +178,7 @@ public class PythonContext {
 	public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
-            NOAAGetter.checkValidLatAndLon(latitude, longitude);
+            OWMGetter.checkValidLatAndLon(latitude, longitude);
         } catch (InvalidParameterException e){
             DefaultLogger.logger.error(e.getMessage());
             throw e;

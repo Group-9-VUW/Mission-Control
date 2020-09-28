@@ -10,11 +10,11 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Condition;
-import nz.ac.vuw.engr301.group9mcs.commons.InvariantViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.PostconditionViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Condition;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.InvariantViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PostconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
 
 /**
  * @author Claire

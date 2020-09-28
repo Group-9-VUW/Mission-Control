@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.Point;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAWeatherData;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
 /**
  * An interface to invoke the monte carlo simulation program

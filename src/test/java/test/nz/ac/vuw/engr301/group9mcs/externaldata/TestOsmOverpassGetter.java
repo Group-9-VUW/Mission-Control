@@ -1,11 +1,12 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.externaldata.OsmOverpassData;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassData;
+
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
-import static nz.ac.vuw.engr301.group9mcs.externaldata.OsmOverpassGetter.*;
+import static nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassGetter.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**

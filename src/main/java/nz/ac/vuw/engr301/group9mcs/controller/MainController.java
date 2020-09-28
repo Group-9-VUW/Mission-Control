@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import nz.ac.vuw.engr301.group9mcs.controller.perspectives.Perspective;
+
 /**
  * Controller class.
  * Creates the screen.

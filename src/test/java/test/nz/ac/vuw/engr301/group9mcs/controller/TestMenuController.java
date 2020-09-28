@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import org.eclipse.jdt.annotation.Nullable;
 import org.junit.jupiter.api.Test;
 
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 
 /**
