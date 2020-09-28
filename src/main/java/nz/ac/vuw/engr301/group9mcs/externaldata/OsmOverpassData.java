@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.Null;
 import org.eclipse.jdt.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -149,14 +150,6 @@ public class OsmOverpassData {
             for (Long id : this.NODE_IDS) {
                 this.NODES.add(nodes.get(id));
             }
-        }
-
-        /**
-         * Gets an unmodifiable list of nodes composing the way.
-         * @return Returns unmodifiable list of nodes composing the way.
-         */
-        public List<Node> getNodes() {
-            return Collections.unmodifiableList(this.NODES);
         }
 
 		/**

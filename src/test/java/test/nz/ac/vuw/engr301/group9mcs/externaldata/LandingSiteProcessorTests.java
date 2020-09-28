@@ -29,7 +29,6 @@ public class LandingSiteProcessorTests {
     }
 
     @Test
-	static
     void testSingleNotClearPoint() {
         // Point on Cotton building.
         double[][] landingPoints = new double[][]{
