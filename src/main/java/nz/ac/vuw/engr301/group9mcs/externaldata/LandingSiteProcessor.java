@@ -91,16 +91,17 @@ public class LandingSiteProcessor {
             List<OsmOverpassData.Node> nodes = w.getNodes();
             int intersections = 0;
             for (int i = 0; i < nodes.size(); ++i) {
-                Line2D edge = new Line2D.Double(
-                        nodes.get(i).LON,
-                        nodes.get(i).LAT,
+                @SuppressWarnings("null")
+				Line2D edge = new Line2D.Double(
+                        Null.nonNull(nodes.get(i).LON),
+                        Null.nonNull(nodes.get(i).LAT),
                         // We must check against the first node again here.
-                        nodes.get(i < nodes.size() - 1
+                        Null.nonNull(nodes.get(i < nodes.size() - 1
                                 ? i + 1
-                                : 0).LON,
-                        nodes.get(i < nodes.size() - 1
+                                : 0).LON),
+                        Null.nonNull(nodes.get(i < nodes.size() - 1
                                 ? i + 1
-                                : 0).LAT);
+                                : 0).LAT));
                 if (ray.intersectsLine(edge)) {
                     intersections++;
                 }

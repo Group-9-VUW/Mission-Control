@@ -11,11 +11,13 @@ import java.util.List;
  * @author jewellbail
  */
 @SuppressWarnings("static-method")
-public class LandingSiteProcessorTests {
+public class TestLandingSiteProcessor {
 
+	/**
+	 * Clear point on Kelburn park.
+	 */
     @Test
     void testSingleClearPoint() {
-        // Clear point on Kelburn park.
         double[][] landingPoints = new double[][]{
                 {-41.28602, 174.77032}
         };
@@ -28,9 +30,11 @@ public class LandingSiteProcessorTests {
         Assertions.assertEquals(landingPoints[0], validPoints.get(0));
     }
 
+    /**
+     * Not clear point on Cotton building.
+     */
     @Test
     void testSingleNotClearPoint() {
-        // Point on Cotton building.
         double[][] landingPoints = new double[][]{
                 {-41.29020, 174.76825},
         };
@@ -42,9 +46,11 @@ public class LandingSiteProcessorTests {
         Assertions.assertEquals(0, validPoints.size());
     }
 
+    /**
+     * One clear point in Kelburn park, one unclear point on Cotton building.
+     */
     @Test
     void testOneClearPoint() {
-        // One clear point in Kelburn park, one point on Cotton building.
         double[][] landingPoints = new double[][]{
                 {-41.29020, 174.76825},
                 {-41.28602, 174.77032}
@@ -58,9 +64,11 @@ public class LandingSiteProcessorTests {
         Assertions.assertEquals(landingPoints[1], validPoints.get(0));
     }
 
+    /**
+     * All clear points in Kelburn park.
+     */
     @Test
     void testAllClearPoints() {
-        // All clear points in Kelburn park.
         double[][] landingPoints = new double[][]{
                 {-41.28582, 174.77002},
                 {-41.28608, 174.76966},
@@ -75,9 +83,11 @@ public class LandingSiteProcessorTests {
         Assertions.assertEquals(landingPoints.length, validPoints.size());
     }
 
+    /**
+     * No clear points, all small buildings.
+     */
     @Test
     void testNoClearPoints() {
-        // No clear points, all small buildings.
         double[][] landingPoints = new double[][]{
                 {-41.28571, 174.76878},
                 {-41.28593, 174.76893},
