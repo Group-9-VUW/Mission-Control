@@ -12,9 +12,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import nz.ac.vuw.engr301.group9mcs.commons.InvariantViolationException;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.InvariantViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
 
 /**
  * Controller Class for the Menu.

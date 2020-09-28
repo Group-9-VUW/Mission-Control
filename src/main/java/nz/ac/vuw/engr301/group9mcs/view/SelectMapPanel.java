@@ -17,10 +17,10 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
-import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
+import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.SmoothMapImage;
 
 /**
  * This view displays the Map in a specified window. The user can zoom in/out of the map using a mouse scroll wheel

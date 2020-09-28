@@ -18,9 +18,9 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.junit.jupiter.api.Test;
 
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.FileAppender;
-import nz.ac.vuw.engr301.group9mcs.commons.LoggerLayout;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.FileAppender;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.LoggerLayout;
 
 /**
  * Test cases for testing the default logger, logger layout and appenders.

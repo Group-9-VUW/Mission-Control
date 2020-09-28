@@ -9,8 +9,8 @@ import java.io.IOException;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.jupiter.api.Test;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
-import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
-import nz.ac.vuw.engr301.group9mcs.externaldata.SmoothMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.CachedMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.SmoothMapImage;
 
 /**
  * Tests the SmoothMapImage class.

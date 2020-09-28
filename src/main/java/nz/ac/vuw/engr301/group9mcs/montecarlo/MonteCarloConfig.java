@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import nz.ac.vuw.engr301.group9mcs.commons.CSVWriter;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.io.CSVWriter;
 
 /**
  * A class representing a config for the monte carlo simulation program

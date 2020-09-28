@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import nz.ac.vuw.engr301.group9mcs.commons.CSVReader;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
-import nz.ac.vuw.engr301.group9mcs.commons.Point;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.commons.SimpleEventListener;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.io.CSVReader;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 /**
  * A class representing a monte carlo simulation

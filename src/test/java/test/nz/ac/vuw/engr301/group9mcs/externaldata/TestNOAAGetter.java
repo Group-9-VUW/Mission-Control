@@ -1,7 +1,8 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import nz.ac.vuw.engr301.group9mcs.commons.OWWeatherData;
-import nz.ac.vuw.engr301.group9mcs.externaldata.NOAAGetter;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.OWMGetter;
+
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -24,14 +25,14 @@ public class TestNOAAGetter {
 	/**
 	 * The default NOAAGetter.
 	 */
-    private NOAAGetter getter = new NOAAGetter("ead647e24776f26ed6f63af5f1bbf68c");
+    private OWMGetter getter = new OWMGetter("ead647e24776f26ed6f63af5f1bbf68c");
 
     /**
      * Determines whether the NOAAGetter can connect to NOAA.
      * @return whether NOAA can be reached or not
      */
     private static boolean canConnect() {
-        return NOAAGetter.isAvailable();
+        return OWMGetter.isAvailable();
     }
 
     /**
@@ -40,7 +41,7 @@ public class TestNOAAGetter {
     @SuppressWarnings("static-method")
     @Test
     public void testAppID() {
-        NOAAGetter testGetter = new NOAAGetter("");
+        OWMGetter testGetter = new OWMGetter("");
         testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
         assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
     }

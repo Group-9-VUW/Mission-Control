@@ -3,6 +3,8 @@
  */
 package nz.ac.vuw.engr301.group9mcs.controller;
 
+import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
+
 /**
  * @author Claire
  */

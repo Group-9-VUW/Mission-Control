@@ -15,8 +15,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
-import nz.ac.vuw.engr301.group9mcs.externaldata.CachedMapImage;
-import nz.ac.vuw.engr301.group9mcs.externaldata.InternetMapImage;
+
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.CachedMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 
 /**
  * Tests for CacheMapImage

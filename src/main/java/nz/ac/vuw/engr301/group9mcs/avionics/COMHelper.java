@@ -1,7 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.avionics;
 
 import jssc.SerialPortList;
-import nz.ac.vuw.engr301.group9mcs.commons.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 /**
  * A helper class for accessing serial COM ports

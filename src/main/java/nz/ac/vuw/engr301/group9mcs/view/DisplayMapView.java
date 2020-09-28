@@ -29,10 +29,10 @@ import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
-import nz.ac.vuw.engr301.group9mcs.commons.DefaultLogger;
-import nz.ac.vuw.engr301.group9mcs.commons.LongLatHelper;
-import nz.ac.vuw.engr301.group9mcs.commons.PreconditionViolationException;
-import nz.ac.vuw.engr301.group9mcs.externaldata.MapImage;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
+import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
 /**
  * Display map view is for showing the position of the rocket.
