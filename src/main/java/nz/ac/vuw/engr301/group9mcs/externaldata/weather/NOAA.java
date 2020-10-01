@@ -4,6 +4,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -20,8 +21,12 @@ public class NOAA {
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead, int utcTime) throws IOException {
-        String output = PythonContext.runNOAA(latitude, longitude, daysAhead, utcTime);
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead, Calendar date) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh");
+
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        String output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
 
         JSONArray array = new JSONArray(output);
 
@@ -50,7 +55,15 @@ public class NOAA {
         return weatherReadings;
     }
 
+    /**
+     * Leaving this here as an example on how to call the method.
+     * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
+     */
     public static void main(String[] args) throws IOException {
-        System.out.println(getWeather(41, 174, 0, 1));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        System.out.println(getWeather(41, 174, 0,
+                calendar));
     }
 }
