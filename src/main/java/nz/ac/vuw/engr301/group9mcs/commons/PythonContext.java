@@ -212,7 +212,7 @@ public class PythonContext {
 
         // If the output is empty or if the output does not contains a '[' (showing that the output
         // does not contain an array) then there was an error retrieving the output.
-        if (output.toString().isEmpty() || output.toString().contains("[")) {
+        if (output.toString().isEmpty() || !output.toString().contains("[")) {
             DefaultLogger.logger.error("Error retrieving NOAA weather data.");
             throw new NOAAException("Could not retrieve weather from NOAA.");
         }
@@ -221,6 +221,6 @@ public class PythonContext {
     }
 
     public static void main(String[] args) throws IOException {
-        runNOAA(41, 174, 0);
+        System.out.println(runNOAA(41, 174, 0));
     }
 }
