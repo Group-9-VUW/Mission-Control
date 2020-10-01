@@ -11,17 +11,19 @@ import sys
 # python3 scripts/noaa.py <latitude> <longitude> <daysAhead>
 
 # Check the supplied arguements
-if(len(sys.argv) != 4):
+if(len(sys.argv) != 5):
     print("Invalid Arguments\n")
     print("Command line arguments should follow this format:\n")
     print("python3 scripts/noaa.py <latitude> <longitude> <daysAhead>\n")
     exit()
 
+utc_time = sys.argv[4]
+print(utc_time)
 # Create our Environment (set its railLength, latitude and longitude)
 Env = Environment(railLength=5, latitude=float(sys.argv[1]), longitude=float(sys.argv[2]))
 # Set the day we want to retrive the forecast for
 forecast = datetime.date.today() + datetime.timedelta(int(sys.argv[3]))
-Env.setDate((forecast.year, forecast.month, forecast.day, 00))
+Env.setDate((forecast.year, forecast.month, forecast.day, 1))
 # Set the elevation for the launch site, 876 is default. 
 Env.setElevation(876)
 Env.setAtmosphericModel(type='Forecast', file='GFS')
