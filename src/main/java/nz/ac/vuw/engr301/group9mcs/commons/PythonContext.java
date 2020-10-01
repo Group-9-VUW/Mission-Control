@@ -202,7 +202,7 @@ public class PythonContext {
             InputStream is = process.getInputStream();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
-                    output.append(forecastReading + "\n");
+                    output.append(forecastReading).append("\n");
                 }
             }
         } catch (IOException e) {
@@ -221,6 +221,7 @@ public class PythonContext {
     }
 
     public static void main(String[] args) throws IOException {
-        runNOAA(41, 174, 0);
+        //installRequiredModules();
+        System.out.println( runNOAA(41, 174, 0));
     }
 }
