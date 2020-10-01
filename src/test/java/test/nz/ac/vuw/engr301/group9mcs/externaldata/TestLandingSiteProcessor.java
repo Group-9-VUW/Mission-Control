@@ -1,5 +1,6 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
         Assertions.assertEquals(landingPoints[0], validPoints.get(0));
@@ -43,7 +44,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(0, validPoints.size());
     }
@@ -60,7 +61,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
         Assertions.assertEquals(landingPoints[1], validPoints.get(0));
@@ -80,7 +81,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(landingPoints.length, validPoints.size());
     }
@@ -98,7 +99,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(0, validPoints.size());
     }

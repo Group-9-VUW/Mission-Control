@@ -2,12 +2,14 @@ package nz.ac.vuw.engr301.group9mcs.externaldata.map;
 
 import java.awt.geom.Line2D;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 /**
  * Determines acceptability of landing points.
@@ -23,13 +25,32 @@ public class LandingSiteProcessor {
     /**
      * Array of possible landing locations - [point][lat, lon].
      */
-    private final double[][] points;
+    private final List<Point> points;
 
     /**
      * Class constructor. Retrieves the appropriate map data from the Overpass API.
      * @param points Array of points[lat, lon] representing potential landing locations.
      */
     public LandingSiteProcessor(double[][] points) {
+        this.points = new ArrayList<>();
+        for (double[] point : points) {
+            this.points.add(new Point(point[1], point[0]));
+        }
+        double[] boundingBox = calculatePointsBoundingBox();
+        System.out.println(Arrays.toString(boundingBox));
+        assert boundingBox != null;
+        try {
+            this.data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
+        } catch (IOException e) {
+            throw new PreconditionViolationException(e);
+        }
+    }
+
+    /**
+     * Class constructor. Retrieves the appropriate map data from the Overpass API.ç
+     * @param points List of Point objects representing potential landing locations.
+     */
+    public LandingSiteProcessor(List<Point> points) {
         this.points = points;
         double[] boundingBox = calculatePointsBoundingBox();
         assert boundingBox != null;
@@ -45,8 +66,8 @@ public class LandingSiteProcessor {
      * @return Returns a list of valid landing points.
      */
     @SuppressWarnings("null")
-    public List<double[]> getValidPoints() {
-        return Null.nonNull(Arrays.stream(this.points)
+    public List<Point> getValidPoints() {
+        return Null.nonNull(this.points.stream()
                 .filter(this::rayCast)
                 .collect(Collectors.toList()));
     }
@@ -60,11 +81,11 @@ public class LandingSiteProcessor {
         // represents the smallest magnitude of a double (a very small positive number), not the lowest value.
         double north = -Double.MAX_VALUE, south = Double.MAX_VALUE, east = -Double.MAX_VALUE, west = Double.MAX_VALUE;
 
-        for (double[] point : this.points) {
-            north = Math.max(point[0], north);
-            south = Math.min(point[0], south);
-            east = Math.max(point[1], east);
-            west = Math.min(point[1], west);
+        for (Point point : this.points) {
+            north = Math.max(point.getLatitude(), north);
+            south = Math.min(point.getLongitude(), south);
+            east = Math.max(point.getLongitude(), east);
+            west = Math.min(point.getLatitude(), west);
         }
 
         return new double[]{north+0.0005, west-0.0005, south-0.0005, east+0.0005};
@@ -81,10 +102,11 @@ public class LandingSiteProcessor {
      * @param point Latitude, longitude of point.
      * @return Returns false if the point is within a polygon, true otherwise.
      */
-    private boolean rayCast(double[] point) {
+    private boolean rayCast(Point point) {
         // Return true if no polygons in data - this means there are no buildings in the area to check against.
         if (this.data.getWays().size() == 0) return true;
-        Line2D ray = new Line2D.Double(point[1], point[0], point[1] + 0.05, point[0]-0.05);
+        Line2D ray = new Line2D.Double(point.getLongitude(), point.getLatitude(),
+                point.getLongitude() + 0.05, point.getLatitude()-0.05);
 
         // Each building is represented by a way.
         for (OsmOverpassData.Way w : this.data.getWays()) {
