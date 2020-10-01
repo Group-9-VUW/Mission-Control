@@ -50,4 +50,7 @@ public class NOAA {
         return weatherReadings;
     }
 
+    public static void main(String[] args) throws IOException {
+        System.out.println(getWeather(41, 174, 0, 1));
+    }
 }

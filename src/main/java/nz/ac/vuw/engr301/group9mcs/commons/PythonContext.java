@@ -209,15 +209,28 @@ public class PythonContext {
             DefaultLogger.logger.error("Error while trying to run noaa.py");
             throw e;
         }
-
-        // If the output is empty or if the output does not contains a '[' (showing that the output
-        // does not contain an array) then there was an error retrieving the output.
-        if (output.toString().isEmpty() || !output.toString().contains("[")) {
-            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
-            throw new NOAAException("Could not retrieve weather from NOAA.");
-        }
+        //System.out.println(output.toString());
+        //int arrayIndex = output.toString().indexOf("[");
+//        if (arrayIndex == -1) {
+//            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
+//            throw new NOAAException("Could not retrieve weather from NOAA.");
+//        } else {
+//            System.out.println(output.toString().substring(arrayIndex, output.length()-1));
+//        }
+//        // If the output is empty or if the output does not contains a '[' (showing that the output
+//        // does not contain an array) then there was an error retrieving the output.
+//        if (output.toString().isEmpty() || !output.toString().contains("[")) {
+//            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
+//            throw new NOAAException("Could not retrieve weather from NOAA.");
+//        }
 
         return output.toString();
     }
+
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(runNOAA(41, 174, 0, 1));
+    }
+
 
 }
