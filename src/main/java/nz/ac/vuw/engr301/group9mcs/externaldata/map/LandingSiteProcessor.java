@@ -34,7 +34,7 @@ public class LandingSiteProcessor {
     public LandingSiteProcessor(double[][] points) {
         this.points = new ArrayList<>();
         for (double[] point : points) {
-            this.points.add(new Point(point[1], point[0]));
+            this.points.add(new Point(point[0], point[1]));
         }
         double[] boundingBox = calculatePointsBoundingBox();
         System.out.println(Arrays.toString(boundingBox));
@@ -83,9 +83,9 @@ public class LandingSiteProcessor {
 
         for (Point point : this.points) {
             north = Math.max(point.getLatitude(), north);
-            south = Math.min(point.getLongitude(), south);
+            south = Math.min(point.getLatitude(), south);
             east = Math.max(point.getLongitude(), east);
-            west = Math.min(point.getLatitude(), west);
+            west = Math.min(point.getLongitude(), west);
         }
 
         return new double[]{north+0.0005, west-0.0005, south-0.0005, east+0.0005};

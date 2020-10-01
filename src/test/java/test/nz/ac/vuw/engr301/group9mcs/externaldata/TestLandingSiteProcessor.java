@@ -30,7 +30,8 @@ public class TestLandingSiteProcessor {
         List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
-        Assertions.assertEquals(landingPoints[0], validPoints.get(0));
+        Assertions.assertEquals(landingPoints[0][0], validPoints.get(0).getLatitude());
+        Assertions.assertEquals(landingPoints[0][1], validPoints.get(0).getLongitude());
     }
 
     /**
@@ -64,7 +65,8 @@ public class TestLandingSiteProcessor {
         List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
-        Assertions.assertEquals(landingPoints[1], validPoints.get(0));
+        Assertions.assertEquals(landingPoints[1][0], validPoints.get(0).getLatitude());
+        Assertions.assertEquals(landingPoints[1][1], validPoints.get(0).getLongitude());
     }
 
     /**
