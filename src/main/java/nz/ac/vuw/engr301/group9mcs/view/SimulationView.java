@@ -34,7 +34,7 @@ public class SimulationView extends JPanel{
 
 	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
-		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271)};
+		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271), new Point(-41.305569,174.739941)};
 		frame.add(new SimulationView(points, new Point(-41.290373, 174.768260), new InternetMapImage()));
 		frame.setPreferredSize(new Dimension(300, 300));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,9 +48,9 @@ public class SimulationView extends JPanel{
 	private JComponent panel;
 
 	/**
-	 * The size of the dots in relation to screen size.
+	 * The dot size.
 	 */
-	private int dotRatio = 30;
+	private int dotsize = 10;
 
 	/**
 	 * List of points returned from Simulation
@@ -120,6 +120,10 @@ public class SimulationView extends JPanel{
 		double radLat, radLon;
 
 		if(latDiff > longDiff) {
+			// Gets the size of the screen (lat) 
+			// by the latDiff ( * 1.2 so it's not on the edges) 
+			// OR
+			// 500 meters (if larger)
 			radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude()), latDiff * 1.2);
 			radLon = (radLat * LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude())) / LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude());
 		} else {
@@ -140,6 +144,7 @@ public class SimulationView extends JPanel{
 			radLat /= width;
 		}
 
+		// work out the Upper Left and Lower Right corners
 		double latUL = this.launchsite.getLatitude() + radLat;
 		double lonUL = this.launchsite.getLongitude() - radLon;
 		double latLR = this.launchsite.getLatitude() - radLat;
@@ -154,9 +159,10 @@ public class SimulationView extends JPanel{
 		Image image = this.mapData.get(latUL, lonUL, latLR, lonLR);
 		g.drawImage(image, 0, 0, width, height, null);
 
-		// draw the rocket and launch site on the map
+		// draw the launch site on the map
 		drawLaunchSite(width - xlaunch, height - ylaunch, g);
 		
+		// draw all points on the map
 		for(Point p : this.points) {
 			int x = (int) ((p.getLongitude() - lonUL) / xRatio);
 			int y = (int) ((latUL - p.getLatitude()) / yRatio);
@@ -240,7 +246,7 @@ public class SimulationView extends JPanel{
 	 */
 	private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
 		g.setColor(Color.red);
-		int size = this.panel.getSize().height / this.dotRatio;
+		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
 	}
 
@@ -254,7 +260,7 @@ public class SimulationView extends JPanel{
 	 */
 	private void drawRocket(int xlocation, int ylocation, Graphics g) {
 		g.setColor(Color.blue);
-		int size = this.panel.getSize().height / this.dotRatio;
+		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
 	}
 
