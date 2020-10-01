@@ -18,6 +18,7 @@ public class NOAA {
      * @param latitude the latitude of the launch site
      * @param longitude the longitude of the launch site
      * @param daysAhead how far ahead (in days from the current time) the user would like their forecast
+     * @param date a Date Time object of the date the user wants the forecast for. 
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
@@ -59,11 +60,11 @@ public class NOAA {
      * Leaving this here as an example on how to call the method.
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
      */
-    public static void main(String[] args) throws IOException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-
-        System.out.println(getWeather(41, 174, 0,
-                calendar));
-    }
+//    public static void main(String[] args) throws IOException {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//
+//        System.out.println(getWeather(41, 174, 0,
+//                calendar));
+//    }
 }

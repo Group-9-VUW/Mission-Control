@@ -170,6 +170,7 @@ public class PythonContext {
      * @param longitude the longitude of the launch site
      * @param daysAhead how far ahead the user wants the forecast (i.e provide 2 for daysAhead if they want the
      *                  forecast for two days from now.
+     * @param utcTime the time the user wants the forecast at (in UTC) 
      * @return a string with the forecast information.
      * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
      * @throws IOException if the noaa script could not be ran.
@@ -185,7 +186,7 @@ public class PythonContext {
         }
 
         // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0. 
-        if(daysAhead < 0){
+        if (daysAhead < 0) {
             String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
             DefaultLogger.logger.error(errorMessage);
             throw new InvalidParameterException(errorMessage);
@@ -217,11 +218,4 @@ public class PythonContext {
 
         return output.toString().substring(arrayIndex, output.length()-1);
     }
-
-
-    public static void main(String[] args) throws IOException {
-        System.out.println(runNOAA(41, 174, 0, 1));
-    }
-
-
 }
