@@ -17,6 +17,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
 /**
@@ -33,15 +34,15 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
  */
 public class SimulationView extends JPanel{
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
 		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271)};
-		frame.add(new SimulationView(points, new Point(-41.290373, 174.768260)));
+		frame.add(new SimulationView(points, new Point(-41.290373, 174.768260), new InternetMapImage()));
 		frame.setPreferredSize(new Dimension(300, 300));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-	}
+	}*/
 	
 	/**
 	 * The drawing panel.
@@ -71,7 +72,7 @@ public class SimulationView extends JPanel{
 	/**
 	 * Provides the map image.
 	 */
-	//TODO private MapImage mapData;
+	private MapImage mapData;
 
 	/**
 	 * Set up JPanel for Displaying Map of Rocket's Progress.
@@ -79,9 +80,9 @@ public class SimulationView extends JPanel{
 	 * @param launchsite The Launch site
 	 * @param mapData The MapData class, provides the map image
 	 */
-	public SimulationView(Point[] points, Point launchsite) {//, MapImage mapData) {
+	public SimulationView(Point[] points, Point launchsite, MapImage mapData) {
 		this.points = points;
-		//TODO this.mapData = mapData;
+		this.mapData = mapData;
 		this.launchsite = launchsite;
 
 		this.setPreferredSize(new Dimension(300, 300));
@@ -152,9 +153,8 @@ public class SimulationView extends JPanel{
 		int xlaunch = (int) ((this.launchsite.getLongitude() - lonUL) / xRatio);
 		int ylaunch = (int) ((latUL - this.launchsite.getLatitude()) / yRatio);
 
-		/*TODO
 		Image image = this.mapData.get(latUL, lonUL, latLR, lonLR);
-		g.drawImage(image, 0, 0, width, height, null);*/
+		g.drawImage(image, 0, 0, width, height, null);
 
 		// draw the rocket and launch site on the map
 		drawLaunchSite(width - xlaunch, height - ylaunch, g);
@@ -162,7 +162,7 @@ public class SimulationView extends JPanel{
 		for(Point p : this.points) {
 			int x = (int) ((p.getLongitude() - lonUL) / xRatio);
 			int y = (int) ((latUL - p.getLatitude()) / yRatio);
-			drawRocket(width - x, height - y, g);
+			drawRocket(x, y, g);
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class SimulationView extends JPanel{
 	 * @param g The Graphics drawer
 	 */
 	private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
-		g.setColor(Color.green);
+		g.setColor(Color.red);
 		int size = this.panel.getSize().height / this.dotRatio;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
 	}
