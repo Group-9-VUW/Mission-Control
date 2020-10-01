@@ -16,5 +16,5 @@ unittest:
     - Shell
   script:
     - mvn clean verify
-    - python coverage.py
+    - python3.6 coverage.py
   allow_failure: false
