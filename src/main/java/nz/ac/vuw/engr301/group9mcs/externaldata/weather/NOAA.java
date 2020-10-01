@@ -20,8 +20,8 @@ public class NOAA {
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead) throws IOException {
-        String output = PythonContext.runNOAA(latitude, longitude, daysAhead);
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead, int utcTime) throws IOException {
+        String output = PythonContext.runNOAA(latitude, longitude, daysAhead, utcTime);
 
         JSONArray array = new JSONArray(output);
 

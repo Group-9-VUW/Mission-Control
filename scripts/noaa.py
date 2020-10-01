@@ -18,7 +18,6 @@ if(len(sys.argv) != 5):
     exit()
 
 utc_time = int(sys.argv[4])
-print(utc_time)
 # Create our Environment (set its railLength, latitude and longitude)
 Env = Environment(railLength=5, latitude=float(sys.argv[1]), longitude=float(sys.argv[2]))
 # Set the day we want to retrive the forecast for

@@ -175,7 +175,7 @@ public class PythonContext {
      * @throws IOException if the noaa script could not be ran.
      */
     @SuppressWarnings("null")
-	public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
+	public static String runNOAA(double latitude, double longitude, int daysAhead, int utcTime) throws InvalidParameterException, IOException{
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             OWMGetter.checkValidLatAndLon(latitude, longitude);
@@ -198,7 +198,7 @@ public class PythonContext {
 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py "
-                    +  latitude + " " + longitude + " " + daysAhead + " " + "00");
+                    +  latitude + " " + longitude + " " + daysAhead + " " + utcTime);
             InputStream is = process.getInputStream();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
@@ -210,17 +210,14 @@ public class PythonContext {
             throw e;
         }
 
-//        // If the output is empty or if the output does not contains a '[' (showing that the output
-//        // does not contain an array) then there was an error retrieving the output.
-//        if (output.toString().isEmpty() || !output.toString().contains("[")) {
-//            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
-//            throw new NOAAException("Could not retrieve weather from NOAA.");
-//        }
+        // If the output is empty or if the output does not contains a '[' (showing that the output
+        // does not contain an array) then there was an error retrieving the output.
+        if (output.toString().isEmpty() || !output.toString().contains("[")) {
+            DefaultLogger.logger.error("Error retrieving NOAA weather data.");
+            throw new NOAAException("Could not retrieve weather from NOAA.");
+        }
 
         return output.toString();
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(runNOAA(41, 174, 0));
-    }
 }
