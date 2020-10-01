@@ -32,7 +32,6 @@ public class LandingSiteProcessor {
     public LandingSiteProcessor(double[][] points) {
         this.points = points;
         double[] boundingBox = calculatePointsBoundingBox();
-        assert boundingBox != null;
         try {
             this.data = OsmOverpassGetter.getAreasInBox(boundingBox[0], boundingBox[1], boundingBox[2], boundingBox[3]);
         } catch (IOException e) {
