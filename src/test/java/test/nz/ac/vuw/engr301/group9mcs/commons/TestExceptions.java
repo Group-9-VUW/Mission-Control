@@ -83,4 +83,37 @@ public class TestExceptions {
 		assertNull(e.getCause().getMessage());
 		assertEquals(0, e.getStackTrace().length);
 	}
+	
+	/**
+	 * Tests the InvariantViolationException class.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testInvariantViolationExceptions() {
+		InvariantViolationException e;
+		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {throw new InvariantViolationException();}));
+		assertNull(e.getMessage());
+		assertNull(e.getCause());
+
+		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {throw new InvariantViolationException("err");}));
+		assertEquals("err", e.getMessage());
+		assertNull(e.getCause());
+
+		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {throw new InvariantViolationException(new Throwable());}));
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+
+		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {
+			throw new InvariantViolationException("err", new Throwable());}));
+		assertEquals("err", e.getMessage());
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+
+		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {
+			throw new InvariantViolationException("err", new Throwable(), true, false);}));
+		assertEquals("err", e.getMessage());
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+		assertEquals(0, e.getStackTrace().length);
+	}
 }
