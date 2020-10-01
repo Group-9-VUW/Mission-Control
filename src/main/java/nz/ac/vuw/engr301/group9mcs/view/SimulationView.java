@@ -11,13 +11,11 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
-import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
 /**
