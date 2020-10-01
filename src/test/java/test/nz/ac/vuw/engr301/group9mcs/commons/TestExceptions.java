@@ -83,7 +83,7 @@ public class TestExceptions {
 		assertNull(e.getCause().getMessage());
 		assertEquals(0, e.getStackTrace().length);
 	}
-	
+
 	/**
 	 * Tests the InvariantViolationException class.
 	 */
@@ -111,6 +111,39 @@ public class TestExceptions {
 
 		e = Null.nonNull(assertThrows(InvariantViolationException.class, () -> {
 			throw new InvariantViolationException("err", new Throwable(), true, false);}));
+		assertEquals("err", e.getMessage());
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+		assertEquals(0, e.getStackTrace().length);
+	}
+
+	/**
+	 * Tests the NOAAException class.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testNOAAExceptions() {
+		NOAAException e;
+		e = Null.nonNull(assertThrows(NOAAException.class, () -> {throw new NOAAException();}));
+		assertNull(e.getMessage());
+		assertNull(e.getCause());
+
+		e = Null.nonNull(assertThrows(NOAAException.class, () -> {throw new NOAAException("err");}));
+		assertEquals("err", e.getMessage());
+		assertNull(e.getCause());
+
+		e = Null.nonNull(assertThrows(NOAAException.class, () -> {throw new NOAAException(new Throwable());}));
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+
+		e = Null.nonNull(assertThrows(NOAAException.class, () -> {
+			throw new NOAAException("err", new Throwable());}));
+		assertEquals("err", e.getMessage());
+		assertNotNull(e.getCause());
+		assertNull(e.getCause().getMessage());
+
+		e = Null.nonNull(assertThrows(NOAAException.class, () -> {
+			throw new NOAAException("err", new Throwable(), true, false);}));
 		assertEquals("err", e.getMessage());
 		assertNotNull(e.getCause());
 		assertNull(e.getCause().getMessage());
