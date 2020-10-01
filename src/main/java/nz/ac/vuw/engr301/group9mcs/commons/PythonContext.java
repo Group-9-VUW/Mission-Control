@@ -185,7 +185,7 @@ public class PythonContext {
         }
 
         // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0. 
-        if(daysAhead <= 0){
+        if(daysAhead < 0){
             String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
             DefaultLogger.logger.error(errorMessage);
             throw new InvalidParameterException(errorMessage);
@@ -218,5 +218,9 @@ public class PythonContext {
         }
 
         return output.toString();
+    }
+
+    public static void main(String[] args) throws IOException {
+        runNOAA(41, 174, 0);
     }
 }
