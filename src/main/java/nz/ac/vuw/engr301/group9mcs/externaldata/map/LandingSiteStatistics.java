@@ -2,7 +2,6 @@ package nz.ac.vuw.engr301.group9mcs.externaldata.map;
 
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ public class LandingSiteStatistics {
      * @return Returns the percentage of valid landing sites in the data object.
      */
     public static double getPercentageValid(LandingSitesData data) {
-        return data.getLandingPointsValid().size() / data.getLandingPointsAll().size() * 100;
+        return data.getLandingPointsValid().size() / (double) data.getLandingPointsAll().size() * 100;
     }
 
     /**
