@@ -68,20 +68,37 @@ public class CachedMapImage implements MapImage {
 	 */
 	public CachedMapImage(InternetMapImage data, double topLeftLat, double topLeftLong,
 			double bottomRightLat, double bottomRightLong) throws IOException {
+		this(data, topLeftLat, topLeftLong, bottomRightLat,
+				bottomRightLong, new File(IMG_CACHE_FOLDER +
+				((topLeftLat + bottomRightLat) / 2) + "-" +
+				((topLeftLong + bottomRightLong) / 2) + ".png"));
+	}
+
+	/**
+	 * Creates a new CachedMapData given an InternetMapData instance and relevant image parameters and
+	 * the file the data should be saved to.
+	 * @param data The instance of InternetMapData to get the image from.
+	 * @param topLeftLat The latitude of the top left of the image to get.
+	 * @param topLeftLong The longitude of the top left of the image to get.
+	 * @param bottomRightLat The latitude of the bottom right of the image to get.
+	 * @param bottomRightLong The longitude of the bottom right of the image to get.
+	 * @param pngFile The file that the PNG map image should be saved to.
+	 * @throws IOException if the image cannot be saved or obtained from OpenStreetMaps.
+	 */
+	public CachedMapImage(InternetMapImage data, double topLeftLat, double topLeftLong,
+			double bottomRightLat, double bottomRightLong, File pngFile) throws IOException {
 
 		this.topLeftLat = topLeftLat;
 		this.topLeftLong = topLeftLong;
 		this.bottomRightLat = bottomRightLat;
 		this.bottomRightLong = bottomRightLong;
 
-		double centreLat = (topLeftLat + bottomRightLat) / 2;
-		double centreLong = (topLeftLong + bottomRightLong) / 2;
-
 		this.img = data.get(topLeftLat, topLeftLong, bottomRightLat, bottomRightLong);
 
-		this.file = new File(IMG_CACHE_FOLDER + centreLat + "-" + centreLong + ".png");
+		this.file = pngFile;
 		saveMapToFile();
 	}
+
 
 	/**
 	 * Creates a new CachedMapData given a file to load a map image from.
