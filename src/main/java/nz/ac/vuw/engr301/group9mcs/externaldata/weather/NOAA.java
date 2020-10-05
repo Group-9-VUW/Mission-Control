@@ -18,6 +18,9 @@ import java.util.*;
  */
 public class NOAA {
 
+    /**
+     * Stores the latest forecast reading. 
+     */
     public static List<NOAAWeatherData> currentForecast = new ArrayList<>();
 
     /**
@@ -64,6 +67,11 @@ public class NOAA {
         return weatherReadings;
     }
 
+    /**
+     * Writes the latest forecast reading to a file.
+     * @param file the file to write the forecast to.
+     * @throws IOException if the file cannot be written to (i.e. doesn't exist).
+     */
     public static void writeToFile(File file) throws IOException{
         try {
             FileWriter writer = new FileWriter(file);
@@ -81,9 +89,10 @@ public class NOAA {
 
     /**
      * Leaving this here as an example on how to call the method.
-     * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
+     * The input for the date (i.e what type of object getWeather() accepts) is subject to change. 
+     * @param args command line arguments 
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
 //

@@ -136,7 +136,9 @@ public class TestNOAA {
             for (NOAAWeatherData data : NOAA.currentForecast) {
                 assertEquals(data.toString(), scan.nextLine());
             }
-        } catch (IOException e) {
+            
+            scan.close();
+        } catch (@SuppressWarnings("unused") IOException e) {
             fail("Error writing/reading to file for test");
         }
 
