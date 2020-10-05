@@ -20,7 +20,7 @@ public class TestNOAA {
     /**
      * Sample output from the NOAA script.
      */
-    public static final JSONArray testArray = new JSONArray("[{'altitude': 228.1233367919922, 'windSpeed': 3.4823615550994873, " +
+    private final JSONArray testArray = new JSONArray("[{'altitude': 228.1233367919922, 'windSpeed': 3.4823615550994873, " +
             "'windDirection': 85.77337646484375, 'temperature': 287.0677185058594, 'pressure': 100000.0}, " +
             "{'altitude': 440.8855285644531, 'windSpeed': 3.5565133094787598, 'windDirection': 86.97354125976562, " +
             "'temperature': 285.0450744628906, 'pressure': 97500.0}, {'altitude': 657.5938110351562, 'windSpeed': 3" +
