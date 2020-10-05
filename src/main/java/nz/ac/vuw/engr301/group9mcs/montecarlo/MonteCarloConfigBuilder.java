@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
@@ -76,16 +77,14 @@ public class MonteCarloConfigBuilder {
 	}
 
 	/**
-	 * @param angle The angle of the launch rod
-	 * @param direction The direction of the launch rod
-	 * @param length The length of the launch rod
+	 * @param data The launch rod data
 	 * @return This object, modified
 	 */
-	public MonteCarloConfigBuilder addLaunchRodData(double angle, double direction, double length)
+	public MonteCarloConfigBuilder addLaunchRodData(LaunchRodData data)
 	{
-		return this.addValue(MonteCarloConfigValue.LAUNCH_ROD_ANGLE, angle)
-				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_DIRECTION, direction)
-				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT, length);
+		return this.addValue(MonteCarloConfigValue.LAUNCH_ROD_ANGLE, data.getAngle())
+				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_DIRECTION, data.getDirection())
+				   .addValue(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT, data.getHeight());
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.controller.perspectives;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,6 +9,7 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
@@ -16,6 +18,7 @@ import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
 import nz.ac.vuw.engr301.group9mcs.view.launch.unarmed.GoNoGoView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.LaunchRodDialog;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
 
 /**
@@ -35,30 +38,47 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * The View Panel for getting the filename.
 	 */
 	private final JPanel fileGet = new SelectFileView(this);
+	
 	/**
 	 * The View Panel for choosing the site and time.
 	 */
 	private final JPanel siteMap = new SelectSiteView(this, new InternetMapImage());
+	
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
 	private final JPanel resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
+	
 	/**
 	 * The filename from SelectFileView.
 	 */
 	private String filename;
+	
 	/**
 	 * Location of launch site, Latitude.
 	 */
 	private double latitude;
+	
 	/**
 	 * Location of launch site, Longitude.
 	 */
 	private double longitude;
+	
 	/**
 	 * When the rocket will be flown HH:mm
 	 */
 	//private Date time; TODO use this
+	
+	/**
+	 * Launch rod data
+	 */
+	@SuppressWarnings("unused")
+	private @Nullable LaunchRodData launchRodData;
+	
+	/**
+	 * Resources instance;
+	 */
+	private @Nullable Resources resources;
 
 	/**
 	 * Create the Perspective and construct the Panel.
@@ -71,20 +91,34 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	@Override
 	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+		this.resources = resource;
 		this.switchTo(this.fileGet);
+		menu.enableItem("Simulation/Enter Launch Rod Data");
 		// TODO: does this perspective actually need resources?
 		// What about passing the MapImage class?
 		// Parameters from a simulation
 		// Access to a simulation
 		return this.panel;
 	}
-
+	
 
 	@Override
 	public void init(MenuController menu, Observer o) {
 		this.addObserver(o);
+		menu.addMenuItem("Simulation/Enter Launch Rod Data", "Enter Launch Rod Data", this::onLaunchRodEntry);
 	}
 
+	/**
+	 * For when the user clicks 'enter launch rod data'
+	 * @param e 
+	 */
+	public void onLaunchRodEntry(@Nullable ActionEvent e)
+	{
+		LaunchRodDialog dialog = new LaunchRodDialog(Null.nonNull(this.resources).getFrame());
+		this.launchRodData = dialog.getData();
+	}
+
+	
 	@Override
 	public String name() {
 		return "site";
