@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -126,8 +127,11 @@ public class TestNOAA {
      * Tests if the content written to the file is correct.
      */
     @Test
-    public void checkWriteToFile() {
+    public void checkWriteReadFile() {
+
         NOAA.currentForecast = NOAA.getSortedList(Null.nonNull(this.testArray));
+        List<NOAAWeatherData> actualList = new ArrayList<>();
+
         try {
             File testFile = new File("NOAA-writeToFile()-test.txt");
             NOAA.writeToFile(testFile);
@@ -142,11 +146,25 @@ public class TestNOAA {
                                 data.getPressure()
                         , scan.nextLine());
             }
-            
+
+
+
+            scan = new Scanner(testFile);
+
+            for (NOAAWeatherData data : actualList) {
+                assertEquals(
+                        data.getAltitude() + "," +
+                                data.getWindSpeed() + ',' +
+                                data.getWindDirection() + "," +
+                                data.getTemperature() + "," +
+                                data.getPressure()
+                        , scan.nextLine());
+            }
+
             scan.close();
         } catch (@SuppressWarnings("unused") IOException e) {
             fail("Error writing/reading to file for test");
         }
-
     }
+
 }

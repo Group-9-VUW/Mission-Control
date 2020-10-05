@@ -121,6 +121,5 @@ public class NOAA {
 //
 //        System.out.println(getWeather(41, 174, 0,
 //                calendar));
-        System.out.println(NOAA.readFromFile(new File("NOAA-writeToFile()-test.txt")));
     }
 }
