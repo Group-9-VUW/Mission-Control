@@ -2,6 +2,7 @@ package nz.ac.vuw.engr301.group9mcs.controller.perspectives;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +15,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.RocketDataListener;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.view.DisplayMapView;
 import nz.ac.vuw.engr301.group9mcs.view.launch.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.launch.RocketOutputPanel;
 import nz.ac.vuw.engr301.group9mcs.view.launch.WarningPanel;
@@ -45,11 +48,21 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 * Holds the Warning Panel and Disarm Button at the top of the page.
 	 */
 	private JPanel topPanel;
+	
+	/**
+	 * Holds the Rocket information in the center of the page.
+	 */
+	private JPanel rocketPanel;
 
 	/**
 	 * ROCKET DATA PANEL : text output from rocket?
 	 */
 	private RocketOutputPanel rocketDataPanel;
+	
+	/**
+	 * ROCKET VIEW PANEL : visual representation of rocket's path?
+	 */
+	private DisplayMapView rocketViewPanel;
 
 	/**
 	 * Resources for Perspective
@@ -64,7 +77,6 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		this.panel = new JPanel(new BorderLayout());
 
 		this.rocketDataPanel = new RocketOutputPanel();
-		this.rocketDataPanel.setPreferredSize(new Dimension(400, 300));
 
 		String[] args = {"Armed and Dangerous", "Do not touch while Armed"};
 		this.warningPanel = new WarningPanel(args);
@@ -77,8 +89,15 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
 		this.topPanel.add(this.disarmButton, BorderLayout.EAST);
 		this.topPanel.setPreferredSize(new Dimension(400, 100));
+		
+		// TODO : replace parameters with Resources
+		this.rocketViewPanel = new DisplayMapView(-41, 20, new InternetMapImage());
 
-		this.panel.add(this.rocketDataPanel, BorderLayout.CENTER);
+		this.rocketPanel = new JPanel(new GridLayout(1, 2));
+		this.rocketPanel.add(this.rocketDataPanel);
+		this.rocketPanel.add(this.rocketViewPanel);
+		
+		this.panel.add(this.rocketPanel, BorderLayout.CENTER);
 		this.panel.add(this.topPanel, BorderLayout.NORTH);
 	}
 
@@ -134,6 +153,7 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	@Override
 	public void receiveRocketData(RocketData data) {
 		this.rocketDataPanel.passRocketData(data);
+		this.rocketViewPanel.updateRocketPosition(data.getLatitude(), data.getLongitude());
 	}
 
 }
