@@ -26,7 +26,7 @@ class TestOsmOverpassGetter {
 	 * checks whether nodes have been retrieved.
 	 */
 	@Test
-	void testNodeRetrieval_01() {
+	public void testNodeRetrieval_01() {
 		try {
 			OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
 			assertFalse(data.getNodes().isEmpty());
@@ -41,7 +41,7 @@ class TestOsmOverpassGetter {
 	 * checks whether ways have been retrieved.
 	 */
 	@Test
-	void testWayRetrieval_01() {
+	public void testWayRetrieval_01() {
 		try {
 			OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
 			assertFalse(data.getWays().isEmpty());
@@ -55,7 +55,7 @@ class TestOsmOverpassGetter {
 	 * checks the names of the buildings retrieved.
 	 */
 	@Test
-	void testWayTags_01() {
+	public void testWayTags_01() {
 		try {
 			OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
 			assertEquals("Cotton Building", Null.nonNull(data.getWays().get(0)).getTags().get("name"));
@@ -74,7 +74,7 @@ class TestOsmOverpassGetter {
      *  2. Each building node set does NOT contain each other's nodes.
 	 */
 	@Test
-	void testNodeReferencesInWay_01() {
+	public void testNodeReferencesInWay_01() {
 		try {
 			OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
 			assertEquals("Cotton Building", Null.nonNull(data.getWays().get(0)).getTags().get("name"));

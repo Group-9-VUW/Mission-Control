@@ -75,7 +75,7 @@ public class TestNOAA {
      * Checks if each entry in the list has an altitude smaller than the next entry.
      */
     @Test
-    public void checkIsSorted() {
+    public void testIsSorted() {
         List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
 
         for (int i = 0; i < forecast.size() - 1; i++) {
@@ -87,7 +87,7 @@ public class TestNOAA {
      * Check the data correctly matches up with the corresponding altitude value.
      */
     @Test
-    public void checkDataCorrectness() {
+    public void testDataCorrectness() {
 
         List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
 
