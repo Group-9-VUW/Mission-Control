@@ -148,19 +148,13 @@ public class TestNOAA {
             }
 
 
+            
+            NOAA.readFromFile(testFile);
 
-            scan = new Scanner(testFile);
-
-            for (NOAAWeatherData data : actualList) {
-                assertEquals(
-                        data.getAltitude() + "," +
-                                data.getWindSpeed() + ',' +
-                                data.getWindDirection() + "," +
-                                data.getTemperature() + "," +
-                                data.getPressure()
-                        , scan.nextLine());
+            for (int i = 0; i < actualList.size(); i++) {
+            	assertEquals(actualList.get(i), NOAA.currentForecast.get(i));
             }
-
+            
             scan.close();
         } catch (@SuppressWarnings("unused") IOException e) {
             fail("Error writing/reading to file for test");

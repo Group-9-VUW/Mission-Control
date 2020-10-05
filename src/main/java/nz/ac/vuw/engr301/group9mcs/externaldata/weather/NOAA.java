@@ -90,7 +90,13 @@ public class NOAA {
     }
 
 
-    public static List<NOAAWeatherData> readFromFile(File file) throws FileNotFoundException {
+    /**
+     * Reads a forecast from a file. 
+     * @param file the file the forecast should be read from.
+     * @return a List of NOAAWeatherData objects created from the file.
+     * @throws IOException if there is an error trying to read the file. 
+     */
+    public static List<NOAAWeatherData> readFromFile(File file) throws IOException {
         try {
             Scanner scan = new Scanner(file);
 
@@ -102,7 +108,9 @@ public class NOAA {
                         Double.parseDouble(currentDataLine[3]),
                         Double.parseDouble(currentDataLine[4])));
             }
-
+            
+            
+            scan.close();
             return NOAA.currentForecast;
         } catch (IOException e) {
             DefaultLogger.logger.error("Error reading forecast from file: " + file.getName());
@@ -115,7 +123,7 @@ public class NOAA {
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change. 
      * @param args command line arguments 
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
 //
