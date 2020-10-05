@@ -24,7 +24,7 @@ public class TestBaseStationParser {
 	 * Checks if the parsed data holds the correct values.
 	 */
 	@Test
-	public void checkCorrectness() {
+	public void testCorrectness() {
 		String testData = "192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
 		RocketData parsedData = this.parser.parse(testData);
 
@@ -73,7 +73,7 @@ public class TestBaseStationParser {
 	 * Checks if the parser throws an error when passed an invalid type for a double. 
 	 */
 	@Test
-	public void checkInvalidDouble() {
+	public void testInvalidDouble() {
 		try {
 			String testData = "invalid_double,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,ARMED";
 			this.parser.parse(testData);
@@ -87,7 +87,7 @@ public class TestBaseStationParser {
 	 * Checks if the parser throws an error when passed an invalid rocket state. 
 	 */
 	@Test
-	public void checkInvalidState() {
+	public void testInvalidState() {
 		try {
 			String testData = "192872,-41.335,174.705,4,3,3.60,-0.16,8.11,-0.03,-0.89,0.12,26.23,0,6.53,invalid_state";
 			this.parser.parse(testData);

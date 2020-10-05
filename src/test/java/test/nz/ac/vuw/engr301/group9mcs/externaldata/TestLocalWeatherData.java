@@ -17,7 +17,7 @@ public class TestLocalWeatherData {
 	 */
 	@SuppressWarnings("static-method")
 	@Test
-	public void checkCorrectness() {
+	public void testCorrectness() {
 		LocalWeatherData data = new LocalWeatherData(80, 85, 112, 20);
 		
 		assertEquals(80, data.getWindSpeed());
