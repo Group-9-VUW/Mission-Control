@@ -11,6 +11,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestLandingSiteStatistics {
+
+	/**
+     * Checks half valid points.
+     */
     @Test
     public void testPercentageValid_01() {
         List<Point> valid = new ArrayList<>();
@@ -23,6 +27,9 @@ public class TestLandingSiteStatistics {
         assertEquals(50.0, LandingSiteStatistics.getPercentageValid(landingSitesData));
     }
 
+    /**
+     * Checks all valid points.
+     */
     @Test
     public void testPercentageValid_02() {
         List<Point> valid = new ArrayList<>();
@@ -34,6 +41,9 @@ public class TestLandingSiteStatistics {
         assertEquals(100.0, LandingSiteStatistics.getPercentageValid(landingSitesData));
     }
 
+    /**
+     * Checks no valid points.
+     */
     @Test
     public void testPercentageValid_03() {
         List<Point> valid = new ArrayList<>();
@@ -58,6 +68,10 @@ public class TestLandingSiteStatistics {
 
         assertEquals(111194.0 , LandingSiteStatistics.getAverageValidDistanceFromLaunchSite(landingSitesData), 1);
     }
+
+    /**
+     * Checks one point approximately 111km from launch.
+     */
     @Test
     public void testDistanceValid_02() {
         List<Point> valid = new ArrayList<>();
