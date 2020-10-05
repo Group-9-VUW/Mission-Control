@@ -35,13 +35,18 @@ public class SimulationView extends JPanel{
 
 	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
-		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271), new Point(-41.305569,174.739941)};
+		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271)};//, new Point(-41.305569,174.739941)};
 		frame.add(new SimulationView(points, new Point(-41.290373, 174.768260), new InternetMapImage()));
 		frame.setPreferredSize(new Dimension(300, 300));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}*/
+	
+	/**
+	 * Color of Landing Sites
+	 */
+	private Color land = new Color(Color.blue.getRed(), Color.blue.getGreen(), Color.blue.getBlue(), 127);
 
 	/**
 	 * The drawing panel.
@@ -51,7 +56,7 @@ public class SimulationView extends JPanel{
 	/**
 	 * The dot size.
 	 */
-	private int dotsize = 10;
+	private int dotsize = 15;
 
 	/**
 	 * List of points returned from Simulation
@@ -160,15 +165,15 @@ public class SimulationView extends JPanel{
 		Image image = this.mapData.get(latUL, lonUL, latLR, lonLR);
 		g.drawImage(image, 0, 0, width, height, null);
 
-		// draw the launch site on the map
-		drawLaunchSite(width - xlaunch, height - ylaunch, g);
-
 		// draw all points on the map
 		for(Point p : this.points) {
 			int x = (int) ((p.getLongitude() - lonUL) / xRatio);
 			int y = (int) ((latUL - p.getLatitude()) / yRatio);
 			drawRocket(x, y, g);
 		}
+		
+		// draw the launch site on the map
+		drawLaunchSite(width - xlaunch, height - ylaunch, g);
 	}
 
 	/**
@@ -246,7 +251,7 @@ public class SimulationView extends JPanel{
 	 * @param g The Graphics drawer
 	 */
 	private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
-		g.setColor(Color.pink);
+		g.setColor(Color.red);
 		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
 		g.setColor(Color.black);
@@ -264,7 +269,7 @@ public class SimulationView extends JPanel{
 	 * @param g The graphic drawer
 	 */
 	private void drawRocket(int xlocation, int ylocation, Graphics g) {
-		g.setColor(Color.cyan);
+		g.setColor(this.land);
 		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
 		g.setColor(Color.black);
