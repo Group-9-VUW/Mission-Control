@@ -4,6 +4,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,8 +15,12 @@ import java.util.Map;
  *
  * @author Bailey Jewell
  */
-public class OsmOverpassData {
+public class OsmOverpassData implements Serializable {
 
+	/**
+	 * UID for serialisation.
+	 */
+	private static final long serialVersionUID = -6080618954952030556L;
 	/**
 	 * List of nodes from Overpass.
 	 */
