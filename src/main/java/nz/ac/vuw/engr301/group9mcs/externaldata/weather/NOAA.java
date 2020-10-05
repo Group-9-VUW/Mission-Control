@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -77,7 +78,8 @@ public class NOAA {
             FileWriter writer = new FileWriter(file);
 
             for (NOAAWeatherData data : NOAA.currentForecast) {
-                writer.write(data.toString() + "\n");
+                writer.write(data.getAltitude() + "," + data.getWindSpeed() +  "," + data.getWindDirection()  +
+                        "," + data.getTemperature() + "," + data.getPressure() + "\n");
             }
 
             writer.close();
@@ -87,16 +89,38 @@ public class NOAA {
         }
     }
 
+
+    public static List<NOAAWeatherData> readFromFile(File file) throws FileNotFoundException {
+        try {
+            Scanner scan = new Scanner(file);
+
+            while (scan.hasNext()) {
+                String[] currentDataLine = scan.nextLine().split(",");
+                NOAA.currentForecast.add(new NOAAWeatherData(Double.parseDouble(currentDataLine[0]),
+                        Double.parseDouble(currentDataLine[1]),
+                        Double.parseDouble(currentDataLine[2]),
+                        Double.parseDouble(currentDataLine[3]),
+                        Double.parseDouble(currentDataLine[4])));
+            }
+
+            return NOAA.currentForecast;
+        } catch (IOException e) {
+            DefaultLogger.logger.error("Error reading forecast from file: " + file.getName());
+            throw e;
+        }
+    }
+
     /**
      * Leaving this here as an example on how to call the method.
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change. 
      * @param args command line arguments 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
 //
 //        System.out.println(getWeather(41, 174, 0,
 //                calendar));
+        System.out.println(NOAA.readFromFile(new File("NOAA-writeToFile()-test.txt")));
     }
 }

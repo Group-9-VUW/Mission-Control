@@ -134,7 +134,13 @@ public class TestNOAA {
             Scanner scan = new Scanner(testFile);
 
             for (NOAAWeatherData data : NOAA.currentForecast) {
-                assertEquals(data.toString(), scan.nextLine());
+                assertEquals(
+                        data.getAltitude() + "," +
+                                data.getWindSpeed() + ',' +
+                                data.getWindDirection() + "," +
+                                data.getTemperature() + "," +
+                                data.getPressure()
+                        , scan.nextLine());
             }
             
             scan.close();
