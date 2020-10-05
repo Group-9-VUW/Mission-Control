@@ -13,6 +13,9 @@ import java.util.*;
  * @author Sai
  */
 public class NOAA {
+
+    public static List<NOAAWeatherData> currentForecast = new ArrayList<>();
+
     /**
      * Calls the NOAA python script and parses the returned weather data into a sorted List.
      * @param latitude the latitude of the launch site
@@ -31,7 +34,8 @@ public class NOAA {
 
         JSONArray array = new JSONArray(output);
 
-        return getSortedList(array);
+        NOAA.currentForecast = getSortedList(array);
+        return NOAA.currentForecast;
     }
 
     
