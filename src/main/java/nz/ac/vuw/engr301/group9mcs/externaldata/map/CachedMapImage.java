@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
@@ -140,15 +141,14 @@ public class CachedMapImage implements MapImage {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for a .png file.");
 			}
 			if (!this.file.getPath().startsWith(IMG_CACHE_FOLDER.substring(0, IMG_CACHE_FOLDER.length() - 1))) {
-				throw new NullPointerException("The image file must be in the " + IMG_CACHE_FOLDER + " folder.");	
+				throw new NullPointerException("The image file must be in the " + IMG_CACHE_FOLDER + " folder.");
 			}
 			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
 			try (Scanner sc = new Scanner(dat);) {
 				//get image
 				//previous checks should prevent this from returning null
 				@Nullable BufferedImage image = ImageIO.read(this.file);
-				assert image != null;
-				this.img = image;
+				this.img = Null.nonNull(image);
 				//get the data
 				this.topLeftLat = sc.nextDouble();
 				this.topLeftLong = sc.nextDouble();
@@ -203,8 +203,7 @@ public class CachedMapImage implements MapImage {
 		}
 
 		BufferedImage subImage = this.img.getSubimage((int) Math.round(topLeftX), (int) Math.round(topLeftY), (int) Math.round(width), (int) Math.round(height));
-		assert subImage != null;
-		return subImage;
+		return Null.nonNull(subImage);
 	}
 
 	/**

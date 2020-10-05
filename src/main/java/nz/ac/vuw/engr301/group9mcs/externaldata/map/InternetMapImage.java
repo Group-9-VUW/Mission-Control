@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -90,8 +92,7 @@ public class InternetMapImage implements MapImage {
 
         // Crop the image by returning a subimage of the full image.
         BufferedImage img = fullImage.getSubimage(pixelsToCropLeft, pixelsToCropTop, newWidth, newHeight);
-        assert img != null;
-        return img;
+        return Null.nonNull(img);
     }
 
     /**
@@ -163,8 +164,7 @@ public class InternetMapImage implements MapImage {
             if (doIsAvailable(endpointUrl)) {
                 // If this endpoint is reachable, modify the base URI and return.
             	String format = osmTileUriFormat.replaceFirst("a", endpoint);
-            	assert format != null;
-            	osmTileUriFormat = format;
+            	osmTileUriFormat = Null.nonNull(format);
                 return true;
             }
         }
