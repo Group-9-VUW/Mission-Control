@@ -59,20 +59,20 @@ public class LandingSiteStatistics {
      */
     private static double getDistanceBetweenPoints(Point a, Point b) {
         final double EARTH_RADIUS = 6371e3;
-        double pointALatRads = a.getLatitude() * Math.PI/180;
-        double pointBLatRads = b.getLatitude() * Math.PI/180;
-        double pointALonRads = a.getLongitude() * Math.PI/180;
-        double pointBLonRads = b.getLongitude() * Math.PI/180;
+        double pointALatRads = Math.toRadians(a.getLatitude());
+        double pointBLatRads = Math.toRadians(b.getLatitude());
+        double pointALonRads = Math.toRadians(a.getLongitude());
+        double pointBLonRads = Math.toRadians(b.getLongitude());
 
         double deltaLat = pointALatRads - pointBLatRads;
         double deltaLon = pointALonRads - pointBLonRads;
 
-        double squareHalfChord = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        double squareHalfChord = Math.sin(deltaLat / 2.0) * Math.sin(deltaLat / 2.0) +
                 Math.cos(pointALatRads) * Math.cos(pointALatRads) *
-                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+                        Math.sin(deltaLon / 2.0) * Math.sin(deltaLon / 2.0);
 
-        double angularDistance = 2 * Math.atan2(Math.sqrt(squareHalfChord), Math.sqrt(1 - squareHalfChord));
+        double angularDistance = 2.0 * Math.atan2(Math.sqrt(squareHalfChord), Math.sqrt(1.0 - squareHalfChord));
 
-        return EARTH_RADIUS * angularDistance;
+        return EARTH_RADIUS * angularDistance ;
     }
 }
