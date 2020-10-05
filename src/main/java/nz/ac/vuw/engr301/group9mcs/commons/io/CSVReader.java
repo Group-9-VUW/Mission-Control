@@ -76,7 +76,6 @@ public class CSVReader implements Closeable {
 		String str = this.lines.next();
 		this.currentLine = str.split(",", count(str, ',') + (str.charAt(str.length() - 1) == ',' ? 0 : 1));
 		String last = Null.nonNull(this.currentLine)[Null.nonNull(this.currentLine).length - 1];
-		System.out.println(last);
 		if(last.endsWith(",")) {
 			Null.nonNull(this.currentLine)[Null.nonNull(this.currentLine).length - 1] = last.substring(0, last.length() - 1);
 		}
