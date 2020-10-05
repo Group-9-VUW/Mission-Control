@@ -170,12 +170,13 @@ public class PythonContext {
      * @param longitude the longitude of the launch site
      * @param daysAhead how far ahead the user wants the forecast (i.e provide 2 for daysAhead if they want the
      *                  forecast for two days from now.
+     * @param utcTime the time the user wants the forecast at (in UTC) 
      * @return a string with the forecast information.
      * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
      * @throws IOException if the noaa script could not be ran.
      */
     @SuppressWarnings("null")
-	public static String runNOAA(double latitude, double longitude, int daysAhead) throws InvalidParameterException, IOException{
+	public static String runNOAA(double latitude, double longitude, int daysAhead, int utcTime) throws InvalidParameterException, IOException{
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             OWMGetter.checkValidLatAndLon(latitude, longitude);
@@ -185,7 +186,7 @@ public class PythonContext {
         }
 
         // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0. 
-        if(daysAhead <= 0){
+        if (daysAhead < 0) {
             String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
             DefaultLogger.logger.error(errorMessage);
             throw new InvalidParameterException(errorMessage);
@@ -198,25 +199,23 @@ public class PythonContext {
 
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/noaa.py "
-                    +  latitude + " " + longitude + " " + daysAhead);
+                    +  latitude + " " + longitude + " " + daysAhead + " " + utcTime);
             InputStream is = process.getInputStream();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String forecastReading = reader.readLine(); forecastReading != null; forecastReading = reader.readLine()){
-                    output.append(forecastReading + "\n");
+                    output.append(forecastReading).append("\n");
                 }
             }
         } catch (IOException e) {
             DefaultLogger.logger.error("Error while trying to run noaa.py");
             throw e;
         }
-
-        // If the output is empty or if the output does not contains a '[' (showing that the output
-        // does not contain an array) then there was an error retrieving the output.
-        if (output.toString().isEmpty() || output.toString().contains("[")) {
+        int arrayIndex = output.toString().indexOf("[");
+        if (arrayIndex == -1) {
             DefaultLogger.logger.error("Error retrieving NOAA weather data.");
             throw new NOAAException("Could not retrieve weather from NOAA.");
         }
 
-        return output.toString();
+        return output.toString().substring(arrayIndex, output.length()-1);
     }
 }
