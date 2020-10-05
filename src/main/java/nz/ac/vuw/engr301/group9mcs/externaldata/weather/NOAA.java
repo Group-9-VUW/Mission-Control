@@ -1,8 +1,12 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.weather;
 
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
+import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -60,15 +64,24 @@ public class NOAA {
         return weatherReadings;
     }
 
+    public static void writeToFile(File file) throws IOException{
+        try {
+            FileWriter writer = new FileWriter(file);
+        } catch (IOException e) {
+            DefaultLogger.logger.error("Error writing current forecast to file: " + file.getName());
+            throw e;
+        }
+    }
+
     /**
      * Leaving this here as an example on how to call the method.
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
      */
-//    public static void main(String[] args) throws IOException {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date());
-//
-//        System.out.println(getWeather(41, 174, 0,
-//                calendar));
-//    }
+    public static void main(String[] args) throws IOException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        System.out.println(getWeather(41, 174, 0,
+                calendar));
+    }
 }
