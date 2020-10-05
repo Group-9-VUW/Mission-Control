@@ -83,4 +83,32 @@ public class TestLandingSiteStatistics {
 
         assertEquals(111177.0 , LandingSiteStatistics.getAverageValidDistanceFromLaunchSite(landingSitesData), 1);
     }
+
+    /**
+     * Checks one point approximately 111km from launch.
+     */
+    @Test
+    public void testDistanceAll_01() {
+        List<Point> valid = new ArrayList<>();
+        List<Point> all = new ArrayList<>();
+        all.add(new Point(2, 1));
+        valid.add(new Point(2, 1));
+
+        LandingSitesData landingSitesData = new LandingSitesData(new Point(1, 1), all, valid);
+
+        assertEquals(111194.0 , LandingSiteStatistics.getAverageValidDistanceFromLaunchSite(landingSitesData), 1);
+    }
+
+    /**
+     * Checks no possible landing locations.
+     */
+    @Test
+    public void testDistanceAll_02() {
+        List<Point> valid = new ArrayList<>();
+        List<Point> all = new ArrayList<>();
+
+        LandingSitesData landingSitesData = new LandingSitesData(new Point(1, 1), all, valid);
+
+        assertEquals(0 , LandingSiteStatistics.getAverageValidDistanceFromLaunchSite(landingSitesData), 1);
+    }
 }

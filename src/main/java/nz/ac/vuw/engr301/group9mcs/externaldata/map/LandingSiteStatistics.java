@@ -32,7 +32,7 @@ public class LandingSiteStatistics {
                 .collect(Collectors.toList());
 
         double sum = distances.stream().reduce(0.0, Double::sum);
-        return sum / distances.size();
+        return distances.size() > 0 ? sum / distances.size() : 0;
     }
 
     /**
