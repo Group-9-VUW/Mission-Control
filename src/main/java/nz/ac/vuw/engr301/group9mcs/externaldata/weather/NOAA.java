@@ -13,23 +13,25 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Will run the NOAA python script, parse the output and return 
- * NOAAWeatherData objects. 
+ * Will run the NOAA python script, parse the output and return
+ * NOAAWeatherData objects.
+ *
  * @author Sai
  */
 public class NOAA {
 
     /**
-     * Stores the latest forecast reading. 
+     * Stores the latest forecast reading.
      */
     public static List<NOAAWeatherData> currentForecast = new ArrayList<>();
 
     /**
      * Calls the NOAA python script and parses the returned weather data into a sorted List.
-     * @param latitude the latitude of the launch site
+     *
+     * @param latitude  the latitude of the launch site
      * @param longitude the longitude of the launch site
      * @param daysAhead how far ahead (in days from the current time) the user would like their forecast
-     * @param date a Date Time object of the date the user wants the forecast for. 
+     * @param date      a Date Time object of the date the user wants the forecast for.
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
@@ -46,9 +48,11 @@ public class NOAA {
         return NOAA.currentForecast;
     }
 
-    
-    /** Converts the supplied JSON weather readings into a Sorted List.
-     * @param jsonWeatherReadings the weather readings in JSON format 
+
+    /**
+     * Converts the supplied JSON weather readings into a Sorted List.
+     *
+     * @param jsonWeatherReadings the weather readings in JSON format
      * @return a list with the same data as jsonWeatherReadings, where the entires are sorted by altitudes.
      */
     public static List<NOAAWeatherData> getSortedList(JSONArray jsonWeatherReadings) {
@@ -57,10 +61,10 @@ public class NOAA {
         for (int i = 0; i < jsonWeatherReadings.length(); i++) {
             JSONObject currentReading = jsonWeatherReadings.getJSONObject(i);
             weatherReadings.add(new NOAAWeatherData(currentReading.getDouble("altitude"),
-                            currentReading.getDouble("windSpeed"),
-                            currentReading.getDouble("windDirection"),
-                            currentReading.getDouble("temperature"),
-                            currentReading.getDouble("pressure")));
+                    currentReading.getDouble("windSpeed"),
+                    currentReading.getDouble("windDirection"),
+                    currentReading.getDouble("temperature"),
+                    currentReading.getDouble("pressure")));
         }
 
         Collections.sort(weatherReadings);
@@ -70,15 +74,16 @@ public class NOAA {
 
     /**
      * Writes the latest forecast reading to a file.
+     *
      * @param file the file to write the forecast to.
      * @throws IOException if the file cannot be written to (i.e. doesn't exist).
      */
-    public static void writeToFile(File file) throws IOException{
+    public static void writeToFile(File file) throws IOException {
         try {
             FileWriter writer = new FileWriter(file);
 
             for (NOAAWeatherData data : NOAA.currentForecast) {
-                writer.write(data.getAltitude() + "," + data.getWindSpeed() +  "," + data.getWindDirection()  +
+                writer.write(data.getAltitude() + "," + data.getWindSpeed() + "," + data.getWindDirection() +
                         "," + data.getTemperature() + "," + data.getPressure() + "\n");
             }
 
@@ -91,10 +96,11 @@ public class NOAA {
 
 
     /**
-     * Reads a forecast from a file. 
+     * Reads a forecast from a file.
+     *
      * @param file the file the forecast should be read from.
      * @return a List of NOAAWeatherData objects created from the file.
-     * @throws IOException if there is an error trying to read the file. 
+     * @throws IOException if there is an error trying to read the file.
      */
     public static List<NOAAWeatherData> readFromFile(File file) throws IOException {
         try {
@@ -108,8 +114,7 @@ public class NOAA {
                         Double.parseDouble(currentDataLine[3]),
                         Double.parseDouble(currentDataLine[4])));
             }
-            
-            
+
             scan.close();
             return NOAA.currentForecast;
         } catch (IOException e) {
@@ -120,8 +125,9 @@ public class NOAA {
 
     /**
      * Leaving this here as an example on how to call the method.
-     * The input for the date (i.e what type of object getWeather() accepts) is subject to change. 
-     * @param args command line arguments 
+     * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
+     *
+     * @param args command line arguments
      */
     public static void main(String[] args) {
 //        Calendar calendar = Calendar.getInstance();
