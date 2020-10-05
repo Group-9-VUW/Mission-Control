@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.map;
 
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 import java.util.Collections;
@@ -29,14 +30,14 @@ public class LandingSitesData {
     }
 
     public Point getLaunchSite() {
-        return LAUNCH_SITE;
+        return this.LAUNCH_SITE;
     }
 
     public List<Point> getLandingPointsAll() {
-        return Collections.unmodifiableList(LANDING_POINTS_ALL);
+        return Null.nonNull(Collections.unmodifiableList(this.LANDING_POINTS_ALL));
     }
 
     public List<Point> getLandingPointsValid() {
-        return Collections.unmodifiableList(LANDING_POINTS_VALID);
+        return Null.nonNull(Collections.unmodifiableList(this.LANDING_POINTS_VALID));
     }
 }
