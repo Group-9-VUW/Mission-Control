@@ -110,5 +110,55 @@ public class TestCSV {
 						}
 	}
 
-	//TODO test blank values
+
+	/**
+	 * Tests saving to and loading from a valid CSV file with blank values.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testValidCSVWithBlanks() {
+		try {
+			//TEST WRITING CSV
+			File csv = new File("test.csv");
+			csv.createNewFile();
+			try (CSVWriter writer = new CSVWriter(csv);) {
+				writer.writeValue("this");
+				writer.writeValue("is");
+				writer.writeValue("");
+				writer.writeValue("CSV");
+				writer.writeValue("");
+				writer.nextRow();
+				writer.writeValue("");
+				writer.writeValue("");
+				writer.writeValue("the");
+				writer.writeValue("second");
+				writer.writeValue("row");
+				writer.close();
+				//NOW TEST LOADING CSV
+				try (CSVReader reader = new CSVReader(csv);) {
+					assertTrue(reader.hasNextLine());
+					assertFalse(reader.hasNextValue());
+					assertThrows(PreconditionViolationException.class,() -> {reader.nextValue();});
+					reader.nextLine();
+					assertTrue(reader.hasNextValue());
+					assertEquals("this", reader.nextValue());
+					assertEquals("is", reader.nextValue());
+					assertEquals("", reader.nextValue());
+					assertEquals("CSV", reader.nextValue());
+					assertEquals("", reader.nextValue());
+					assertFalse(reader.hasNextValue());
+					reader.nextLine();
+					assertEquals("", reader.nextValue());
+					assertEquals("", reader.nextValue());
+					assertEquals("the", reader.nextValue());
+					assertEquals("second", reader.nextValue());
+					assertEquals("row", reader.nextValue());
+					assertFalse(reader.hasNextValue());
+					assertFalse(reader.hasNextLine());
+					assertThrows(PreconditionViolationException.class,() -> {reader.nextValue();});
+					assertThrows(NoSuchElementException.class,() -> {reader.nextLine();});
+				}}} catch (IOException e) {
+					fail(e);
+				}
+	}
 }
