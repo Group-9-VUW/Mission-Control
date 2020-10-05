@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.view;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,7 +21,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
 /**
  * Display map view is for showing the simulation results.
- * It should automatically resize to fit all sites. 
+ * It should automatically resize to fit all sites.
  * It's purely output, the user shouldn't be able to engage with it at all.
  * There will be a MapData interface that allows you to get a map
  * image for a certain area specified in longitude and latitude
@@ -41,7 +42,7 @@ public class SimulationView extends JPanel{
 		frame.pack();
 		frame.setVisible(true);
 	}*/
-	
+
 	/**
 	 * The drawing panel.
 	 */
@@ -56,7 +57,7 @@ public class SimulationView extends JPanel{
 	 * List of points returned from Simulation
 	 */
 	private Point[] points;
-	
+
 	/**
 	 * Launch Site Point
 	 */
@@ -120,8 +121,8 @@ public class SimulationView extends JPanel{
 		double radLat, radLon;
 
 		if(latDiff > longDiff) {
-			// Gets the size of the screen (lat) 
-			// by the latDiff ( * 1.2 so it's not on the edges) 
+			// Gets the size of the screen (lat)
+			// by the latDiff ( * 1.2 so it's not on the edges)
 			// OR
 			// 500 meters (if larger)
 			radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude()), latDiff * 1.2);
@@ -161,7 +162,7 @@ public class SimulationView extends JPanel{
 
 		// draw the launch site on the map
 		drawLaunchSite(width - xlaunch, height - ylaunch, g);
-		
+
 		// draw all points on the map
 		for(Point p : this.points) {
 			int x = (int) ((p.getLongitude() - lonUL) / xRatio);
@@ -169,10 +170,10 @@ public class SimulationView extends JPanel{
 			drawRocket(x, y, g);
 		}
 	}
-	
+
 	/**
 	 * Combine the list of points with the launchsite point
-	 * 
+	 *
 	 * @return A slightly longer array
 	 */
 	private Point[] pointsPlus() {
@@ -245,9 +246,13 @@ public class SimulationView extends JPanel{
 	 * @param g The Graphics drawer
 	 */
 	private void drawLaunchSite(int xlocation, int ylocation, Graphics g) {
-		g.setColor(Color.red);
+		g.setColor(Color.pink);
 		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
+		g.setColor(Color.black);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke(1.5f));
+		g2.drawOval(xlocation - size / 2, ylocation - size / 2, size, size);
 	}
 
 	/**
@@ -259,9 +264,13 @@ public class SimulationView extends JPanel{
 	 * @param g The graphic drawer
 	 */
 	private void drawRocket(int xlocation, int ylocation, Graphics g) {
-		g.setColor(Color.blue);
+		g.setColor(Color.cyan);
 		int size = this.dotsize;
 		g.fillOval(xlocation - size / 2, ylocation - size / 2, size, size);
+		g.setColor(Color.black);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke(1.5f));
+		g2.drawOval(xlocation - size / 2, ylocation - size / 2, size, size);
 	}
 
 	/**
