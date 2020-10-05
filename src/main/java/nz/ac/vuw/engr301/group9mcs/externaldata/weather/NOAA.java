@@ -138,6 +138,7 @@ public class NOAA {
                 ".1505126953125, 'temperature': 255.0636749267578, 'pressure': 200.0}, {'altitude': 48156.625, " +
                 "'windSpeed': 1.5089271068572998, 'windDirection': 173.79226684570312, 'temperature': 261.6031799316406, " +
                 "'pressure': 100.0}]";
+
         NOAA.currentForecast = getSortedList(new JSONArray(testArray));
 
         NOAA.writeToFile(new File("noaa.txt"));

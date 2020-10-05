@@ -89,13 +89,11 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
 
     @Override
     public String toString() {
-        return "NOAAWeatherData{" +
-                "altitude=" + this.altitude +
+        return "altitude=" + this.altitude +
                 ", windSpeed=" + this.windSpeed +
                 ", windDirection=" + this.windDirection +
                 ", temperature=" + this.temperature +
-                ", pressure=" + this.pressure +
-                '}';
+                ", pressure=" + this.pressure;
     }
 
     /**
