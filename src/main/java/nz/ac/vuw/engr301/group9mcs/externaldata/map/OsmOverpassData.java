@@ -60,7 +60,7 @@ public class OsmOverpassData implements Serializable {
 	/**
 	 * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
 	 */
-	public static final class Node {
+	public static final class Node implements Serializable {
 		/**
 		 * Node ID. This is the node's global OSM ID.
 		 */
@@ -108,7 +108,7 @@ public class OsmOverpassData implements Serializable {
     /**
      * Represents a single OpenStreetMap way. Ways comprise nodes.
      */
-    public static final class Way {
+    public static final class Way implements Serializable {
         /**
          * Way ID. This is the way's global OSM ID.
          */
