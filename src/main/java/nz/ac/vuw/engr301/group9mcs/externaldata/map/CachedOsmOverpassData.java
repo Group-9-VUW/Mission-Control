@@ -5,6 +5,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 import java.io.*;
 
+import static nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassGetter.getAreasInBox;
+
 public class CachedOsmOverpassData {
 
     private static final String MAP_CACHE_DIRECTORY = "map_cache/";
@@ -16,7 +18,7 @@ public class CachedOsmOverpassData {
      * @param data OsmOverpassData object containing data in bounding box.
      */
     public static void saveArea(Point northWest, Point southEast, OsmOverpassData data) {
-        save(String.format(MAP_CACHE_DIRECTORY + "%f.000, %f.000, %f.000, %f.000.osm",
+        save(String.format(MAP_CACHE_DIRECTORY + "%f.0000, %f.0000, %f.0000, %f.0000.osm",
                 northWest.getLatitude(), northWest.getLongitude(),
                 southEast.getLatitude(), southEast.getLongitude()),
                 data);
@@ -30,9 +32,10 @@ public class CachedOsmOverpassData {
      */
     public static OsmOverpassData loadArea(Point northWest, Point southEast) {
         // TODO: If area is contained by larger area, load this dataset.
-        return load(String.format(MAP_CACHE_DIRECTORY + "%f.000, %f.000, %f.000, %f.000.osm",
+        return load(String.format(MAP_CACHE_DIRECTORY + "%f.0000, %f.0000, %f.0000, %f.0000.osm",
                 northWest.getLatitude(), northWest.getLongitude(),
-                southEast.getLatitude(), southEast.getLongitude()));
+                southEast.getLatitude(), southEast.getLongitude())
+        );
     }
 
     /**
@@ -67,5 +70,10 @@ public class CachedOsmOverpassData {
         } catch (ClassNotFoundException | IOException e) {
             throw new PostconditionViolationException("Error de-serialising OsmOverpassData object", e);
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
+        saveArea(new Point(-41.29039, 174.76832), new Point(-41.29056, 174.76839), data);
     }
 }
