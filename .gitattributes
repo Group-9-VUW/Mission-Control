@@ -1,0 +1,2 @@
+org.eclipse.jdt.annotation_2.2.300.v20190328-1431.jar filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
