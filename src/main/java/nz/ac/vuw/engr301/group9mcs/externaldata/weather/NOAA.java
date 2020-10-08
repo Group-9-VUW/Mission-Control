@@ -38,16 +38,21 @@ public class NOAA {
      *
      * @param latitude  the latitude of the launch site
      * @param longitude the longitude of the launch site
-     * @param daysAhead how far ahead (in days from the current time) the user would like their forecast
      * @param date      a Date Time object of the date the user wants the forecast for.
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead, Calendar date) throws IOException {
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-
+        
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        
+        int daysAhead = (int) -Duration.between(date.toInstant(), now.toInstant()).toDays();
+        
+        
         String output; 
         try {
            output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
@@ -163,24 +168,22 @@ public class NOAA {
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
      *
      * @param args command line arguments
+     * @throws IOException 
      */
-    public static void main(String[] args) {
-    	Instant now = Instant.now();
-    	Instant twoDaysBefore = now.minus(1, ChronoUnit.DAYS);
-    	
-    	
-    	Calendar dayBefore = Calendar.getInstance();
-    	dayBefore.setTime(new Date(twoDaysBefore.toEpochMilli()));
-    	
-    	
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        
-
-        int days = (int) Duration.between(dayBefore.toInstant(), calendar.toInstant()).toDays();
-        System.out.println(days);
+//    public static void main(String[] args) throws IOException {
+//    	Instant now = Instant.now();
+//    	Instant tomorrow = now.plus(1, ChronoUnit.DAYS);
+//    	
+//    	
+//    	Calendar dayBefore = Calendar.getInstance();
+//    	dayBefore.setTime(new Date(tomorrow.toEpochMilli()));
+//    	
+//    	
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        
 //
-//        System.out.println(getWeather(41, 174, 0,
-//                calendar));
-    }
+//        System.out.println(getWeather(41, 174,
+//            dayBefore));
+//    }
 }
