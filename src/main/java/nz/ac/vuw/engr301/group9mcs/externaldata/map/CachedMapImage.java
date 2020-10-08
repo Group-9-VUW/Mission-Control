@@ -214,8 +214,8 @@ public class CachedMapImage implements MapImage {
 		double height = bottomRightY - topLeftY;
 
 		//parameters were invalid
-		if (topLeftX < 0 || topLeftY < 0 || width > this.img.getWidth()
-				|| height > this.img.getHeight()) {
+		if (topLeftX < 0 || topLeftY < 0 || topLeftX + width > this.img.getWidth()
+				|| topLeftY + height > this.img.getHeight()) {
 			return this.img;
 		}
 
