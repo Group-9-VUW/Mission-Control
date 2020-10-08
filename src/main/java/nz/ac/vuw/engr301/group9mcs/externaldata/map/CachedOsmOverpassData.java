@@ -52,6 +52,11 @@ public class CachedOsmOverpassData {
      * @param data     OsmOverpassData object containing data in bounding box.
      */
     private static void save(String fileName, OsmOverpassData data) {
+    	// First, ensure cache directory exists. If not, create it.
+    	File cacheDir = new File(MAP_CACHE_DIRECTORY);
+    	if (!cacheDir.isDirectory()) {
+    		cacheDir.mkdir();
+    	}
         try (
                 FileOutputStream fileOutputStream = new FileOutputStream(fileName);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)
