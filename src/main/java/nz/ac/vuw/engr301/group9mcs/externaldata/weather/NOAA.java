@@ -7,13 +7,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.*;
 
 /**
@@ -34,18 +34,23 @@ public class NOAA {
      *
      * @param latitude  the latitude of the launch site
      * @param longitude the longitude of the launch site
-     * @param daysAhead how far ahead (in days from the current time) the user would like their forecast
      * @param date      a Date Time object of the date the user wants the forecast for.
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
+     * @throws InvalidParameterException if any of the supplied parameters have invalid values (i.e. date is before today)
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, int daysAhead, Calendar date) throws IOException {
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException, InvalidParameterException {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-
+        
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        
+                
         String output; 
         try {
+           int daysAhead = (int) -Duration.between(date.toInstant(), now.toInstant()).toDays();
            output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
         } catch (InvalidParameterException e) {
         	throw e;
@@ -159,12 +164,22 @@ public class NOAA {
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
      *
      * @param args command line arguments
+     * @throws IOException 
      */
-    public static void main(String[] args) {
+//    public static void main(String[] args) throws IOException {
+//    	Instant now = Instant.now();
+//    	Instant tomorrow = now.plus(1, ChronoUnit.DAYS);
+//    	
+//    	
+//    	Calendar dayBefore = Calendar.getInstance();
+//    	dayBefore.setTime(new Date(tomorrow.toEpochMilli()));
+//    	
+//    	
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
+//        
 //
-//        System.out.println(getWeather(41, 174, 0,
-//                calendar));
-    }
+//        System.out.println(getWeather(41, 174,
+//            dayBefore));
+//    }
 }
