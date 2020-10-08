@@ -36,6 +36,7 @@ public class RocketOutputPanel extends JPanel{
 		this.textArea.setEditable(false);
 		this.textArea.setCaretPosition(this.textArea.getDocument().getLength());
 		this.add(scrollPane, BorderLayout.CENTER);
+		this.textArea.setText("Rocket has yet to launch");
 	}
 	
 	/**
