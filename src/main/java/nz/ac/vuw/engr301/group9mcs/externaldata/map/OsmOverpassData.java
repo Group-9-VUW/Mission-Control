@@ -5,10 +5,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represents a set of data retrieved from the OSM Overpass API.
@@ -57,6 +54,20 @@ public class OsmOverpassData implements Serializable {
 		return Null.nonNull(Collections.unmodifiableList(this.WAYS));
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		OsmOverpassData that = (OsmOverpassData) o;
+		return NODES.equals(that.NODES) &&
+				WAYS.equals(that.WAYS);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(NODES, WAYS);
+	}
+
 	/**
 	 * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
 	 */
@@ -102,6 +113,22 @@ public class OsmOverpassData implements Serializable {
 		 */
 		public Map<String, String> getTags() {
 			return Null.nonNull(Collections.unmodifiableMap(this.TAGS));
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Node node = (Node) o;
+			return ID == node.ID &&
+					Double.compare(node.LAT, LAT) == 0 &&
+					Double.compare(node.LON, LON) == 0 &&
+					Objects.equals(TAGS, node.TAGS);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(ID, LAT, LON, TAGS);
 		}
 	}
 
@@ -164,6 +191,22 @@ public class OsmOverpassData implements Serializable {
 		 */
 		public Map<String, String> getTags() {
 			return Null.nonNull(Collections.unmodifiableMap(this.TAGS));
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Way way = (Way) o;
+			return ID == way.ID &&
+					Objects.equals(NODES, way.NODES) &&
+					Objects.equals(TAGS, way.TAGS) &&
+					NODE_IDS.equals(way.NODE_IDS);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(ID, NODES, TAGS, NODE_IDS);
 		}
 	}
 }

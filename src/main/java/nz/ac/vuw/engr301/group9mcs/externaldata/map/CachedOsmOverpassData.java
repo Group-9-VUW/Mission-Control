@@ -1,9 +1,12 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.map;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PostconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.Optional;
 
 import static nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassGetter.getAreasInBox;
 
@@ -18,7 +21,7 @@ public class CachedOsmOverpassData {
      * @param data OsmOverpassData object containing data in bounding box.
      */
     public static void saveArea(Point northWest, Point southEast, OsmOverpassData data) {
-        save(String.format(MAP_CACHE_DIRECTORY + "%f.0000, %f.0000, %f.0000, %f.0000.osm",
+        save(String.format(MAP_CACHE_DIRECTORY + "%f_%f_%f_%f.osm",
                 northWest.getLatitude(), northWest.getLongitude(),
                 southEast.getLatitude(), southEast.getLongitude()),
                 data);
@@ -32,10 +35,11 @@ public class CachedOsmOverpassData {
      */
     public static OsmOverpassData loadArea(Point northWest, Point southEast) {
         // TODO: If area is contained by larger area, load this dataset.
-        return load(String.format(MAP_CACHE_DIRECTORY + "%f.0000, %f.0000, %f.0000, %f.0000.osm",
-                northWest.getLatitude(), northWest.getLongitude(),
-                southEast.getLatitude(), southEast.getLongitude())
-        );
+        Optional<String> cacheFile = getCacheForArea(northWest, southEast);
+        if (!cacheFile.isPresent()) {
+            throw new PreconditionViolationException("No cache exists for this area.");
+        }
+        return load(MAP_CACHE_DIRECTORY + cacheFile.get());
     }
 
     /**
@@ -72,8 +76,49 @@ public class CachedOsmOverpassData {
         }
     }
 
+    private static Optional<String> getCacheForArea(Point northWest, Point southEast) {
+        File cacheDir = new File(MAP_CACHE_DIRECTORY);
+        String[] cachedAreas = cacheDir.list();
+
+        if (cachedAreas == null) {
+            return Optional.empty();
+        }
+
+        for (String area : cachedAreas) {
+            String pointString = area.replace(".osm", "");
+            String[] points = pointString.split("_");
+            System.out.println(pointString);
+
+            if (doPointsEncapsulateArea(points, northWest, southEast)) {
+                return Optional.of(area);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Checks whether the area defined by points encapsulates the area defined by northWest and southEast.
+     *
+     * @param points Array of points from cache filename.
+     * @param northWest North west point of bounding box requested.
+     * @param southEast South east point of bounding box requested.
+     * @return Returns true if cache file encapsulates this area.
+     */
+    private static boolean doPointsEncapsulateArea(String[] points, Point northWest, Point southEast) {
+        System.out.println(Arrays.toString(points));
+        Point cacheNorthWest = new Point(Double.parseDouble(points[0]), Double.parseDouble(points[1]));
+        Point cacheSouthEast = new Point(Double.parseDouble(points[2]), Double.parseDouble(points[3]));
+        return cacheNorthWest.getLatitude() >= northWest.getLatitude()
+                && cacheNorthWest.getLongitude() <= northWest.getLongitude()
+                && cacheSouthEast.getLatitude() <= southEast.getLatitude()
+                && cacheSouthEast.getLongitude() >= southEast.getLongitude();
+    }
+
     public static void main(String[] args) throws IOException {
         OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
         saveArea(new Point(-41.29039, 174.76832), new Point(-41.29056, 174.76839), data);
+        OsmOverpassData data1 = loadArea(new Point(-41.29040, 174.76833), new Point(-41.29056, 174.76839));
+
+        System.out.println(data.equals(data1));
     }
 }
