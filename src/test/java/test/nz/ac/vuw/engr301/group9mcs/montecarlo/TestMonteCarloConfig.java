@@ -14,6 +14,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfig;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfigBuilder;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfigValue;
 
 /**
  * Tests the MonteCarlo configuration classes including
@@ -99,5 +100,30 @@ public class TestMonteCarloConfig {
 		} catch (IOException e) {
 			fail(e);
 		}
+	}
+
+	/**
+	 * Tests the MonteCarloConfigValue enum.
+	 */
+	@SuppressWarnings("static-method")
+	@Test
+	public void testMonteCarloConfigValue() {
+		//tests the getIsValid predicate for each enum value
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_ANGLE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT.getIsValid().test(1.0));
+		assertFalse(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_DIRECTION.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_LATITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_LONGITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ALTITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.MAXIMUM_ANGLE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_SPEED.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_DIRECTION.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.TEMPERATURE.getIsValid().test(5.0));
+		assertFalse(MonteCarloConfigValue.TEMPERATURE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.AIR_PRESSURE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_TURBULENCE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.SIMULATIONS_TO_RUN.getIsValid().test(1.0));
+		assertFalse(MonteCarloConfigValue.SIMULATIONS_TO_RUN.getIsValid().test(0.0));
 	}
 }
