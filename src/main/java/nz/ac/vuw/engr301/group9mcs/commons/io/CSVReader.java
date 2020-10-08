@@ -16,6 +16,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
  * A reader for csv files
  *
  * @author Claire
+ * @editor Joshua
  */
 public class CSVReader implements Closeable {
 
