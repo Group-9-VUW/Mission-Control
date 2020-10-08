@@ -6,16 +6,29 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
+import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloSimulation;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationDialog;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationView;
 
 /**
  * A panel for running and showing the results of simulations
@@ -36,22 +49,32 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * Run simulation button
 	 */
-	private JButton runSimulation = new JButton("Run Simulation");
+	private final JButton runSimulation = new JButton("Run Simulation");
 	
 	/**
 	 * Return button
 	 */
-	private JButton goBack = new JButton("Select Different Site");
+	private final JButton goBack = new JButton("Select Different Site");
 	
 	/**
 	 * Save button
 	 */
-	private JButton save = new JButton("Save site");
+	private final JButton save = new JButton("Save site");
 	
 	/**
 	 * A text area where the results go
 	 */
-	private JTextArea results = new JTextArea("Simulation not yet run");
+	private final JTextArea results = new JTextArea("Simulation not yet run");
+	
+	/**
+	 * The main panel, held in reserve for when a simulation is run
+	 */
+	private final JPanel mainPanel;
+	
+	/**
+	 * The simulation results panel
+	 */
+	private final @Nullable SimulationView view = null;
 	
 	/**
 	 * @param persp The parent perspective
@@ -62,7 +85,9 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		
 		this.setLayout(new BorderLayout());
 		
-		this.add(this.getMainPanel(), BorderLayout.CENTER);
+		this.mainPanel = this.getMainPanel();
+		
+		this.add(this.getPlaceholderPanel(), BorderLayout.CENTER);
 		this.add(this.getSidePanel(), BorderLayout.WEST);
 		
 		this.runSimulation.addActionListener(this);
@@ -71,14 +96,29 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	}
 	
 	/**
-	 * @return The main panel
+	 * @return A placeholder panel for this object
+	 */
+	@SuppressWarnings("static-method")
+	private JPanel getPlaceholderPanel()
+	{
+		JPanel panel = new JPanel();
+		
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		gbc.fill = GridBagConstraints.BOTH;
+		panel.add(new JLabel("No simulation run yet."), gbc);
+		
+		return panel;
+	}
+	
+	/**
+	 * @return A main panel for this object
 	 */
 	private JPanel getMainPanel()
 	{
 		JPanel panel = new JPanel();
-		
-		panel.setLayout(new BorderLayout());
-		panel.add(new JLabel("No simulation run yet."), BorderLayout.CENTER);
 		
 		return panel;
 	}
@@ -125,9 +165,58 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(@Nullable ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(@Nullable ActionEvent e) 
+	{
+		if(e == null) { return; }
+		if(this.runSimulation == e.getSource()) {
+			this.runSimulation();
+		}
+	}
+	
+	/**
+	 * Runs a simulation
+	 */
+	private void runSimulation()
+	{
+		PythonContext.hasValidPython();
 		
+		Point launchSite = this.owner.getPosition();
+		LaunchRodData launchRod = this.owner.getLaunchRodData();
+		
+		assert launchSite != null;
+		
+		if(launchRod == null) {
+			JOptionPane.showMessageDialog(this, "Unable to run simulation without launch rod data.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		int i = -1;
+		
+		do {
+			String s = JOptionPane.showInputDialog(this, "Enter number of simulations to run:", "Run Simulation", JOptionPane.PLAIN_MESSAGE);
+			if(s == null || s.length() == 0) {
+				return;
+			} 
+			try {
+				int i2 = Integer.parseInt(s);
+				if(i2 > 0)
+					i = i2;
+			} catch(NumberFormatException e2) { /**/ }
+		} while(i < 0);
+		
+		try {
+			MonteCarloBridge bridge = new MonteCarloBridge();
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			List<NOAAWeatherData> points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), 0, calendar);
+			MonteCarloSimulation sim = bridge.runSimulation(launchSite, points, launchRod, i);
+			
+			@SuppressWarnings("unused")
+			SimulationDialog dialog = new SimulationDialog(this.owner.owner(), sim);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 }

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -13,6 +14,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
@@ -72,7 +74,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * Launch rod data
 	 */
-	@SuppressWarnings("unused")
 	private @Nullable LaunchRodData launchRodData;
 	
 	/**
@@ -178,6 +179,30 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	public void releaseResources() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * @return The launch site
+	 */
+	public @Nullable Point getPosition()
+	{
+		return new Point(this.latitude, this.longitude);
+	}
+	
+	/**
+	 * @return The launch rod data
+	 */
+	public @Nullable LaunchRodData getLaunchRodData()
+	{
+		return this.launchRodData;
+	}
+	
+	/**
+	 * @return The root JFrame
+	 */
+	public JFrame owner()
+	{
+		return Null.nonNull(this.resources).getFrame();
 	}
 
 }
