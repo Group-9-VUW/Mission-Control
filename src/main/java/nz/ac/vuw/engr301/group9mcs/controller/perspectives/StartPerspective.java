@@ -116,14 +116,12 @@ public class StartPerspective extends Observable implements Perspective{
 
 	/**
 	 * Opens an OptionPane to notify the user about a problem. Then close the screen.
-	 *
+	 *233-create-initial-perspective
 	 * @param message Message to display
 	 */
 	void warn(String[] message) {
-		int r = JOptionPane.showConfirmDialog(this.panel, message, "Warning", JOptionPane.OK_OPTION);
-		if (r == JOptionPane.OK_OPTION) {
-			System.exit(0);
-		}
+		JOptionPane.showMessageDialog(this.panel, message);
+		System.exit(0);
 	}
 
 }
