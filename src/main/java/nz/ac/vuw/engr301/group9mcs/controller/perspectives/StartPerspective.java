@@ -16,37 +16,47 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
 import nz.ac.vuw.engr301.group9mcs.view.start.StartButton;
 
 /**
  * Perspective the Application should open in - choose whether they want to create a new launch (at home) or launch a rocket (in field).
- * 
+ *
  * @author Bryony
  *
  */
 public class StartPerspective extends Observable implements Perspective{
-	
+
 	/**
 	 * The Panel to return to Perspective Controller.
 	 */
 	private JPanel panel;
-	
+
 	/**
 	 * Construct the Panel.
 	 */
 	public StartPerspective() {
 		this.panel = new JPanel(new GridLayout(1, 2));
 		this.panel.setPreferredSize(new Dimension(400, 400));
-		
+
 		StartButton select = new StartButton("Create a new Launch", Null.nonNull(Color.red));
 		select.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
-				String[] args = {"This will write over your previous Launch.\n", "Are you sure you want to write over it?\n"};
-				confirm(args, "site");
+				if(!InternetMapImage.isAvailable()) {
+					String[] args = {"Map Resource is currently not available.\n", "Please retry later.\n"};
+					warn(args);
+				} else if (!NOAA.isAvailable()) {
+					String[] args = {"Weather Resource is currently not available.\n", "Please retry later.\n"};
+					warn(args);
+				} else {
+					String[] args = {"This will write over your previous Launch.\n", "Are you sure you want to write over it?\n"};
+					confirm(args, "site");
+				}
 			}
 		});
-		
+
 		StartButton unarmed = new StartButton("Run a saved Launch", Null.nonNull(Color.yellow));
 		unarmed.addActionListener(new ActionListener() {
 			@Override
@@ -55,7 +65,7 @@ public class StartPerspective extends Observable implements Perspective{
 				confirm(args, "unarmed");
 			}
 		});
-		
+
 		this.panel.add(select);
 		this.panel.add(unarmed);
 	}
@@ -79,7 +89,7 @@ public class StartPerspective extends Observable implements Perspective{
 	public void releaseResources() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/**
 	 * Notifies the Observer that there is an Object they can view.
 	 * Can be passed any type of Object.
@@ -90,10 +100,10 @@ public class StartPerspective extends Observable implements Perspective{
 		this.setChanged();
 		this.notifyObservers(o);
 	}
-	
+
 	/**
 	 * Opens an OptionPane to notify the user about what they are doing!
-	 * 
+	 *
 	 * @param message Message to display
 	 * @param update Object to pass to parent if user confirms
 	 */
@@ -101,6 +111,18 @@ public class StartPerspective extends Observable implements Perspective{
 		int r = JOptionPane.showConfirmDialog(this.panel, message, "Are you sure?", JOptionPane.OK_CANCEL_OPTION);
 		if (r == JOptionPane.OK_OPTION) {
 			this.notify(update);
+		}
+	}
+
+	/**
+	 * Opens an OptionPane to notify the user about a problem. Then close the screen.
+	 *
+	 * @param message Message to display
+	 */
+	void warn(String[] message) {
+		int r = JOptionPane.showConfirmDialog(this.panel, message, "Warning", JOptionPane.OK_OPTION);
+		if (r == JOptionPane.OK_OPTION) {
+			System.exit(0);
 		}
 	}
 
