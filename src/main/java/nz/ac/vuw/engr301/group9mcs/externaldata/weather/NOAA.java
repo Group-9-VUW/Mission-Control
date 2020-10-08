@@ -41,6 +41,7 @@ public class NOAA {
      * @param date      a Date Time object of the date the user wants the forecast for.
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
+     * @throws InvalidParameterException if any of the supplied parameters have invalid values (i.e. date is before today)
      */
     public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException, InvalidParameterException {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
