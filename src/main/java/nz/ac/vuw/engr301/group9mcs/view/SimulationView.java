@@ -36,13 +36,17 @@ public class SimulationView extends JPanel{
 	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
 		Point[] points = {new Point(-41.287567, 174.769923), new Point(-41.287900, 174.772271)};//, new Point(-41.305569,174.739941)};
-		frame.add(new SimulationView(points, new Point(-41.290373, 174.768260), new InternetMapImage()));
+		SimulationView c = new SimulationView(points, new Point(-41.290373, 174.768260), new InternetMapImage());
+		frame.add(c);
 		frame.setPreferredSize(new Dimension(300, 300));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+
+		Point[] newPoints = {new Point(-41.305569,174.739941)};
+		c.replacePoints(newPoints);
 	}*/
-	
+
 	/**
 	 * Color of Landing Sites
 	 */
@@ -171,7 +175,7 @@ public class SimulationView extends JPanel{
 			int y = (int) ((latUL - p.getLatitude()) / yRatio);
 			drawRocket(x, y, g);
 		}
-		
+
 		// draw the launch site on the map
 		drawLaunchSite(width - xlaunch, height - ylaunch, g);
 	}
@@ -299,6 +303,25 @@ public class SimulationView extends JPanel{
 				(int)rect.getWidth(), (int)rect.getHeight());
 		g.setColor(Color.black);
 		g.drawString(text, xstring, ystring);
+	}
+
+	/**
+	 * @param newPoints Replace list of points with new list.
+	 */
+	public void replacePoints(Point[] newPoints) {
+		this.points = newPoints;
+		this.repaint();
+	}
+
+	/**
+	 * @param newPoints Add list of points to current list of points.
+	 */
+	public void addPoints(Point[] newPoints) {
+		Point[] temp = new Point[this.points.length + newPoints.length];
+		System.arraycopy(this.points, 0, temp, 0, this.points.length);
+		System.arraycopy(newPoints, 0, temp, this.points.length, newPoints.length);
+		this.points = temp;
+		this.repaint();
 	}
 
 }
