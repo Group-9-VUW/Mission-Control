@@ -1,5 +1,6 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.map;
 
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,8 +48,19 @@ public class OsmOverpassGetter {
      */
     public static OsmOverpassData getAreasInBox(double latTop, double lonLeft, double latBot, double lonRight)
             throws IOException {
-        // Order of parameters is switched to suit API call.
-        return parseData(getAreasInBoxJson(latBot, lonLeft, latTop, lonRight));
+
+        try {
+            // First, we check whether this data is cached. If so, load from cache.
+            return CachedOsmOverpassData.loadArea(
+                    new Point(latTop, lonLeft),
+                    new Point(latBot, lonRight)
+            );
+        } catch (PreconditionViolationException e) {
+            // Exception will be thrown if data is not cached. In this case, load from internet.
+            // Order of parameters is switched to suit API call.
+        	System.err.println(e.getMessage());
+            return parseData(getAreasInBoxJson(latBot, lonLeft, latTop, lonRight));
+        }
     }
 
     /**

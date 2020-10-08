@@ -4,18 +4,20 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * This class represents a set of data retrieved from the OSM Overpass API.
  *
  * @author Bailey Jewell
  */
-public class OsmOverpassData {
+public class OsmOverpassData implements Serializable {
 
+	/**
+	 * UID for serialisation.
+	 */
+	private static final long serialVersionUID = -6080618954952030556L;
 	/**
 	 * List of nodes from Overpass.
 	 */
@@ -52,10 +54,28 @@ public class OsmOverpassData {
 		return Null.nonNull(Collections.unmodifiableList(this.WAYS));
 	}
 
+	@Override
+	public boolean equals(@Nullable Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		OsmOverpassData that = (OsmOverpassData) o;
+		return this.NODES.equals(that.NODES) &&
+				this.WAYS.equals(that.WAYS);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.NODES, this.WAYS);
+	}
+
 	/**
 	 * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
 	 */
-	public static final class Node {
+	public static final class Node implements Serializable {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -1745356517779578003L;
 		/**
 		 * Node ID. This is the node's global OSM ID.
 		 */
@@ -98,13 +118,33 @@ public class OsmOverpassData {
 		public Map<String, String> getTags() {
 			return Null.nonNull(Collections.unmodifiableMap(this.TAGS));
 		}
+
+		@Override
+		public boolean equals(@Nullable Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Node node = (Node) o;
+			return this.ID == node.ID &&
+					Double.compare(node.LAT, this.LAT) == 0 &&
+					Double.compare(node.LON, this.LON) == 0 &&
+					Objects.equals(this.TAGS, node.TAGS);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.ID, this.LAT, this.LON, this.TAGS);
+		}
 	}
 
     /**
      * Represents a single OpenStreetMap way. Ways comprise nodes.
      */
-    public static final class Way {
+    public static final class Way implements Serializable {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 2360870718089966185L;
+		/**
          * Way ID. This is the way's global OSM ID.
          */
         final long ID;
@@ -159,6 +199,22 @@ public class OsmOverpassData {
 		 */
 		public Map<String, String> getTags() {
 			return Null.nonNull(Collections.unmodifiableMap(this.TAGS));
+		}
+
+		@Override
+		public boolean equals(@Nullable Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Way way = (Way) o;
+			return this.ID == way.ID &&
+					Objects.equals(this.NODES, way.NODES) &&
+					Objects.equals(this.TAGS, way.TAGS) &&
+					this.NODE_IDS.equals(way.NODE_IDS);
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.ID, this.NODES, this.TAGS, this.NODE_IDS);
 		}
 	}
 }
