@@ -14,6 +14,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -161,8 +165,20 @@ public class NOAA {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date());
+    	Instant now = Instant.now();
+    	Instant twoDaysBefore = now.minus(1, ChronoUnit.DAYS);
+    	
+    	
+    	Calendar dayBefore = Calendar.getInstance();
+    	dayBefore.setTime(new Date(twoDaysBefore.toEpochMilli()));
+    	
+    	
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        
+
+        int days = (int) Duration.between(dayBefore.toInstant(), calendar.toInstant()).toDays();
+        System.out.println(days);
 //
 //        System.out.println(getWeather(41, 174, 0,
 //                calendar));
