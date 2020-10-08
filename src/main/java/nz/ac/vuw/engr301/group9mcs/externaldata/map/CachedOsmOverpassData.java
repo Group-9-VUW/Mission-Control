@@ -8,17 +8,20 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassGetter.getAreasInBox;
-
+/**
+ * Class for saving and loading OsmOverpassData objects to the filesystem.
+ * @author jewellbail
+ */
 public class CachedOsmOverpassData {
 
     private static final String MAP_CACHE_DIRECTORY = "map_cache/";
 
     /**
      * Save an area defined by the two bounding boxes.
+     *
      * @param northWest North west border.
      * @param southEast South east border.
-     * @param data OsmOverpassData object containing data in bounding box.
+     * @param data      OsmOverpassData object containing data in bounding box.
      */
     public static void saveArea(Point northWest, Point southEast, OsmOverpassData data) {
         save(String.format(MAP_CACHE_DIRECTORY + "%f_%f_%f_%f.osm",
@@ -29,6 +32,7 @@ public class CachedOsmOverpassData {
 
     /**
      * Load an area defined by the two bounding boxes.
+     *
      * @param northWest North west border.
      * @param southEast South east border.
      * @return Returns the de-serialised OsmOverpassData object.
@@ -44,8 +48,9 @@ public class CachedOsmOverpassData {
 
     /**
      * Save an OsmOverpassData object.
+     *
      * @param fileName Filename to write to. Will typically be coordinates of bounding box.
-     * @param data OsmOverpassData object containing data in bounding box.
+     * @param data     OsmOverpassData object containing data in bounding box.
      */
     private static void save(String fileName, OsmOverpassData data) {
         try (
@@ -60,9 +65,8 @@ public class CachedOsmOverpassData {
     }
 
     /**
-     *
      * @param fileName Filename to read from. Will typically be coordinates of bounding box.
-     * Returns the de-serialised OsmOverpassData object.
+     *                 Returns the de-serialised OsmOverpassData object.
      */
     private static OsmOverpassData load(String fileName) {
         try (
@@ -76,6 +80,14 @@ public class CachedOsmOverpassData {
         }
     }
 
+    /**
+     * Gets the cache file corresponding to a particular area. This checks whether the given area is encapsulated
+     * by any cache file and returns the file name.
+     *
+     * @param northWest North west of area.
+     * @param southEast South east of area.
+     * @return Returns string if cache for area exists, Optional.empty() otherwise.
+     */
     private static Optional<String> getCacheForArea(Point northWest, Point southEast) {
         File cacheDir = new File(MAP_CACHE_DIRECTORY);
         String[] cachedAreas = cacheDir.list();
@@ -99,7 +111,7 @@ public class CachedOsmOverpassData {
     /**
      * Checks whether the area defined by points encapsulates the area defined by northWest and southEast.
      *
-     * @param points Array of points from cache filename.
+     * @param points    Array of points from cache filename.
      * @param northWest North west point of bounding box requested.
      * @param southEast South east point of bounding box requested.
      * @return Returns true if cache file encapsulates this area.
@@ -113,12 +125,6 @@ public class CachedOsmOverpassData {
                 && cacheSouthEast.getLatitude() <= southEast.getLatitude()
                 && cacheSouthEast.getLongitude() >= southEast.getLongitude();
     }
-
-    public static void main(String[] args) throws IOException {
-        OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
-        saveArea(new Point(-41.29039, 174.76832), new Point(-41.29056, 174.76839), data);
-        OsmOverpassData data1 = loadArea(new Point(-41.29040, 174.76833), new Point(-41.29056, 174.76839));
-
-        System.out.println(data.equals(data1));
-    }
 }
+
+
