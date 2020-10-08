@@ -2,9 +2,11 @@ package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassData.Node;
 
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
+import java.util.Collections;
 
 import static nz.ac.vuw.engr301.group9mcs.externaldata.map.OsmOverpassGetter.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,6 +83,9 @@ class TestOsmOverpassGetter {
 			assertEquals("Alan MacDiarmid Building", Null.nonNull(data.getWays().get(1)).getTags().get("name"));
 			assertTrue(data.getNodes().containsAll(Null.nonNull(data.getWays().get(0)).getNodes()));
 			assertTrue(data.getNodes().containsAll(Null.nonNull(data.getWays().get(1)).getNodes()));
+			for (Node n : data.getNodes()) {
+				assertEquals(Collections.EMPTY_MAP, n.getTags());
+			}
 			assertFalse(Null.nonNull(data.getWays().get(0)).getNodes().containsAll(Null.nonNull(data.getWays().get(1)).getNodes()));
 		} catch (IOException e) {
 			fail(e.getMessage());
