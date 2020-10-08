@@ -37,6 +37,8 @@ public class TestLogger {
 	@Test
 	public void testDefaultLogger() {
 		assertNotNull(DefaultLogger.logger); //Testing that it holds a static logger
+		DefaultLogger log = new DefaultLogger();
+		assertNotNull(log);
 	}
 
 	/**
@@ -46,6 +48,7 @@ public class TestLogger {
 	@Test
 	public void testLoggerLayoutNull() {
 		LoggerLayout layout = new LoggerLayout();
+		layout.activateOptions();
 		assertEquals("", layout.format(null));
 	}
 

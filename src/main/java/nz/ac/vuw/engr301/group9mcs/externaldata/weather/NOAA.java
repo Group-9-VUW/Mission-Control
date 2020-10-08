@@ -1,6 +1,7 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.weather;
 
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
 import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -42,8 +44,17 @@ public class NOAA {
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        String output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
-
+        String output; 
+        try {
+           output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
+        } catch (InvalidParameterException e) {
+        	throw e;
+        } catch (IOException e) {
+        	throw e;
+        } catch (NOAAException e) {
+        	throw e; 
+        }
+        
         JSONArray array = new JSONArray(output);
 
         NOAA.currentForecast = getSortedList(array);

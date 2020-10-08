@@ -20,7 +20,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 
 /**
- * Tests for CacheMapImage
+ * Tests for CachedMapImage
  *
  * @author Claire
  * @author Joshua Hindley
@@ -59,7 +59,7 @@ public final class TestCachedMapImage {
 				}
 			}
 		} catch (IOException | NullPointerException e) {
-			fail(e); 
+			fail(e);
 		}
 	}
 
@@ -178,7 +178,7 @@ public final class TestCachedMapImage {
 			//was the image loaded
 			assertNotEquals(new BufferedImage(1, 1, 1), img.getImage());
 			//checks the hashcode
-			Color centrePixel = new Color(img.hashCode());			
+			Color centrePixel = new Color(img.hashCode());
 			assertEquals(1, centrePixel.getRed());
 			assertEquals(1, centrePixel.getGreen());
 			assertEquals(1, centrePixel.getBlue());
@@ -203,6 +203,8 @@ public final class TestCachedMapImage {
 			assertEquals(img.getImage(), img.get(-41.2, 174.75, -41.31, 174.76));
 			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.305, 174.761));
 			assertEquals(img.getImage(), img.get(-41.3, 174.75, -41.311, 174.755));
+			//tests that a valid get() call returns a subimage
+			assertNotEquals(img.getImage(), img.get(-41.304, 174.754, -41.306, 174.756));
 
 			BufferedImage bufImg = img.getImage();
 			//the base latitudes and longitudes of the image
@@ -234,5 +236,5 @@ public final class TestCachedMapImage {
 				}}} catch (IOException | NullPointerException e) {
 					fail(e);
 				}
-	}	
+	}
 }
