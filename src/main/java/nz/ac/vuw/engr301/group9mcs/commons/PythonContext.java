@@ -174,9 +174,10 @@ public class PythonContext {
      * @return a string with the forecast information.
      * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
      * @throws IOException if the noaa script could not be ran.
+     * @throws NOAAException if there is an error while retrieving the weather from NOAA
      */
     @SuppressWarnings("null")
-	public static String runNOAA(double latitude, double longitude, int daysAhead, int utcTime) throws InvalidParameterException, IOException{
+	public static String runNOAA(double latitude, double longitude, int daysAhead, int utcTime) throws InvalidParameterException, IOException, NOAAException{
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             OWMGetter.checkValidLatAndLon(latitude, longitude);
