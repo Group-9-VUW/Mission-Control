@@ -4,6 +4,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * @author Claire
+ * @author Joshua
  */
 public class Point {
 
