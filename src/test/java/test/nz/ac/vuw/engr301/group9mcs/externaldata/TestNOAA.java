@@ -8,9 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the NOAA class for correctness of the data produced by it (the NOAA weather readings parsed into a List).
@@ -117,4 +122,43 @@ public class TestNOAA {
             forecast.remove(currentWeatherData); // Remove it from the list as it has already ben checked.
         }
     }
+
+    /**
+     * Tests if the content written to the file is correct.
+     */
+    @Test
+    public void checkWriteReadFile() {
+
+        NOAA.currentForecast = NOAA.getSortedList(Null.nonNull(this.testArray));
+        List<NOAAWeatherData> actualList = new ArrayList<>();
+
+        try {
+            File testFile = new File("NOAA-writeToFile()-test.txt");
+            NOAA.writeToFile(testFile);
+            Scanner scan = new Scanner(testFile);
+
+            for (NOAAWeatherData data : NOAA.currentForecast) {
+                assertEquals(
+                        data.getAltitude() + "," +
+                                data.getWindSpeed() + ',' +
+                                data.getWindDirection() + "," +
+                                data.getTemperature() + "," +
+                                data.getPressure()
+                        , scan.nextLine());
+            }
+
+
+            
+            NOAA.readFromFile(testFile);
+
+            for (int i = 0; i < actualList.size(); i++) {
+            	assertEquals(actualList.get(i), NOAA.currentForecast.get(i));
+            }
+            
+            scan.close();
+        } catch (@SuppressWarnings("unused") IOException e) {
+            fail("Error writing/reading to file for test");
+        }
+    }
+
 }
