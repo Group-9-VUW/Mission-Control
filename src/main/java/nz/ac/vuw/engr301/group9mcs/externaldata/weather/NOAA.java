@@ -133,11 +133,11 @@ public class NOAA {
      */
     public static boolean isAvailable() {
         try {
-             URL url = new URL("http://openweathermap.org/");
+             URL url = new URL("https://nomads.ncep.noaa.gov/");
              URLConnection connection = url.openConnection();
              connection.connect();
           } catch (IOException e) {
-              DefaultLogger.logger.error(e.getMessage());
+             DefaultLogger.logger.error(e.getMessage());
              return false;
           }
         return true;
