@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -121,6 +123,24 @@ public class NOAA {
             DefaultLogger.logger.error("Error reading forecast from file: " + file.getName());
             throw e;
         }
+    }
+    
+    
+    /**
+    
+     * Checks if the user can successfully connect to the NOAA API used by RocketPyAlpha.
+     * @return true if the user can connect to the API, false otherwise.
+     */
+    public static boolean isAvailable() {
+        try {
+             URL url = new URL("http://openweathermap.org/");
+             URLConnection connection = url.openConnection();
+             connection.connect();
+          } catch (IOException e) {
+              DefaultLogger.logger.error(e.getMessage());
+             return false;
+          }
+        return true;
     }
 
     /**
