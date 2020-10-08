@@ -16,10 +16,10 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
-import nz.ac.vuw.engr301.group9mcs.view.launch.unarmed.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.planning.LaunchRodDialog;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SelectSiteView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationPanel;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -47,7 +47,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
+	private final JPanel resultsShow = new SimulationPanel(this);
 	
 	/**
 	 * The filename from SelectFileView.
