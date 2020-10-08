@@ -12,6 +12,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
  * A writer for writing to CSV files
  *
  * @author Claire
+ * @formatter Joshua
  */
 public class CSVWriter implements Closeable {
 
