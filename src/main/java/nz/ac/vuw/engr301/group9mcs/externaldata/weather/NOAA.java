@@ -42,7 +42,7 @@ public class NOAA {
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException {
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException, InvalidParameterException {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -50,11 +50,10 @@ public class NOAA {
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
         
-        int daysAhead = (int) -Duration.between(date.toInstant(), now.toInstant()).toDays();
-        
-        
+                
         String output; 
         try {
+           int daysAhead = (int) -Duration.between(date.toInstant(), now.toInstant()).toDays();
            output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
         } catch (InvalidParameterException e) {
         	throw e;
