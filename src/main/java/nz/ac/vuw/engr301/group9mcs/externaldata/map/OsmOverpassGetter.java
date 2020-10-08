@@ -58,6 +58,7 @@ public class OsmOverpassGetter {
         } catch (PreconditionViolationException e) {
             // Exception will be thrown if data is not cached. In this case, load from internet.
             // Order of parameters is switched to suit API call.
+        	System.err.println(e.getMessage());
             return parseData(getAreasInBoxJson(latBot, lonLeft, latTop, lonRight));
         }
     }

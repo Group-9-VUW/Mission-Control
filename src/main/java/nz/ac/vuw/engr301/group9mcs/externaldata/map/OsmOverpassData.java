@@ -55,23 +55,27 @@ public class OsmOverpassData implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(@Nullable Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		OsmOverpassData that = (OsmOverpassData) o;
-		return NODES.equals(that.NODES) &&
-				WAYS.equals(that.WAYS);
+		return this.NODES.equals(that.NODES) &&
+				this.WAYS.equals(that.WAYS);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(NODES, WAYS);
+		return Objects.hash(this.NODES, this.WAYS);
 	}
 
 	/**
 	 * Represents a single OpenStreetMap node. Every OSM entity comprises nodes.
 	 */
 	public static final class Node implements Serializable {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -1745356517779578003L;
 		/**
 		 * Node ID. This is the node's global OSM ID.
 		 */
@@ -116,19 +120,19 @@ public class OsmOverpassData implements Serializable {
 		}
 
 		@Override
-		public boolean equals(Object o) {
+		public boolean equals(@Nullable Object o) {
 			if (this == o) return true;
 			if (o == null || getClass() != o.getClass()) return false;
 			Node node = (Node) o;
-			return ID == node.ID &&
-					Double.compare(node.LAT, LAT) == 0 &&
-					Double.compare(node.LON, LON) == 0 &&
-					Objects.equals(TAGS, node.TAGS);
+			return this.ID == node.ID &&
+					Double.compare(node.LAT, this.LAT) == 0 &&
+					Double.compare(node.LON, this.LON) == 0 &&
+					Objects.equals(this.TAGS, node.TAGS);
 		}
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(ID, LAT, LON, TAGS);
+			return Objects.hash(this.ID, this.LAT, this.LON, this.TAGS);
 		}
 	}
 
@@ -137,6 +141,10 @@ public class OsmOverpassData implements Serializable {
      */
     public static final class Way implements Serializable {
         /**
+		 *
+		 */
+		private static final long serialVersionUID = 2360870718089966185L;
+		/**
          * Way ID. This is the way's global OSM ID.
          */
         final long ID;
@@ -194,19 +202,19 @@ public class OsmOverpassData implements Serializable {
 		}
 
 		@Override
-		public boolean equals(Object o) {
+		public boolean equals(@Nullable Object o) {
 			if (this == o) return true;
 			if (o == null || getClass() != o.getClass()) return false;
 			Way way = (Way) o;
-			return ID == way.ID &&
-					Objects.equals(NODES, way.NODES) &&
-					Objects.equals(TAGS, way.TAGS) &&
-					NODE_IDS.equals(way.NODE_IDS);
+			return this.ID == way.ID &&
+					Objects.equals(this.NODES, way.NODES) &&
+					Objects.equals(this.TAGS, way.TAGS) &&
+					this.NODE_IDS.equals(way.NODE_IDS);
 		}
 
 		@Override
 		public int hashCode() {
-			return Objects.hash(ID, NODES, TAGS, NODE_IDS);
+			return Objects.hash(this.ID, this.NODES, this.TAGS, this.NODE_IDS);
 		}
 	}
 }
