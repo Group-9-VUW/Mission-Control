@@ -3,8 +3,6 @@ package test.nz.ac.vuw.engr301.group9mcs.commons;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import nz.ac.vuw.engr301.group9mcs.avionics.COMHelper;
 import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 
 /**
