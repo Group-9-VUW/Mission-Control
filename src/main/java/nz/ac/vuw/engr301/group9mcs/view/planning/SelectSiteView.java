@@ -36,6 +36,7 @@ public class SelectSiteView extends JPanel implements PostionSelectedListener {
 	 * Observable used to communicate with Parent
 	 */
 	private final ViewObservable observable;
+	
 	/**
 	 * Panel that holds Selectable Map
 	 */

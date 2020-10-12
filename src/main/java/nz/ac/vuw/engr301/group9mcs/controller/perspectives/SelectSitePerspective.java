@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -13,13 +14,14 @@ import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Condition;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
-import nz.ac.vuw.engr301.group9mcs.view.SelectSiteView;
-import nz.ac.vuw.engr301.group9mcs.view.launch.unarmed.GoNoGoView;
 import nz.ac.vuw.engr301.group9mcs.view.planning.LaunchRodDialog;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SelectSiteView;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationPanel;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -47,11 +49,12 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new GoNoGoView(new Object(),this.filename, this.latitude, this.longitude, this, new InternetMapImage(), this.name());
+	private final SimulationPanel resultsShow = new SimulationPanel(this);
 	
 	/**
 	 * The filename from SelectFileView.
 	 */
+	@SuppressWarnings("unused")
 	private String filename;
 	
 	/**
@@ -72,7 +75,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * Launch rod data
 	 */
-	@SuppressWarnings("unused")
 	private @Nullable LaunchRodData launchRodData;
 	
 	/**
@@ -141,8 +143,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.resultsShow);
 					this.latitude = Double.valueOf(Null.nonNull(args[1])).doubleValue();
 					this.longitude = Double.valueOf(Null.nonNull(args[2])).doubleValue();
-
-					// should the simulation be run here?????
+					this.resultsShow.initialize();
 					return;
 				case "return to rocket import":
 					this.switchTo(this.fileGet);
@@ -178,6 +179,30 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	public void releaseResources() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * @return The launch site
+	 */
+	public @Nullable Point getPosition()
+	{
+		return new Point(this.latitude, this.longitude);
+	}
+	
+	/**
+	 * @return The launch rod data
+	 */
+	public @Nullable LaunchRodData getLaunchRodData()
+	{
+		return this.launchRodData;
+	}
+	
+	/**
+	 * @return The root JFrame
+	 */
+	public JFrame owner()
+	{
+		return Null.nonNull(this.resources).getFrame();
 	}
 
 }
