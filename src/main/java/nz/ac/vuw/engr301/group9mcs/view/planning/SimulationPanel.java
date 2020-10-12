@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
+import nz.ac.vuw.engr301.group9mcs.controller.SavedLaunch;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteProcessor;
@@ -86,6 +89,11 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	 * The simulation results panel
 	 */
 	private @Nullable SimulationView view;
+	
+	/**
+	 * The weather data
+	 */
+	private @Nullable List<NOAAWeatherData> weather;
 	
 	/**
 	 * @param persp The parent perspective
@@ -195,6 +203,12 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		if(e == null) { return; }
 		if(this.runSimulation == e.getSource()) {
 			this.runSimulation();
+		} else if(this.save == e.getSource()) {
+			try {
+				SavedLaunch.saveLaunch(new File(this.owner.getFilename()), Null.nonNull(this.owner.getLaunchRodData()), Null.nonNull(this.weather), Null.nonNull(this.view).getNecessaryArea());
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 	
@@ -246,7 +260,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			try {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(new Date());
-				points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), calendar);
+				points = this.weather = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), calendar);
 			} catch(NOAAException e) {
 				JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 				throw e;

@@ -54,7 +54,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The filename from SelectFileView.
 	 */
-	@SuppressWarnings("unused")
 	private String filename;
 	
 	/**
@@ -137,7 +136,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 			{
 				case "rocket imported":
 					this.switchTo(this.siteMap);
-					this.filename = Null.nonNull(args[1]);
+					this.setFilename(Null.nonNull(args[1]));
 					return;
 				case "site selected":
 					this.switchTo(this.resultsShow);
@@ -203,6 +202,20 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	public JFrame owner()
 	{
 		return Null.nonNull(this.resources).getFrame();
+	}
+
+	/**
+	 * @return The .ork filename
+	 */
+	public String getFilename() {
+		return this.filename;
+	}
+
+	/**
+	 * @param filename
+	 */
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 }
