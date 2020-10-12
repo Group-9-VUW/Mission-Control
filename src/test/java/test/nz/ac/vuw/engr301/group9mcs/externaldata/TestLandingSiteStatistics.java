@@ -10,12 +10,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @author bailey
+ *
+ */
 public class TestLandingSiteStatistics {
 
 	/**
      * Checks half valid points.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testPercentageValid_01() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -30,7 +35,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks all valid points.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testPercentageValid_02() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -44,7 +50,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks no valid points.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testPercentageValid_03() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -57,7 +64,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks one point approximately 111km from launch.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testDistanceValid_01() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -72,7 +80,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks one point approximately 111km from launch.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testDistanceValid_02() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -87,7 +96,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks one point approximately 111km from launch.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testDistanceAll_01() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
@@ -102,7 +112,8 @@ public class TestLandingSiteStatistics {
     /**
      * Checks no possible landing locations.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testDistanceAll_02() {
         List<Point> valid = new ArrayList<>();
         List<Point> all = new ArrayList<>();
