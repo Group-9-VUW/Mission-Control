@@ -21,8 +21,10 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
@@ -72,9 +74,14 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	private final JPanel mainPanel;
 	
 	/**
+	 * The side panel, held in reserve for when a simulation is run
+	 */
+	private final JPanel sidePanel;
+	
+	/**
 	 * The simulation results panel
 	 */
-	private final @Nullable SimulationView view = null;
+	private final SimulationView view;
 	
 	/**
 	 * @param persp The parent perspective
@@ -82,13 +89,14 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	public SimulationPanel(SelectSitePerspective persp)
 	{
 		this.owner = persp;
+		this.view = new SimulationView(new Point[0], Null.nonNull(persp.getPosition()), new InternetMapImage());
 		
 		this.setLayout(new BorderLayout());
 		
 		this.mainPanel = this.getMainPanel();
 		
 		this.add(this.getPlaceholderPanel(), BorderLayout.CENTER);
-		this.add(this.getSidePanel(), BorderLayout.WEST);
+		this.add(this.sidePanel = this.getSidePanel(), BorderLayout.WEST);
 		
 		this.runSimulation.addActionListener(this);
 		this.goBack.addActionListener(this);
@@ -120,6 +128,10 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	{
 		JPanel panel = new JPanel();
 		
+		panel.setLayout(new BorderLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+		panel.add(this.view, BorderLayout.CENTER);
+		
 		return panel;
 	}
 	
@@ -131,6 +143,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		JPanel panel = new JPanel();
 
 		panel.setLayout(new GridBagLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -174,6 +187,16 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	}
 	
 	/**
+	 * Swaps the panels
+	 */
+	private void swap()
+	{
+		this.removeAll();
+		this.add(this.mainPanel, BorderLayout.CENTER);
+		this.add(this.sidePanel, BorderLayout.WEST);
+	}
+	
+	/**
 	 * Runs a simulation
 	 */
 	private void runSimulation()
@@ -214,6 +237,11 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			
 			@SuppressWarnings("unused")
 			SimulationDialog dialog = new SimulationDialog(this.owner.owner(), sim);
+			
+			this.swap();
+			
+			List<Point> landings = sim.getResults();
+			this.view.addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
