@@ -150,24 +150,6 @@ public final class TestCachedMapImage {
 	}
 
 	/**
-	 * Tests trying to load an image with an invalid path.
-	 * (i.e. the image should be within CachedMapImage.IMG_CACHE_FOLDER).
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testLoadingWithInvalidPath() {
-		try {
-			CachedMapImage img = new CachedMapImage(new File("invalidPath.png"));
-			img.toString();
-			fail("Expected an IOException to be thrown.");
-		} catch (IOException e) {
-			fail(e);
-		} catch (NullPointerException e) {
-			assertEquals("The image file must be in the " + CachedMapImage.IMG_CACHE_FOLDER + " folder.", e.getMessage());
-		}
-	}
-
-	/**
 	 * Tests loading a valid image and checking its hashcode.
 	 */
 	@SuppressWarnings("static-method")
