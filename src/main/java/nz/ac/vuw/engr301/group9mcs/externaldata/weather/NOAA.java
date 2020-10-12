@@ -38,8 +38,9 @@ public class NOAA {
      * @return a Map with the weather data.
      * @throws IOException if the user does not have Python or the required modules (see PythonContext.java)
      * @throws InvalidParameterException if any of the supplied parameters have invalid values (i.e. date is before today)
+     * @throws NOAAException If there is an issue with running the NOAA script
      */
-    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException, InvalidParameterException {
+    public static List<NOAAWeatherData> getWeather(double latitude, double longitude, Calendar date) throws IOException, InvalidParameterException, NOAAException {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));

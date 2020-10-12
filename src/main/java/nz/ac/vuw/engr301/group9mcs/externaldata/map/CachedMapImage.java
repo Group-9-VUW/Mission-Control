@@ -70,8 +70,8 @@ public class CachedMapImage implements MapImage {
 			double bottomRightLat, double bottomRightLong) throws IOException {
 		this(data, topLeftLat, topLeftLong, bottomRightLat,
 				bottomRightLong, new File(IMG_CACHE_FOLDER +
-				((topLeftLat + bottomRightLat) / 2) + "-" +
-				((topLeftLong + bottomRightLong) / 2) + ".png"));
+						((topLeftLat + bottomRightLat) / 2) + "-" +
+						((topLeftLong + bottomRightLong) / 2) + ".png"));
 	}
 
 	/**
@@ -118,12 +118,15 @@ public class CachedMapImage implements MapImage {
 	private void saveMapToFile() throws IOException {
 		try {
 			String fileName = this.file.getName();
+			System.out.println(this.file.getAbsolutePath());
 			if (fileName == "" || fileName.length() < 5) {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for a .png file.");
 			}
-			File folder = new File(IMG_CACHE_FOLDER);
-			if (!folder.exists()) folder.mkdir();
-			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
+			if (this.file.getAbsolutePath().contains(IMG_CACHE_FOLDER)) {
+				File folder = new File(IMG_CACHE_FOLDER);
+				if (!folder.exists()) folder.mkdir();
+			}
+			File dat = new File(this.file.getAbsolutePath().substring(0, this.file.getAbsolutePath().length() - 4) + ".dat");
 			dat.createNewFile();
 			try (BufferedWriter out = new BufferedWriter(new FileWriter(dat));) {
 				//save image
@@ -157,10 +160,7 @@ public class CachedMapImage implements MapImage {
 			if (fileName == "" || fileName.length() < 5 || !fileName.endsWith(".png")) {
 				throw new NullPointerException("\"" + fileName + "\" is not a valid file name for a .png file.");
 			}
-			if (!this.file.getPath().startsWith(IMG_CACHE_FOLDER.substring(0, IMG_CACHE_FOLDER.length() - 1))) {
-				throw new NullPointerException("The image file must be in the " + IMG_CACHE_FOLDER + " folder.");
-			}
-			File dat = new File(IMG_CACHE_FOLDER + fileName.substring(0, fileName.length() - 4) + ".dat");
+			File dat = new File(this.file.getAbsolutePath().substring(0, this.file.getAbsolutePath().length() - 4) + ".dat");
 			try (Scanner sc = new Scanner(dat);) {
 				//get image
 				//previous checks should prevent this from returning null

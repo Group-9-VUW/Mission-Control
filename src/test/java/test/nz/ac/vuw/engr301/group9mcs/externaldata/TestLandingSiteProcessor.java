@@ -19,7 +19,8 @@ public class TestLandingSiteProcessor {
 	/**
 	 * Clear point on Kelburn park.
 	 */
-    @Test
+    @SuppressWarnings("null")
+	@Test
     public void testSingleClearPoint() {
         double[][] landingPoints = new double[][]{
                 {-41.28602, 174.77032}
@@ -53,7 +54,8 @@ public class TestLandingSiteProcessor {
     /**
      * One clear point in Kelburn park, one unclear point on Cotton building.
      */
-    @Test
+    @SuppressWarnings("null")
+	@Test
     public void testOneClearPoint() {
         double[][] landingPoints = new double[][]{
                 {-41.29020, 174.76825},

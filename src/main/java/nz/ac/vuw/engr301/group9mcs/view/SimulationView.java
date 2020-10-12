@@ -3,17 +3,27 @@ package nz.ac.vuw.engr301.group9mcs.view;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
+
 
 import org.eclipse.jdt.annotation.Nullable;
 
@@ -113,8 +123,37 @@ public class SimulationView extends JPanel{
 		};
 		this.panel.setPreferredSize(new Dimension(300, 300));
 		this.add(this.panel, BorderLayout.CENTER);
-
+		drawOSMLicense();
 		this.repaint();
+	}
+
+	/**
+	 * Draws the OSM License on the Panel.
+	 */
+	private void drawOSMLicense() {
+		String start = "© ";
+		String end = " Contributors";
+		JLabel hyperlink = new JLabel(start + "OpenStreetMap" + end);
+		hyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		hyperlink.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(@Nullable MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("https://www.openstreetmap.org/copyright"));
+				} catch (IOException | URISyntaxException e1) {
+					e1.printStackTrace();
+				}
+			}
+			@Override public void mouseEntered(@Nullable MouseEvent e) {/**/}
+			@Override public void mouseExited(@Nullable MouseEvent e) {/**/}
+		});
+
+		SpringLayout springLayout = new SpringLayout();
+		this.setLayout(springLayout);
+
+		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this);
+		this.add(hyperlink);
 	}
 
 	/**

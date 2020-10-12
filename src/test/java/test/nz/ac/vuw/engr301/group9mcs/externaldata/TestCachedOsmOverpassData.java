@@ -22,7 +22,8 @@ public class TestCachedOsmOverpassData {
      * Tests loading the exact area saved.
      * @throws IOException Filesystem error.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testExactAreaLoad() throws IOException {
         OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
         saveArea(new Point(-41.29039, 174.76832), new Point(-41.29056, 174.76839), data);
@@ -35,7 +36,8 @@ public class TestCachedOsmOverpassData {
      * Tests loading a bounding box inside of the area saved.
      * @throws IOException Filesystem error.
      */
-    @Test
+    @SuppressWarnings("static-method")
+	@Test
     public void testInsideAreaLoad() throws IOException {
         OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);
         saveArea(new Point(-41.29039, 174.76832), new Point(-41.29056, 174.76839), data);
@@ -47,7 +49,8 @@ public class TestCachedOsmOverpassData {
     /**
      * Tries to load area outside of cached area. Should throw PreconditionViolationException.
      */
-    @Test
+    @SuppressWarnings({ "static-method", "unused" })
+	@Test
     public void testOutsideAreaLoadFail() {
         assertThrows(PreconditionViolationException.class, () -> {
             OsmOverpassData data = getAreasInBox(-41.29039, 174.76832, -41.29056, 174.76839);

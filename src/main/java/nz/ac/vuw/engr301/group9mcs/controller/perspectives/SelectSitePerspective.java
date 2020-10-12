@@ -40,42 +40,42 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	 * The View Panel for getting the filename.
 	 */
 	private final JPanel fileGet = new SelectFileView(this);
-	
+
 	/**
 	 * The View Panel for choosing the site and time.
 	 */
 	private final JPanel siteMap = new SelectSiteView(this, new InternetMapImage());
-	
+
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
 	private final SimulationPanel resultsShow = new SimulationPanel(this);
-	
+
 	/**
 	 * The filename from SelectFileView.
 	 */
 	private String filename;
-	
+
 	/**
 	 * Location of launch site, Latitude.
 	 */
 	private double latitude;
-	
+
 	/**
 	 * Location of launch site, Longitude.
 	 */
 	private double longitude;
-	
+
 	/**
 	 * When the rocket will be flown HH:mm
 	 */
 	//private Date time; TODO use this
-	
+
 	/**
 	 * Launch rod data
 	 */
 	private @Nullable LaunchRodData launchRodData;
-	
+
 	/**
 	 * Resources instance;
 	 */
@@ -101,7 +101,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		// Access to a simulation
 		return this.panel;
 	}
-	
+
 
 	@Override
 	public void init(MenuController menu, Observer o) {
@@ -111,7 +111,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 
 	/**
 	 * For when the user clicks 'enter launch rod data'
-	 * @param e 
+	 * @param e
 	 */
 	public void onLaunchRodEntry(@Nullable ActionEvent e)
 	{
@@ -119,7 +119,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 		this.launchRodData = dialog.getData();
 	}
 
-	
+
 	@Override
 	public String name() {
 		return "site";
@@ -177,9 +177,9 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	@Override
 	public void releaseResources() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	/**
 	 * @return The launch site
 	 */
@@ -187,7 +187,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	{
 		return new Point(this.latitude, this.longitude);
 	}
-	
+
 	/**
 	 * @return The launch rod data
 	 */
@@ -195,7 +195,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	{
 		return this.launchRodData;
 	}
-	
+
 	/**
 	 * @return The root JFrame
 	 */

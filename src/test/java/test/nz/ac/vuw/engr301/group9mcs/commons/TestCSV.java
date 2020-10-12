@@ -29,7 +29,7 @@ public class TestCSV {
 	/**
 	 * Tests creating a new CSVWriter with invalid files.
 	 */
-	@SuppressWarnings("static-method")
+	@SuppressWarnings({ "static-method", "unused" })
 	@Test
 	public void testSavingInvalidCSV() {
 		assertThrows(PreconditionViolationException.class, () -> {new CSVWriter(new File(""));});
@@ -39,7 +39,7 @@ public class TestCSV {
 	/**
 	 * Tests creating a new CSVReader with invalid files.
 	 */
-	@SuppressWarnings("static-method")
+	@SuppressWarnings({ "static-method", "unused" })
 	@Test
 	public void testLoadingInvalidCSV() {
 		assertThrows(PreconditionViolationException.class, () -> {new CSVReader(new File(""));});
