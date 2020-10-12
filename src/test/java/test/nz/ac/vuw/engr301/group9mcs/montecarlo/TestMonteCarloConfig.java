@@ -1,33 +1,33 @@
-package test.nz.ac.vuw.engr301.group9mcs.externaldata;
+package test.nz.ac.vuw.engr301.group9mcs.montecarlo;
 
-import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
-import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
-import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import org.json.JSONArray;
+import org.junit.jupiter.api.Test;
+
+import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
+import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfig;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfigBuilder;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloConfigValue;
 
 /**
- * Tests the NOAA class for correctness of the data produced by it (the NOAA weather readings parsed into a List).
- * @author Sai
+ * Tests the MonteCarlo configuration classes including
+ * MonteCarloConfig, MonteCarloConfigValue, and MonteCarloConfigBuilder.
+ *
  * @author Joshua
  */
-public class TestNOAA {
+public class TestMonteCarloConfig {
 
 	/**
-	 * Sample output from the NOAA script.
+	 * NOAA weather data used in the MonteCarloConfigBuilder.
 	 */
-	private final JSONArray testArray = new JSONArray("[{'altitude': 228.1233367919922, 'windSpeed': 3.4823615550994873, " +
+	private final JSONArray noaaData = new JSONArray("[{'altitude': 228.1233367919922, 'windSpeed': 3.4823615550994873, " +
 			"'windDirection': 85.77337646484375, 'temperature': 287.0677185058594, 'pressure': 100000.0}, " +
 			"{'altitude': 440.8855285644531, 'windSpeed': 3.5565133094787598, 'windDirection': 86.97354125976562, " +
 			"'temperature': 285.0450744628906, 'pressure': 97500.0}, {'altitude': 657.5938110351562, 'windSpeed': 3" +
@@ -77,131 +77,53 @@ public class TestNOAA {
 			"'windSpeed': 1.5089271068572998, 'windDirection': 173.79226684570312, 'temperature': 261.6031799316406, " +
 			"'pressure': 100.0}]");
 
-
 	/**
-	 * Checks if each entry in the list has an altitude smaller than the next entry.
+	 * Tests building a MonteCarloConfig.
 	 */
 	@Test
-	public void testIsSorted() {
-		List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
-
-		for (int i = 0; i < forecast.size() - 1; i++) {
-			assertTrue(Null.nonNull(forecast.get(i)).getAltitude() < Null.nonNull(forecast.get(i+1)).getAltitude());
-		}
-	}
-
-	/**
-	 * Check the data correctly matches up with the corresponding altitude value.
-	 */
-	@Test
-	public void testDataCorrectness() {
-		List<NOAAWeatherData> forecast = NOAA.getSortedList(Null.nonNull(this.testArray));
-
-		for (int i = 0; i < this.testArray.length(); i++) {
-			JSONObject currentReading = this.testArray.getJSONObject(i);
-			NOAAWeatherData currentWeatherData = Null.nonNull(forecast.get(0));
-
-			for (NOAAWeatherData data : forecast) {
-				if (data.getAltitude() == currentReading.getDouble("altitude")) {
-					currentWeatherData = data;
-					break;
-				}
-			}
-
-			assertEquals(currentReading.getDouble("windSpeed"),
-					currentWeatherData.getWindSpeed());
-
-			assertEquals(currentReading.getDouble("windDirection"),
-					currentWeatherData.getWindDirection());
-
-			assertEquals(currentReading.getDouble("temperature"),
-					currentWeatherData.getTemperature());
-
-			assertEquals(currentReading.getDouble("pressure"),
-					currentWeatherData.getPressure());
-
-			forecast.remove(currentWeatherData); // Remove it from the list as it has already ben checked.
-		}
-	}
-
-	/**
-	 * Tests if the content written to the file is correct.
-	 */
-	@Test
-	public void testWriteReadFile() {
-
-		NOAA.currentForecast = NOAA.getSortedList(Null.nonNull(this.testArray));
-		List<NOAAWeatherData> actualList = new ArrayList<>();
-
+	public void testMonteCarloConfig() {
+		//builds the config
+		MonteCarloConfigBuilder builder = new MonteCarloConfigBuilder();
+		assertFalse(builder.isComplete());
+		builder = builder.addSimulationTarget(100);
+		assertFalse(builder.isComplete());
+		builder = builder.addWeather(NOAA.getSortedList(this.noaaData));
+		assertFalse(builder.isComplete());
+		builder = builder.addPosition(-40.5, 170.2);
+		assertTrue(builder.isComplete());
+		builder = builder.addLaunchRodData(new LaunchRodData(90, 0, 0.5));
+		assertTrue(builder.isComplete());
+		//creates the config
+		MonteCarloConfig config = builder.build();
 		try {
-			File testFile = new File("NOAA-writeToFile()-test.txt");
-			NOAA.writeToFile(testFile);
-			try (Scanner scan = new Scanner(testFile);) {
-
-				for (NOAAWeatherData data : NOAA.currentForecast) {
-					assertEquals(
-							data.getAltitude() + "," +
-									data.getWindSpeed() + ',' +
-									data.getWindDirection() + "," +
-									data.getTemperature() + "," +
-									data.getPressure()
-									, scan.nextLine());
-				}
-
-				NOAA.readFromFile(testFile);
-
-				for (int i = 0; i < actualList.size(); i++) {
-					assertEquals(actualList.get(i), NOAA.currentForecast.get(i));
-				}
-
-				scan.close();
-			}} catch (@SuppressWarnings("unused") IOException e) {
-				fail("Error writing/reading to file for test");
-			}
-	}
-
-	/**
-	 * Tests that the NOAA.writeToFile() method throws an IOException
-	 * when passed an invalid file (e.g. a non-existent folder).
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testWriteToInvalidFile() {
-		File folder = new File("/missing_folder");
-		try {
-			NOAA.writeToFile(folder);
-			fail("Expected an IOException to be thrown");
+			config.writeTo(new File("example_config.csv"));
 		} catch (IOException e) {
-			assertTrue(e.getMessage().contains("Permission denied"));
+			fail(e);
 		}
 	}
 
 	/**
-	 * Tests that the NOAA.readFromFile() method throws an IOException
-	 * when passed an invalid file (e.g. a non-existent folder).
+	 * Tests the MonteCarloConfigValue enum.
 	 */
 	@SuppressWarnings("static-method")
 	@Test
-	public void testReadFromInvalidFile() {
-		File folder = new File("/missing_folder");
-		try {
-			NOAA.readFromFile(folder);
-			fail("Exected an IOException to be thrown");
-		} catch (IOException e) {
-			assertTrue(e.getMessage().contains("/missing_folder"));
-		}
+	public void testMonteCarloConfigValue() {
+		//tests the getIsValid predicate for each enum value
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_ANGLE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT.getIsValid().test(1.0));
+		assertFalse(MonteCarloConfigValue.LAUNCH_ROD_HEIGHT.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ROD_DIRECTION.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_LATITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_LONGITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.LAUNCH_ALTITUDE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.MAXIMUM_ANGLE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_SPEED.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_DIRECTION.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.TEMPERATURE.getIsValid().test(5.0));
+		assertFalse(MonteCarloConfigValue.TEMPERATURE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.AIR_PRESSURE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.WIND_TURBULENCE.getIsValid().test(0.0));
+		assertTrue(MonteCarloConfigValue.SIMULATIONS_TO_RUN.getIsValid().test(1.0));
+		assertFalse(MonteCarloConfigValue.SIMULATIONS_TO_RUN.getIsValid().test(0.0));
 	}
-
-	/**
-	 * Tests creating a new NOAA object, and the
-	 * NOAA.isAvailable() method.
-	 */
-	@SuppressWarnings("static-method")
-	@Test
-	public void testIsAvailable() {
-		NOAA n = new NOAA();
-		assertNotEquals(null, n);
-		assumeTrue(NOAA.isAvailable());
-	}
-
 }

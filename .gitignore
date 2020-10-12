@@ -74,6 +74,7 @@ local.properties
 
 target/
 img_cache/
+cached_data/
 
 # End of https://www.gitignore.io/api/eclipse
 

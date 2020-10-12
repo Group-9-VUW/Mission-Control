@@ -1,5 +1,6 @@
 package test.nz.ac.vuw.engr301.group9mcs.externaldata;
 
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,31 +20,32 @@ public class TestLandingSiteProcessor {
 	 * Clear point on Kelburn park.
 	 */
     @Test
-    void testSingleClearPoint() {
+    public void testSingleClearPoint() {
         double[][] landingPoints = new double[][]{
                 {-41.28602, 174.77032}
         };
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
-        Assertions.assertEquals(landingPoints[0], validPoints.get(0));
+        Assertions.assertEquals(landingPoints[0][0], validPoints.get(0).getLatitude());
+        Assertions.assertEquals(landingPoints[0][1], validPoints.get(0).getLongitude());
     }
 
     /**
      * Not clear point on Cotton building.
      */
     @Test
-    void testSingleNotClearPoint() {
+    public void testSingleNotClearPoint() {
         double[][] landingPoints = new double[][]{
                 {-41.29020, 174.76825},
         };
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(0, validPoints.size());
     }
@@ -52,7 +54,7 @@ public class TestLandingSiteProcessor {
      * One clear point in Kelburn park, one unclear point on Cotton building.
      */
     @Test
-    void testOneClearPoint() {
+    public void testOneClearPoint() {
         double[][] landingPoints = new double[][]{
                 {-41.29020, 174.76825},
                 {-41.28602, 174.77032}
@@ -60,17 +62,18 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(1, validPoints.size());
-        Assertions.assertEquals(landingPoints[1], validPoints.get(0));
+        Assertions.assertEquals(landingPoints[1][0], validPoints.get(0).getLatitude());
+        Assertions.assertEquals(landingPoints[1][1], validPoints.get(0).getLongitude());
     }
 
     /**
      * All clear points in Kelburn park.
      */
     @Test
-    void testAllClearPoints() {
+    public void testAllClearPoints() {
         double[][] landingPoints = new double[][]{
                 {-41.28582, 174.77002},
                 {-41.28608, 174.76966},
@@ -80,7 +83,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(landingPoints.length, validPoints.size());
     }
@@ -89,7 +92,7 @@ public class TestLandingSiteProcessor {
      * No clear points, all small buildings.
      */
     @Test
-    void testNoClearPoints() {
+    public void testNoClearPoints() {
         double[][] landingPoints = new double[][]{
                 {-41.28571, 174.76878},
                 {-41.28593, 174.76893},
@@ -98,7 +101,7 @@ public class TestLandingSiteProcessor {
 
         LandingSiteProcessor landingSiteProcessor = new LandingSiteProcessor(landingPoints);
 
-        List<double[]> validPoints = landingSiteProcessor.getValidPoints();
+        List<Point> validPoints = landingSiteProcessor.getValidPoints();
 
         Assertions.assertEquals(0, validPoints.size());
     }

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Joshua Hindley
  * @editor Joshua Hindley
  */
-public class TestNOAAGetter {
+public class TestOWMGetter {
 	
 	/**
 	 * The default NOAAGetter.

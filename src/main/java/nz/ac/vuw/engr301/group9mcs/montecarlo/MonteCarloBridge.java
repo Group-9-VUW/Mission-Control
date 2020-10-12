@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.eclipse.jdt.annotation.NonNull;
 
+import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
@@ -63,19 +64,17 @@ public class MonteCarloBridge {
 	/**
 	 * @param location The launch location
 	 * @param weather The weather data at the location at the time of launch
-	 * @param launchRodAngle The launch rod angle
-	 * @param launchRodDirection The launch rod direction
-	 * @param launchRodLength The launch rod length
+	 * @param data The launch rod data
 	 * @param simulations The number of simulations to run
 	 * @return An object representing a running simulation
 	 * @throws IOException If there's an error writing to the file
 	 */
-	public MonteCarloSimulation runSimulation(Point location, List<NOAAWeatherData> weather, double launchRodAngle, double launchRodDirection, double launchRodLength, int simulations) throws IOException
+	public MonteCarloSimulation runSimulation(Point location, List<NOAAWeatherData> weather, LaunchRodData data, int simulations) throws IOException
 	{
 		MonteCarloConfig conf = new MonteCarloConfigBuilder()
 				.addPosition(location.getLatitude(), location.getLongitude())
 				.addWeather(weather)
-				.addLaunchRodData(launchRodAngle, launchRodDirection, launchRodLength)
+				.addLaunchRodData(data)
 				.addSimulationTarget(simulations)
 				.build();
 		conf.writeTo(this.inputCSV);
@@ -90,7 +89,7 @@ public class MonteCarloBridge {
 		Point point = new Point(-41.2913698, 174.7734964);
 		@SuppressWarnings("null")
 		@NonNull List<NOAAWeatherData> data = Arrays.asList(new NOAAWeatherData(228.123, 3.4823, 85.77337, 287.06771, 100000.0));
-		MonteCarloSimulation sim = bridge.runSimulation(point, data, 0, 0, 0.2, 100);
+		MonteCarloSimulation sim = bridge.runSimulation(point, data, new LaunchRodData(0, 0, 0.2), 100);
 		sim.addSimulationListener((s) -> {
 			System.out.println(sim.isDone());
 			System.out.println(sim.getProgressString());
