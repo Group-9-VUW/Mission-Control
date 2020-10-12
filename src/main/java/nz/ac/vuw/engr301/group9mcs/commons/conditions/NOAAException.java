@@ -6,7 +6,7 @@ package nz.ac.vuw.engr301.group9mcs.commons.conditions;
  * @author Sai
  *
  */
-public class NOAAException extends Error {
+public class NOAAException extends Exception {
 
     /**
      * Serial ID
