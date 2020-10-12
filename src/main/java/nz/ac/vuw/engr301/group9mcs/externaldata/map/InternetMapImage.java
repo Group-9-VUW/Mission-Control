@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PostconditionViolationException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,6 @@ public class InternetMapImage implements MapImage {
      */
     @Override
     public BufferedImage get(double topLeftLat, double topLeftLong, double bottomRightLat, double bottomRightLong) {
-        // FIXME: Zoom fixed at 16 for demo
         int zoom = 16;
 
         int[] topLeftXY = convertCoordsToXY(topLeftLat, topLeftLong, zoom);
@@ -117,9 +117,7 @@ public class InternetMapImage implements MapImage {
             return ImageIO.read(connection.getInputStream());
 
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO: Determine error handling.
-            return null;
+        	 throw new PostconditionViolationException("Error reading image.", e);
         }
     }
 
@@ -144,9 +142,7 @@ public class InternetMapImage implements MapImage {
             return ImageIO.read(connection.getInputStream());
 
         } catch (IOException e) {
-            e.printStackTrace();
-            // TODO: Determine error handling.
-            return null;
+            throw new PostconditionViolationException("Error reading image.", e);
         }
     }
 
@@ -230,5 +226,4 @@ public class InternetMapImage implements MapImage {
         double latitudeRadians = Math.atan(Math.sinh(Math.PI * (1 - 2 * (double) y / n)));
         return new double[]{Math.toDegrees(latitudeRadians), longitude};
     }
-
 }
