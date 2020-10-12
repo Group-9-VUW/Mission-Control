@@ -23,6 +23,13 @@ public class PythonContext {
      * run the NOAA python script (provided that they have the required libraries).
      */
     public static String pythonCommand = "python3";
+    
+    /**
+     * This will be set to true if installRequiredModules() ran successfully. 
+     * The user could have the required modules even though hasModules is false. 
+     * Hence this is more of a warning field. 
+     */
+    public static boolean hasModules = false;
 
     /**
      * Checks if the user has the required python version (>= 3).
@@ -142,7 +149,7 @@ public class PythonContext {
         if (!hasValidPython()){
             return false;
         }
-        
+
         // Run the pythons script to install the modules. 
         // If the script cannot be ran, then throw an IOException. 
         try {
@@ -151,14 +158,16 @@ public class PythonContext {
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String output = reader.readLine(); output != null; output = reader.readLine()){
-                    System.out.println(output); // Printing to System out for now, should be displaying on corresponding View/Panel. 
+                    System.out.println(output); 
                 }
             }
         } catch (@SuppressWarnings("unused") IOException e) {
             DefaultLogger.logger.error("Error running install_modules.py");
             return false;
         }
-
+        
+        PythonContext.hasModules = true;
+        
         return true;
     }
 
@@ -178,6 +187,9 @@ public class PythonContext {
      */
     @SuppressWarnings("null")
 	public static String runNOAA(double latitude, double longitude, int daysAhead, int utcTime) throws InvalidParameterException, IOException, NOAAException{
+    	if (!hasValidPython()) {
+    		throw new NOAAException("User does not have valid python.");
+    	}
     	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
         try{
             OWMGetter.checkValidLatAndLon(latitude, longitude);
@@ -214,7 +226,9 @@ public class PythonContext {
         int arrayIndex = output.toString().indexOf("[");
         if (arrayIndex == -1) {
             DefaultLogger.logger.error("Error retrieving NOAA weather data.");
-            throw new NOAAException("Could not retrieve weather from NOAA.");
+            throw new NOAAException("Could not retrieve weather from NOAA." + (PythonContext.hasModules ? "" : 
+            	"hasModules is false, make sure you have the required modules (RocketPyAlpha and NetCDF1.4). To "
+            	+ "install them, run installRequiredModules()"));
         }
 
         return output.toString().substring(arrayIndex, output.length()-1);
