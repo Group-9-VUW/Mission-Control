@@ -121,7 +121,7 @@ public class SimulationView extends JPanel{
 				paintInsideComponent(g);
 			}
 		};
-		this.panel.setPreferredSize(new Dimension(300, 300));
+		//this.panel.setPreferredSize(new Dimension(300, 300));
 		this.add(this.panel, BorderLayout.CENTER);
 		drawOSMLicense();
 		this.repaint();
@@ -149,11 +149,11 @@ public class SimulationView extends JPanel{
 		});
 
 		SpringLayout springLayout = new SpringLayout();
-		this.setLayout(springLayout);
+		this.panel.setLayout(springLayout);
 
-		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this);
-		this.add(hyperlink);
+		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this.panel);
+		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this.panel);
+		this.panel.add(hyperlink);
 	}
 
 	/**
