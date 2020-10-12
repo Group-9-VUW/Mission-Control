@@ -107,13 +107,16 @@ public class SavedLaunch {
 	 */
 	public static final void saveLaunch(File rocket, LaunchRodData rod, List<NOAAWeatherData> data, PlanetaryArea area) throws IOException
 	{
+		new File(ROOT_DIR + "rocket.ork").delete();
 		Files.copy(rocket.toPath(), new File(ROOT_DIR + "rocket.ork").toPath());
 		
 		File rodData = new File(ROOT_DIR + "rod.dat");
+		rodData.createNewFile();
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rodData))) {
 			oos.writeObject(rodData);
 		}
 		
+		new File(ROOT_DIR + "weather.dat").delete();
 		NOAA.writeToFile(new File(ROOT_DIR + "weather.dat"), data);
 		
 		OsmOverpassData osmData = OsmOverpassGetter.getAreasInBox(area.getUpperLeftLatitude(), area.getUpperLeftLongitude(), area.getBottomRightLatitude(), area.getBottomRightLongitude());
