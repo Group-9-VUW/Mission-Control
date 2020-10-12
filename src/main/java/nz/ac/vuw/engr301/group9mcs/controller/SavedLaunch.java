@@ -126,5 +126,13 @@ public class SavedLaunch {
 		@SuppressWarnings("unused")
 		CachedMapImage ci = new CachedMapImage(new InternetMapImage(), area.getUpperLeftLatitude(), area.getUpperLeftLongitude(), area.getBottomRightLatitude(), area.getBottomRightLongitude(), image);
 	}
+	
+	/**
+	 * @return Whether or not a launch exists
+	 */
+	public static final boolean hasLaunch()
+	{
+		return new File(ROOT_DIR + "rod.dat").exists() && new File(ROOT_DIR + "rod.dat").isFile();
+	}
 
 }
