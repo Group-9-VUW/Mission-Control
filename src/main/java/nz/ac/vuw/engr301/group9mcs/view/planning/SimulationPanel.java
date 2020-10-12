@@ -246,7 +246,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			try {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(new Date());
-				points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), 0, calendar);
+				points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), calendar);
 			} catch(NOAAException e) {
 				JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 				throw e;
