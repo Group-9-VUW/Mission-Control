@@ -265,7 +265,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			LandingSitesData data = new LandingSitesData(Null.nonNull(this.owner.getPosition()), landings, valid);
 			
 			double validPc = LandingSiteStatistics.getPercentageValid(data);
-			this.results.setText("Simulation ran. Results: \n\nSafe landing probability: " + validPc + "%\nAvg. Distance from launch site: " + LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data) + "m\n\nSaftey Assessment: " + (validPc > 0.9 ? "SAFE" : "UNSAFE"));			
+			this.results.setText("Simulation ran. Results: \n\nSafe landing probability: " + validPc + "%\nAvg. Distance from launch site: " + LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data) + "m\n\nSaftey Assessment: " + (validPc > 90.0 ? "SAFE" : "UNSAFE"));			
 			
 			this.revalidate();
 			this.repaint();
