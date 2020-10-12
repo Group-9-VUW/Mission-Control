@@ -49,7 +49,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final JPanel resultsShow = new SimulationPanel(this);
+	private final SimulationPanel resultsShow = new SimulationPanel(this);
 	
 	/**
 	 * The filename from SelectFileView.
@@ -142,8 +142,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.resultsShow);
 					this.latitude = Double.valueOf(Null.nonNull(args[1])).doubleValue();
 					this.longitude = Double.valueOf(Null.nonNull(args[2])).doubleValue();
-
-					// should the simulation be run here?????
+					this.resultsShow.initialize();
 					return;
 				case "return to rocket import":
 					this.switchTo(this.fileGet);

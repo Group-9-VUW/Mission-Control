@@ -71,7 +71,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * The main panel, held in reserve for when a simulation is run
 	 */
-	private final JPanel mainPanel;
+	private @Nullable JPanel mainPanel;
 	
 	/**
 	 * The side panel, held in reserve for when a simulation is run
@@ -81,7 +81,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * The simulation results panel
 	 */
-	private final SimulationView view;
+	private @Nullable SimulationView view;
 	
 	/**
 	 * @param persp The parent perspective
@@ -89,11 +89,10 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	public SimulationPanel(SelectSitePerspective persp)
 	{
 		this.owner = persp;
-		this.view = new SimulationView(new Point[0], Null.nonNull(persp.getPosition()), new InternetMapImage());
 		
 		this.setLayout(new BorderLayout());
 		
-		this.mainPanel = this.getMainPanel();
+		this.mainPanel = null;
 		
 		this.add(this.getPlaceholderPanel(), BorderLayout.CENTER);
 		this.add(this.sidePanel = this.getSidePanel(), BorderLayout.WEST);
@@ -176,6 +175,15 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		
 		return panel;
 	}
+	
+	/**
+	 * Initializes this panel with a position
+	 */
+	public void initialize()
+	{
+		this.view = new SimulationView(new Point[0], Null.nonNull(this.owner.getPosition()), new InternetMapImage());
+		this.mainPanel = this.getMainPanel();
+	}
 
 	@Override
 	public void actionPerformed(@Nullable ActionEvent e) 
@@ -241,7 +249,9 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			this.swap();
 			
 			List<Point> landings = sim.getResults();
-			this.view.addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
+			Null.nonNull(this.view).addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
+			this.revalidate();
+			this.repaint();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
