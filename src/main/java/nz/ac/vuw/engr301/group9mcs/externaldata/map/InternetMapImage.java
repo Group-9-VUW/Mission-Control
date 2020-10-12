@@ -160,7 +160,7 @@ public class InternetMapImage implements MapImage {
                 "a", "b", "c"
         };
         for (String endpoint : endpoints) {
-            String endpointUrl = osmTileUriFormat.substring(osmTileUriFormat.length() - 14).replaceFirst("a", endpoint);
+            String endpointUrl = "http://a.tile.openstreetmap.org/".replaceFirst("a", endpoint);
             if (doIsAvailable(endpointUrl)) {
                 // If this endpoint is reachable, modify the base URI and return.
             	String format = osmTileUriFormat.replaceFirst("a", endpoint);
@@ -179,7 +179,7 @@ public class InternetMapImage implements MapImage {
     private static boolean doIsAvailable(@Nullable String URL) {
         try {
         	if(URL == null) {return false;}
-            URL url = new URL(osmTileUriFormat.substring(osmTileUriFormat.length() - 14));
+            URL url = new URL(URL);
             URLConnection connection = url.openConnection();
             connection.connect();
         } catch (IOException e) {
