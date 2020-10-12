@@ -21,6 +21,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
@@ -238,9 +239,16 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		try {
 			MonteCarloBridge bridge = new MonteCarloBridge();
 			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date());
-			List<NOAAWeatherData> points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), 0, calendar);
+			List<NOAAWeatherData> points;
+			try {
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(new Date());
+				points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), 0, calendar);
+			} catch(NOAAException e) {
+				JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+				throw e;
+			}
+			
 			MonteCarloSimulation sim = bridge.runSimulation(launchSite, points, launchRod, i);
 			
 			@SuppressWarnings("unused")

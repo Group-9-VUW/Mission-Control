@@ -54,6 +54,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The filename from SelectFileView.
 	 */
+	@SuppressWarnings("unused")
 	private String filename;
 	
 	/**
