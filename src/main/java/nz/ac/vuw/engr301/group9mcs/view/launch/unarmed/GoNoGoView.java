@@ -62,6 +62,8 @@ public class GoNoGoView extends JPanel implements Observer{
 
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setLayout(new BorderLayout());
+		// TODO: add Real Simulation Panel
+		// TODO: draw OSM License
 		this.simulationResults = new JPanel() {
 			/**
 			 * UID.
