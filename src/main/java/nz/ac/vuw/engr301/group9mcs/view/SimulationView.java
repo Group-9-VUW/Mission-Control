@@ -11,11 +11,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.map.PlanetaryArea;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
@@ -322,6 +325,45 @@ public class SimulationView extends JPanel{
 		System.arraycopy(newPoints, 0, temp, this.points.length, newPoints.length);
 		this.points = temp;
 		this.repaint();
+	}
+	
+	/**
+	 * @return An area large enough to display all the likely launches
+	 */
+	public PlanetaryArea getNecessaryArea()
+	{
+		double latDiff = this.largestLat() - this.smallestLat();
+		double longDiff = this.largestLong() - this.smallestLong();
+
+		double radLat, radLon;
+
+		if(latDiff > longDiff) {
+			radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude()), latDiff * 1.2);
+			radLon = (radLat * LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude())) / LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude());
+		} else {
+			radLon = Math.max(0.5 / LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude()), longDiff * 1.2);
+			radLat = (radLon * LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude())) / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude());
+		}
+
+		int width = this.panel.getSize().width;
+		int height = this.panel.getSize().height;
+
+		if(width > height) {
+			//If width is greater than height, expand longditude such that it's proportional
+			radLon *= width;
+			radLon /= height;
+		} else {
+			//Otherwise, do the opposite
+			radLat *= height;
+			radLat /= width;
+		}
+
+		// work out the Upper Left and Lower Right corners
+		double latUL = this.launchsite.getLatitude() + radLat;
+		double lonUL = this.launchsite.getLongitude() - radLon;
+		double latLR = this.launchsite.getLatitude() - radLat;
+		double lonLR = this.launchsite.getLongitude() + radLon;
+		return PlanetaryArea.fromCorners(latUL, lonUL, latLR, lonLR).scale(1.5);
 	}
 
 }
