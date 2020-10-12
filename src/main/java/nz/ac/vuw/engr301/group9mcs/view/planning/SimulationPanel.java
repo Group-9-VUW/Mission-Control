@@ -26,6 +26,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteProcessor;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteStatistics;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSitesData;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
@@ -258,6 +261,12 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			
 			List<Point> landings = sim.getResults();
 			Null.nonNull(this.view).addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
+			List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
+			LandingSitesData data = new LandingSitesData(Null.nonNull(this.owner.getPosition()), landings, valid);
+			
+			double validPc = LandingSiteStatistics.getPercentageValid(data);
+			this.results.setText("Simulation ran. Results: \n\nSafe landing probability: " + validPc + "%\nAvg. Distance from launch site: " + LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data) + "m\n\nSaftey Assessment: " + (validPc > 0.9 ? "SAFE" : "UNSAFE"));			
+			
 			this.revalidate();
 			this.repaint();
 		} catch (Exception e) {
