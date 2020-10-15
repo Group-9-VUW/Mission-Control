@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PostconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.CachedMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 
@@ -58,7 +59,7 @@ public final class TestCachedMapImage {
 					assertEquals(image1.getRGB(i, j), image2.getRGB(i, j));
 				}
 			}
-		} catch (IOException | NullPointerException e) {
+		} catch (IOException | PostconditionViolationException e) {
 			fail(e);
 		}
 	}
