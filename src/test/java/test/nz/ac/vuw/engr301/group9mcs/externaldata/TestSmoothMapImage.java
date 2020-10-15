@@ -34,7 +34,7 @@ public class TestSmoothMapImage {
 			});
 			BufferedImage img = (BufferedImage) map.get(-41.3, 174.75, -41.307, 174.756);
 			assertNotEquals(img, cache.getImage());
-			BufferedImage img2 = (BufferedImage) map.get(-41.307, 174.756, -41.31, 174.76);
+			BufferedImage img2 = (BufferedImage) map.get(-41.307, 174.751, -41.31, 174.758);
 			assertNotEquals(img.getWidth(), img2.getWidth());
 			assertNotEquals(img.getHeight(), img2.getHeight());
 			assertNotEquals(img, img2);
