@@ -3,7 +3,9 @@ package nz.ac.vuw.engr301.group9mcs.controller.perspectives;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,9 +17,16 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.avionics.LORAConfigPanel;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
+import nz.ac.vuw.engr301.group9mcs.controller.SavedLaunch;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteProcessor;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteStatistics;
+import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSitesData;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloSimulation;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationDialog;
 import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 import nz.ac.vuw.engr301.group9mcs.view.launch.ArmedButtonPanel;
 import nz.ac.vuw.engr301.group9mcs.view.launch.WarningPanel;
@@ -146,7 +155,41 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	public void runSimulation(ActionEvent e)
 	{
 		if(this.resources != null) {
-			this.goNoGoView.giveData(80.0, 125.55);
+			int i = -1;
+			do {
+				String s = JOptionPane.showInputDialog(Null.nonNull(this.resources).getFrame(), "Enter number of simulations to run:", "Run Simulation", JOptionPane.PLAIN_MESSAGE);
+				if(s == null || s.length() == 0) {
+					return;
+				} 
+				try {
+					int i2 = Integer.parseInt(s);
+					if(i2 > 0)
+						i = i2;
+				} catch(NumberFormatException e2) { /**/ }
+			} while(i < 0);
+			
+			SavedLaunch sl = Null.nonNull(this.resources).getSavedLaunch();
+			
+			try {
+				MonteCarloSimulation sim = Null.nonNull(this.resources).getBridge().runSimulation(sl.getLaunchSite(), sl.getData(), sl.getRod(), i);
+				
+				@SuppressWarnings("unused")
+				SimulationDialog dialog = new SimulationDialog(Null.nonNull(this.resources).getFrame(), sim);
+				
+				List<Point> landings = sim.getResults();
+				//Null.nonNull(this.view).addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
+				List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
+				LandingSitesData data = new LandingSitesData(sl.getLaunchSite(), landings, valid);
+				
+				double validPc = LandingSiteStatistics.getPercentageValid(data);
+
+				this.goNoGoView.giveData(validPc, LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data));
+				
+				Null.nonNull(this.resources).getFrame().revalidate();
+				Null.nonNull(this.resources).getFrame().repaint();
+			} catch(IOException e2) {
+				JOptionPane.showMessageDialog(Null.nonNull(this.resources).getFrame(), e2.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		} else {
 			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
 		}
@@ -192,6 +235,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			JOptionPane.showMessageDialog(resource.getFrame(), e.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
 			throw new PreconditionViolationException(e);
 		}
+		
 		this.resources = resource;
 		String[] a = new String[this.menuItems.size()];
 		int i = 0;
@@ -200,6 +244,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			i++;
 		}
 		menu.enableItems(a);
+		
 		return this.panel;
 	}
 
