@@ -102,6 +102,11 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	private @Nullable List<NOAAWeatherData> weather;
 	
 	/**
+	 * The success probability of the launch
+	 */
+	private double successProbability;
+	
+	/**
 	 * @param persp The parent perspective
 	 */
 	public SimulationPanel(SelectSitePerspective persp)
@@ -211,6 +216,13 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		if(this.runSimulation == e.getSource()) {
 			this.runSimulation();
 		} else if(this.save == e.getSource()) {
+			if(this.successProbability < 90) {
+				if(JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog(this, "The computer has predicted a safety margin of less than 90% on your launch. Are you sure you wish to proceed?", "Unsafe launch.", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null))
+					return;
+			} else {
+				if(JOptionPane.CANCEL_OPTION == JOptionPane.showConfirmDialog(this, "Please confirm that you understand that the computer prediction is only an approximation, you should manually confirm the safety of possible landing sites before launching any rockets.", "Warning.", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null))
+					return;
+			}
 			try {
 				SavedLaunch.saveLaunch(new File(this.owner.getFilename()), Null.nonNull(this.owner.getLaunchRodData()), Null.nonNull(this.weather), Null.nonNull(this.view).getNecessaryArea());
 			} catch (IOException e1) {
@@ -287,7 +299,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
 			LandingSitesData data = new LandingSitesData(Null.nonNull(this.owner.getPosition()), landings, valid);
 			
-			double validPc = LandingSiteStatistics.getPercentageValid(data);
+			double validPc = this.successProbability =  LandingSiteStatistics.getPercentageValid(data);
 			this.results.setText("Simulation ran. Results: \n\nSafe landing probability: " + validPc + "%\nAvg. Distance from launch site: " + LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data) + "m\n\nSaftey Assessment: " + (validPc > 90.0 ? "SAFE" : "UNSAFE"));			
 			
 			this.revalidate();
