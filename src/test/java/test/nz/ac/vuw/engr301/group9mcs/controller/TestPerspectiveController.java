@@ -76,7 +76,12 @@ public final class TestPerspectiveController {
 	private void setupPerspective() {
 		this.frame = new JFrame();
 		this.m = new MenuController(Null.nonNull(this.frame));
-		this.resources = new Resources(Null.nonNull(this.frame));
+		try {
+			this.resources = new Resources(Null.nonNull(this.frame));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.p = new PerspectiveController(Null.nonNull(this.m), Null.nonNull(this.resources));
 		this.fp = new FakePerspective("FakePerspective", null);
 		this.fp.add("File/Start", "Start", Null.nonNull(this.fakeListen));

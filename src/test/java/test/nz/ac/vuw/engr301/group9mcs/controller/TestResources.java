@@ -29,7 +29,12 @@ public final class TestResources {
 	 */
 	@SuppressWarnings("null")
 	private void setup() {
-		this.res = new Resources(null);
+		try {
+			this.res = new Resources(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -44,6 +49,9 @@ public final class TestResources {
 			assertTrue(this.res.getFrame().getName().equals("frame"));
 		} catch (@SuppressWarnings("unused") HeadlessException e) {
 			System.out.println("Screen not Connected");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
