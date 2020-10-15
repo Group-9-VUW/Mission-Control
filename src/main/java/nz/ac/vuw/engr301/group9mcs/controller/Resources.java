@@ -2,7 +2,12 @@ package nz.ac.vuw.engr301.group9mcs.controller;
 
 import javax.swing.JFrame;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 import nz.ac.vuw.engr301.group9mcs.avionics.LORADriver;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 
 /**
  * Holds resources needed to pass to Perspectives
@@ -26,37 +31,31 @@ public class Resources {
 	 * The Longitude (launch site?)
 	 */
 	private double longitude;
+	
 	/**
 	 * The Latitude (launch site?)
 	 */
 	private double latitude;
+	
 	/**
-	 * TODO: simulation connection?
-	 * pass filename, weather data?
+	 * The saved launch, if one exists
 	 */
+	private @Nullable SavedLaunch savedLaunch;
+	
 	/**
-	 * TODO: weather data
-	 * Internet version
-	 * parse user input?
+	 * The Monte Carlo Bridge
 	 */
-	/**
-	 * TODO: map image?
-	 * cache/Internet
-	 */
-	/**
-	 * TODO: rocket connection
-	 */
-	/**
-	 * TODO: rocket data
-	 */
+	private final MonteCarloBridge bridge;
 	
 	/**
 	 * @param frame The root JFrame
+	 * @throws Exception If there's an error initializing any resources
 	 */
-	public Resources(JFrame frame)
+	public Resources(JFrame frame) throws Exception
 	{
 		this.frame = frame;
 		this.driver = new LORADriver();
+		this.bridge = new MonteCarloBridge();
 	}
 	
 	/**
@@ -115,6 +114,40 @@ public class Resources {
 	public LORADriver getDriver() 
 	{
 		return this.driver;
+	}
+	
+	/**
+	 * This method checks whether a launch exists, and loads it if so
+	 * 
+	 * @return Whether a launch has been saved
+	 * @throws Exception If there is an error in checking/loading the launch state
+	 */
+	public boolean hasSavedLaunch() throws Exception
+	{
+		if(this.savedLaunch == null) {
+			if(!SavedLaunch.hasLaunch()) {
+				return false;
+			}
+			this.savedLaunch = SavedLaunch.loadLaunch();
+		}
+		return true;
+	}
+	
+	/**
+	 * Requires <code>hasSavedLaunch() == true</code>
+	 * @return The saved launch
+	 * @throws PreconditionViolationException if hasSavedLaunch() == false
+	 */
+	public SavedLaunch getSavedLaunch()
+	{
+		return Null.nonNull(this.savedLaunch);
+	}
+
+	/**
+	 * @return the bridge
+	 */
+	public MonteCarloBridge getBridge() {
+		return this.bridge;
 	}
 	
 }

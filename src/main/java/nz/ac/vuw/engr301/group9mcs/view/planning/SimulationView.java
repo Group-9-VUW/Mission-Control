@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ import nz.ac.vuw.engr301.group9mcs.commons.PythonContext;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
+import nz.ac.vuw.engr301.group9mcs.controller.SavedLaunch;
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.SelectSitePerspective;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.LandingSiteProcessor;
@@ -34,18 +37,24 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloSimulation;
 import nz.ac.vuw.engr301.group9mcs.view.SimulationDialog;
-import nz.ac.vuw.engr301.group9mcs.view.SimulationView;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationResultsPanel;
+import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
  * A panel for running and showing the results of simulations
  * 
  * @author Claire
  */
-public class SimulationPanel extends JPanel implements ActionListener {
+public class SimulationView extends JPanel implements ActionListener {
 	
 	/**
 	 */
 	private static final long serialVersionUID = -8786447041281812385L;
+	
+	/**
+	 * Observable for this object
+	 */
+	private final ViewObservable observable;
 
 	/**
 	 * This object's parent
@@ -85,14 +94,25 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * The simulation results panel
 	 */
-	private @Nullable SimulationView view;
+	private @Nullable SimulationResultsPanel view;
+	
+	/**
+	 * The weather data
+	 */
+	private @Nullable List<NOAAWeatherData> weather;
+	
+	/**
+	 * The success probability of the launch
+	 */
+	private double successProbability;
 	
 	/**
 	 * @param persp The parent perspective
 	 */
-	public SimulationPanel(SelectSitePerspective persp)
+	public SimulationView(SelectSitePerspective persp)
 	{
 		this.owner = persp;
+		this.observable = new ViewObservable(this.owner);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -185,7 +205,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	 */
 	public void initialize()
 	{
-		this.view = new SimulationView(new Point[0], Null.nonNull(this.owner.getPosition()), new InternetMapImage());
+		this.view = new SimulationResultsPanel(new Point[0], Null.nonNull(this.owner.getPosition()), new InternetMapImage());
 		this.mainPanel = this.getMainPanel();
 	}
 
@@ -195,6 +215,21 @@ public class SimulationPanel extends JPanel implements ActionListener {
 		if(e == null) { return; }
 		if(this.runSimulation == e.getSource()) {
 			this.runSimulation();
+		} else if(this.save == e.getSource()) {
+			if(this.successProbability < 90) {
+				if(JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog(this, "The computer has predicted a safety margin of less than 90% on your launch. Are you sure you wish to proceed?", "Unsafe launch.", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null))
+					return;
+			} else {
+				if(JOptionPane.CANCEL_OPTION == JOptionPane.showConfirmDialog(this, "Please confirm that you understand that the computer prediction is only an approximation, you should manually confirm the safety of possible landing sites before launching any rockets.", "Warning.", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null))
+					return;
+			}
+			try {
+				SavedLaunch.saveLaunch(new File(this.owner.getFilename()), Null.nonNull(this.view).getLaunchsite(), Null.nonNull(this.owner.getLaunchRodData()), Null.nonNull(this.weather), Null.nonNull(this.view).getNecessaryArea());
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if(this.goBack == e.getSource()) {
+			this.observable.notify(new String[] { "change parameters" });
 		}
 	}
 	
@@ -246,7 +281,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			try {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(new Date());
-				points = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), calendar);
+				points = this.weather = NOAA.getWeather(launchSite.getLatitude(), launchSite.getLongitude(), calendar);
 			} catch(NOAAException e) {
 				JOptionPane.showMessageDialog(this, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 				throw e;
@@ -264,7 +299,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
 			LandingSitesData data = new LandingSitesData(Null.nonNull(this.owner.getPosition()), landings, valid);
 			
-			double validPc = LandingSiteStatistics.getPercentageValid(data);
+			double validPc = this.successProbability =  LandingSiteStatistics.getPercentageValid(data);
 			this.results.setText("Simulation ran. Results: \n\nSafe landing probability: " + validPc + "%\nAvg. Distance from launch site: " + LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data) + "m\n\nSaftey Assessment: " + (validPc > 90.0 ? "SAFE" : "UNSAFE"));			
 			
 			this.revalidate();

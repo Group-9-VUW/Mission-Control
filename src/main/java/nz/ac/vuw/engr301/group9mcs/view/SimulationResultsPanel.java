@@ -18,14 +18,17 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+
 import org.eclipse.jdt.annotation.Nullable;
 
 import nz.ac.vuw.engr301.group9mcs.commons.map.LongLatHelper;
+import nz.ac.vuw.engr301.group9mcs.commons.map.PlanetaryArea;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
 
@@ -41,7 +44,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
  * @author Bryony
  * @editor Claire
  */
-public class SimulationView extends JPanel{
+public class SimulationResultsPanel extends JPanel{
 
 	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
@@ -98,7 +101,7 @@ public class SimulationView extends JPanel{
 	 * @param launchsite The Launch site
 	 * @param mapData The MapData class, provides the map image
 	 */
-	public SimulationView(Point[] points, Point launchsite, MapImage mapData) {
+	public SimulationResultsPanel(Point[] points, Point launchsite, MapImage mapData) {
 		this.points = points;
 		this.mapData = mapData;
 		this.launchsite = launchsite;
@@ -118,7 +121,7 @@ public class SimulationView extends JPanel{
 				paintInsideComponent(g);
 			}
 		};
-		this.panel.setPreferredSize(new Dimension(300, 300));
+		//this.panel.setPreferredSize(new Dimension(300, 300));
 		this.add(this.panel, BorderLayout.CENTER);
 		drawOSMLicense();
 		this.repaint();
@@ -146,11 +149,11 @@ public class SimulationView extends JPanel{
 		});
 
 		SpringLayout springLayout = new SpringLayout();
-		this.setLayout(springLayout);
+		this.panel.setLayout(springLayout);
 
-		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this);
-		this.add(hyperlink);
+		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this.panel);
+		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this.panel);
+		this.panel.add(hyperlink);
 	}
 
 	/**
@@ -362,5 +365,52 @@ public class SimulationView extends JPanel{
 		this.points = temp;
 		this.repaint();
 	}
+	
+	/**
+	 * @return An area large enough to display all the likely launches
+	 */
+	public PlanetaryArea getNecessaryArea()
+	{
+		double latDiff = this.largestLat() - this.smallestLat();
+		double longDiff = this.largestLong() - this.smallestLong();
+
+		double radLat, radLon;
+
+		if(latDiff > longDiff) {
+			radLat = Math.max(0.5 / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude()), latDiff * 1.2);
+			radLon = (radLat * LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude())) / LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude());
+		} else {
+			radLon = Math.max(0.5 / LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude()), longDiff * 1.2);
+			radLat = (radLon * LongLatHelper.kilometeresPerDegreeOfLongitude(this.launchsite.getLatitude())) / LongLatHelper.kilometersPerDegreeOfLatitude(this.launchsite.getLatitude());
+		}
+
+		int width = this.panel.getSize().width;
+		int height = this.panel.getSize().height;
+
+		if(width > height) {
+			//If width is greater than height, expand longditude such that it's proportional
+			radLon *= width;
+			radLon /= height;
+		} else {
+			//Otherwise, do the opposite
+			radLat *= height;
+			radLat /= width;
+		}
+
+		// work out the Upper Left and Lower Right corners
+		double latUL = this.launchsite.getLatitude() + radLat;
+		double lonUL = this.launchsite.getLongitude() - radLon;
+		double latLR = this.launchsite.getLatitude() - radLat;
+		double lonLR = this.launchsite.getLongitude() + radLon;
+		return PlanetaryArea.fromCorners(latUL, lonUL, latLR, lonLR).scale(1.5);
+	}
+
+	/**
+	 * @return the launchsite
+	 */
+	public Point getLaunchsite() 
+	{
+		return this.launchsite;
+	}	
 
 }

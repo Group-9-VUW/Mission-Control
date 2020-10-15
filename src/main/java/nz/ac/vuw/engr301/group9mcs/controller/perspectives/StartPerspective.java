@@ -16,6 +16,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 import nz.ac.vuw.engr301.group9mcs.controller.Resources;
+import nz.ac.vuw.engr301.group9mcs.controller.SavedLaunch;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAA;
 import nz.ac.vuw.engr301.group9mcs.view.start.StartButton;
@@ -26,7 +27,7 @@ import nz.ac.vuw.engr301.group9mcs.view.start.StartButton;
  * @author Bryony
  *
  */
-public class StartPerspective extends Observable implements Perspective{
+public class StartPerspective extends Observable implements Perspective {
 
 	/**
 	 * The Panel to return to Perspective Controller.
@@ -52,7 +53,7 @@ public class StartPerspective extends Observable implements Perspective{
 					warn(args);
 				} else {
 					String[] args = {"This will write over your previous Launch.\n", "Are you sure you want to write over it?\n"};
-					confirm(args, "site");
+					confirm(args, new String[] { "switch view", "site" });
 				}
 			}
 		});
@@ -61,8 +62,13 @@ public class StartPerspective extends Observable implements Perspective{
 		unarmed.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(@Nullable ActionEvent e) {
-				String[] args = {"This will run the currently saved Launch.\n", "Please make sure you are in the same location\nthat was saved into the Launch.\n"};
-				confirm(args, "unarmed");
+				if(!SavedLaunch.hasLaunch()) {
+					String[] args = {"No launch is saved.\n", "Please create a launch first.\n", "If you've already done this, it may be corrupted.\n"};
+					warn(args);
+				} else {
+					String[] args = {"This will run the currently saved Launch.\n", "Please make sure you are in the same location\nthat was saved into the Launch.\n"};
+					confirm(args, new String[] { "switch view", "unarmed" });
+				}
 			}
 		});
 

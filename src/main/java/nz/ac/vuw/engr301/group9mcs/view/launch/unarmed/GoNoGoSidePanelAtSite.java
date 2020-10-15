@@ -69,6 +69,8 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 		this.safeProbability = nSafeProbability;
 		this.predictedDist = nPredictedDist;
 		this.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	
 	@Override

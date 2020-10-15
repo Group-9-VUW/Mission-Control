@@ -97,15 +97,24 @@ public class NOAA {
      * @param file the file to write the forecast to.
      * @throws IOException if the file cannot be written to (i.e. doesn't exist).
      */
-    public static void writeToFile(File file) throws IOException {
-        try {
-            FileWriter writer = new FileWriter(file);
-
-            for (NOAAWeatherData data : NOAA.currentForecast) {
+    public static void writeToFile(File file) throws IOException 
+    {
+    	writeToFile(file, NOAA.currentForecast);
+    }
+    
+    /**
+     * Writes the latest forecast reading to a file.
+     *
+     * @param file the file to write the forecast to.
+     * @param list The list of data to write
+     * @throws IOException if the file cannot be written to (i.e. doesn't exist).
+     */
+    public static void writeToFile(File file, List<NOAAWeatherData> list) throws IOException {
+    	try(FileWriter writer = new FileWriter(file)) {
+            for(NOAAWeatherData data : list) {
                 writer.write(data.getAltitude() + "," + data.getWindSpeed() + "," + data.getWindDirection() +
                         "," + data.getTemperature() + "," + data.getPressure() + "\n");
             }
-
             writer.close();
         } catch (IOException e) {
             DefaultLogger.logger.error("Error writing current forecast to file: " + file.getName());
@@ -122,9 +131,7 @@ public class NOAA {
      * @throws IOException if there is an error trying to read the file.
      */
     public static List<NOAAWeatherData> readFromFile(File file) throws IOException {
-        try {
-            Scanner scan = new Scanner(file);
-
+        try(Scanner scan = new Scanner(file)) {
             while (scan.hasNext()) {
                 String[] currentDataLine = scan.nextLine().split(",");
                 NOAA.currentForecast.add(new NOAAWeatherData(Double.parseDouble(currentDataLine[0]),

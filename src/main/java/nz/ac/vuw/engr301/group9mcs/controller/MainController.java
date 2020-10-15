@@ -3,6 +3,7 @@ package nz.ac.vuw.engr301.group9mcs.controller;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import nz.ac.vuw.engr301.group9mcs.controller.perspectives.Perspective;
 
@@ -43,7 +44,12 @@ public class MainController extends JFrame {
 		});
 		this.menu.setAlwaysEnabled("file/exit");
 		
-		this.persp = new PerspectiveController(this.menu, new Resources(this));
+		try { 
+			this.persp = new PerspectiveController(this.menu, new Resources(this));
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(this, e.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
+			throw new Error(e);
+		}
 		this.setLayout(new BorderLayout());
 		this.add(this.persp.getPanel(), BorderLayout.CENTER);
 

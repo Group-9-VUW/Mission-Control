@@ -21,7 +21,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.planning.LaunchRodDialog;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectSiteView;
-import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationPanel;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationView;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -49,12 +49,11 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final SimulationPanel resultsShow = new SimulationPanel(this);
+	private final SimulationView resultsShow = new SimulationView(this);
 
 	/**
 	 * The filename from SelectFileView.
 	 */
-	@SuppressWarnings("unused")
 	private String filename;
 
 	/**
@@ -137,7 +136,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 			{
 				case "rocket imported":
 					this.switchTo(this.siteMap);
-					this.filename = Null.nonNull(args[1]);
+					this.setFilename(Null.nonNull(args[1]));
 					return;
 				case "site selected":
 					this.switchTo(this.resultsShow);
@@ -152,7 +151,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.siteMap);
 					return;
 				case "save and quit":
-					// save information - what to save????
 					System.exit(0);
 					return;
 				default:
@@ -203,6 +201,20 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	public JFrame owner()
 	{
 		return Null.nonNull(this.resources).getFrame();
+	}
+
+	/**
+	 * @return The .ork filename
+	 */
+	public String getFilename() {
+		return this.filename;
+	}
+
+	/**
+	 * @param filename
+	 */
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 }
