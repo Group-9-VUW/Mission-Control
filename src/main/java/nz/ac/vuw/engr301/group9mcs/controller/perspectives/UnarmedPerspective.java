@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
@@ -188,7 +189,13 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	}
 
 	@Override
-	public JPanel enable(MenuController menu, @Nullable Resources resource) {
+	public JPanel enable(MenuController menu, Resources resource) {
+		try {
+			if(!resource.hasSavedLaunch()) throw new PreconditionViolationException("No saved launch to run");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(resource.getFrame(), e.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
+			throw new PreconditionViolationException(e);
+		}
 		this.resources = resource;
 		String[] a = new String[this.menuItems.size()];
 		int i = 0;
