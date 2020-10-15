@@ -172,7 +172,9 @@ public class TestNOAA {
 			NOAA.writeToFile(folder);
 			fail("Expected an IOException to be thrown");
 		} catch (IOException e) {
-			assertTrue(e.getMessage().contains("Permission denied"));
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().contains("Permission denied")
+			|| e.getMessage().contains("Access is denied"));
 		}
 	}
 
@@ -188,7 +190,7 @@ public class TestNOAA {
 			NOAA.readFromFile(folder);
 			fail("Exected an IOException to be thrown");
 		} catch (IOException e) {
-			assertTrue(e.getMessage().contains("/missing_folder"));
+			assertTrue(e.getMessage().contains("missing_folder"));
 		}
 	}
 
