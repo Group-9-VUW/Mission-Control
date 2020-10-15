@@ -7,6 +7,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import nz.ac.vuw.engr301.group9mcs.avionics.LORADriver;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
+import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 
 /**
  * Holds resources needed to pass to Perspectives
@@ -42,12 +43,19 @@ public class Resources {
 	private @Nullable SavedLaunch savedLaunch;
 	
 	/**
-	 * @param frame The root JFrame
+	 * The Monte Carlo Bridge
 	 */
-	public Resources(JFrame frame)
+	private final MonteCarloBridge bridge;
+	
+	/**
+	 * @param frame The root JFrame
+	 * @throws Exception If there's an error initializing any resources
+	 */
+	public Resources(JFrame frame) throws Exception
 	{
 		this.frame = frame;
 		this.driver = new LORADriver();
+		this.bridge = new MonteCarloBridge();
 	}
 	
 	/**
@@ -133,6 +141,13 @@ public class Resources {
 	public SavedLaunch getSavedLaunch()
 	{
 		return Null.nonNull(this.savedLaunch);
+	}
+
+	/**
+	 * @return the bridge
+	 */
+	public MonteCarloBridge getBridge() {
+		return this.bridge;
 	}
 	
 }
