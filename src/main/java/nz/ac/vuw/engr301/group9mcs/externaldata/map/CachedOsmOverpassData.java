@@ -14,6 +14,9 @@ import java.util.Optional;
  */
 public class CachedOsmOverpassData {
 
+	/**
+	 * The directory for OSM cache
+	 */
     private static final String MAP_CACHE_DIRECTORY = "map_cache/";
 
     /**
@@ -71,6 +74,7 @@ public class CachedOsmOverpassData {
     /**
      * @param fileName Filename to read from. Will typically be coordinates of bounding box.
      *                 Returns the de-serialised OsmOverpassData object.
+     * @return The data loaded
      */
     private static OsmOverpassData load(String fileName) {
         try (

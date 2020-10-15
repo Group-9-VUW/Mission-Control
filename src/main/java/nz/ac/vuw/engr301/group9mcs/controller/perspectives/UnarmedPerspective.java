@@ -208,6 +208,8 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 		details.add(go, BorderLayout.CENTER);
 		details.setSize(new Dimension(400, 400));
 		this.goNoGoView = go;
+		this.panel.removeAll();
+		this.panel.add(this.topPanel, BorderLayout.NORTH);
 		this.panel.add(details, BorderLayout.CENTER);
 	}
 
