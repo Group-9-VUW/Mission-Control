@@ -39,8 +39,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
      * @param temperature at the corresponding altitude.
      * @param pressure at the corresponding altitude.
      */
-    @SuppressWarnings("hiding")
-	public NOAAWeatherData(double altitude, double windSpeed, double windDirection, double temperature, double pressure) {
+    public NOAAWeatherData(double altitude, double windSpeed, double windDirection, double temperature, double pressure) {
         this.altitude = altitude;
         this.windSpeed = windSpeed;
         this.windDirection = windDirection;
