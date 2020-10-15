@@ -10,7 +10,7 @@ import nz.ac.vuw.engr301.group9mcs.controller.perspectives.UnarmedPerspective;
  * @author Bryony
  *
  */
-public class ProcessSpike {
+public class Main {
 
 	/**
 	 * @param args
