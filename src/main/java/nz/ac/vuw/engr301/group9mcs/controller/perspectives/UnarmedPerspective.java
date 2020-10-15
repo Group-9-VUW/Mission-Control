@@ -135,11 +135,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 	@SuppressWarnings("unused")
 	public void configureRocket(ActionEvent e)
 	{
-		if(this.resources != null) {
-			new LORAConfigPanel(Null.nonNull(this.resources).getFrame(), Null.nonNull(this.resources).getDriver());
-		} else {
-			throw new PreconditionViolationException("getWeatherDetails() shouldn't be called on an un-enabled UnarmedPerpspective");
-		}
+		new LORAConfigPanel(Null.nonNull(this.resources).getFrame(), Null.nonNull(this.resources).getDriver());
 	}
 
 	/**

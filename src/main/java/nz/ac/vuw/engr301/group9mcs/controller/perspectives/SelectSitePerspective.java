@@ -21,7 +21,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 import nz.ac.vuw.engr301.group9mcs.view.planning.LaunchRodDialog;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectFileView;
 import nz.ac.vuw.engr301.group9mcs.view.planning.SelectSiteView;
-import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationPanel;
+import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationView;
 
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
@@ -49,7 +49,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	/**
 	 * The View Panel for showing the simulation results.
 	 */
-	private final SimulationPanel resultsShow = new SimulationPanel(this);
+	private final SimulationView resultsShow = new SimulationView(this);
 
 	/**
 	 * The filename from SelectFileView.

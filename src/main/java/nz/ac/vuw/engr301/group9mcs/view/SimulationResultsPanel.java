@@ -44,7 +44,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
  * @author Bryony
  * @editor Claire
  */
-public class SimulationView extends JPanel{
+public class SimulationResultsPanel extends JPanel{
 
 	/*public static void main(String[] args) {
 		JFrame frame = new JFrame("Test");
@@ -101,7 +101,7 @@ public class SimulationView extends JPanel{
 	 * @param launchsite The Launch site
 	 * @param mapData The MapData class, provides the map image
 	 */
-	public SimulationView(Point[] points, Point launchsite, MapImage mapData) {
+	public SimulationResultsPanel(Point[] points, Point launchsite, MapImage mapData) {
 		this.points = points;
 		this.mapData = mapData;
 		this.launchsite = launchsite;

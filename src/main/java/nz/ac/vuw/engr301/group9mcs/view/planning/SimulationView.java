@@ -37,7 +37,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloSimulation;
 import nz.ac.vuw.engr301.group9mcs.view.SimulationDialog;
-import nz.ac.vuw.engr301.group9mcs.view.SimulationView;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationResultsPanel;
 import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
@@ -45,7 +45,7 @@ import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
  * 
  * @author Claire
  */
-public class SimulationPanel extends JPanel implements ActionListener {
+public class SimulationView extends JPanel implements ActionListener {
 	
 	/**
 	 */
@@ -94,7 +94,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * The simulation results panel
 	 */
-	private @Nullable SimulationView view;
+	private @Nullable SimulationResultsPanel view;
 	
 	/**
 	 * The weather data
@@ -109,7 +109,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 * @param persp The parent perspective
 	 */
-	public SimulationPanel(SelectSitePerspective persp)
+	public SimulationView(SelectSitePerspective persp)
 	{
 		this.owner = persp;
 		this.observable = new ViewObservable(this.owner);
@@ -205,7 +205,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	 */
 	public void initialize()
 	{
-		this.view = new SimulationView(new Point[0], Null.nonNull(this.owner.getPosition()), new InternetMapImage());
+		this.view = new SimulationResultsPanel(new Point[0], Null.nonNull(this.owner.getPosition()), new InternetMapImage());
 		this.mainPanel = this.getMainPanel();
 	}
 
