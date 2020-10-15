@@ -1,13 +1,17 @@
 package nz.ac.vuw.engr301.group9mcs.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.util.List;
 
 import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
+import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationException;
 import nz.ac.vuw.engr301.group9mcs.commons.map.PlanetaryArea;
 import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.CachedMapImage;
@@ -133,6 +137,46 @@ public class SavedLaunch {
 	public static final boolean hasLaunch()
 	{
 		return new File(ROOT_DIR + "rod.dat").exists() && new File(ROOT_DIR + "rod.dat").isFile();
+	}
+	
+	/**
+	 * Requires <code>hasLaunch() == true</code>
+	 * @return The saved launch stored
+	 * @throws Exception If any error occurs when reading from a file
+	 */
+	public static final SavedLaunch loadLaunch() throws Exception
+	{
+		if(!hasLaunch()) {
+			throw new PreconditionViolationException("Launch doesn't exist.");
+		}
+		
+		File rocket = new File(ROOT_DIR + "rocket.ork");
+		if(!(rocket.exists() && rocket.isFile())) {
+			throw new PreconditionViolationException("Rocket.ork doesn't exist");
+		}
+		
+		File rodData = new File(ROOT_DIR + "rod.dat");
+		if(!(rodData.exists() && rodData.isFile())) {
+			throw new PreconditionViolationException("Rod data doesn't exist");
+		}
+		LaunchRodData data = null;
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rodData))) {
+			data = (LaunchRodData) ois.readObject();
+		}
+		
+		File weather = new File(ROOT_DIR + "weather.dat");
+		if(!(weather.exists() && weather.isFile())) {
+			throw new PreconditionViolationException("weather data doesn't exist");
+		}
+		List<NOAAWeatherData> weatherData = NOAA.readFromFile(weather);
+		
+		File image = new File(ROOT_DIR + "image.png");
+		if(!(image.exists() && image.isFile())) {
+			throw new PreconditionViolationException("image data doesn't exist");
+		}
+		CachedMapImage cimage = new CachedMapImage(image);
+		
+		return new SavedLaunch(cimage, weatherData, Null.nonNull(data), rocket);
 	}
 
 }
