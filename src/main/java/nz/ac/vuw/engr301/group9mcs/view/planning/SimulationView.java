@@ -224,7 +224,7 @@ public class SimulationView extends JPanel implements ActionListener {
 					return;
 			}
 			try {
-				SavedLaunch.saveLaunch(new File(this.owner.getFilename()), Null.nonNull(this.owner.getLaunchRodData()), Null.nonNull(this.weather), Null.nonNull(this.view).getNecessaryArea());
+				SavedLaunch.saveLaunch(new File(this.owner.getFilename()), Null.nonNull(this.view).getLaunchsite(), Null.nonNull(this.owner.getLaunchRodData()), Null.nonNull(this.weather), Null.nonNull(this.view).getNecessaryArea());
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 			}

@@ -405,4 +405,12 @@ public class SimulationResultsPanel extends JPanel{
 		return PlanetaryArea.fromCorners(latUL, lonUL, latLR, lonLR).scale(1.5);
 	}
 
+	/**
+	 * @return the launchsite
+	 */
+	public Point getLaunchsite() 
+	{
+		return this.launchsite;
+	}	
+
 }

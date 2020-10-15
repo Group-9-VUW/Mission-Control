@@ -54,6 +54,11 @@ public class SavedLaunch {
 	private final LaunchRodData rod;
 	
 	/**
+	 * The launch location
+	 */
+	private final Point launchSite;
+	
+	/**
 	 * A .ork for the rocket being launched
 	 */
 	private final File rocketData;
@@ -62,12 +67,14 @@ public class SavedLaunch {
 	 * @param image
 	 * @param data
 	 * @param rod
+	 * @param launchSite 
 	 * @param rocketData
 	 */
-	public SavedLaunch(CachedMapImage image, List<NOAAWeatherData> data, LaunchRodData rod, File rocketData) {
+	public SavedLaunch(CachedMapImage image, List<NOAAWeatherData> data, LaunchRodData rod, Point launchSite, File rocketData) {
 		this.image = image;
 		this.data = data;
 		this.rod = rod;
+		this.launchSite = launchSite;
 		this.rocketData = rocketData;
 	}
 
@@ -103,13 +110,14 @@ public class SavedLaunch {
 	 * Saves a launch to file
 	 * 
 	 * @param rocket
+	 * @param launchSite 
 	 * @param rod
 	 * @param data
 	 * @param area 
 	 * 
 	 * @throws IOException 
 	 */
-	public static final void saveLaunch(File rocket, LaunchRodData rod, List<NOAAWeatherData> data, PlanetaryArea area) throws IOException
+	public static final void saveLaunch(File rocket, Point launchSite, LaunchRodData rod, List<NOAAWeatherData> data, PlanetaryArea area) throws IOException
 	{
 		new File(ROOT_DIR + "rocket.ork").delete();
 		Files.copy(rocket.toPath(), new File(ROOT_DIR + "rocket.ork").toPath());
@@ -117,6 +125,7 @@ public class SavedLaunch {
 		File rodData = new File(ROOT_DIR + "rod.dat");
 		rodData.createNewFile();
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rodData))) {
+			oos.writeObject(launchSite);
 			oos.writeObject(rodData);
 		}
 		
@@ -140,6 +149,13 @@ public class SavedLaunch {
 	}
 	
 	/**
+	 * @return the launchSite
+	 */
+	public Point getLaunchSite() {
+		return this.launchSite;
+	}
+
+	/**
 	 * Requires <code>hasLaunch() == true</code>
 	 * @return The saved launch stored
 	 * @throws Exception If any error occurs when reading from a file
@@ -160,7 +176,9 @@ public class SavedLaunch {
 			throw new PreconditionViolationException("Rod data doesn't exist");
 		}
 		LaunchRodData data = null;
+		Point launchSite = null;
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rodData))) {
+			launchSite = (Point) ois.readObject();
 			data = (LaunchRodData) ois.readObject();
 		}
 		
@@ -176,7 +194,7 @@ public class SavedLaunch {
 		}
 		CachedMapImage cimage = new CachedMapImage(image);
 		
-		return new SavedLaunch(cimage, weatherData, Null.nonNull(data), rocket);
+		return new SavedLaunch(cimage,  weatherData, Null.nonNull(data), Null.nonNull(launchSite), rocket);
 	}
 
 }
