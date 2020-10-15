@@ -1,12 +1,18 @@
 package nz.ac.vuw.engr301.group9mcs.commons.map;
 
+import java.io.Serializable;
+
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * @author Claire
  * @author Joshua
  */
-public class Point {
+public class Point implements Serializable {
+	
+	/**
+	 */
+	private static final long serialVersionUID = 209489038409238049L;
 
 	/**
 	 * The latitude of the point

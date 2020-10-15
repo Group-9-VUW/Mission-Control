@@ -3,13 +3,19 @@
  */
 package nz.ac.vuw.engr301.group9mcs.commons;
 
+import java.io.Serializable;
+
 /**
  * A data class for the launch rod data
  * 
  * @author Claire
  */
-public class LaunchRodData {
+public class LaunchRodData implements Serializable {
 	
+	/**
+	 */
+	private static final long serialVersionUID = 8665124166371337601L;
+
 	/**
 	 * Launch rod angle
 	 */

@@ -126,7 +126,7 @@ public class SavedLaunch {
 		rodData.createNewFile();
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rodData))) {
 			oos.writeObject(launchSite);
-			oos.writeObject(rodData);
+			oos.writeObject(rod);
 		}
 		
 		new File(ROOT_DIR + "weather.dat").delete();
