@@ -15,7 +15,10 @@ import javax.swing.JPanel;
 
 import org.eclipse.jdt.annotation.Nullable;
 
+import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
+import nz.ac.vuw.engr301.group9mcs.controller.Resources;
 import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
+import nz.ac.vuw.engr301.group9mcs.view.SimulationResultsPanel;
 import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
@@ -39,7 +42,7 @@ public class GoNoGoView extends JPanel implements Observer{
 	/**
 	 * The Panel that shows the results of the simulation.
 	 */
-	private JPanel simulationResults;
+	private SimulationResultsPanel simulationResults;
 	
 	/**
 	 *
@@ -48,7 +51,8 @@ public class GoNoGoView extends JPanel implements Observer{
 
 	/**
 	 * Sets the View up, and saves the Observer. Uses the data from previous views.
-	 *
+	 * 
+	 * @param resources 
 	 * @param parameters From the Simulation (should be run before this panel?)
 	 * @param fileName Of the Rocket file
 	 * @param lat Of the Launch site
@@ -57,32 +61,22 @@ public class GoNoGoView extends JPanel implements Observer{
 	 * @param map To display on
 	 * @param sidePanel Name of Parent (site or unarmed)
 	 */
-	public GoNoGoView(Object parameters, String fileName, double lat, double lon, Observer o, MapImage map, String sidePanel) {
+	public GoNoGoView(Resources resources, Object parameters, String fileName, double lat, double lon, Observer o, MapImage map, String sidePanel) {
 		this.obs = new ViewObservable(o);
 
 		this.setPreferredSize(new Dimension(200, 300));
 		this.setLayout(new BorderLayout());
-		// TODO: add Real Simulation Panel
-		// TODO: draw OSM License
-		this.simulationResults = new JPanel() {
-			/**
-			 * UID.
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void paintComponent(@Nullable Graphics g) {
-				paintResults(parameters, map, g);
-			}
-		};
+		this.simulationResults = new SimulationResultsPanel(new Point[0], new Point(lat, lon), resources.getSavedLaunch().getImage());
 //		if (sidePanel.equals("site")) {
 //			this.sidePanel = new GoNoGoSidePanelSelectSite(fileName, lat, lon, this);
 //		} else {
 //			this.sidePanel = new GoNoGoSidePanelAtSite(this);
 //		}
 		this.sidePanel = new GoNoGoSidePanelAtSite(this);
-		this.sidePanel.setPreferredSize(new Dimension(120, 300));
+		this.sidePanel.setMinimumSize(new Dimension(200, 300));
+		this.sidePanel.setPreferredSize(new Dimension(200, 300));
 		this.simulationResults.setName("Simulation Results");
+		
 		this.add(this.simulationResults, BorderLayout.CENTER);
 		this.add(this.sidePanel, BorderLayout.WEST);
 
@@ -141,5 +135,15 @@ public class GoNoGoView extends JPanel implements Observer{
 	public void giveData(double nSafeProbability, double nPredictedDist)
 	{
 		this.sidePanel.giveData(nSafeProbability, nPredictedDist);
+	}
+	
+	/**
+	 * Adds points to this panel for display
+	 * 
+	 * @param points
+	 */
+	public void givePoints(Point[] points)
+	{
+		this.simulationResults.replacePoints(points);
 	}
 }

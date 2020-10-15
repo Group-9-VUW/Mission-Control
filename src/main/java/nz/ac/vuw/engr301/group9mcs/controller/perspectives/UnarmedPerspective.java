@@ -104,8 +104,6 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 
 		this.topPanel.add(this.warningPanel, BorderLayout.CENTER);
 		this.topPanel.add(this.armButton, BorderLayout.EAST);
-
-		this.viewDetails();
 	}
 
 	@Override
@@ -177,7 +175,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 				SimulationDialog dialog = new SimulationDialog(Null.nonNull(this.resources).getFrame(), sim);
 				
 				List<Point> landings = sim.getResults();
-				//Null.nonNull(this.view).addPoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
+				this.goNoGoView.givePoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
 				List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
 				LandingSitesData data = new LandingSitesData(sl.getLaunchSite(), landings, valid);
 				
@@ -205,7 +203,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 		JPanel details = new JPanel(new BorderLayout());
 		details.add(this.topPanel, BorderLayout.NORTH);
 		// Create GoNoGoPanel now to get data from enterDetails. -> parameters (simulation), filename, coordinates, map image
-		GoNoGoView go = new GoNoGoView(new Object(), "unknown.txt", 0, 0, this, new InternetMapImage(), this.name());
+		GoNoGoView go = new GoNoGoView(Null.nonNull(this.resources), new Object(), "unknown.txt", Null.nonNull(this.resources).getSavedLaunch().getLaunchSite().getLatitude(), Null.nonNull(this.resources).getSavedLaunch().getLaunchSite().getLongitude(), this, new InternetMapImage(), this.name());
 		go.setPreferredSize(new Dimension(300, 300));
 		details.add(go, BorderLayout.CENTER);
 		details.setSize(new Dimension(400, 400));
@@ -244,6 +242,8 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			i++;
 		}
 		menu.enableItems(a);
+		
+		this.viewDetails();
 		
 		return this.panel;
 	}
