@@ -38,6 +38,7 @@ import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloSimulation;
 import nz.ac.vuw.engr301.group9mcs.view.SimulationDialog;
 import nz.ac.vuw.engr301.group9mcs.view.SimulationView;
+import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
  * A panel for running and showing the results of simulations
@@ -49,6 +50,11 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	/**
 	 */
 	private static final long serialVersionUID = -8786447041281812385L;
+	
+	/**
+	 * Observable for this object
+	 */
+	private final ViewObservable observable;
 
 	/**
 	 * This object's parent
@@ -101,6 +107,7 @@ public class SimulationPanel extends JPanel implements ActionListener {
 	public SimulationPanel(SelectSitePerspective persp)
 	{
 		this.owner = persp;
+		this.observable = new ViewObservable(this.owner);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -209,6 +216,8 @@ public class SimulationPanel extends JPanel implements ActionListener {
 			} catch (IOException e1) {
 				JOptionPane.showMessageDialog(this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
+		} else if(this.goBack == e.getSource()) {
+			this.observable.notify(new String[] { "change parameters" });
 		}
 	}
 	

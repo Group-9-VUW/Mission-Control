@@ -151,7 +151,6 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 					this.switchTo(this.siteMap);
 					return;
 				case "save and quit":
-					// save information - what to save????
 					System.exit(0);
 					return;
 				default:
