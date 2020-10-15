@@ -27,7 +27,7 @@ import nz.ac.vuw.engr301.group9mcs.view.start.StartButton;
  * @author Bryony
  *
  */
-public class StartPerspective extends Observable implements Perspective{
+public class StartPerspective extends Observable implements Perspective {
 
 	/**
 	 * The Panel to return to Perspective Controller.
@@ -53,7 +53,7 @@ public class StartPerspective extends Observable implements Perspective{
 					warn(args);
 				} else {
 					String[] args = {"This will write over your previous Launch.\n", "Are you sure you want to write over it?\n"};
-					confirm(args, "site");
+					confirm(args, new String[] { "switch view", "site" });
 				}
 			}
 		});
@@ -67,7 +67,7 @@ public class StartPerspective extends Observable implements Perspective{
 					warn(args);
 				} else {
 					String[] args = {"This will run the currently saved Launch.\n", "Please make sure you are in the same location\nthat was saved into the Launch.\n"};
-					confirm(args, "unarmed");
+					confirm(args, new String[] { "switch view", "unarmed" });
 				}
 			}
 		});
