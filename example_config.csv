@@ -1,2 +1,2 @@
-launchAirPressure,windSpeed,maxAngle,launchLat,launchTemp,launchRodDir,launchAlt,launchLong,numSimulations,windDir,launchRodAngle,windTurbulence,launchRodLength,
-100000.0,3.4823615550994873,0.036,-40.5,287.0677185058594,0.0,228.1233367919922,170.2,100,85.77337646484375,90.0,0.1,0.5,
+launchRodAngle,launchLat,launchAirPressure,windDir,windSpeed,windTurbulence,launchLong,launchAlt,launchRodLength,numSimulations,launchTemp,maxAngle,launchRodDir,
+90.0,-40.5,100000.0,85.77337646484375,3.4823615550994873,0.1,170.2,228.1233367919922,0.5,100,287.0677185058594,0.036,0.0,
