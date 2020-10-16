@@ -5,11 +5,12 @@ import java.io.Serializable;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * @author Claire
- * @author Joshua
+ * @author Claire Chambers
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class Point implements Serializable {
-	
+
 	/**
 	 */
 	private static final long serialVersionUID = 209489038409238049L;

@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * Class to represent a set of landing site data.
  *
- * @author jewellbail
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LandingSitesData {
 	/**

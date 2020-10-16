@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
 /**
- * Tests the implementation of NOAAWeatherData. 
- * @author Sai
+ * Tests the implementation of NOAAWeatherData.
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestNOAAWeatherData {
-	
+
 	/**
 	 * Checks if the toString method for NOAAWeatherData outputs the correct info.
 	 */

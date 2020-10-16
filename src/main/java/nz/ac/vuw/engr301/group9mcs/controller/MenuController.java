@@ -20,9 +20,10 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
  * Controller Class for the Menu.
  * Creates the Menu.
  * Allows an outside class to manipulate the Launch menus (select, pre, and launch)
- * 
- * @author Bryony
  *
+ * @author Claire Chambers
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class MenuController extends Observable{
 
@@ -30,37 +31,37 @@ public class MenuController extends Observable{
 	 * Map of Menu Items. Uses canonical path name to search.
 	 */
 	private final Map<String, JMenuItem> items = new HashMap<>();
-	
+
 	/**
-	 * Map of menus, uses the first element of canonical 
+	 * Map of menus, uses the first element of canonical
 	 */
 	private final Map<String, JMenu> menus = new HashMap<>();
-	
+
 	/**
 	 * Set of Menu Items that are used in every perspective.
-	 * Could be saved into the Perspectives. 
+	 * Could be saved into the Perspectives.
 	 * Saved by path name.
 	 */
 	private final Set<String> globalItems = new HashSet<>();
-	
+
 	/**
 	 * Menu Bar
 	 */
 	private JMenuBar menubar;
-	
+
 	/**
 	 * Add a menu to the given frame.
-	 * 
+	 *
 	 * @param frame
 	 */
 	public MenuController(JFrame frame) {
 		this.menubar = new JMenuBar();
 		frame.setJMenuBar(this.menubar);
 	}
-	
+
 	/**
 	 * Sets an item as always enabled
-	 * 
+	 *
 	 * @param pathParam
 	 */
 	public void setAlwaysEnabled(String pathParam)
@@ -71,24 +72,24 @@ public class MenuController extends Observable{
 		this.globalItems.add(path);
 		this.enableItem(path);
 	}
-	
+
 	/**
 	 * Enables all the Menu Items in the list (search by pathname).
 	 * Only enables an item if it exists. Does not create new items.
-	 * 
+	 *
 	 * Disables all other items
-	 * 
+	 *
 	 * @param paths
 	 */
 	public void enableItems(String[] paths) {
 		this.disableAll();
-		for(String path : paths) 
+		for(String path : paths)
 			this.enableItem(Null.nonNull(path));
 	}
-	
+
 	/**
 	 * Enables the given item
-	 * 
+	 *
 	 * @param pathParam The path to the JMenuItem
 	 */
 	public void enableItem(String pathParam)
@@ -98,7 +99,7 @@ public class MenuController extends Observable{
 			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
 		Null.nonNull(this.items.get(path)).setEnabled(true);
 	}
-	
+
 	/**
 	 * Disables all Menu Items expect ones used globally.
 	 */
@@ -109,10 +110,10 @@ public class MenuController extends Observable{
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds a menu item at the specified path, or the listener to the item if it already exists
-	 * 
+	 *
 	 * @param menuname The menu name for the menu item
 	 * @param itemname The name for the menu item
 	 * @param flavor The display name of the item
@@ -122,10 +123,10 @@ public class MenuController extends Observable{
 	{
 		this.addMenuItem(menuname + "/" + itemname, flavor, listener);
 	}
-	
+
 	/**
 	 * Adds a menu item at the specified path, or the listener to the item if it already exists
-	 * 
+	 *
 	 * @param pathParam The path for the menu item
 	 * @param flavor The display name of the item
 	 * @param listener The listener to call when it's clicked
@@ -133,26 +134,26 @@ public class MenuController extends Observable{
 	public void addMenuItem(String pathParam, String flavor, ActionListener listener)
 	{
 		String path = canonicalizePath(pathParam);
-		
+
 		if(this.items.containsKey(path)) {
 			Null.nonNull(this.items.get(path)).addActionListener(listener);
 			return;
 		}
-		
+
 		String menuname = Null.nonNull(path.substring(0, path.indexOf('/')));
 		if(!this.menus.containsKey(menuname)) {
 			JMenu jmenu = new JMenu(menuname.substring(0, 1).toUpperCase() + menuname.substring(1));
 			this.menus.put(menuname, jmenu);
 			this.menubar.add(jmenu);
 		}
-		
+
 		JMenu jmenu = Null.nonNull(this.menus.get(menuname));
 		JMenuItem menuitem = new JMenuItem(flavor);
 		jmenu.add(menuitem);
 		menuitem.addActionListener(listener);
 		this.items.put(path, menuitem);
 	}
-	
+
 	/**
 	 * @param pathParam A valid path to a menu item
 	 * @return Whether it's enabled or not
@@ -164,10 +165,10 @@ public class MenuController extends Observable{
 			throw new PreconditionViolationException("Invalid path: path not void in menu item map.");
 		return Null.nonNull(this.items.get(path)).isEnabled();
 	}
-	
+
 	/**
 	 * Creates a canonical path from a given path.
-	 * 
+	 *
 	 * @param paramPath The path to be canonicalized
 	 * @return The canonicalized version of the path
 	 */
@@ -175,16 +176,16 @@ public class MenuController extends Observable{
 	{
 		String path = Null.nonNull(paramPath.toLowerCase().replace('\\', '/'));
 		String[] split = path.split("/");
-		if( split.length <= 1 
+		if( split.length <= 1
 	    || (split.length == 2 && (
-	    		split[0].length() == 0)) 
+	    		split[0].length() == 0))
 	    || (split.length == 3 && ((
-	    		split[0].length() != 0) || 
+	    		split[0].length() != 0) ||
 	    		split[1].length() == 0))
 	    ||  split.length >= 4) {
 			throw new PreconditionViolationException("Invalid path, unrecognized format.");
 		}
-		
+
 		String first = "";
 		String second = "";
 		for(String s : split) {
@@ -196,11 +197,11 @@ public class MenuController extends Observable{
 				}
 			}
 		}
-		
+
 		if(first.length() == 0 || second.length() == 0)
 			throw new InvariantViolationException("Error in assumptions, given path did not contain two full names");
-		
+
 		return first + "/" + second;
 	}
-	
+
 }

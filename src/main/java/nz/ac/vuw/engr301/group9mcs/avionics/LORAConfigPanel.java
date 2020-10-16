@@ -24,7 +24,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 /**
  * A configuration panel for the LORA driver
  *
- * @author Claire
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LORAConfigPanel extends JDialog implements ActionListener {
 

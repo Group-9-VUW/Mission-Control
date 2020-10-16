@@ -11,8 +11,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 /**
  * A writer for writing to CSV files
  *
- * @author Claire
- * @formatter Joshua
+ * @author Claire Chambers
+ * @formatter Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class CSVWriter implements Closeable {
 

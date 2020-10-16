@@ -2,19 +2,20 @@ package nz.ac.vuw.engr301.group9mcs.commons.conditions;
 
 /**
  * Invariant violation exception, for when an internal method/class state does not
- * meet design specifications 
- * 
- * @author Claire
+ * meet design specifications
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class InvariantViolationException extends Error {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 764236203625490841L;
 
 	/**
-	 * 
+	 *
 	 */
 	public InvariantViolationException() {}
 

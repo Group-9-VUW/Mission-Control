@@ -16,7 +16,8 @@ import java.net.URLConnection;
 /**
  * Retrieves map images from the OpenStreetMap tile API.
  *
- * @author Bailey Jewell (jewellbail)
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class InternetMapImage implements MapImage {
 

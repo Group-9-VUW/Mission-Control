@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Tests the NOAA class for correctness of the data produced by it (the NOAA weather readings parsed into a List).
- * @author Sai
- * @author Joshua
+ *
+ * @author Sai Panda
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestNOAA {
 

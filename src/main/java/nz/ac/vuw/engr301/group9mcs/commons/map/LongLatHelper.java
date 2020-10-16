@@ -3,7 +3,8 @@ package nz.ac.vuw.engr301.group9mcs.commons.map;
 /**
  * A helper class for dealing with long/lat coordinates
  *
- * @author Claire
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public final class LongLatHelper {
 

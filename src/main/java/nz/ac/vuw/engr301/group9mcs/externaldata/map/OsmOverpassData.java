@@ -11,6 +11,7 @@ import java.util.*;
  * This class represents a set of data retrieved from the OSM Overpass API.
  *
  * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class OsmOverpassData implements Serializable {
 

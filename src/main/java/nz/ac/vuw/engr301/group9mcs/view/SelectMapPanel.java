@@ -36,9 +36,10 @@ import nz.ac.vuw.engr301.group9mcs.view.PostionSelectedListener;
  * They can also move the map via dragging and if they click on a spot it will highlight that spot and ask if they
  * would like to choose the location as the launch location.
  *
- * @author August
- * @editor Claire
- * @formatter Joshua
+ * @author August Bolter
+ * @editor Claire Chambers
+ * @formatter Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class SelectMapPanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, SimpleEventListener {
 
@@ -190,7 +191,7 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 		this.pixelToLon = (2 * (this.getRadX() / LongLatHelper.kilometeresPerDegreeOfLongitude(this.lat))) / this.sizeX;
 		this.pixelToLat = (2 * (this.getRadY() / LongLatHelper.kilometersPerDegreeOfLatitude(this.lat))) / this.sizeY;
 	}
-	
+
 	/**
 	 * Draws the OSM License on the Panel.
 	 */
@@ -211,10 +212,10 @@ public class SelectMapPanel extends JPanel implements MouseListener, MouseMotion
 			@Override public void mouseEntered(@Nullable MouseEvent e) {/**/}
 			@Override public void mouseExited(@Nullable MouseEvent e) {/**/}
 		});
-		
+
 		SpringLayout springLayout = new SpringLayout();
 		this.setLayout(springLayout);
-		
+
 		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this);
 		this.add(hyperlink);

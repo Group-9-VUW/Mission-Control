@@ -14,9 +14,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 /**
  * A ROUND JBUTTON!!!!!
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class RoundButton extends JButton{
 
@@ -27,7 +27,7 @@ public class RoundButton extends JButton{
 
 	/**
 	 * Creates a Round Button!
-	 * 
+	 *
 	 * @param label
 	 */
 	public RoundButton(String label) {
@@ -62,7 +62,7 @@ public class RoundButton extends JButton{
    * Shape of the button. Used in contained method.
    */
   @Nullable Shape shape;
-  
+
   @Override
 	public boolean contains(int x, int y) {
     if (this.shape == null || !Null.nonNull(this.shape).getBounds().equals(getBounds())) {
@@ -70,5 +70,5 @@ public class RoundButton extends JButton{
     }
     return Null.nonNull(this.shape).contains(x, y);
   }
-  
+
 }

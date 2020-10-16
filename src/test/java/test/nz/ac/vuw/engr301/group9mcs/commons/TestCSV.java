@@ -22,7 +22,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.io.CSVWriter;
 /**
  * Tests the CSVReader and CSVWriter classes.
  *
- * @author Joshua
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestCSV {
 

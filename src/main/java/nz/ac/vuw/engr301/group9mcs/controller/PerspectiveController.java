@@ -15,8 +15,8 @@ import nz.ac.vuw.engr301.group9mcs.controller.perspectives.Perspective;
 /**
  * Controls what view elements are shown on the screen for the different perspectives.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class PerspectiveController implements Observer{
 
@@ -25,17 +25,17 @@ public class PerspectiveController implements Observer{
 	 * Perspectives can be looked up by their name.
 	 */
 	private Map<String, Perspective> perspectives;
-	
+
 	/**
 	 * The menu controller.
 	 */
 	private MenuController menu;
-	
+
 	/**
 	 * The resources object for all perspectives
 	 */
 	private Resources resources;
-	
+
 	/**
 	 * The Panel.
 	 */
@@ -44,7 +44,7 @@ public class PerspectiveController implements Observer{
 	/**
 	 * Constructor.
 	 * Updates the Menu through the passed MenuController over lifetime.
-	 * 
+	 *
 	 * @param menu The menu controller
 	 * @param resources The initial resources object
 	 */

@@ -25,8 +25,9 @@ import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
  * Class for the Select Launch Perspective.
  * Shows the Data returned from the Simulation about the speculated launch.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class GoNoGoView extends JPanel implements Observer{
 
@@ -43,7 +44,7 @@ public class GoNoGoView extends JPanel implements Observer{
 	 * The Panel that shows the results of the simulation.
 	 */
 	private SimulationResultsPanel simulationResults;
-	
+
 	/**
 	 *
 	 */
@@ -51,8 +52,8 @@ public class GoNoGoView extends JPanel implements Observer{
 
 	/**
 	 * Sets the View up, and saves the Observer. Uses the data from previous views.
-	 * 
-	 * @param resources 
+	 *
+	 * @param resources
 	 * @param parameters From the Simulation (should be run before this panel?)
 	 * @param fileName Of the Rocket file
 	 * @param lat Of the Launch site
@@ -76,7 +77,7 @@ public class GoNoGoView extends JPanel implements Observer{
 		this.sidePanel.setMinimumSize(new Dimension(200, 300));
 		this.sidePanel.setPreferredSize(new Dimension(200, 300));
 		this.simulationResults.setName("Simulation Results");
-		
+
 		this.add(this.simulationResults, BorderLayout.CENTER);
 		this.add(this.sidePanel, BorderLayout.WEST);
 
@@ -128,7 +129,7 @@ public class GoNoGoView extends JPanel implements Observer{
 
 	/**
 	 * Informs this view that a simulation has been run so that it can display the results.
-	 * 
+	 *
 	 * @param nSafeProbability The probability that we'll land safely
 	 * @param nPredictedDist The estimated average distance from the launch site
 	 */
@@ -136,10 +137,10 @@ public class GoNoGoView extends JPanel implements Observer{
 	{
 		this.sidePanel.giveData(nSafeProbability, nPredictedDist);
 	}
-	
+
 	/**
 	 * Adds points to this panel for display
-	 * 
+	 *
 	 * @param points
 	 */
 	public void givePoints(Point[] points)

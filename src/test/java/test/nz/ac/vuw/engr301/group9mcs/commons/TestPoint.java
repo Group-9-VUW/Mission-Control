@@ -10,7 +10,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 /**
  * Tests for the Point class.
  *
- * @author Joshua
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestPoint {
 
@@ -25,7 +26,7 @@ public class TestPoint {
 		assertEquals(-40, p.getLatitude());
 		assertEquals(170, p.getLongitude());
 	}
-	
+
 	/**
 	 * Tests the equals method in the Point class.
 	 */
@@ -46,7 +47,7 @@ public class TestPoint {
 		assertFalse(p.equals(null));
 		assertFalse(p.equals(new Object()));
 	}
-	
+
 	/**
 	 * Tests the hashCode method in the Point class.
 	 */
@@ -61,6 +62,6 @@ public class TestPoint {
 		assertEquals(-1070, p.hashCode());
 		//rounded
 		assertEquals(2551, nonIntP.hashCode());
-		
+
 	}
 }

@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 /**
  * Collection of static methods operating on LandingSitesData objects to calculate statistics around landing sites.
  *
- * @author jewellbail
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LandingSiteStatistics {
 

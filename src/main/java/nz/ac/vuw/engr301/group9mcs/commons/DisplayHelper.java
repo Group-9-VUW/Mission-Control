@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package nz.ac.vuw.engr301.group9mcs.commons;
 
@@ -9,14 +9,15 @@ import java.awt.Window;
 
 /**
  * A helper class for swing
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public final class DisplayHelper {
-	
+
 	/**
 	 * Centers a window on the screen
-	 * 
+	 *
 	 * @param window The window to center
 	 */
 	public static void center(final Window window)
@@ -25,6 +26,6 @@ public final class DisplayHelper {
 		final int X = (int) ((screen.getWidth() - window.getWidth()) / 2);
 		final int Y = (int) ((screen.getHeight() - window.getHeight()) / 2);
 		window.setLocation(X, Y);
-	}	
+	}
 
 }

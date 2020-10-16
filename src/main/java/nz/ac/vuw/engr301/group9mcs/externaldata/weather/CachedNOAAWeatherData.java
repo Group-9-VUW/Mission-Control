@@ -13,8 +13,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
  * A class to save and load the NOAAWeather data to a JSON file.
- * 
+ *
  * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class CachedNOAAWeatherData {
 
@@ -87,7 +88,7 @@ public class CachedNOAAWeatherData {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * Gets the weather data JSONArray that was saved or loaded by this instance.
 	 * @return the weather data as a JSONArray.

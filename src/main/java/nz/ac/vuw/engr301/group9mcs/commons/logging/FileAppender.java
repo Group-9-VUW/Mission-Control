@@ -16,9 +16,10 @@ import org.apache.log4j.AppenderSkeleton;
 /**
  * A log4j appender which appends the details of the log to a file. Each time the program is run the logs will be
  * appended to a new file. The files are named by the date in which they were created.
- * 
+ *
  * @author August Bolter
  * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class FileAppender extends AppenderSkeleton {
 
@@ -48,7 +49,7 @@ public class FileAppender extends AppenderSkeleton {
 			Files.createDirectories(path);
 		}
 		//Creating a file and its writer
-		this.writer = new FileWriter(new File("logs/log_" + this.currentTime + ".log")); 
+		this.writer = new FileWriter(new File("logs/log_" + this.currentTime + ".log"));
 	}
 
 	@Override

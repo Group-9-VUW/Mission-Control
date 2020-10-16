@@ -17,9 +17,10 @@ import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
  * The Side Panel for Unarmed Perspective.
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class GoNoGoSidePanelAtSite extends JPanel {
 
@@ -27,22 +28,22 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 	 * UID
 	 */
 	private static final long serialVersionUID = 1687182642676145786L;
-	
+
 	/**
 	 * Observable to speak backwards
 	 */
 	ViewObservable obs;
-	
+
 	/**
 	 * Whether or not we've received simulation data
 	 */
 	private boolean hasData = false;
-	
+
 	/**
 	 * The probability that we'll land safely [0-100]%
 	 */
 	private double safeProbability = -1.0;
-	
+
 	/**
 	 * The estimated distance from the launch site in meters
 	 */
@@ -50,16 +51,16 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 
 	/**
 	 * Save passed parameters (information about simulation)
-	 * 
+	 *
 	 * @param o
 	 */
 	public GoNoGoSidePanelAtSite(Observer o) {
 		this.obs = new ViewObservable(o);
 	}
-	
+
 	/**
 	 * Informs this panel that a simulation has been run so that it can display the results.
-	 * 
+	 *
 	 * @param nSafeProbability The probability that we'll land safely
 	 * @param nPredictedDist The estimated average distance from the launch site
 	 */
@@ -72,21 +73,21 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 		this.revalidate();
 		this.repaint();
 	}
-	
+
 	@Override
 	protected void paintComponent(@Nullable Graphics g) {
 		int height = this.getHeight() / 2 - this.getHeight() / 8;
 		int startGap = this.getHeight() / 16;
-		
+
 		if(this.hasData) {
 			String[] large1 = { this.safeProbability + "%"};
 			String[] small1 = {"Probability of Landing Safely", "(Not on someone's head)"};
 			printSection(large1, small1, startGap, height, g);
-			
+
 			String[] large2 = { this.predictedDist + "m"};
 			String[] small2 = {"Predicted Landing from Launch Site", ""};
 			printSection(large2, small2, this.getHeight() / 2 + startGap, height, g);
-			
+
 			//TODO: Print recommendation
 		} else {
 			String[] large1 = { "Don't Launch" };
@@ -99,7 +100,7 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 	 * Prints the section assuming that Large contains short strings and small contains long strings.
 	 * Large strings are printed on top.
 	 * They should fit inside the panel indicated (given height and current panel width)
-	 * 
+	 *
 	 * @param large
 	 * @param small
 	 * @param startY
@@ -118,17 +119,17 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 		FontMetrics sFont = g.getFontMetrics(new Font("Serif", Font.PLAIN, getFontSize(sLong, (Graphics2D) g, width)));
 
 		Font[] fonts = fitToScreen(Null.nonNull(lFont.getFont()), Null.nonNull(sFont.getFont()), small.length, sLong, large.length, lLong, (Graphics2D)g, height);
-		
+
 		lFont = g.getFontMetrics(fonts[1]);
 		Rectangle2D lRect = lFont.getStringBounds(lLong, g);
 		sFont = g.getFontMetrics(fonts[0]);
 		Rectangle2D sRect = sFont.getStringBounds(sLong, g);
-		
+
 		int fontHeight = fontHeight(lFont, Null.nonNull(lRect), sFont, Null.nonNull(sRect), small.length, large.length);
 		int y = startY + (height / 2) - (fontHeight / 2);
 		int yOffset = (int)(lRect.getHeight() * large.length + (lFont.getAscent() / 4));
 		g.setColor(Color.black);
-		
+
 		g.setFont(lFont.getFont());
 		for(int i = 0; i < large.length; i++) {
 			lRect = lFont.getStringBounds(large[i], g);
@@ -146,7 +147,7 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 
 	/**
 	 * The total height of the combined strings based on the StringBounds and FontMetrics
-	 * 
+	 *
 	 * @param large FontMetrics of the larger font
 	 * @param lRect StringBounds of "WARNING" in the larger font
 	 * @param small FontMetrics of the smaller font
@@ -156,14 +157,14 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 	 * @return The total height of the lines in various fonts.
 	 */
 	private static int fontHeight(FontMetrics large, Rectangle2D lRect, FontMetrics small, Rectangle2D sRect, int sNo, int lNo) {
-		int fontHeight = (int)(lRect.getHeight() * lNo + (large.getAscent() / 4) 
+		int fontHeight = (int)(lRect.getHeight() * lNo + (large.getAscent() / 4)
 				+ (sRect.getHeight() * sNo) + ((small.getAscent() / 4) * (sNo - 1)));
 		return fontHeight;
 	}
 
 	/**
 	 * Return a font size for the String that fills the width.
-	 * 
+	 *
 	 * @param s
 	 * @param g
 	 * @param width
@@ -189,7 +190,7 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 
 	/**
 	 * Return the longest String from an array.
-	 * 
+	 *
 	 * @param s
 	 * @return Return the longest String from an array.
 	 */
@@ -211,7 +212,7 @@ public class GoNoGoSidePanelAtSite extends JPanel {
 	 * @param sLong Longest line to be displayed in the smaller font
 	 * @param lNo Number of Lines in the Larger Font
 	 * @param lLong Longest line to be displayed in the smaller font
-	 * @param g 
+	 * @param g
 	 * @param height Height of the screen or rectangle to display lines in
 	 * @return [new small font, new large font]
 	 */

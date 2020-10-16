@@ -11,8 +11,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * @author bailey
- *
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestLandingSiteStatistics {
 

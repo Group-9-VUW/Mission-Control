@@ -21,58 +21,59 @@ import nz.ac.vuw.engr301.group9mcs.commons.LaunchRodData;
 
 /**
  * A dialog for collecting local weather data
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LaunchRodDialog extends JDialog implements ActionListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -4638763170446938972L;
-	
+
 	/**
 	 * The panel containing all the COM ports to select.
-	 * 
+	 *
 	 * Populated with populate()
 	 */
 	private final JPanel dataEntry = new JPanel(new GridBagLayout());
-	
+
 	/**
 	 * The control buttons at the bottom
 	 */
 	private final JPanel bottomButtons = new JPanel();
-	
+
 	/**
 	 * Button to cancel
 	 */
 	private final JButton cancel = new JButton("Cancel");
-	
+
 	/**
 	 * Button to confirm selection and close
 	 */
 	private final JButton confirm = new JButton("Confirm");
-	
+
 	/**
 	 * Field for angle
 	 */
 	private final JTextField angle = new JTextField();
-	
+
 	/**
 	 * Field for directionn
 	 */
 	private final JTextField direction = new JTextField();
-	
+
 	/**
 	 * Field for height
 	 */
 	private final JTextField height = new JTextField();
-	
+
 	/**
 	 * The data object (if one exists) that was collected by this dialg
 	 */
 	@Nullable private LaunchRodData data;
-	
+
 	/**
 	 * @param root The window this dialog should block
 	 */
@@ -80,26 +81,26 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 	{
 		super(root, "Enter launch rod data.", Dialog.ModalityType.APPLICATION_MODAL);
 		this.setLayout(new BorderLayout());
-		
+
 		this.add(new JLabel("Enter launch rod data."), BorderLayout.NORTH);
 		this.add(this.dataEntry, BorderLayout.CENTER);
 		this.add(this.bottomButtons, BorderLayout.SOUTH);
-		
+
 		this.initBottom();
 		this.initFields();
-		
+
 		this.confirm.addActionListener(this);
 		this.cancel.addActionListener(this);
-		
+
 		this.setSize(470, 220);
 		this.setVisible(true);
 	}
-	
+
 	/**
 	 * Populates the list of fields
 	 */
 	private void initFields()
-	{		
+	{
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 0.1;
 		gbc.gridx = 0;
@@ -109,7 +110,7 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(new JLabel("Entry"), gbc);
 		gbc.gridx = 2;
 		this.dataEntry.add(new JLabel("Unit"), gbc);
-		
+
 		gbc.gridx = 0;
 		gbc.gridy += 1;
 		this.dataEntry.add(new JLabel("Rod Angle"), gbc);
@@ -117,7 +118,7 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(this.angle, gbc);
 		gbc.gridx = 2;
 		this.dataEntry.add(new JLabel("degrees"), gbc);
-		
+
 		gbc.gridx = 0;
 		gbc.gridy += 1;
 		this.dataEntry.add(new JLabel("Rod Direction"), gbc);
@@ -125,7 +126,7 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(this.direction, gbc);
 		gbc.gridx = 2;
 		this.dataEntry.add(new JLabel("degrees"), gbc);
-		
+
 		gbc.gridx = 0;
 		gbc.gridy++;
 		this.dataEntry.add(new JLabel("Rod Height"), gbc);
@@ -133,20 +134,20 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 		this.dataEntry.add(this.height, gbc);
 		gbc.gridx = 2;
 		this.dataEntry.add(new JLabel("meters"), gbc);
-		
-		
+
+
 		this.angle.setColumns(10);
 		this.direction.setColumns(10);
 		this.height.setColumns(10);
 	}
-	
+
 	/**
 	 * Initializes the bottom panel
 	 */
 	private void initBottom()
 	{
-		this.bottomButtons.setLayout(new GridBagLayout()); 
-		
+		this.bottomButtons.setLayout(new GridBagLayout());
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 1.0;
 		gbc.gridx = 0;
@@ -165,7 +166,7 @@ public class LaunchRodDialog extends JDialog implements ActionListener {
 	{
 		return this.data;
 	}
-	
+
 	@Override
 	public void actionPerformed(@Nullable ActionEvent e) {
 		if(e != null) {

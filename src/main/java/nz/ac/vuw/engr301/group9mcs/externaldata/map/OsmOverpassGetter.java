@@ -16,7 +16,8 @@ import java.util.*;
  * This class serves to retrieve pure map data for a specified region, including nodes, ways and the associated
  * metadata from OpenStreetMap Overpass.
  *
- * @author Bailey Jewell (jewellbail)
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class OsmOverpassGetter {
 

@@ -16,7 +16,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.NOAAException;
  * Tests creating new InvariantViolation, PostconditionViolation,
  * PreconditionViolation, and NOAA Exceptions.
  *
- * @author Joshua
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestExceptions {
 

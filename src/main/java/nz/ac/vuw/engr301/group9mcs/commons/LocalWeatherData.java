@@ -2,26 +2,27 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
  * A data class for local weather data
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LocalWeatherData {
-	
+
 	/**
 	 * Wind speed in ms-1
 	 */
 	private final double windSpeed;
-	
+
 	/**
 	 * Wind direction
 	 */
 	private final double windDirection;
-	
+
 	/**
 	 * Barometric pressure
 	 */
 	private final double pressure;
-	
+
 	/**
 	 * Temperature
 	 */
@@ -73,7 +74,7 @@ public class LocalWeatherData {
 		return "LocalWeatherData [windSpeed=" + this.windSpeed + ", windDirection=" + this.windDirection + ", pressure="
 				+ this.pressure + ", temp=" + this.temp + "]";
 	}
-	
-	
+
+
 
 }

@@ -16,6 +16,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.SmoothMapImage;
  * Tests the SmoothMapImage class.
  *
  * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestSmoothMapImage {
 

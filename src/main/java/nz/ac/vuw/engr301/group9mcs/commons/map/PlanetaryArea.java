@@ -10,8 +10,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
  * A class that represents an axis-aligned area of the planet,
  * coordinates are degrees of latitude and longitude.
  *
- * @author Claire
- * @editor Joshua
+ * @author Claire Chambers
+ * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class PlanetaryArea {
 

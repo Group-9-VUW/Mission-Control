@@ -7,8 +7,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 /**
  * This will parse incoming data from the rocket and will create objects contained the
  * parsed information. The incoming data is in CSV format (without headers).
- * 
- * @author pandasai
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class BaseStationParser {
 
@@ -21,7 +22,7 @@ public class BaseStationParser {
      * This will parse one instance of data from the rocket.
      * @param data the data to parse
      * @return RocketData with all information from data
-     * @throws NumberFormatException if the supplied data is not a double. 
+     * @throws NumberFormatException if the supplied data is not a double.
      */
     @SuppressWarnings("static-method")
 	public RocketData parse(String data) throws NumberFormatException{
@@ -30,19 +31,19 @@ public class BaseStationParser {
         //Length of the converted array is 1 less than separated as
         //the rocket state will be converted on its own.
         double[] converted = new double[separated.length-1];
-        RocketData.ROCKET_STATE state = null; 
-        
+        RocketData.ROCKET_STATE state = null;
+
         for(int i = 0; i < converted.length; i++){
         	try {
         		converted[i] = Double.parseDouble(separated[i]);
         	} catch(@SuppressWarnings("unused") NumberFormatException e) {
             	DefaultLogger.logger.error("Invalid input for RocketData: " + separated[i] + " is not a double.");
-            	throw new NumberFormatException(separated[i] + " is not a double."); 
+            	throw new NumberFormatException(separated[i] + " is not a double.");
         	}
         }
-        
+
 	    try {
-	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1])); 
+	        state = RocketData.ROCKET_STATE.valueOf(Null.nonNull(separated[separated.length-1]));
         } catch(@SuppressWarnings("unused") IllegalArgumentException e) {
         	DefaultLogger.logger.error("Invalid rocket state");
         	throw new IllegalArgumentException(separated[separated.length-1] + " is not a valid rocket state.");

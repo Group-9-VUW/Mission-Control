@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * Tests for determining whether a point lands within a building or not.
  *
- * @author jewellbail
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 @SuppressWarnings("static-method")
 public class TestLandingSiteProcessor {

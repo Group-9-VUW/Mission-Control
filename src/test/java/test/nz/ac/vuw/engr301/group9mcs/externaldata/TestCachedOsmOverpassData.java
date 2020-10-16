@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for the locally cached OsmOverpassData objects.
+ *
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestCachedOsmOverpassData {
 

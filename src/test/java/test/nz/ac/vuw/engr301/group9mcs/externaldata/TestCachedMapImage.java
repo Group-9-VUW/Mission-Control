@@ -23,9 +23,9 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.InternetMapImage;
 /**
  * Tests for CachedMapImage
  *
- * @author Claire
  * @author Joshua Hindley
- * @editor Joshua Hindley
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public final class TestCachedMapImage {
 

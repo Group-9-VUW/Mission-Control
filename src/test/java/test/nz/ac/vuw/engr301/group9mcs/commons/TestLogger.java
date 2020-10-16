@@ -24,9 +24,10 @@ import nz.ac.vuw.engr301.group9mcs.commons.logging.LoggerLayout;
 
 /**
  * Test cases for testing the default logger, logger layout and appenders.
- * 
+ *
  * @author August Bolter
  * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestLogger {
 
@@ -67,21 +68,21 @@ public class TestLogger {
 		long time = 5000; //Creating the time stamp
 		LoggingEvent event = new LoggingEvent("foo", DefaultLogger.logger, time, Level.ERROR, "Error has occured", "main", throwable, null, null, null); //Creating the event
 		/* Checking that the format is correct */
-		assertEquals("Logger: foo\n" + 
-				"Date: 1970-01-01T00:00:05Z\n" + 
-				"Level: ERROR\n" + 
-				"Thread: main\n" + 
-				"Message: Error has occured\n" + 
+		assertEquals("Logger: foo\n" +
+				"Date: 1970-01-01T00:00:05Z\n" +
+				"Level: ERROR\n" +
+				"Thread: main\n" +
+				"Message: Error has occured\n" +
 				"Throwable Info: An exception has occured\n" +
 				"\n", layout.format(event));
 	}
 
 	/**
-	 * Testing that the file appender can be added to the logger and that it appends the formatted 
+	 * Testing that the file appender can be added to the logger and that it appends the formatted
 	 * log events (log includes throwable).
 	 */
 	@SuppressWarnings("static-method")
-	@Test 
+	@Test
 	public void testFileAppender() {
 		LoggerLayout layout = new LoggerLayout();
 		try {
@@ -116,7 +117,7 @@ public class TestLogger {
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		} 
+		}
 	}
 
 	/**
@@ -140,11 +141,11 @@ public class TestLogger {
 			((AppenderSkeleton) DefaultLogger.logger.getAllAppenders().nextElement()).doAppend(event); //Append the log to the appender
 			((AppenderSkeleton) DefaultLogger.logger.getAllAppenders().nextElement()).close(); //Close the appender
 			/* Checking the content of the console output is correct */
-			assertEquals("Logger: foo\n" + 
-					"Date: 1970-01-01T00:00:05Z\n" + 
-					"Level: ERROR\n" + 
-					"Thread: main\n" + 
-					"Message: Error has occured\n" + 
+			assertEquals("Logger: foo\n" +
+					"Date: 1970-01-01T00:00:05Z\n" +
+					"Level: ERROR\n" +
+					"Thread: main\n" +
+					"Message: Error has occured\n" +
 					"\n", outContent.toString());
 		} finally {
 			DefaultLogger.logger.removeAllAppenders();
