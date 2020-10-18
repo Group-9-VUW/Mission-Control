@@ -4,8 +4,8 @@ import java.awt.event.ActionListener;
 /**
  * Holds the information to be passed to the MenuController to create a Menu Item.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class ViewMenuItem {
 

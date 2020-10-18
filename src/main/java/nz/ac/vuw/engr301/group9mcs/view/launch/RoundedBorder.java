@@ -12,9 +12,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 /**
  * Rounds the border of a component.
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class RoundedBorder implements Border {
 
@@ -25,7 +25,7 @@ public class RoundedBorder implements Border {
 
     /**
      * Rounds the border of a button
-     * 
+     *
      * @param radius
      */
     RoundedBorder(int radius) {

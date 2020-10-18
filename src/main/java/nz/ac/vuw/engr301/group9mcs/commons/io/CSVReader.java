@@ -15,8 +15,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 /**
  * A reader for csv files
  *
- * @author Claire
- * @editor Joshua
+ * @author Claire Chambers
+ * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class CSVReader implements Closeable {
 

@@ -26,8 +26,9 @@ import nz.ac.vuw.engr301.group9mcs.view.planning.SimulationView;
 /**
  * Perspective that holds the Panels for the Selecting a Launch Site.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class SelectSitePerspective extends Observable implements Perspective, Observer {
 
@@ -110,7 +111,7 @@ public class SelectSitePerspective extends Observable implements Perspective, Ob
 	}
 
 	/**
-	 * For when the user clicks 'enter launch rod data'
+	 * For when the user clicks 'enter lapandasaiunch rod data'
 	 * @param e
 	 */
 	public void onLaunchRodEntry(@Nullable ActionEvent e)

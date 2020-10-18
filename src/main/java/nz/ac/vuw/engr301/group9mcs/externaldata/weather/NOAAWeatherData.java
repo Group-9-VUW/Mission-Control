@@ -1,8 +1,10 @@
 package nz.ac.vuw.engr301.group9mcs.externaldata.weather;
 
 /**
- * Holds one instance of NOAA weather data (one reading at a corresponding altitude). 
- * @author Sai
+ * Holds one instance of NOAA weather data (one reading at a corresponding altitude).
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
     /**
@@ -14,7 +16,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
      * The wind speed of the reading in M/s.
      */
     private double windSpeed;
-    
+
     /**
      * The wind direction of the reading in degrees.
      */
@@ -32,8 +34,8 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
 
 
     /**
-     * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude. 
-     * @param altitude of the reading. 
+     * Creates the NOAAWeatherData object with the supplied parameters from one particular reading at a specified altitude.
+     * @param altitude of the reading.
      * @param windSpeed at the corresponding altitude.
      * @param windDirection at the corresponding altitude.
      * @param temperature at the corresponding altitude.
@@ -56,7 +58,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
     }
 
     /**
-     * Get the wind speed reading at this altitude. 
+     * Get the wind speed reading at this altitude.
      * @return the wind speed from the reading.
      */
     public double getWindSpeed() {
@@ -64,7 +66,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
     }
 
     /**
-     * Get the wind direction reading at this altitude. 
+     * Get the wind direction reading at this altitude.
      * @return the wind direction from the reading.
      */
     public double getWindDirection() {
@@ -72,7 +74,7 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
     }
 
     /**
-     * Get the temperature reading at this altitude. 
+     * Get the temperature reading at this altitude.
      * @return the temperature from the reading.
      */
     public double getTemperature() {
@@ -80,8 +82,8 @@ public class NOAAWeatherData implements Comparable<NOAAWeatherData> {
     }
 
     /**
-     * Get the pressure reading at this altitude. 
-     * @return the pressure from the reading. 
+     * Get the pressure reading at this altitude.
+     * @return the pressure from the reading.
      */
     public double getPressure() {
         return this.pressure;

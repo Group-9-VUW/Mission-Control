@@ -24,6 +24,7 @@ import nz.ac.vuw.engr301.group9mcs.controller.Resources;
  *
  * @author Bryony Gatehouse
  * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public final class TestPerspectiveController {
 

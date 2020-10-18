@@ -21,8 +21,9 @@ import org.json.JSONObject;
  * This class connects to the OpenWeatherMap one call API and retrieves weather data from it.
  * The weather data is returned in the JSON format.
  * The JSON will be parsed and the info will be pushed to all other packages that need it.
- * 
- * @author pandasai
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class OWMGetter {
 	/**
@@ -60,7 +61,7 @@ public class OWMGetter {
 	 * @param latitude - latitude of the location. (must be within range [-90, 90])
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @throws IOException - if the API does not output correctly.
-	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect.
 	 * @return OWWeatherData - the parsed version of the data returned by the API call.
 	 */
 	@SuppressWarnings("null")
@@ -89,7 +90,7 @@ public class OWMGetter {
 		} catch (IOException | InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
 			throw e;
-		} 
+		}
 	}
 
 	/**
@@ -97,7 +98,7 @@ public class OWMGetter {
 	 * @param latitude - latitude of the location. (must be within range [-90, 90])
 	 * @param longitude - longitude of the location. (must be within range [-180, 180])
 	 * @throws IOException - if the API does not output correctly.
-	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect. 
+	 * @throws InvalidParameterException - if the latitude and/or longitude are incorrect.
 	 * @return OWWeatherData - the parsed version of the data returned by the API call.
 	 */
 	public Map<Date, OWWeatherData> getForecast(double latitude, double longitude)  throws IOException, InvalidParameterException {
@@ -133,7 +134,7 @@ public class OWMGetter {
 		} catch (IOException | InvalidParameterException e) {
 			DefaultLogger.logger.error(e.getMessage());
 			throw e;
-		} 
+		}
 		return forecasts;
 	}
 
@@ -145,33 +146,33 @@ public class OWMGetter {
 	 */
 	private static OWWeatherData parseWeatherJSON(JSONObject weatherJSON) throws JSONException {
 		JSONObject rainData = null;
-		
+
 		try {
 			if (weatherJSON.has("rain")) {
 				rainData = weatherJSON.getJSONObject("rain");
 			}
-	
+
 			double temperature = weatherJSON.getDouble("temp");
-	
+
 			// The units for the wind speed returned by the API is in meters per second.
 			// So we need to convert it to kilometers per hour as that is the standard unit of measurement for wind in New Zealand.
 			double windSpeed = ((weatherJSON.getDouble("wind_speed") * 60) * 60) / 1000;
-	
+
 			// Wind direction (meteorological)
 			double windDegrees = weatherJSON.getDouble("wind_deg");
-	
+
 			// Atmospheric Pressure in hPa
 			double pressure = weatherJSON.getDouble("pressure");
-	
+
 			// Amount of Rainfall in the last hour.
 			double precipitation = rainData != null && rainData.keySet().contains("1h") ? rainData.getDouble("1h") : 0.0;
-	
+
 			// Current Humidity in percentage
 			double humidity = weatherJSON.getDouble("humidity");
-	
+
 			// Cloudiness percentage
 			double cloudiness = weatherJSON.getDouble("clouds");
-			
+
 			return new OWWeatherData(temperature, windSpeed, windDegrees, pressure, precipitation, humidity, cloudiness);
 		} catch (JSONException e) {
 			throw new JSONException("JSON returned by the API couldn't be parsed properly: " + e.getMessage());
@@ -179,7 +180,7 @@ public class OWMGetter {
 
 	}
 	/**
-	 * get the appid for the API. 
+	 * get the appid for the API.
 	 * @return the appid.
 	 */
 	public String getAppId() {
@@ -187,7 +188,7 @@ public class OWMGetter {
 	}
 
 	/**
-	 * set the appid for the API. 
+	 * set the appid for the API.
 	 * @param appid the appid to set.
 	 */
 	public void setAppId(String appid) {

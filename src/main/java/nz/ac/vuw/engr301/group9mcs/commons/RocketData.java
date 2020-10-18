@@ -2,7 +2,9 @@ package nz.ac.vuw.engr301.group9mcs.commons;
 
 /**
  * Holds one instance of rocket data.
- * @author pandasai
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class RocketData {
 
@@ -14,7 +16,7 @@ public class RocketData {
          * The rocket is armed
          */
         ARMED,
-        
+
         /**
          * The rocket is in flight
          */

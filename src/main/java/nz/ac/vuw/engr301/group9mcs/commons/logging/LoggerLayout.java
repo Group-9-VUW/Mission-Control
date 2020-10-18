@@ -7,10 +7,11 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.apache.log4j.Layout;
 
 /**
- * The layout for the logger. 
- * Whenever an event is logged using default logger it will use this layout to format the details of the log event. 
- * @author August Bolter
+ * The layout for the logger.
+ * Whenever an event is logged using default logger it will use this layout to format the details of the log event.
  *
+ * @author August Bolter
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LoggerLayout extends Layout {
 
@@ -24,13 +25,13 @@ public class LoggerLayout extends Layout {
 		if (event == null) {
 			return "";
 		}
-		
+
 		Instant time = Instant.ofEpochMilli(event.getTimeStamp()); //Converts the time stamp into a date.
 		StringBuilder output = new StringBuilder();
 		/* Appends logger details */
 		output.append("Logger: " + event.fqnOfCategoryClass + "\n");
 		output.append("Date: " + time.toString() + "\n");
-		output.append("Level: " + event.getLevel().toString() + "\n"); 
+		output.append("Level: " + event.getLevel().toString() + "\n");
 		output.append("Thread: " + event.getThreadName() + "\n");
 		output.append("Message: " + event.getRenderedMessage() + "\n");
 		if (event.getThrowableInformation() != null) { //Throwable information is optional, depends on the log event

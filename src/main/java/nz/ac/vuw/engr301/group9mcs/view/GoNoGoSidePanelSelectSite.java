@@ -17,9 +17,9 @@ import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * The Side Panel for SelectSiteView
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class GoNoGoSidePanelSelectSite extends JPanel{
 
@@ -34,7 +34,7 @@ public class GoNoGoSidePanelSelectSite extends JPanel{
 
 	/**
 	 * Creates and returns the Side Panel for Select Site View.
-	 * 
+	 *
 	 * @param fileName
 	 * @param lat
 	 * @param lon
@@ -42,7 +42,7 @@ public class GoNoGoSidePanelSelectSite extends JPanel{
 	 */
 	public GoNoGoSidePanelSelectSite(String fileName, double lat, double lon, Observer o) {
 		this.obs = new ViewObservable(o);
-		
+
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 1;

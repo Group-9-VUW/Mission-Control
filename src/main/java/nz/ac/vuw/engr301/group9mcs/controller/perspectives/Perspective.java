@@ -14,9 +14,9 @@ import nz.ac.vuw.engr301.group9mcs.controller.Resources;
  * Should have a list somewhere of required menu items.
  *
  * @author Bryony Gatehouse
- *
+ * Copyright (C) 2020, Mission Control Group 9
  */
-public interface Perspective{
+public interface Perspective {
 
 	/**
 	 * Called when the controller switches to this view.
@@ -26,11 +26,11 @@ public interface Perspective{
 	 * Resource passed holds information from outside (eg from different perspectives)
 	 *
 	 * @param menu
-	 * @param resource 
+	 * @param resource
 	 * @return Returns the Perspective's Panel
 	 */
 	public JPanel enable(MenuController menu, Resources resource);
-	
+
 	/**
 	 * Called when the Perspective is first made (or passed into the controller).
 	 * Adds all required menu items (through the passed menu controller).
@@ -40,14 +40,14 @@ public interface Perspective{
 	 * @param o
 	 */
 	public void init(MenuController menu, Observer o);
-	
+
 	/**
 	 * The default name for this Perspective, to use when passing.
-	 * 
+	 *
 	 * @return The default name.
 	 */
 	public String name();
-	
+
 	/**
 	 * Releases any resources bound to this perpsective
 	 */

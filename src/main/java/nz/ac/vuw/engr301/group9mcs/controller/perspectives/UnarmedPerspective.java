@@ -36,8 +36,9 @@ import nz.ac.vuw.engr301.group9mcs.view.launch.unarmed.LocalWeatherDialog;
 /**
  * Perspective that holds the Panels for the when the rocket is Unarmed.
  *
- * @author Bryony
- * @editor Claire
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class UnarmedPerspective extends Observable implements Perspective, Observer {
 
@@ -158,31 +159,31 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 				String s = JOptionPane.showInputDialog(Null.nonNull(this.resources).getFrame(), "Enter number of simulations to run:", "Run Simulation", JOptionPane.PLAIN_MESSAGE);
 				if(s == null || s.length() == 0) {
 					return;
-				} 
+				}
 				try {
 					int i2 = Integer.parseInt(s);
 					if(i2 > 0)
 						i = i2;
 				} catch(NumberFormatException e2) { /**/ }
 			} while(i < 0);
-			
+
 			SavedLaunch sl = Null.nonNull(this.resources).getSavedLaunch();
-			
+
 			try {
 				MonteCarloSimulation sim = Null.nonNull(this.resources).getBridge().runSimulation(sl.getLaunchSite(), sl.getData(), sl.getRod(), i);
-				
+
 				@SuppressWarnings("unused")
 				SimulationDialog dialog = new SimulationDialog(Null.nonNull(this.resources).getFrame(), sim);
-				
+
 				List<Point> landings = sim.getResults();
 				this.goNoGoView.givePoints(Null.nonNull(landings.toArray(new Point[landings.size()])));
 				List<Point> valid = new LandingSiteProcessor(landings).getValidPoints();
 				LandingSitesData data = new LandingSitesData(sl.getLaunchSite(), landings, valid);
-				
+
 				double validPc = LandingSiteStatistics.getPercentageValid(data);
 
 				this.goNoGoView.giveData(validPc, LandingSiteStatistics.getAverageAllDistanceFromLaunchSite(data));
-				
+
 				Null.nonNull(this.resources).getFrame().revalidate();
 				Null.nonNull(this.resources).getFrame().repaint();
 			} catch(IOException e2) {
@@ -235,7 +236,7 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			JOptionPane.showMessageDialog(resource.getFrame(), e.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
 			throw new PreconditionViolationException(e);
 		}
-		
+
 		this.resources = resource;
 		String[] a = new String[this.menuItems.size()];
 		int i = 0;
@@ -244,9 +245,9 @@ public class UnarmedPerspective extends Observable implements Perspective, Obser
 			i++;
 		}
 		menu.enableItems(a);
-		
+
 		this.viewDetails();
-		
+
 		return this.panel;
 	}
 

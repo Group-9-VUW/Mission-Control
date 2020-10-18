@@ -8,15 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Tests the BaseStationParser. Particularly the correctness of the data and whether the parser throws the 
- * correct exceptions. 
- * 
- * @author pandasai
+ * Tests the BaseStationParser. Particularly the correctness of the data and whether the parser throws the
+ * correct exceptions.
+ *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestBaseStationParser {
 
 	/**
-	 * The parser to be used for the test(s). 
+	 * The parser to be used for the test(s).
 	 */
 	private BaseStationParser parser = new BaseStationParser();
 
@@ -70,7 +71,7 @@ public class TestBaseStationParser {
 	}
 
 	/**
-	 * Checks if the parser throws an error when passed an invalid type for a double. 
+	 * Checks if the parser throws an error when passed an invalid type for a double.
 	 */
 	@Test
 	public void testInvalidDouble() {
@@ -84,7 +85,7 @@ public class TestBaseStationParser {
 	}
 
 	/**
-	 * Checks if the parser throws an error when passed an invalid rocket state. 
+	 * Checks if the parser throws an error when passed an invalid rocket state.
 	 */
 	@Test
 	public void testInvalidState() {

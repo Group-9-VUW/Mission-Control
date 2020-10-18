@@ -19,12 +19,13 @@ import nz.ac.vuw.engr301.group9mcs.controller.MenuController;
 
 /**
  * Tests for MenuController.
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
  * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public final class TestMenuController {
-	
+
 	/**
 	 * Tests path canonicalization, including exceptions
 	 */
@@ -38,7 +39,7 @@ public final class TestMenuController {
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/path with spaces"));
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/path with spaces/"));
 		assertEquals("some/path with spaces", MenuController.canonicalizePath("/some/PaTh WiTh SpAcES/"));
-		
+
 		//tests that invalid paths result in PreconditionViolation exceptions being thrown
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some/invalid/path"); });
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some/"); });
@@ -52,7 +53,7 @@ public final class TestMenuController {
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some//"); });
 		assertThrows(PreconditionViolationException.class, () -> { MenuController.canonicalizePath("some///"); });
 	}
-	
+
 	/**
 	 * Tests adding, and using, menu items
 	 */
@@ -76,9 +77,9 @@ public final class TestMenuController {
 		} catch(@SuppressWarnings("unused") HeadlessException e) {
 			System.out.println("!!! You're running this test on a headless build, unable to run tests the depend on JFrame !!!");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Tests for catching exceptions thrown for adding, and using, menu items
 	 */
@@ -104,7 +105,7 @@ public final class TestMenuController {
 			controller.setAlwaysEnabled("menu/item");
 			controller.disableAll();
 			assertTrue(controller.isEnabled("menu/item"));
-			
+
 		} catch (@SuppressWarnings("unused") HeadlessException e) {
 			System.out.println("!!! You're running this test on a headless build, unable to run tests the depend on JFrame !!!");
 		}

@@ -18,8 +18,8 @@ import nz.ac.vuw.engr301.group9mcs.view.ViewMenuItem;
 /**
  * A Fake Perspective used in the Test PerspectiveController Class.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class FakePerspective extends Observable implements Perspective{
 
@@ -27,12 +27,12 @@ public class FakePerspective extends Observable implements Perspective{
 	 * List of Required Menu Items.
 	 */
 	private HashSet<ViewMenuItem> menuItems;
-	
+
 	/**
 	 * The Default Panel.
 	 */
 	private JPanel panel = new JPanel();
-	
+
 	/**
 	 * Resources.
 	 */

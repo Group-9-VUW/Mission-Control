@@ -19,9 +19,9 @@ import nz.ac.vuw.engr301.group9mcs.view.ViewObservable;
 
 /**
  * Panel that holds the ARM button.
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class ArmedButtonPanel extends JPanel{
 
@@ -43,9 +43,9 @@ public class ArmedButtonPanel extends JPanel{
 	/**
 	 * Creates the panel that holds the arm button.
 	 * Given Text is displayed on Button.
-	 * 
+	 *
 	 * @param o
-	 * @param text 
+	 * @param text
 	 */
 	public ArmedButtonPanel(Observer o, String text) {
 		this.obs = new ViewObservable(o);
@@ -67,7 +67,7 @@ public class ArmedButtonPanel extends JPanel{
 
 	/**
 	 * Returns a Rounded ARM button.
-	 * 
+	 *
 	 * @return A Rounded Button
 	 */
 	private JButton armButton() {

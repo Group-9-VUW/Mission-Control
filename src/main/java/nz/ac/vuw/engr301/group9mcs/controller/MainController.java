@@ -11,21 +11,22 @@ import nz.ac.vuw.engr301.group9mcs.controller.perspectives.Perspective;
  * Controller class.
  * Creates the screen.
  *
- * @author Bryony
- * @author Claire
+ * @author Bryony Gatehouse
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class MainController extends JFrame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6186153488874946242L;
-	
+
 	/**
 	 * The menu controller.
 	 */
 	private final MenuController menu;
-	
+
 	/**
 	 * The perspective controller.
 	 */
@@ -36,15 +37,15 @@ public class MainController extends JFrame {
 	 */
 	public MainController() {
 		super("Mission Control");
-		
+
 		this.menu = new MenuController(this);
 		this.menu.addMenuItem("file/exit", "Exit", (e) -> {
 			this.setVisible(false);
 			this.dispose();
 		});
 		this.menu.setAlwaysEnabled("file/exit");
-		
-		try { 
+
+		try {
 			this.persp = new PerspectiveController(this.menu, new Resources(this));
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(this, e.toString(), "Fatal Error", JOptionPane.ERROR_MESSAGE);
@@ -60,7 +61,7 @@ public class MainController extends JFrame {
 
 	/**
 	 * Adds a perspective to this main
-	 * 
+	 *
 	 * @param name The name of the perspective
 	 * @param perspective The perspective
 	 */
@@ -68,10 +69,10 @@ public class MainController extends JFrame {
 	{
 		this.persp.addPerspective(name, perspective);
 	}
-	
+
 	/**
 	 * Changes the active perspective. Should only be called once
-	 * 
+	 *
 	 * @param name The name of the perspective to set
 	 */
 	public void setPerspective(String name)

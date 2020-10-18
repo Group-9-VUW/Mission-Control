@@ -11,9 +11,10 @@ import nz.ac.vuw.engr301.group9mcs.montecarlo.MonteCarloBridge;
 
 /**
  * Holds resources needed to pass to Perspectives
- * 
- * @author Bryony
  *
+ * @author Bryony Gatehouse
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class Resources {
 
@@ -21,32 +22,32 @@ public class Resources {
 	 * The root JFrame
 	 */
 	private final JFrame frame;
-	
+
 	/**
 	 * The LoRA driver
 	 */
 	private final LORADriver driver;
-	
+
 	/**
 	 * The Longitude (launch site?)
 	 */
 	private double longitude;
-	
+
 	/**
 	 * The Latitude (launch site?)
 	 */
 	private double latitude;
-	
+
 	/**
 	 * The saved launch, if one exists
 	 */
 	private @Nullable SavedLaunch savedLaunch;
-	
+
 	/**
 	 * The Monte Carlo Bridge
 	 */
 	private final MonteCarloBridge bridge;
-	
+
 	/**
 	 * @param frame The root JFrame
 	 * @throws Exception If there's an error initializing any resources
@@ -57,43 +58,43 @@ public class Resources {
 		this.driver = new LORADriver();
 		this.bridge = new MonteCarloBridge();
 	}
-	
+
 	/**
 	 * Returns the Longitude (typically launch site position).
 	 * Used for SelectSitePerspective
-	 * 
+	 *
 	 * @return Returns a Double
 	 */
 	public double getLongitude() {
 		return this.longitude;
 	}
-	
+
 	/**
 	 * Sets the Longitude (typically launch site position).
 	 * Used for SelectSitePerspective
 	 * Not sure if it's needed
-	 * 
+	 *
 	 * @param longitude
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	/**
 	 * Returns the Latitude (typically launch site position).
 	 * Used for SelectSitePerspective
-	 * 
+	 *
 	 * @return Returns a Double
 	 */
 	public double getLatitude() {
 		return this.latitude;
 	}
-	
+
 	/**
 	 * Sets the Latitude (typically launch site position).
 	 * Used for SelectSitePerspective
 	 * Not sure if it's needed
-	 * 
+	 *
 	 * @param latitude
 	 */
 	public void setLatitude(double latitude) {
@@ -103,7 +104,7 @@ public class Resources {
 	/**
 	 * @return the frame
 	 */
-	public JFrame getFrame() 
+	public JFrame getFrame()
 	{
 		return this.frame;
 	}
@@ -111,14 +112,14 @@ public class Resources {
 	/**
 	 * @return the driver
 	 */
-	public LORADriver getDriver() 
+	public LORADriver getDriver()
 	{
 		return this.driver;
 	}
-	
+
 	/**
 	 * This method checks whether a launch exists, and loads it if so
-	 * 
+	 *
 	 * @return Whether a launch has been saved
 	 * @throws Exception If there is an error in checking/loading the launch state
 	 */
@@ -132,7 +133,7 @@ public class Resources {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Requires <code>hasSavedLaunch() == true</code>
 	 * @return The saved launch
@@ -149,5 +150,5 @@ public class Resources {
 	public MonteCarloBridge getBridge() {
 		return this.bridge;
 	}
-	
+
 }

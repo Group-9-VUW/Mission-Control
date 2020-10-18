@@ -15,32 +15,33 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
- * A driver for the USB LoRA receiver. 
- * 
- * @author Claire
+ * A driver for the USB LoRA receiver.
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class LORADriver {
-	
+
 	/**
 	 * A list of the listeners for this driver
 	 */
 	private final Set<RocketDataListener> listeners = new HashSet<>();
-	
+
 	/**
 	 * Whether or not the driver is active or not
 	 */
 	private boolean running = false;
-	
+
 	/**
 	 * The serial COM port used by this driver
 	 */
 	@Nullable private SerialPort port;
-	
+
 	/**
 	 * The current thread for auto-reading serial data
 	 */
 	@Nullable private LORADriverThread currentThread;
-	
+
 	/**
 	 *	Initializes the driver with a COM port
 	 * @param comPort the COM port to use
@@ -62,7 +63,7 @@ public class LORADriver {
 		}
 		this.running = true;
 	}
-	
+
 	/**
 	 * Stops this driver from working. All data read/write is halted
 	 */
@@ -85,27 +86,27 @@ public class LORADriver {
 		this.currentThread = null;
 		this.running = false;
 	}
-	
+
 	/**
 	 * Adds a listener to this driver
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addRocketDataListener(RocketDataListener listener)
 	{
 		this.listeners.add(listener);
 	}
-	
+
 	/**
 	 * Removes a listener from this driver
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void removeRocketDataListener(RocketDataListener listener)
 	{
 		this.listeners.remove(listener);
 	}
-	
+
 	/**
 	 * @return The listeners for this driver;
 	 */
@@ -113,29 +114,29 @@ public class LORADriver {
 	{
 		return this.listeners;
 	}
-	
+
 	/**
 	 * A thread that automatically reads data and sends it to listeners
-	 * 
-	 * @author Claire
+	 *
+	 * @author Claire Chambers
 	 */
 	protected final class LORADriverThread extends Thread {
-		
+
 		/**
 		 * Whether or not this thread is running
 		 */
 		protected volatile boolean threadRunning = true;
-		
+
 		/**
 		 * A serial-backed delimited string stream, used as input for the parser
 		 */
 		protected final DelimitedSerialStream stream;
-		
+
 		/**
 		 * The data parser for the base station data
 		 */
 		protected final BaseStationParser parser = new BaseStationParser();
-		
+
 		/**
 		 * @param stream The serial stream
 		 */
@@ -143,7 +144,7 @@ public class LORADriver {
 		{
 			this.stream = stream;
 		}
-		
+
 		@Override
 		public void run()
 		{
@@ -154,7 +155,7 @@ public class LORADriver {
 						this.wait(100);
 					}
 				} catch(@SuppressWarnings("unused") InterruptedException e) { /**/ }
-				
+
 				if(this.threadRunning) {
 					try {
 						this.stream.poll();
@@ -164,7 +165,7 @@ public class LORADriver {
 						DefaultLogger.logger.error("Serial exception polling serial input");
 						DefaultLogger.logger.error(e);
 					}
-					
+
 					while(this.stream.stringsAvailable() > 0) {
 						RocketData data = this.parser.parse(this.stream.read());
 						for(RocketDataListener listener : LORADriver.this.getListeners()) {
@@ -174,9 +175,9 @@ public class LORADriver {
 				}
 			}
 		}
-		
-		
-		
+
+
+
 	}
 
 }

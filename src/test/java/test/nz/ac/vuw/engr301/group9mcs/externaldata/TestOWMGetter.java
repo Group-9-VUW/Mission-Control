@@ -14,14 +14,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
- * This class tests the implementation of the NOAAGetter class. More specifically, it tests the responses from the 
- * weather API and also tests if the weather methods reject invalid inputs. 
- * @author pandasai
+ * This class tests the implementation of the NOAAGetter class. More specifically, it tests the responses from the
+ * weather API and also tests if the weather methods reject invalid inputs.
+ * @author Sai Panda
  * @author Joshua Hindley
  * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestOWMGetter {
-	
+
 	/**
 	 * The default NOAAGetter.
 	 */
@@ -45,8 +46,8 @@ public class TestOWMGetter {
         testGetter.setAppId("ead647e24776f26ed6f63af5f1bbf68");
         assertEquals("ead647e24776f26ed6f63af5f1bbf68", testGetter.getAppId());
     }
-    
-    
+
+
     /**
      * Tests if the OWWeatherData objects created are correct.
      */
@@ -56,7 +57,7 @@ public class TestOWMGetter {
     	try {
 			OWWeatherData data = new OWWeatherData(20, 50, 80,
 					112, 20, 8, 0);
-			
+
 			assertEquals(20, data.getTemperature());
 			assertEquals(50, data.getWindSpeed());
 			assertEquals(80, data.getWindDegrees());
@@ -73,7 +74,7 @@ public class TestOWMGetter {
 					+ "is down or there is a bug in the program.");
 		}
     }
-    
+
     /**
      * Tests that getWeatherData does not accept latitude values that are too low.
      */
@@ -84,15 +85,15 @@ public class TestOWMGetter {
             this.getter.getWeatherData(-91, 20);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Latitude must be within the range [-90, 90]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }
-    
+
     /**
      * Tests that getWeatherData does not accept latitude values that are too high.
      */
@@ -103,11 +104,11 @@ public class TestOWMGetter {
             this.getter.getWeatherData(91, 20);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Latitude must be within the range [-90, 90]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }
@@ -122,15 +123,15 @@ public class TestOWMGetter {
             this.getter.getWeatherData(20, -181);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Longitude must be within the range [-180, 180]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }
-    
+
     /**
      * Tests that getWeatherData does not accept longitude values that are too high.
      */
@@ -141,15 +142,15 @@ public class TestOWMGetter {
             this.getter.getWeatherData(20, 181);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Longitude must be within the range [-180, 180]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }
-    
+
     /**
      * Tests that getWeatherData does not accept latitude and longitude values that are too low.
      */
@@ -160,16 +161,16 @@ public class TestOWMGetter {
             this.getter.getWeatherData(-91, -181);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Latitude must be within the range [-90, 90] and "
         			+ "Longitude must be within the range [-180, 180]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }
-    
+
     /**
      * Tests that getWeatherData does not accept latitude and longitude values that are too high.
      */
@@ -180,12 +181,12 @@ public class TestOWMGetter {
             this.getter.getWeatherData(91, 181);
             fail("InvalidParameterException should be thrown");
         } catch (InvalidParameterException e) {
-        	// Correct exception as the supplied parameters are invalid. 
+        	// Correct exception as the supplied parameters are invalid.
         	assertEquals("Latitude must be within the range [-90, 90] and "
         			+ "Longitude must be within the range [-180, 180]", e.getMessage());
         } catch (@SuppressWarnings("unused") IOException e) {
-        	// This exception should not be thrown, unless the machine running the tests has no 
-        	// internet connection, or the weather API is down. 
+        	// This exception should not be thrown, unless the machine running the tests has no
+        	// internet connection, or the weather API is down.
         	assumeTrue(false); //skips the test
 		}
     }

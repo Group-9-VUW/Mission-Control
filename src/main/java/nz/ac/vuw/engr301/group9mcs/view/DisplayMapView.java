@@ -53,8 +53,9 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
  * (I'm thinking upper-left, lower-right corner notation, as it
  * allows the caller to choose aspect ratio in only two arguments).
  *
- * @author Bryony
- * @editor Claire
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class DisplayMapView extends JPanel {
 
@@ -267,10 +268,10 @@ public class DisplayMapView extends JPanel {
 			@Override public void mouseEntered(@Nullable MouseEvent e) {/**/}
 			@Override public void mouseExited(@Nullable MouseEvent e) {/**/}
 		});
-		
+
 		SpringLayout springLayout = new SpringLayout();
 		this.panel.setLayout(springLayout);
-		
+
 		springLayout.putConstraint(SpringLayout.EAST, hyperlink, 0, SpringLayout.EAST, this.panel);
 		springLayout.putConstraint(SpringLayout.SOUTH, hyperlink, 0, SpringLayout.SOUTH, this.panel);
 		this.panel.add(hyperlink);

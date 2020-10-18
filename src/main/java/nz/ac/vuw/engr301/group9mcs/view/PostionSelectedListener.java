@@ -2,9 +2,9 @@ package nz.ac.vuw.engr301.group9mcs.view;
 
 /**
  * If a user selects a position on a GUI, this is what you use to listen for it.
- * 
- * @author August
  *
+ * @author August Bolter
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public interface PostionSelectedListener {
 	/**

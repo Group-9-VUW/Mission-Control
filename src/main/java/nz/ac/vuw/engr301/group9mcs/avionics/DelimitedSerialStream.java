@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package nz.ac.vuw.engr301.group9mcs.avionics;
 
@@ -11,30 +11,31 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 import nz.ac.vuw.engr301.group9mcs.commons.logging.DefaultLogger;
 
 /**
- * @author Claire
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class DelimitedSerialStream {
-	
+
 	/**
 	 * The serial port this stream reads its data from
 	 */
 	private final SerialPort port;
-	
+
 	/**
 	 * The buffer this stream uses to build strings
 	 */
 	private final StringBuilder buffer = new StringBuilder();
-	
+
 	/**
 	 * The queue of strings waiting to be read.
 	 */
 	private final ArrayDeque<String> queue = new ArrayDeque<>();
-	
+
 	/**
 	 * The string delimiter for this stream
 	 */
 	private final char delimiter;
-	
+
 	/**
 	 * @param port The serial port which to construct this stream for
 	 * @param delimiter The character by which to delimit the strings
@@ -44,9 +45,9 @@ public class DelimitedSerialStream {
 		this.port = port;
 		this.delimiter = delimiter;
 	}
-	
+
 	/**
-	 * Polls the serial port 
+	 * Polls the serial port
 	 * @throws SerialPortException If there is an error reading from the serial port
 	 */
 	public void poll() throws SerialPortException
@@ -65,7 +66,7 @@ public class DelimitedSerialStream {
 			}
 		}
 	}
-	
+
 	/**
 	 * @return The number of strings in this stream's buffer.
 	 */
@@ -73,7 +74,7 @@ public class DelimitedSerialStream {
 	{
 		return this.queue.size();
 	}
-	
+
 	/**
 	 * @return Reads one string read by this stream
 	 */

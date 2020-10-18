@@ -8,7 +8,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
  * something needs to be logged, this class should be used to log
  * the information to a file or to the console.
  *
- * @author Joshua Hindley (hindlejosh)
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class DefaultLogger {
 

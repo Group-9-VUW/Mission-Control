@@ -14,7 +14,8 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.PreconditionViolationExcep
 /**
  * Tests the Null class.
  *
- * @author Joshua
+ * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestNull {
 

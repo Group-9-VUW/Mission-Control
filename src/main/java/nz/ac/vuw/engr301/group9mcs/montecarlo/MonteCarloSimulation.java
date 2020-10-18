@@ -15,8 +15,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.map.Point;
 
 /**
  * A class representing a monte carlo simulation
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class MonteCarloSimulation extends Thread {
 
@@ -24,35 +25,35 @@ public class MonteCarloSimulation extends Thread {
 	 * List of listeners
 	 */
 	private final List<SimpleEventListener> listeners = new ArrayList<>();
-	
+
 	/**
 	 * The file where the results will be deposited
 	 */
 	private final File results;
-	
+
 	/**
 	 * The running process for this simulation
 	 */
 	private final Process process;
-	
+
 	/**
 	 * A reader for this simulations output
 	 */
 	private final BufferedReader reader;
-	
+
 	/**
 	 * Whether or not this simulation is finished or not.
 	 */
 	private boolean done = false;
-	
+
 	/**
 	 * A string representing the simulation progress
 	 */
 	private String progressString = "Not started";
-	
+
 	/**
 	 * @param process
-	 * @param results 
+	 * @param results
 	 */
 	public MonteCarloSimulation(Process process, File results)
 	{
@@ -61,7 +62,7 @@ public class MonteCarloSimulation extends Thread {
 		this.reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		this.start();
 	}
-	
+
 	@Override
 	public void run()
 	{
@@ -83,7 +84,7 @@ public class MonteCarloSimulation extends Thread {
 			} catch (@SuppressWarnings("unused") IOException e) { /* Should never happen */}
 		}
 	}
-	
+
 	/**
 	 * @return Whether or not this process has been completed
 	 */
@@ -91,7 +92,7 @@ public class MonteCarloSimulation extends Thread {
 	{
 		return this.done;
 	}
-	
+
 	/**
 	 * @return A string representing the progress of this simulation.
 	 */
@@ -99,7 +100,7 @@ public class MonteCarloSimulation extends Thread {
 	{
 		return this.progressString;
 	}
-	
+
 	/**
 	 * @return The results of the simulation
 	 * @throws IOException If there's an error reading them
@@ -109,7 +110,7 @@ public class MonteCarloSimulation extends Thread {
 		if(!this.done) {
 			throw new PreconditionViolationException("Can't get the results of an incomplete simulation");
 		}
-		
+
 		int count = 0;
 		while(this.process.isAlive()) {
 			synchronized(this) {
@@ -122,11 +123,11 @@ public class MonteCarloSimulation extends Thread {
 				throw new IOException("Thread would not properly terminate after reporting completion");
 			}
 		}
-		
+
 		try(CSVReader csvReader = new CSVReader(this.results)) {
 			if(!csvReader.hasNextLine()) return new ArrayList<>();
 			csvReader.nextLine();
-			
+
 			List<Point> points = new ArrayList<>();
 			while(csvReader.hasNextLine()) {
 				csvReader.nextLine();
@@ -135,21 +136,21 @@ public class MonteCarloSimulation extends Thread {
 				double lat = Double.parseDouble(csvReader.nextValue());
 				points.add(new Point(lat, lon));
 			}
-			
+
 			return points;
 		}
 	}
-	
+
 	/**
 	 * Adds a listener to this active simulation. Every update of the simulation will be given the event name "montecarlo"
-	 * 
+	 *
 	 * @param listener The listener to add
 	 */
 	public void addSimulationListener(SimpleEventListener listener)
 	{
 		this.listeners.add(listener);
 	}
-	
+
 	/**
 	 * Informs the listeners that the state has changed
 	 */
@@ -159,5 +160,5 @@ public class MonteCarloSimulation extends Thread {
 			listener.event("montecarlo");
 		}
 	}
-	
+
 }

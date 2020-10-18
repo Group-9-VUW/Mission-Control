@@ -20,7 +20,8 @@ import java.util.*;
  * Will run the NOAA python script, parse the output and return
  * NOAAWeatherData objects.
  *
- * @author Sai
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class NOAA {
 
@@ -44,12 +45,12 @@ public class NOAA {
         SimpleDateFormat sdf = new SimpleDateFormat("hh");
 
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        
+
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
-        
-                
-        String output; 
+
+
+        String output;
         try {
            int daysAhead = (int) -Duration.between(date.toInstant(), now.toInstant()).toDays();
            output = PythonContext.runNOAA(latitude, longitude, daysAhead, Integer.parseInt(sdf.format(date.getTime())));
@@ -58,9 +59,9 @@ public class NOAA {
         } catch (IOException e) {
         	throw e;
         } catch (NOAAException e) {
-        	throw e; 
+        	throw e;
         }
-        
+
         JSONArray array = new JSONArray(output);
 
         NOAA.currentForecast = getSortedList(array);
@@ -97,11 +98,11 @@ public class NOAA {
      * @param file the file to write the forecast to.
      * @throws IOException if the file cannot be written to (i.e. doesn't exist).
      */
-    public static void writeToFile(File file) throws IOException 
+    public static void writeToFile(File file) throws IOException
     {
     	writeToFile(file, NOAA.currentForecast);
     }
-    
+
     /**
      * Writes the latest forecast reading to a file.
      *
@@ -148,10 +149,10 @@ public class NOAA {
             throw e;
         }
     }
-    
-    
+
+
     /**
-    
+
      * Checks if the user can successfully connect to the NOAA API used by RocketPyAlpha.
      * @return true if the user can connect to the API, false otherwise.
      */
@@ -172,20 +173,20 @@ public class NOAA {
      * The input for the date (i.e what type of object getWeather() accepts) is subject to change.
      *
      * @param args command line arguments
-     * @throws IOException 
+     * @throws IOException
      */
 //    public static void main(String[] args) throws IOException {
 //    	Instant now = Instant.now();
 //    	Instant tomorrow = now.plus(1, ChronoUnit.DAYS);
-//    	
-//    	
+//
+//
 //    	Calendar dayBefore = Calendar.getInstance();
 //    	dayBefore.setTime(new Date(tomorrow.toEpochMilli()));
-//    	
-//    	
+//
+//
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
-//        
+//
 //
 //        System.out.println(getWeather(41, 174,
 //            dayBefore));

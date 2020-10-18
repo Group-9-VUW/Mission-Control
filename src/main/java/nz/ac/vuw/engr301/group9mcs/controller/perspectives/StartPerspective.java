@@ -24,8 +24,9 @@ import nz.ac.vuw.engr301.group9mcs.view.start.StartButton;
 /**
  * Perspective the Application should open in - choose whether they want to create a new launch (at home) or launch a rocket (in field).
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class StartPerspective extends Observable implements Perspective {
 

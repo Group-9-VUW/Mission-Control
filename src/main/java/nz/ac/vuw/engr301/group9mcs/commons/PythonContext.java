@@ -14,7 +14,8 @@ import java.security.InvalidParameterException;
  * This class is responsible for checking the version of Python the user has installed.
  * This will be passed into the NOAAGetter so that the correct python command can be ran.
  *
- * @author Sai
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class PythonContext {
     /**
@@ -23,11 +24,11 @@ public class PythonContext {
      * run the NOAA python script (provided that they have the required libraries).
      */
     public static String pythonCommand = "python3";
-    
+
     /**
-     * This will be set to true if installRequiredModules() ran successfully. 
-     * The user could have the required modules even though hasModules is false. 
-     * Hence this is more of a warning field. 
+     * This will be set to true if installRequiredModules() ran successfully.
+     * The user could have the required modules even though hasModules is false.
+     * Hence this is more of a warning field.
      */
     public static boolean hasModules = false;
 
@@ -117,9 +118,9 @@ public class PythonContext {
         if (!hasValidPython()){
             return false;
         }
-        
+
         // Run and check the output of the script, if it says "Modules are missing." then return false as the user
-        // does not have the required modules. 
+        // does not have the required modules.
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/check_has_modules.py");
             InputStream is = process.getInputStream();
@@ -150,24 +151,24 @@ public class PythonContext {
             return false;
         }
 
-        // Run the pythons script to install the modules. 
-        // If the script cannot be ran, then throw an IOException. 
+        // Run the pythons script to install the modules.
+        // If the script cannot be ran, then throw an IOException.
         try {
             Process process = Runtime.getRuntime().exec(pythonCommand + " scripts/install_modules.py");
             InputStream is = process.getInputStream();
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))){
                 for (String output = reader.readLine(); output != null; output = reader.readLine()){
-                    System.out.println(output); 
+                    System.out.println(output);
                 }
             }
         } catch (@SuppressWarnings("unused") IOException e) {
             DefaultLogger.logger.error("Error running install_modules.py");
             return false;
         }
-        
+
         PythonContext.hasModules = true;
-        
+
         return true;
     }
 
@@ -179,7 +180,7 @@ public class PythonContext {
      * @param longitude the longitude of the launch site
      * @param daysAhead how far ahead the user wants the forecast (i.e provide 2 for daysAhead if they want the
      *                  forecast for two days from now.
-     * @param utcTime the time the user wants the forecast at (in UTC) 
+     * @param utcTime the time the user wants the forecast at (in UTC)
      * @return a string with the forecast information.
      * @throws InvalidParameterException if the supplied latitude and longitude are invalid or daysAhead is <= 0.
      * @throws IOException if the noaa script could not be ran.
@@ -190,7 +191,7 @@ public class PythonContext {
     	if (!hasValidPython()) {
     		throw new NOAAException("User does not have valid python.");
     	}
-    	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException. 
+    	// Check if the supplied latitude and longitude are incorrect, if so then throw an InvalidParameterException.
         try{
             OWMGetter.checkValidLatAndLon(latitude, longitude);
         } catch (InvalidParameterException e){
@@ -198,14 +199,14 @@ public class PythonContext {
             throw e;
         }
 
-        // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0. 
+        // Check for a valid daysAhead aswell, throw an InvalidParameterException if it is <= 0.
         if (daysAhead < 0) {
             String errorMessage = "Invalid 'daysAhead' parameter for retrieving forecast: " + daysAhead;
             DefaultLogger.logger.error(errorMessage);
             throw new InvalidParameterException(errorMessage);
         }
-        
-        // Printing out to system for now, this will be displaying on the corresponding View/Panel. 
+
+        // Printing out to system for now, this will be displaying on the corresponding View/Panel.
         System.out.println("Retrieving weather...");
 
         StringBuilder output = new StringBuilder();
@@ -226,7 +227,7 @@ public class PythonContext {
         int arrayIndex = output.toString().indexOf("[");
         if (arrayIndex == -1) {
             DefaultLogger.logger.error("Error retrieving NOAA weather data.");
-            throw new NOAAException("Could not retrieve weather from NOAA." + (PythonContext.hasModules ? "" : 
+            throw new NOAAException("Could not retrieve weather from NOAA." + (PythonContext.hasModules ? "" :
             	"hasModules is false, make sure you have the required modules (RocketPyAlpha and NetCDF1.4). To "
             	+ "install them, run installRequiredModules()"));
         }

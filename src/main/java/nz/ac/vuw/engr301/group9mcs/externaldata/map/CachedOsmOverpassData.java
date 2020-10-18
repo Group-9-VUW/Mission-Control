@@ -10,7 +10,9 @@ import java.util.Optional;
 
 /**
  * Class for saving and loading OsmOverpassData objects to the filesystem.
- * @author jewellbail
+ *
+ * @author Bailey Jewell
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class CachedOsmOverpassData {
 

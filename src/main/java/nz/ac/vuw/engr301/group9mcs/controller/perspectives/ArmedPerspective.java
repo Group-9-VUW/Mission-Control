@@ -23,8 +23,9 @@ import nz.ac.vuw.engr301.group9mcs.view.launch.WarningPanel;
 /**
  * Perspective that holds the Panels for the View while the rocket is Armed.
  *
- * @author Bryony
- *
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class ArmedPerspective extends Observable implements Perspective, Observer, RocketDataListener {
 
@@ -47,7 +48,7 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 * Holds the Warning Panel and Disarm Button at the top of the page.
 	 */
 	private JPanel topPanel;
-	
+
 	/**
 	 * Holds the Rocket information in the center of the page.
 	 */
@@ -57,7 +58,7 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	 * ROCKET DATA PANEL : text output from rocket?
 	 */
 	private RocketOutputPanel rocketDataPanel;
-	
+
 	/**
 	 * ROCKET VIEW PANEL : visual representation of rocket's path?
 	 */
@@ -90,7 +91,7 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 		this.topPanel.setPreferredSize(new Dimension(400, 100));
 
 		this.rocketPanel = new JPanel(new GridLayout(1, 2));
-		
+
 		this.panel.add(this.rocketPanel, BorderLayout.CENTER);
 		this.panel.add(this.topPanel, BorderLayout.NORTH);
 	}
@@ -99,15 +100,15 @@ public class ArmedPerspective extends Observable implements Perspective, Observe
 	public JPanel enable(MenuController menu, Resources resource) {
 		this.resources = resource;
 		Null.nonNull(this.resources).getDriver().addRocketDataListener(this);
-		
+
 		this.rocketPanel.removeAll();
 		this.rocketViewPanel = new DisplayMapView(resource.getSavedLaunch().getLaunchSite().getLatitude(), resource.getSavedLaunch().getLaunchSite().getLongitude(), resource.getSavedLaunch().getImage());
 		this.rocketPanel.add(this.rocketDataPanel);
 		this.rocketPanel.add(this.rocketViewPanel);
-		
+
 		resource.getFrame().repaint();
 		resource.getFrame().revalidate();
-		
+
 		return this.panel;
 	}
 

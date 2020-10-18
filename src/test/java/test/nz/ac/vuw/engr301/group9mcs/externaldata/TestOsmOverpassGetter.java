@@ -17,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Note that I have kept the number of test cases and query size
  * here small to prevent undue load on the Overpass endpoints.
  *
- * @author jewellbail
- * @editor hindlejosh
+ * @author Bailey Jewell
+ * @editor Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 @SuppressWarnings("static-method")
 class TestOsmOverpassGetter {

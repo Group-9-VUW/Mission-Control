@@ -5,11 +5,12 @@ import nz.ac.vuw.engr301.group9mcs.commons.conditions.Null;
 
 /**
  * A helper class for accessing serial COM ports
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class COMHelper {
-	
+
 	/**
 	 * @return A list of all the available COM ports on the system.
 	 */
@@ -17,7 +18,7 @@ public class COMHelper {
 	{
 		return Null.nonNull(SerialPortList.getPortNames());
 	}
-	
+
 	/**
 	 * @param port The port to check
 	 * @return True if it's available, false otherwise

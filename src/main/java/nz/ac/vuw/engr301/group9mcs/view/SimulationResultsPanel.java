@@ -41,8 +41,9 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.map.MapImage;
  * (I'm thinking upper-left, lower-right corner notation, as it
  * allows the caller to choose aspect ratio in only two arguments).
  *
- * @author Bryony
- * @editor Claire
+ * @author Bryony Gatehouse
+ * @editor Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class SimulationResultsPanel extends JPanel{
 
@@ -365,7 +366,7 @@ public class SimulationResultsPanel extends JPanel{
 		this.points = temp;
 		this.repaint();
 	}
-	
+
 	/**
 	 * @return An area large enough to display all the likely launches
 	 */
@@ -408,9 +409,9 @@ public class SimulationResultsPanel extends JPanel{
 	/**
 	 * @return the launchsite
 	 */
-	public Point getLaunchsite() 
+	public Point getLaunchsite()
 	{
 		return this.launchsite;
-	}	
+	}
 
 }

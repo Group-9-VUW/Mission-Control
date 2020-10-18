@@ -19,6 +19,7 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
  * CachedNOAAWeatherData class.
  *
  * @author Joshua Hindley
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class TestCachedNOAAWeatherData {
 

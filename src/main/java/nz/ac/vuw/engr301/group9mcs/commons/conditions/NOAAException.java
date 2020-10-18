@@ -2,9 +2,9 @@ package nz.ac.vuw.engr301.group9mcs.commons.conditions;
 
 /**
  * Thrown if NOAA not available
- * 
- * @author Sai
  *
+ * @author Sai Panda
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class NOAAException extends Exception {
 

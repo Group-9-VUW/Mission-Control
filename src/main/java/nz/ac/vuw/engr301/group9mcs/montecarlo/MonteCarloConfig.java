@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package nz.ac.vuw.engr301.group9mcs.montecarlo;
 
@@ -14,8 +14,9 @@ import nz.ac.vuw.engr301.group9mcs.commons.io.CSVWriter;
 
 /**
  * A class representing a config for the monte carlo simulation program
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class MonteCarloConfig {
 
@@ -27,12 +28,12 @@ public class MonteCarloConfig {
 	/**
 	 * @param values
 	 */
-	public MonteCarloConfig(Map<MonteCarloConfigValue, Double> values) 
+	public MonteCarloConfig(Map<MonteCarloConfigValue, Double> values)
 	{
 		this.values = values;
 	}
-	
-	
+
+
 	/**
 	 * @param file The file to write to. Will be overwritten if it already exists
 	 * @throws IOException If there is an error writing to the file
@@ -41,19 +42,19 @@ public class MonteCarloConfig {
 	public void writeTo(File file) throws IOException
 	{
 		file.createNewFile();
-		
+
 		//Use a list because order is important
 		List<Map.Entry<MonteCarloConfigValue, Double>> entries = new ArrayList<>();
 		entries.addAll(Null.nonNull(this.values.entrySet()));
-		
+
 		try(CSVWriter writer = new CSVWriter(file))
 		{
-			for(int i = 0; i < entries.size(); i++) 
+			for(int i = 0; i < entries.size(); i++)
 				writer.writeValue(entries.get(i).getKey().getName());
 			writer.nextRow();
-			for(int i = 0; i < entries.size(); i++) 
+			for(int i = 0; i < entries.size(); i++)
 				writer.writeValue(entries.get(i).getKey().getToStringFunc().apply(entries.get(i).getValue()));
 		}
 	}
-	
+
 }

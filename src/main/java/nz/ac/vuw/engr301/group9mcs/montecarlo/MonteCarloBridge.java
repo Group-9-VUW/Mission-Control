@@ -14,31 +14,32 @@ import nz.ac.vuw.engr301.group9mcs.externaldata.weather.NOAAWeatherData;
 
 /**
  * An interface to invoke the monte carlo simulation program
- * 
- * @author Claire
+ *
+ * @author Claire Chambers
+ * Copyright (C) 2020, Mission Control Group 9
  */
 public class MonteCarloBridge {
-	
+
 	/**
-	 * The root directory containing the simulation jarfile 
+	 * The root directory containing the simulation jarfile
 	 */
 	public static final String ROOT_DIR = "simulations/";
-	
+
 	/**
 	 * Location of the simulation jar file
 	 */
 	private final File simulationsJar;
-	
+
 	/**
 	 * The input CSV file
 	 */
 	private final File inputCSV;
-	
+
 	/**
 	 * The output CSV file
 	 */
 	private final File outputCSV;
-	
+
 	/**
 	 * @throws Exception If not all the relevant files required by this class are available
 	 */
@@ -49,7 +50,7 @@ public class MonteCarloBridge {
 			this.simulationsJar = new File(ROOT_DIR + "simulations.jar");
 			this.inputCSV = new File(ROOT_DIR + "input.csv");
 			this.outputCSV = new File(ROOT_DIR + "points.csv");
-			
+
 			if(!this.simulationsJar.exists() || !this.simulationsJar.isFile()) {
 				throw new Exception("Simulations jar not present in simulations directory.");
 			}
@@ -60,7 +61,7 @@ public class MonteCarloBridge {
 			throw new Exception("Exception in trying to obtain custody over input and output files.", e);
 		}
 	}
-	
+
 	/**
 	 * @param location The launch location
 	 * @param weather The weather data at the location at the time of launch
@@ -81,9 +82,9 @@ public class MonteCarloBridge {
 		@NonNull Process process = Null.nonNull(Runtime.getRuntime().exec("java -jar \"" + this.simulationsJar.getCanonicalPath() + "\" -nogui \"" + this.inputCSV.getCanonicalPath() + "\"", new String[0], new File(ROOT_DIR)));
 		return new MonteCarloSimulation(process, this.outputCSV);
 	}
-	
+
 	@SuppressWarnings("javadoc")
-	public static void main(String[] strings) throws Exception 
+	public static void main(String[] strings) throws Exception
 	{
 		MonteCarloBridge bridge = new MonteCarloBridge();
 		Point point = new Point(-41.2913698, 174.7734964);
