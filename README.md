@@ -1,4 +1,4 @@
-# Mission Control 
+# Mission Control
 #### Group 9
 
 ## How to run
@@ -8,7 +8,7 @@ You can not launch without saving the site beforehand. This loads the required d
 ### Choose and Save a Launch Site
 - Run from main method in Main class
 - Choose to create a new launch
-    
+
 Make sure that wifi is connected. Only one launch can be saved at one time to reduce space on your machine.
 
 - If a message comes up that the Weather or Map is not available, try again later
@@ -33,7 +33,7 @@ Running the Simulation takes a while, so don't panic if nothing happens. It firs
 - Choose to run a saved launch
 
 You don't need to be connected to the wifi.
-    
+
 Don't launch unless the rocket is disarmed else the software inside the rocket won't work, the parachute won't deploy, and the rocket will crash into the ground at dangerous speeds.
 
 - In the 'Avionics' menu, choose to 'Connect to Rocket'
@@ -49,7 +49,7 @@ This data isn't currently used by the simulation.
 
 This will be a lot quicker than when creating the launch as the data is already saved.
 
-- Double check the area around you, and the landing sites, to check that it is safe 
+- Double check the area around you, and the landing sites, to check that it is safe
 
 ie. no little children, etc.
 
@@ -60,5 +60,3 @@ ie. no little children, etc.
 The program won't launch the rocket for you.
 
 - Data from the rocket, and the rocket's position on the map, will be displayed as the rocket flys
-
-
