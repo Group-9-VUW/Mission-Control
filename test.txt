@@ -1,3 +1,0 @@
-This is a test file for the purpose of testing the workflow.
-
-TEST
