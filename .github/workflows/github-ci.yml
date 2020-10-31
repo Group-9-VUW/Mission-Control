@@ -36,6 +36,12 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2  
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.0'
+      - name: Install Pyquery
+        run: python install pyquery 
       - name: Maven Tests
         run: mvn clean verify
       - name: Get Coverage
