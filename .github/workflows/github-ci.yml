@@ -41,7 +41,7 @@ jobs:
         with:
           python-version: '3.8.0'
       - name: Install Pyquery
-        run: python install pyquery 
+        run: pip install pyquery 
       - name: Maven Tests
         run: mvn clean verify
       - name: Get Coverage
