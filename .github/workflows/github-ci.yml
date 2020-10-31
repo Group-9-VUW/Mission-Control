@@ -39,10 +39,11 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8.0'
-      - name: Install Pyquery
-        run: pip install pyquery 
+          python-version: '3.6.0'
       - name: Maven Tests
         run: mvn clean verify
       - name: Get Coverage
-        run: python3.6 coverage.py
+        run: |
+         pip install pyquery 
+         python3.6 coverage.py
+        
