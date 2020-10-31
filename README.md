@@ -1,5 +1,5 @@
 [![build](https://img.shields.io/github/workflow/status/Group-9-VUW/Mission-Control/build?logo=github)](https://github.com/Group-9-VUW/Mission-Control/actions?query=workflow%3Abuild) 
-[![coverage](https://img.shields.io/codecov/c/github/group-9-vuw/mission-control?logo=codecov&token=ZL1LJ9XAVU)](https://codecov.io/gh/Group-9-VUW/Mission-Control) 
+[![coverage](https://img.shields.io/codecov/c/github/group-9-vuw/mission-control?logo=codecov&logoColor=white&token=ZL1LJ9XAVU)](https://codecov.io/gh/Group-9-VUW/Mission-Control) 
 [![code quality](https://img.shields.io/codacy/grade/9bce2319702e4720b76f1f41ee15c5ca?logo=codacy)](https://app.codacy.com/gh/Group-9-VUW/Mission-Control/dashboard) 
 [![maintainability](https://img.shields.io/codeclimate/maintainability/Group-9-VUW/Mission-Control?logo=code%20climate)](https://codeclimate.com/github/Group-9-VUW/Mission-Control)
 [![technical debt](https://img.shields.io/codeclimate/tech-debt/Group-9-VUW/Mission-Control?logo=code%20climate)](https://codeclimate.com/github/Group-9-VUW/Mission-Control)
