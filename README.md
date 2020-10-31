@@ -1,3 +1,5 @@
+![build](https://github.com/Group-9-VUW/Mission-Control/workflows/build/badge.svg)
+
 # Mission Control
 #### Group 9
 
