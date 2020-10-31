@@ -1,4 +1,10 @@
-![build](https://github.com/Group-9-VUW/Mission-Control/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/Group-9-VUW/Mission-Control/branch/main/graph/badge.svg?token=ZL1LJ9XAVU)](https://codecov.io/gh/Group-9-VUW/Mission-Control) [![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![build](https://img.shields.io/github/workflow/status/Group-9-VUW/Mission-Control/build?logo=github)](https://github.com/Group-9-VUW/Mission-Control/actions?query=workflow%3Abuild) 
+[![coverage](https://img.shields.io/codecov/c/github/group-9-vuw/mission-control?logo=codecov&token=ZL1LJ9XAVU)](https://codecov.io/gh/Group-9-VUW/Mission-Control) 
+[![code quality](https://img.shields.io/codacy/grade/9bce2319702e4720b76f1f41ee15c5ca?logo=codacy)](https://app.codacy.com/gh/Group-9-VUW/Mission-Control/dashboard) 
+[![maintainability](https://img.shields.io/codeclimate/maintainability/Group-9-VUW/Mission-Control?logo=code%20climate)](https://codeclimate.com/github/Group-9-VUW/Mission-Control)
+[![technical debt](https://img.shields.io/codeclimate/tech-debt/Group-9-VUW/Mission-Control?logo=code%20climate)](https://codeclimate.com/github/Group-9-VUW/Mission-Control)
+[![last commit](https://img.shields.io/github/last-commit/group-9-vuw/mission-control?logo=github)](https://github.com/Group-9-VUW/Mission-Control/commits)
+[![license: GPL-3.0](https://img.shields.io/github/license/Group-9-VUW/Mission-Control?color=blue&logo=GNU)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Mission Control
 #### Group 9
