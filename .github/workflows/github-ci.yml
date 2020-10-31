@@ -14,7 +14,7 @@ jobs:
         with:
          java-version: 1.8
       - name: Maven Compile
-        run: mvn clean compile
+      - run: mvn clean compile
   test:
     needs: [build]
     runs-on: ubuntu-latest
