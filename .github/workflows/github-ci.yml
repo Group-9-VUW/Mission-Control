@@ -39,7 +39,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.6.0'
+          python-version: '3.6.x'
       - name: Maven Tests
         run: mvn clean verify
       - name: Get Coverage
