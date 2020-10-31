@@ -1,4 +1,4 @@
-![build](https://github.com/Group-9-VUW/Mission-Control/workflows/build/badge.svg)
+![build](https://github.com/Group-9-VUW/Mission-Control/workflows/build/badge.svg) ![license](https://img.shields.io/badge/license-GLP-blue)
 
 # Mission Control
 #### Group 9
