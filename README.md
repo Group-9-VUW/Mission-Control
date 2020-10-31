@@ -49,14 +49,11 @@ This data isn't currently used by the simulation.
 
 This will be a lot quicker than when creating the launch as the data is already saved.
 
-- Double check the area around you, and the landing sites, to check that it is safe
-
-ie. no little children, etc.
-
+- Double check the area around you and the landing sites to check that it is safe to launch (i.e. no little children, etc.)
 - Arm the rocket using the 'Arm' button
 - To disarm the rocket, press the 'Disarm' button
 - Move away from the rocket and launch
 
 The program won't launch the rocket for you.
 
-- Data from the rocket, and the rocket's position on the map, will be displayed as the rocket flys
+- Data from the rocket, and the rocket's position on the map, will be displayed as the rocket flies
