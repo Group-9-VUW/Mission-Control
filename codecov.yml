@@ -22,5 +22,7 @@ comment:
   require_changes: no
   
 ignore:
+  - "src/main/java/nz/ac/vuw/engr301/group9mcs/view/*"
+  - "src/main/java/nz/ac/vuw/engr301/group9mcs/controller/*"
   - "src/main/java/nz/ac/vuw/engr301/group9mcs/view/**/*"
   - "src/main/java/nz/ac/vuw/engr301/group9mcs/controller/**/*"
