@@ -1,4 +1,0 @@
-matrix:
-  include:
-    - language: java
-      script: mvn clean compile
