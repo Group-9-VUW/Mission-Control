@@ -727,9 +727,9 @@ To avoid a team member getting a computer-use injury, the team will strive to:
         *   Team members can ask for advice or help from other team members or the School Safety Officer.
         *   Team members should share risks they've found with the team.
         
-        
 2.  Whether the project requires any work or testing at an external (off-campus) site.
     *   The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
+    
     *   Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
 
 #### 5.4.1 Safety Plans
