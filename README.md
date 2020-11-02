@@ -9,6 +9,8 @@
 # Mission Control
 #### Group 9
 
+##### PLEASE NOTE: This readme will be improved and is not currently complete.
+
 ## How to run
 
 You can not launch without saving the site beforehand. This loads the required data to make sure launch is as safe as possible.
