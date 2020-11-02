@@ -349,12 +349,6 @@ As it stands, this question is unanswerable. Information is first required from 
 
 Our current best guess for the data the mission control software will receive from the rocket is position, rotation (pitch, roll, yaw) and speed. The current best guess for data that will be obtained from NOAA includes windspeed, barometric pressure, temperature and rainfall. There is currently no best guess for the data that will be received from the Monte Carlo software.
 
-```
-See 9.5.14. for most systems, a focus on d) and e) is appropriate, such as an object-oriented domain analysis. You should provide an overview domain model (e.g.  a UML class diagram of approximately ten classes) and write a brief description of the responsibilities of each class in the model (3 pages).
-
-You should use right tools, preferably PlantUML, to draw your UML diagrams which can be easily embedded into a Markdown file (PlantUML is also supported by GitLab and Foswiki).
-```
-
 ### 3.6 Design constraints
 
 **Design Constraints**
@@ -606,7 +600,7 @@ To avoid losing work due to technological problems, each team member will strive
 To avoid losing work due to technological problems, the team will strive to:
 *   Split tasks into smaller units so work done each 'task' is less.
 
-#### 5.3.4 Failure to agree on protocol with the Monte Carlo teams.
+#### 5.3.4 Failure to agree on protocol with the Monte Carlo teams
 ##### Likelihood: High, Effect: High
 
 Failure to agree on protocol with the Monte Carlo teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the Monte Carlo teams over how the two projects will communicate. An example is this project not wanting to send a piece of information the Monte Carlo team were expecting.
@@ -618,7 +612,7 @@ To avoid failing to agree on protocol with the Monte Carlo teams, the team will 
 *   Outline what the system can actually do.
 *   Don't accept impossible terms.
 
-#### 5.3.5 Failure to agree on protocol with the avionics teams.
+#### 5.3.5 Failure to agree on protocol with the avionics teams
 ##### Likelihood: High, Effect: High
 
 Failure to agree on protocol with the avionics teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the avionics teams over how the two projects will communicate. An example is the avionics team wanting to send information that this project doesn't want to deal with.
@@ -630,7 +624,7 @@ To avoid failing to agree on protocol with the avionics teams, the team will str
 *   Outline what the system can actually do.
 *   Don't accept impossible terms.
 
-#### 5.3.6 Other teams fail to meet deadline.
+#### 5.3.6 Other teams fail to meet deadline
 ##### Likelihood: Low, Effect: High
 
 The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule.
@@ -641,7 +635,7 @@ To avoid the other teams failing to meet deadlines, the team will strive to:
 *   Clearly express when a component from another team is needed.
 *   Check up regularly on the progress of the component.
 
-#### 5.3.7 Failure to meet deadlines. <br>
+#### 5.3.7 Failure to meet deadlines
 ##### Likelihood: Medium, Effect: Low
 
 Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when some factor prevented the individual from completing their work. This could be due to having too much work on at a certain time, or a sudden external event like a blackout or injury. An example is when a team member has to fit in the project work while also studying for a test.
@@ -659,7 +653,7 @@ To avoid a team member failing to meet deadlines, the team will strive to:
 *   Plan work around other obligations or deadlines.
 *   Have slack in the schedule so delays don't throw the project off track.
 
-#### 5.3.8 Major scope creep.<br>
+#### 5.3.8 Major scope creep
 ##### Likelihood: Medium/Low, Effect: High
 
 Major scope creep is a cost risk that can cause the project to run overtime. It is caused when extra tasks are added to the project scope during the project lifetime, or when nominally simple functions are continually over-created. An example is when another requirement is added to the project specification.
@@ -672,7 +666,7 @@ To avoid major scope creep, the team will strive to:
 *   Review the code regularly to spot wasted code early.
 *   Communicate about tasks.
 
-#### 5.3.9 Bad documentation.<br>
+#### 5.3.9 Bad documentation
 ##### Likelihood: Medium/High, Effect: Medium/Low
 
 Bad Documentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
@@ -684,7 +678,7 @@ To avoid bad documentation, each team member will strive to:
 *   Add important comments to their code so that it can be understood by other team mates.
 *   Make sure that documentation can be understood by outsiders.
 
-#### 5.3.10 Injuries due to overwork. <br>
+#### 5.3.10 Injuries due to overwork
 ##### Likelihood: Medium, Effect: Medium
 
 Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test.
@@ -702,7 +696,7 @@ To avoid a team member becoming overworked, the team will strive to:
 *   Be flexible with deadlines.
 *   Work around deadlines for other courses.
 
-#### 5.3.11 Computer-use related injuries.<br>
+#### 5.3.11 Computer-use related injuries
 ##### Likelihood: Low, Effect: High
 
 Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor.
@@ -718,21 +712,20 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 ### 5.4 Health and Safety
 
-1. How the team will manage computer-related risks
+1.  How the team will manage computer-related risks
     *   Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
     *   Cable Management
-        *   Each team member will strive to keep their work station free of loose wires.
+        *   Each team member will strive to keep their work station free of loose wires.  
     *   Security
         *   No sensitive or personal data is stored or used by the program.
-        *   GitLab.ecs prevents people outside the university from accessing the online work.
+        *   GitLab.ecs prevents people outside the university from accessing the online work.  
     *   Other risks
         *   Up to team members to identify and mitigate depending on their unique situation.
         *   Team members can ask for advice or help from other team members or the School Safety Officer.
         *   Team members should share risks they've found with the team.
-
-2. Whether the project requires any work or testing at an external (off-campus) site.
-   *   The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
-   *   Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
+2.  Whether the project requires any work or testing at an external (off-campus) site.
+    *   The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
+    *   Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
 
 #### 5.4.1 Safety Plans
 
