@@ -589,7 +589,6 @@ To avoid a team member getting a computer-use injury, the team will strive to:
 
 As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
 
-
 ## 6. Appendices
 
 ### 6.1 Assumptions and dependencies 
@@ -610,4 +609,3 @@ One page glossary as required
 | Claire Chambers | Section 1<br>Section 4.1<br>Section 5.4.1 |
 | Joshua Hindley | Section 4.3<br>Section 5.1<br>Section 5.2.2  |
 | Sai Panda |   Section 3.1<br>Section 3.2  |
-
