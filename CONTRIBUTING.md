@@ -8,10 +8,10 @@ All warnings should be enabled, and the program should be warning-free, or as ne
 
 Should have a JRE 1.8 runtime available.
 
-# Style
+## Style
 
 By default all variables and fields should be non null, unless explicitly defined as nullable.
-```
+```java
 //This ArrayList is @NonNull, meaning nonNullArrayList != null will always be true.
 //Its elements are also @NonNull meaning null cannot be added to the ArrayList.
 ArrayList<Integer> nonNullArrayList = new ArrayList<>();
@@ -32,27 +32,27 @@ ArrayList<@Nullable Integer> otherNonNullArrayList = new ArrayList<>();
 Assuming that an interface is named: InterfaceName, the main implementation should be called InterfaceNameImpl and the factory should be called InterfaceNameFactory.
 This pattern should hold true for all interfaces, main implementations and factories that we write.
 
-```
-class InterfaceNameImpl implements InterfaceName {
+```java
+public class InterfaceNameImpl implements InterfaceName {
     ...
 }
 ```
 
 Abstract classes should begin with "Abstract" and should be implemented with a concrete class.
 
-```
-abstract class AbstractClassName {
+```java
+public abstract class AbstractClassName {
     
 }
 ```
-```
-class ConcreteClassName extends AbstractClassName {
+```java
+public class ConcreteClassName extends AbstractClassName {
     ...
 }
 ```
 
 If-else blocks should be written as:
-```
+```java
 if (condition) { 
     statement;
 } else if (condition) {
@@ -64,8 +64,8 @@ if (condition) {
 ```
 
 A method should be written as:
-```
-/***
+```java
+/**
  * Javadoc describing what the function does.
  * @param param1 parameter description
  * @param param2 parameter description
@@ -79,7 +79,7 @@ public int myfunction(type param1, type param2) {
 ```
 
 Switch-case blocks should be written as:
-```
+```java
 switch (variable) {
     case a:
         statement;
@@ -103,27 +103,31 @@ Static final variables should be in ALL_CAPS_WITH_UNDERSCORES.
 There should be no (non-static) public fields. Fields should instead use getters and setters and should be protected or private.<br>
 All classes and class level variables should have Javadocs explaining what its purpose.
 
-```
+```java
 /**
  * Javadoc explaining what class A's purpose is.
  */
-class A {
+public class A {
     /**
      * Javadoc explaining what VARIABLE's purpose is.
      */
     public static final VARIABLE;
+    
     /**
      * Javadoc explaining what variable2's purpose is.
      */
     protected final variable2;
+    
     /**
      * Javadoc explaining what variable3's purpose is.
      */
     private final variable3;
+    
     /**
      * Javadoc explaining what variable4's purpose is.
      */
     protected variable4;
+    
     /**
      * Javadoc explaining what variable5's purpose is.
      */
