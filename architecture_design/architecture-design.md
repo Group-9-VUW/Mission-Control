@@ -20,7 +20,6 @@ During the launch it will monitor the rocket, reporting its status and position.
 After the launch it will report the rockets position for manual recovery. 
 This software will facilitate the goal of making hobby rocket launches safer for both the users and the community, as well as aiding in convenience tasks like recovery.
 
-
 ### 1.3 Changes to requirements
 
 If the requirement have changed significantly since the requirements document, outline the changes here. Changes must be justified and supported by evidences, i.e., they must be substantiated. (max one page, only if required)
@@ -34,8 +33,7 @@ References to other documents or standards. Follow the IEEE Citation Reference s
 Describe your system's architecture according to ISO/IEC/IEEE 42010:2011(E), ISO/IEC/IEEE 12207, ISO/IEC/IEEE 15289 and ISO/IEC/IEEE 15288.
 
 Note in particular the note to clause 5 of 42010:
-
-_"The verb include when used in Clause 5 indicates that either the information is present in the architecture description or reference to that information is provided therein."_
+*"The verb include when used in Clause 5 indicates that either the information is present in the architecture description or reference to that information is provided therein."*
 
 This means that you should refer to information (e.g. risks, requirements, models) in this or other documents rather than repeat information.
 
@@ -89,7 +87,6 @@ During development, the team will increase its functionality based on the Stakeh
 
 ##### Survivability 
 The software will incorporate  multiple fail safes and will utilise proper handling of safety critical systems. In the event of an attack or a failure, the system will try to save as much information as it can and will try to minimise harm to anyone that can be affected. 
-
 
 ### 3.2 Architectural Viewpoints
 We will use Kruchten’s 4 + 1 architecture view model to present our systems architecture.
@@ -182,7 +179,7 @@ The external data package is fairly straightforward, the main complication being
 
 Both network-faing classes have an `available()` function to signal unavailability to the controller.
 
-### External Data
+### Views
 
 ```plantuml
 class JPanel {
@@ -345,17 +342,16 @@ Internet access is required in the planning state but is not required for the pr
 #### USB Serial Connection
 Data is recieved from the rocket over a USB serial connection during the pre-launch and launched states. This is not required in the planning state. 
 
-
 ### 4.5 Scenarios
 The scenarios described below revolve around two of our most important use-cases, "Determine probable landing locations" and "Go/no-go function".  
 These two use-cases are described in detail in the [Project Requirements document](https://gitlab.ecs.vuw.ac.nz/course-work/engr300/2020/group9/group-9/-/blob/master/project_requirement/project-requirement.md) under Section 3.2.  
 These two use-cases were chosen because they are very essential as they are both required for the minimum viable product.  
   
-**Scenarios**  
+#### Scenarios
   
 ![](Images/Scenarios.jpg)
 
-**How the scenarios relates to the Logical View:**   
+#### How the scenarios relate to the Logical View
 Throughout the scenarios the Launcher and system is interacting with the Controller package (the GUI), e.g. Launcher indicating to the system that they want to launch the rocket, the system updating the Controller package to show probable landing locations and the system updating the Controller package to tell the user if launching can commence.  
   
 In the View package the class SelectMapView is utilized to show and allow the user to pick a launch location, in Scenario 1 the class DisplayMapView is used to show the rocket's attributes and the Weather data dialog class is used in Scenario 2 when the launcher enters in the weather conditions manually. Also the Console view is used in Scenario 2 as well when the pre-launch checks fail.  
@@ -366,15 +362,14 @@ When communicating with the Monte-Carlo Simulation, the OpenRocket/Monte-Carlo p
   
 When obtaining the weather data using the weather API the External Data package is utilized (in particular the NOAA interface and MapDataRetriever and Map Data Interface). This weather data format is defined by 'Weather Data' in the Commons package  
   
-  
-**How the scenarios relates to the Development View:**  
+#### How the scenarios relate to the Development View 
 The scenarios also relate to the components described in the Development View. For example in Scenario 2, when the Go/No-go function says to the Launcher that it is not possible for the rocket to launch unless the Launcher changes the launch angle, this utilizes many components. These components include the Controller component (displaying to the launcher that launching can't commence and giving recommendations), the View component (Showing the Map view with the probable landing locations), the Observer component (Observing the change in launch angle) and the Model component (the Model updating in response to this angle change).  
   
 The persistence component is also used in the scenarios to retrieve and store the Monte-carlo simulation data (with the Monte-carlo simulation also being a component) and the Network component is used to obtain the weather data from the weather API.  
   
 In Scenario 3, also the Component model is used to communicate to the launcher that the launch has been cancelled.
 
-**How the scenarios relates to the Process View:**  
+#### How the scenarios relate to the Process View  
 All the processing in these scenarios (e.g. Obtaining the weather data from the weather API, showing the probable landing locations etc.) will be quick and with minimal delay since the Process View outlines that the core logic of our mission control program will be single-threaded so only one instance of it can be run on a computer at a time.  
   
 Parts of the scenario directly relate to the Process Activity Diagram. E.g.  
@@ -388,12 +383,7 @@ Most of the links between the activity diagram and the scenarios are self explan
 **How the scenarios relates to the Physical View:**  
 In regards to the physical view all the processing done in the scenarios will be executed in the mission control software that will run on a laptop. The monte-carlo simulation data is generated from the Monte-Carlo simulation software that will run on the same laptop so, these two programs on the laptop will communicate to each other. The Monte-Carlo simulation data likely will be stored in a file on this laptop. Also, when the laptop connects to the NOAA interface this interface requires the Internet to obtain the weather data.
 
-
 ## 5. Development Schedule
-
-_For each subsection, make clear what (if anything) has changed from the requirements document._ If unchanged, these sections should be copied over from the requirements document, not simply cross-referenced.
-
-Schedules must be justified and supported by evidences; they must be either direct client requirements or direct consequences of client requirements. If the requirements document did not contain justifications or supporting evidences, then both must be provided here.
 
 ### 5.1 Schedule
 
@@ -415,190 +405,189 @@ No purchases required as the project is software-based.
 | Google Checks | Google Checks is a checkstyle tool used to enforce a consistent coding standard across a project. Google Checks is procured as an option through Eclipse, which will be activated. | Using Google Checks (or any checkstyle tool for that matter) allows for consistency in code style across code written by all team members. Consistency is key when it comes to programming style as consistency and naming conventions are some of the primary parts of the understandability of code. As such, using Google Checks should allow our team to produce code that is consistent in style and is easily understandable. |
 | OpenStreetMap | OpenStreetMap is an open source collaborative project of a street map of the world. OpenStreetMap data is procurred by the program using an API. An example of a tile returned from the API can be found [here.](https://a.tile.openstreetmap.org/16/64587/41035.png) | Using OpenStreetMap allows for our program to dynamically request map tiles at runtime, stitch the map together into a single image, save and load the image from a file and display the image as a map to the user. The primary purpose of using OpenStreetMap for our project is to allow for a map with the rocket's location and landing site to be displayed graphically to the user, greatly increasing the user experience. |
 | NOAA          | NOAA is a weather data provider that can be used to obtain a variety of local weather data such as temperature, windspeed and precipitation. NOAA data is procured by the program from the official [NOAA website](https://www.noaa.gov/) using an API. | NOAA, or a similar weather data provider is absolutely essential for the program. The program will get the current local weather data (or a forecast of the near future) from NOAA. This data is needed by the Monte Carlo simulator in order to perform accurate simulations of the rocket's flight. Using NOAA allows for the program to determine whether it is safe to launch the rocket or not, thanks to the Monte Carlo simulations. |
+### 5.3 Risks
 
+#### 5.3.1 Sudden prolonged absence of a team member
+##### Likelihood: Low, Effect: High
 
-### 5.3 Risks 
+The sudden prolonged absence of a team member is a schedule risk that can cause the project to run overtime. It is caused when a team member disappears for a long period without explanation. An example is if a team member is in a crash and is in a coma.
 
-#### Sudden prolonged absence of a team member.
-##### Likelihood: Low Effect: High.
-
-The sudden prolonged absense of a team member is a schedule risk that can cause the project to run overtime. It is caused when a team member disappears for a long period without explanation. An example is if a team member is in a crash and is in a coma.
-
-The impact of a sudden prolonged absense of a team member is that there is one less person working on the project. This means that that member's work would have to be split between the other team members and the project will take more time and effort to complete. 
+The impact of a sudden prolonged absence of a team member is that there is one less person working on the project. This means that that member's work would have to be split between the other team members and the project will take more time and effort to complete.
 
 To avoid the risks of a sudden prolonged absence, each team member will strive to:
-- Offer an explanation if they are going to be absent.
-- Add comments and notes into their work so it is easier for others to pick up.
+*   Offer an explanation if they are going to be absent.
+*   Add comments and notes into their work so it is easier for others to pick up.
 
 To avoid the risks of a sudden prolonged absence of a team member, the team will strive to:
-- Make sure each member knows about every different part of the project so they can start working on it.
-- Have regular meetings with compulsory attendance to quickly notice a team member's absence.
+*   Make sure each member knows about every different part of the project so they can start working on it.
+*   Have regular meetings with compulsory attendance to quickly notice a team member's absence.
 
-#### Sudden temporary absence of a team member.
-##### Likelihood: Medium/High Effect: Low
+#### 5.3.2 Sudden temporary absence of a team member
+##### Likelihood: Medium/High, Effect: Low
 
 The sudden temporary absence of a team member is a schedule risk that could cause decisions to be delayed. It is caused when a team member fails to remember a meeting, and is contactable during the meeting. An example is when a team member schedules their work during the meeting, thus is busy and away from their device.
 
-The impact of a sudden temporary absence of a team member is that a decision isn't able to be made. This will halt progress on the project, potentially pushing it back past the deadline. 
+The impact of a sudden temporary absence of a team member is that a decision isn't able to be made. This will halt progress on the project, potentially pushing it back past the deadline.
 
 To avoid the risks of a sudden temporary absence, each team member will strive to:
-- Check the communication channel at least once a day.
-- Avoid booking commitments during the lab times.
-- Be available on the communcation channel during lab times.
+*   Check the communication channel at least once a day.
+*   Avoid booking commitments during the lab times.
+*   Be available on the communication channel during lab times.
 
 To avoid the risks of a sudden temporary absence of a team member, the team will strive to:
-- Have regular meetings at the same time every week.
-- Notify team members about meetings outside of normal scheduled meetings at least a day before the meeting.
-- Keep important decisions to the normal scheduled meetings.
+*   Have regular meetings at the same time every week.
+*   Notify team members about meetings outside of normal scheduled meetings at least a day before the meeting.
+*   Keep important decisions to the normal scheduled meetings.
 
-#### Loss of work due to technological problems.
-##### Likelihood: Medium Effect: Low
+#### 5.3.3 Loss of work due to technological problems
+##### Likelihood: Medium, Effect: Low
 
-Loss of work due to technological problems is a scheduling risk that could lead to the project not being finished on time. It is caused when a technological problem causes the file that was being worked on to be closed without saving the work. An example is when a blackout causes the desktop to shutdown before the file was saved. 
+Loss of work due to technological problems is a scheduling risk that could lead to the project not being finished on time. It is caused when a technological problem causes the file that was being worked on to be closed without saving the work. An example is when a blackout causes the desktop to shutdown before the file was saved.
 
-The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project. 
+The impact of losing work due to technological problems is that work will have to be repeated. This might result in the final code being poorly written as the developer isn't thinking as hard about it. It will result in more work and time taken on the task. If the work lost is a lot, than it could delay the finishing of the project.
 
 To avoid losing work due to technological problems, each team member will strive to:
-- Save their work regularly to keep an almost up-to-date version of their work.
-- Work on all their work seriously, even if they are repeating it.
-- Commit regularly to GitLab to protect against their device dying.
+*   Save their work regularly to keep an almost up-to-date version of their work.
+*   Work on all their work seriously, even if they are repeating it.
+*   Commit regularly to GitLab to protect against their device dying.
 
 To avoid losing work due to technological problems, the team will strive to:
-- Split tasks into smaller units so work done each 'task' is less.
+*   Split tasks into smaller units so work done each 'task' is less.
 
-#### Failure to agree on protocol with the Monte Carlo teams. 
-##### Likelihood: High      Effect: High
+#### 5.3.4 Failure to agree on protocol with the Monte Carlo teams
+##### Likelihood: High, Effect: High
 
 Failure to agree on protocol with the Monte Carlo teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the Monte Carlo teams over how the two projects will communicate. An example is this project not wanting to send a piece of information the Monte Carlo team were expecting.
 
 The impact of failing to agree on protocol with the Monte Carlo teams is being unable to simulate the rocket's launch. This would lead to the system being unable to determine if a launch is safe.
 
 To avoid failing to agree on protocol with the Monte Carlo teams, the team will strive to:
-- Be willing to make compromises on agreements. 
-- Outline what the system can actually do.
-- Don't accept impossible terms. 
+*   Be willing to make compromises on agreements.
+*   Outline what the system can actually do.
+*   Don't accept impossible terms.
 
-#### Failure to agree on protocol with the avionics teams. 
-##### Likelihood: High      Effect: High
+#### 5.3.5 Failure to agree on protocol with the avionics teams
+##### Likelihood: High, Effect: High
 
 Failure to agree on protocol with the avionics teams is a performance risk that would stop the project from integrating with them. It would be caused by a disagreement with all the avionics teams over how the two projects will communicate. An example is the avionics team wanting to send information that this project doesn't want to deal with.
 
-The impact of failing to agree on protocol with the avionics teams is being unable to connect to the rocket. This would lead to the user not being able to control the rocket, or see information about the rocket's position. 
+The impact of failing to agree on protocol with the avionics teams is being unable to connect to the rocket. This would lead to the user not being able to control the rocket, or see information about the rocket's position.
 
 To avoid failing to agree on protocol with the avionics teams, the team will strive to:
-- Be willing to make compromises on agreements.
-- Outline what the system can actually do.
-- Don't accept impossible terms.
+*   Be willing to make compromises on agreements.
+*   Outline what the system can actually do.
+*   Don't accept impossible terms.
 
-#### Other teams fail to meet deadline. 
-##### Likelihood: Low       Effect: High
+#### 5.3.6 Other teams fail to meet deadline
+##### Likelihood: Low, Effect: High
 
-The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule. 
+The other teams failing to meet deadlines is a schedule risk that would halt the testing or development of the project. This risk would only happen if all of the six teams working on the Monte Carlo/avionics project are all behind schedule.
 
-The impact of the other teams failing to meet deadlines is that the project deadlines will have to be pushed back to accomondate them. This will cause the project to be completed later than expected, and the team will be waiting around for it to be completed. 
+The impact of the other teams failing to meet deadlines is that the project deadlines will have to be pushed back to accommodate them. This will cause the project to be completed later than expected, and the team will be waiting around for it to be completed.
 
 To avoid the other teams failing to meet deadlines, the team will strive to:
-- Clearly express when a component from another team is needed.
-- Check up regularly on the progress of the component.
+*   Clearly express when a component from another team is needed.
+*   Check up regularly on the progress of the component.
 
-#### Failure to meet deadlines. <br>
-##### Likelihood: Medium     Effect: Low
+#### 5.3.7 Failure to meet deadlines
+##### Likelihood: Medium, Effect: Low
 
 Failure to meet deadlines is a schedule risk that can cause the project to run overtime. It is caused when some factor prevented the individual from completing their work. This could be due to having too much work on at a certain time, or a sudden external event like a blackout or injury. An example is when a team member has to fit in the project work while also studying for a test.
 
 The impact of a deadline being missed is that the other parts of the project will be behind schedule. These effects could make the project be completed later than expected or cause extra pressure on the the rest of the team to fix the individual's mistake.
 
 To avoid failing to meet deadlines, each team member will strive to:
-- Only take on the amount of work they can physically complete within the time limit.
-- Be willing to help others when they are struggling with a task.
-- Be willing to ask others for help when they are struggling with a task.
-- Be honest about the amount of other work they have to complete.
-- Share if they have other circumstances preventing them from working early.
+*   Only take on the amount of work they can physically complete within the time limit.
+*   Be willing to help others when they are struggling with a task.
+*   Be willing to ask others for help when they are struggling with a task.
+*   Be honest about the amount of other work they have to complete.
+*   Share if they have other circumstances preventing them from working early.
 
 To avoid a team member failing to meet deadlines, the team will strive to:
-- Plan work around other obligations or deadlines. 
-- Have slack in the schedule so delays don't throw the project off track.
+*   Plan work around other obligations or deadlines.
+*   Have slack in the schedule so delays don't throw the project off track.
 
-#### Major scope creep.<br>
-##### Likelihood: Medium/Low    Effect: High
+#### 5.3.8 Major scope creep
+##### Likelihood: Medium/Low, Effect: High
 
 Major scope creep is a cost risk that can cause the project to run overtime. It is caused when extra tasks are added to the project scope during the project lifetime, or when nominally simple functions are continually over-created. An example is when another requirement is added to the project specification.
 
 The impacts of major scope creep are extensions to the project lifetime or extra work to the team to fit into the same lifetime.
 
 To avoid major scope creep, the team will strive to:
-- Carefully define the project specifications so there is no room for confusion. 
-- Focus on finishing the project requirements before adding extra functions.
-- Review the code regularly to spot wasted code early.
-- Communicate about tasks.
+*   Carefully define the project specifications so there is no room for confusion.
+*   Focus on finishing the project requirements before adding extra functions.
+*   Review the code regularly to spot wasted code early.
+*   Communicate about tasks.
 
-#### Bad documentation.<br>
-##### Likelihood: Medium/High   Effect: Medium/Low
+#### 5.3.9 Bad documentation
+##### Likelihood: Medium/High, Effect: Medium/Low
 
-Bad Docmentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
+Bad Documentation is a performance risk that can cause bugs in the program. It is caused when an individual fails to properly document their methods or classes. An example is when a developer fails to properly add comments and JavaDocs to their method.
 
 The impact of bad documentation is that the method is incorrectly used or that the code is confusing to developers who are editing it. These effects could lead to bugs in the program which will increase the work for developers and testers and increase the time/cost of maintaining the program or adding new features.
 
 To avoid bad documentation, each team member will strive to:
-- Write a JavaDoc comment for every method.
-- Add important comments to their code so that it can be understood by other team mates.
-- Make sure that documentation can be understood by outsiders. 
+*   Write a JavaDoc comment for every method.
+*   Add important comments to their code so that it can be understood by other team mates.
+*   Make sure that documentation can be understood by outsiders.
 
-#### Injuries due to overwork. <br>
-##### Likelihood: Medium     Effect: Medium
+#### 5.3.10 Injuries due to overwork
+##### Likelihood: Medium, Effect: Medium
 
-Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test. 
+Overwork is a physical risk that can, in unlikely circumstances, cause death. It is caused when an individual works for an extended amount of time without decent rest or food. An example is when a student pulls an all-nighter for multiple consecutive days to finish an assignment or study for a test.
 
 The more likely impacts of overwork, other than death, are sleeping disorders, anxiety, and a weakened immune system. These effects will reduce the work quality of the individual and potentially stop them from working on the project.
 
 To avoid becoming overworked, each team member will strive to:
-- Only take on the amount of work they can physically complete within the time limit.
-- Be willing to help others when they are struggling with a task.
-- Be willing to ask others for help when they are struggling with a task.
-- Be honest about the other work they have to complete.
+*   Only take on the amount of work they can physically complete within the time limit.
+*   Be willing to help others when they are struggling with a task.
+*   Be willing to ask others for help when they are struggling with a task.
+*   Be honest about the other work they have to complete.
 
 To avoid a team member becoming overworked, the team will strive to:
-- Share the work between the team so no one's doing all the work.
-- Be flexible with deadlines.
-- Work around deadlines for other courses.
+*   Share the work between the team so no one's doing all the work.
+*   Be flexible with deadlines.
+*   Work around deadlines for other courses.
 
-#### Computer-use related injuries.<br>
-##### Likelihood: Low        Effect: High
+#### 5.3.11 Computer-use related injuries
+##### Likelihood: Low, Effect: High
 
-Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor. 
+Computer-use injuries are a physical risk that can lead to the individual not being able to use the computer. They are caused by continued use of a computer while using poor posture or repeating a similar action for a long period of time. Poor posture could be slouching, sitting straight upright, typing with a positive slope, looking down at the monitor or looking up at the monitor.
 
 The impacts often noticed of poor computer-use are back/neck pain, headaches, and arm pain. These effects could make the individual uncomfortable using the computer, thus reducing their speed or output, or making it too painful to use the computer at all.
 
 To avoid a computer-use injury, each team member will strive to:
-- Take regular breaks away from the computer during work to allow the body to stretch and relax.
-- Stop working if something starts hurting and allow time for it to return to normal. If it doesn't, they should see a doctor.
+*   Take regular breaks away from the computer during work to allow the body to stretch and relax.
+*   Stop working if something starts hurting and allow time for it to return to normal. If it doesn't, they should see a doctor.
 
 To avoid a team member getting a computer-use injury, the team will strive to:
-- Reduce length of online meetings.
+*   Reduce length of online meetings.
 
 ### 5.4 Health and Safety
 
-1. How the team will manage computer-related risks
-    - Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
-    - Cable Management
-        - Each team member will strive to keep their work station free of loose wires.
-    - Security
-        - No sensitive or personal data is stored or used by the program.
-        - GitLab.ecs prevents people outside the university from accessing the online work.
-    - Other risks
-        - Up to team members to identify and mitigate depending on their unique situation.
-        - Team members can ask for advice or help from other team members or the School Safety Officer.
-        - Team members should share risks they've found with the team.
-
-2. Whether the project requires any work or testing at an external (off-campus) site.
-   - The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
-   - Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
-
+1.  How the team will manage computer-related risks
+    *   Some risks were discussed in great detail in the section above (overwork, computer-use injuries, work loss due to technological problems).
+    
+    *   Cable Management
+        *   Each team member will strive to keep their work station free of loose wires.  
+        
+    *   Security
+        *   No sensitive or personal data is stored or used by the program.
+        *   GitLab.ecs prevents people outside the university from accessing the online work.  
+        
+    *   Other risks
+        *   Up to team members to identify and mitigate depending on their unique situation.
+        *   Team members can ask for advice or help from other team members or the School Safety Officer.
+        *   Team members should share risks they've found with the team.
+        
+2.  Whether the project requires any work or testing at an external (off-campus) site.
+    *   The project is a control for a rocket, but can be tested at an internal site using simulations. Thus it won't require off-campus testing.
+    *   Note: it will require testing under field conditions (no wifi) but doesn't need to be in the field.
 
 #### 5.4.1 Safety Plans
 
 As this is a software project, project requirements do not involve risk of death, serious harm, harm or injury.
-
 
 ## 6. Appendices
 
@@ -620,4 +609,3 @@ One page glossary as required
 | Claire Chambers | Section 1<br>Section 4.1<br>Section 5.4.1 |
 | Joshua Hindley | Section 4.3<br>Section 5.1<br>Section 5.2.2  |
 | Sai Panda |   Section 3.1<br>Section 3.2  |
-
