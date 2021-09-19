@@ -8,5 +8,5 @@ print("Installing rocketpy and all its required dependencies...")
 # -m is for defining the module name
 subprocess.check_call([sys.executable, "-m", "pip", "install", "netCDF4>=1.4"])
 print("netCDF4 has been installed.")
-subprocess.check_call([sys.executable, "-m", "pip", "install", "rocketpyalpha"])
+subprocess.check_call([sys.executable, "-m", "pip", "install", "rocketpy"])
 print("rocketpy has been installed.")
